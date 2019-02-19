@@ -8,6 +8,11 @@
       "sourceRoot": "projects/iad-interface-admin/src",
       "projectType": "library",
       "prefix": "iad",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -43,7 +48,11 @@
       "sourceRoot": "projects/iad-demo/src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -58,7 +67,9 @@
               "projects/iad-demo/src/assets"
             ],
             "styles": [
-              "projects/iad-demo/src/styles.css"
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/bootstrap/scss/bootstrap-grid.scss",
+              "projects/iad-demo/src/styles.scss"
             ],
             "scripts": []
           },

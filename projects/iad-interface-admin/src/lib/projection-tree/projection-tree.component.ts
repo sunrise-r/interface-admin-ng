@@ -15,23 +15,23 @@ export class ProjectionTreeComponent implements OnInit {
   constructor(public projectionTreeService: ProjectionTreeService, public translateService: TranslateService) { }
 
   ngOnInit() {
-    this.loadAll();
-  }
-
-  private loadAll() {
-    this.projectionTreeService.request()
-      .toPromise()
+    this.loadAll()
       .then(this.translate.bind(this))
-      .then((items: PresentationTreeModel[]) => {
-        this.items = this.convert(items);
+      .then(this.convert.bind(this))
+      .then(items  => {
+        this.items = items;
       })
       .catch((err) => {
         console.error(err);
       });
   }
 
-  private convert(items: PresentationTreeModel[]) {
-    return items.map(presentation => {
+  loadAll(): Promise<PresentationTreeModel[]> {
+    return this.projectionTreeService.request().toPromise();
+  }
+
+  convert(items: PresentationTreeModel[]): Promise<MenuItem[]> {
+    return Promise.resolve(items.map(presentation => {
       const item = <MenuItem>{};
       item.label = presentation.label;
       item.items = !presentation.projections ? null : presentation.projections.map(projection => {
@@ -42,16 +42,18 @@ export class ProjectionTreeComponent implements OnInit {
         };
       });
       return item;
-    });
+    }));
   }
 
-  private translate(items: PresentationTreeModel[]): Promise<PresentationTreeModel[]> {
+  translate(items: PresentationTreeModel[]): Promise<PresentationTreeModel[]> {
     const translateLabels: string[] = [];
     items.forEach(presentation => {
       translateLabels.push(presentation.label);
-      presentation.projections.forEach(projection => {
-        translateLabels.push(projection.label);
-      });
+      if (presentation.projections) {
+        presentation.projections.forEach(projection => {
+          translateLabels.push(projection.label);
+        });
+      }
     });
     return this.translateService
       .get(translateLabels)
@@ -59,10 +61,12 @@ export class ProjectionTreeComponent implements OnInit {
       .then(labels => {
         return items.map(presentation => {
           presentation.label = labels[presentation.label];
-          presentation.projections = presentation.projections.map(projection => {
-            projection.label = labels[projection.label];
-            return projection;
-          });
+          if (presentation.projections) {
+            presentation.projections = presentation.projections.map(projection => {
+              projection.label = labels[projection.label];
+              return projection;
+            });
+          }
           return presentation;
         });
       });

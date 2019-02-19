@@ -18,8 +18,6 @@ describe('ProjectionTreeService', () => {
     httpMock = injector.get(HttpTestingController);
   });
 
-  beforeEach(() => TestBed.configureTestingModule({}));
-
   it('should be created', () => {
     expect(service).toBeTruthy();
   });

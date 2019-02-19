@@ -1,13 +1,15 @@
-import { NgModule, ModuleWithProviders, NgModule, Sanitizer } from '@angular/core';
+import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { IadInterfaceAdminComponent } from './iad-interface-admin.component';
 import { ProjectionTreeComponent } from './projection-tree/projection-tree.component';
 import { IadModuleConfig } from './config';
 import { IadConfigService } from './config.service';
+import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -17,6 +19,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [IadInterfaceAdminComponent, ProjectionTreeComponent],
   imports: [
+    CommonModule,
+    MultiSelectModule,
+    PanelMenuModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -25,7 +30,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  exports: [ProjectionTreeComponent]
+  exports: [ProjectionTreeComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadInterfaceAdminModule {
   static forRoot(moduleConfig: IadModuleConfig): ModuleWithProviders {

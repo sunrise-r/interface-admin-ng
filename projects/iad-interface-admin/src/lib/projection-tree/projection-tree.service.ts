@@ -11,6 +11,6 @@ export class ProjectionTreeService {
   constructor(private http: HttpClient) { }
 
   request(): Observable<PresentationTreeModel[]> {
-    return this.http.get('/api/projection-tree', { observe: 'body' });
+    return this.http.get<PresentationTreeModel[]>('/api/projection-tree', { observe: 'body' });
   }
 }

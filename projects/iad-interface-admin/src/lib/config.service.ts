@@ -1,13 +1,9 @@
-import { Injectable } from '@angular/core';
-import { IadModuleConfig } from './config';
+import { IadModuleConfig, IadModuleConfigInterface } from './config';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class IadConfigService {
   CONFIG_OPTIONS: IadModuleConfig;
 
-  constructor(moduleConfig?: IadModuleConfig) {
+  constructor(moduleConfig?: IadModuleConfigInterface) {
     this.CONFIG_OPTIONS = {
       ...new IadModuleConfig(),
       ...moduleConfig
