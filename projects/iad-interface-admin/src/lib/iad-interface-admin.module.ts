@@ -1,13 +1,13 @@
 import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import {TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { IadInterfaceAdminComponent } from './iad-interface-admin.component';
 import { ProjectionTreeComponent } from './projection-tree/projection-tree.component';
-import { IadModuleConfig } from './config';
+import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import { IadConfigService } from './config.service';
 import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 
@@ -20,6 +20,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [IadInterfaceAdminComponent, ProjectionTreeComponent],
   imports: [
     CommonModule,
+    HttpClientModule,
     MultiSelectModule,
     PanelMenuModule,
     TranslateModule.forRoot({
@@ -34,7 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadInterfaceAdminModule {
-  static forRoot(moduleConfig: IadModuleConfig): ModuleWithProviders {
+  static forRoot(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
     return {
       ngModule: IadInterfaceAdminModule,
       providers: [
@@ -47,7 +48,7 @@ export class IadInterfaceAdminModule {
       ]
     };
   }
-  static forChild(moduleConfig: IadModuleConfig): ModuleWithProviders {
+  static forChild(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
     return {
       ngModule: IadInterfaceAdminModule,
       providers: [{ provide: IadModuleConfig, useValue: moduleConfig }]

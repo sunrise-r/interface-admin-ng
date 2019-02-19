@@ -1,16 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
+import { IadInterfaceAdminModule } from 'iad-interface-admin';
+import { MainComponent } from './main/main.component';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    MainComponent
   ],
   imports: [
-    BrowserModule
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    IadInterfaceAdminModule.forRoot({
+      i18nEnabled: true,
+      defaultI18nLang: 'ru',
+      noi18nMessage: 'translation-not-found'
+    })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [MainComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
