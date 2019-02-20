@@ -5,7 +5,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { IadInterfaceAdminComponent } from './iad-interface-admin.component';
 import { ProjectionTreeComponent } from './projection-tree/projection-tree.component';
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import { IadConfigService } from './config.service';
@@ -17,7 +16,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [IadInterfaceAdminComponent, ProjectionTreeComponent],
+  declarations: [ProjectionTreeComponent],
   imports: [
     CommonModule,
     HttpClientModule,
