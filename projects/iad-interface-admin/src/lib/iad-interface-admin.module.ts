@@ -1,5 +1,4 @@
 import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import {TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -9,6 +8,7 @@ import { ProjectionTreeComponent } from './projection-tree/projection-tree.compo
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import { IadConfigService } from './config.service';
 import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
+import {SharedModule} from './shared/shared.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -18,7 +18,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [ProjectionTreeComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     HttpClientModule,
     MultiSelectModule,
     PanelMenuModule,
