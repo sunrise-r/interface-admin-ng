@@ -1,13 +1,23 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterContentInit, Component, ContentChildren, Input, OnInit, QueryList, TemplateRef} from '@angular/core';
 import {DocumentListProjection} from '../model/projection-grid.model';
+import {IadGridColumn} from '../model/iad-grid-column.model';
+import {PrimeTemplate} from 'primeng/shared';
 
 @Component({
   selector: 'iad-projection-grid',
   templateUrl: './projection-grid.component.html',
   styleUrls: ['./projection-grid.component.scss']
 })
-export class ProjectionGridComponent implements OnInit {
+export class ProjectionGridComponent implements OnInit, AfterContentInit {
 
+  /**
+   * Projection table columns
+   */
+  @Input() columns: IadGridColumn[];
+
+  /**
+   * Table has toolbar right above the header
+   */
   @Input() hasToolbar: boolean;
 
   /**
@@ -23,9 +33,40 @@ export class ProjectionGridComponent implements OnInit {
     this._projection = projection;
   }
 
+  /**
+   * Flag to add 'responsive' css class
+   */
+  @Input() responsive: boolean;
+
+  /**
+   * Flag to check if grid filter should be shown
+   */
+  @Input() showFilter: boolean;
+
+  /**
+   * Projection table values
+   */
+  @Input() value: any[] = [];
+
+  /**
+   * PrimeNg Table templates
+   */
+  @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
+
+  /**
+   * Templates for every column type in format {key: value}
+   */
+  colTemplates: { [param: string]: TemplateRef<any> } = {};
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngAfterContentInit(): void {
+    this.templates.forEach(item => {
+      this.colTemplates[item.getType()] = item.template;
+    });
   }
 
 }

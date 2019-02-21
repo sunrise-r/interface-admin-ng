@@ -1,2 +1,60 @@
 <div *ngIf="hasToolbar">Toolbar</div>
-<div>Grid</div>
+<iad-table
+  [columns]="tableColumns"
+  [responsive]="responsive"
+  [value]="value"
+>
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <ng-template [ngTemplateOutlet]="colTemplates[col.field + 'ColTemplate'] ? colTemplates[col.field + 'ColTemplate'] : colTemplate"
+                     [ngTemplateOutletContext]="{$implicit: col}"></ng-template>
+      </ng-template>
+      <ng-template #colTemplate let-col>
+        <col *ngIf="col.visible" [iadTableColumnSize]="col.width">
+      </ng-template>
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr class="ui-column-header-row" [ngClass]="{'ui-column-filter-shown': showFilter}">
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <ng-template [ngTemplateOutlet]="colTemplates[col.field + 'ThTemplate'] ? colTemplates[col.field + 'ThTemplate'] : thTemplate"
+                     [ngTemplateOutletContext]="{$implicit: col, columns: columns}"></ng-template>
+      </ng-template>
+    </tr>
+    <tr [hidden]="!showFilter" class="ui-column-filter-row">
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <iad-table-column-filter
+          *ngIf="col.searching"
+          [field]="col.field"
+          [resetFilter]="resetFilter"
+          (filter)="onFilter($event, col)"
+        ></iad-table-column-filter>
+      </ng-template>
+    </tr>
+    <ng-template #thTemplate let-col let-columns="columns">
+      <th *ngIf="col.visible" pResizableColumn pReorderableColumn [iadTableColumnSize]="col.width" [pSortableColumn]="col.field"
+          [ngClass]="[col.style !== undefined ? col.style : '']">
+          <span>{{col.header}}</span>
+          <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
+      </th>
+    </ng-template>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <ng-template [ngTemplateOutlet]="colTemplates[col.field + 'TdTemplate'] ? colTemplates[col.field + 'TdTemplate'] : tdTemplate"
+                     [ngTemplateOutletContext]="{$implicit: col, rowData: rowData}"></ng-template>
+      </ng-template>
+    </tr>
+    <ng-template #tdTemplate let-col let-rowData="rowData">
+      <td *ngIf="col.visible" [ngSwitch]="col.formatter" [ngClass]="['ui-resizable-column', col.style !== undefined ? col.style : '']">
+        <span *ngSwitchCase="'ZonedDateTime'">{{rowData[col.field] | moment | date:'medium'}}</span>
+        <span *ngSwitchCase="'Boolean'">{{rowData[col.field] | boolean }}</span>
+        <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+      </td>
+    </ng-template>
+  </ng-template>
+</iad-table>
