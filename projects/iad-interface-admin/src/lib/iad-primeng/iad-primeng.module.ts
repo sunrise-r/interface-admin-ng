@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared';
+import { IadSharedModule } from '../shared';
 
 // Original
 import { TableModule } from 'primeng/table';
@@ -18,15 +17,12 @@ import { TableKeysDirective } from './table-keys/table-keys.directive';
 
 @NgModule({
     imports: [
-        CommonModule,
         SharedModule,
         TableModule,
         ButtonModule,
-        TableModule,
-        CommonModule,
         InputTextModule,
         PaginatorModule,
-        SharedModule
+        IadSharedModule
     ],
     declarations: [IadScrollableViewComponent, IadTableBodyComponent, IadTableComponent, TableKeysDirective],
     exports: [TableModule, ButtonModule, TableModule, IadTableComponent]

@@ -2,6 +2,7 @@ import {AfterContentInit, Component, ContentChildren, Input, OnInit, QueryList, 
 import {DocumentListProjection} from '../model/projection-grid.model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
 import {PrimeTemplate} from 'primeng/shared';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'iad-projection-grid',
@@ -58,6 +59,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit {
    */
   colTemplates: { [param: string]: TemplateRef<any> } = {};
 
+  /**
+   * Throws filter reset event
+   */
+  resetFilter: Subject<boolean> = new Subject<boolean>();
+
   constructor() { }
 
   ngOnInit() {
@@ -67,6 +73,15 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit {
     this.templates.forEach(item => {
       this.colTemplates[item.getType()] = item.template;
     });
+  }
+
+  /**
+   * Filter event handler
+   */
+  onFilter(event: any, col: any) {
+    // this.dt.filters = {};
+    // this.dt.filter(event.value, col.field, col.filterMatchMode);
+    // this.refresh();
   }
 
 }

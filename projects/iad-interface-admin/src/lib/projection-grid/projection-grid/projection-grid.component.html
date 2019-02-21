@@ -1,6 +1,7 @@
 <div *ngIf="hasToolbar">Toolbar</div>
+
 <iad-table
-  [columns]="tableColumns"
+  [columns]="columns"
   [responsive]="responsive"
   [value]="value"
 >
@@ -33,7 +34,7 @@
         ></iad-table-column-filter>
       </ng-template>
     </tr>
-    <ng-template #thTemplate let-col let-columns="columns">
+    <ng-template #thTemplate let-col>
       <th *ngIf="col.visible" pResizableColumn pReorderableColumn [iadTableColumnSize]="col.width" [pSortableColumn]="col.field"
           [ngClass]="[col.style !== undefined ? col.style : '']">
           <span>{{col.header}}</span>

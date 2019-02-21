@@ -8,7 +8,7 @@ import { ProjectionTreeComponent } from './projection-tree/projection-tree.compo
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import { IadConfigService } from './config.service';
 import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
-import {SharedModule} from './shared/shared.module';
+import {IadSharedModule} from './shared';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -18,7 +18,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [ProjectionTreeComponent],
   imports: [
-    SharedModule,
+    IadSharedModule,
     HttpClientModule,
     MultiSelectModule,
     PanelMenuModule,

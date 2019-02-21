@@ -22,7 +22,7 @@
       <tfoot *ngIf="footerTemplate" class="ui-table-tfoot">
       <ng-container *ngTemplateOutlet="footerTemplate; context: {$implicit: columns}"></ng-container>
       </tfoot>
-      <tbody class="ui-table-tbody" [pTableBody]="columns" [iadTableBodyTemplate]="bodyTemplate"></tbody>
+      <tbody class="ui-table-tbody" [iadTableBody]="columns" [iadTableBodyTemplate]="bodyTemplate"></tbody>
     </table>
   </div>
   <div class="ui-table-scrollable-wrapper" *ngIf="scrollable">
