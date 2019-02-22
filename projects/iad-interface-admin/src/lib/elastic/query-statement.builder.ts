@@ -14,9 +14,6 @@ export class QueryStatementBuilder implements IQueryStatementBuilder {
         this.cb = cb;
     }
 
-    addStatement(value: string): QueryStatementBuilder;
-    addStatement(value: string, partialMatch: boolean): QueryStatementBuilder;
-    addStatement(value: string, partialMatch: boolean, operator: Operator): QueryStatementBuilder;
     addStatement(value: string, partialMatch?: boolean, operator?: Operator): QueryStatementBuilder {
         this.statement().addStatement(value, partialMatch, operator);
         return this;

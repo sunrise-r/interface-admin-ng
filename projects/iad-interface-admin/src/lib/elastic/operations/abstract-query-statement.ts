@@ -11,9 +11,6 @@ export abstract class AbstractQueryStatement implements QueryStatement {
         this.columnName = columnName;
     }
 
-    addStatement(value: string);
-    addStatement(value: string, partialMatch: boolean);
-    addStatement(value: string, partialMatch: boolean, operator: Operator);
     addStatement(value: string, partialMatch = false, operator?: Operator): QueryStatement {
         if (!operator) {
             operator = Operator.AND;

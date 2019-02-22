@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { ProjectionTreeService } from './projection-tree.service';
 import {PresentationTreeModel} from './projection-tree.model';
+import {IadConfigService} from '../config.service';
 
 describe('ProjectionTreeService', () => {
   let injector: TestBed;
@@ -11,7 +12,8 @@ describe('ProjectionTreeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
+      providers: [IadConfigService]
     });
     injector = getTestBed();
     service = injector.get(ProjectionTreeService);

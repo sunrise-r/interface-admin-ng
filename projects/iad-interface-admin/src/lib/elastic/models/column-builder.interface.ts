@@ -7,7 +7,6 @@ import { Operator } from './operator.model';
 export interface ColumnBuilder {
     /**
      * Добавить новую колоноку к запросу
-     * @param columnName
      */
     addColumn(columnName: string): IQueryStatementBuilder;
 
@@ -20,7 +19,6 @@ export interface IQueryStatementBuilder {
 
     /**
      * Добавить новую колоноку к запросу
-     * @param columnName
      */
     addColumn(columnName: string): IQueryStatementBuilder;
 
@@ -32,8 +30,6 @@ export interface IQueryStatementBuilder {
 
     toString(): string;
 
-    addStatement(value: string): IQueryStatementBuilder;
-    addStatement(value: string, partialMatch: boolean): IQueryStatementBuilder;
-    addStatement(value: string, partialMatch: boolean, operator: Operator): IQueryStatementBuilder;
+    addStatement(value: string, partialMatch?: boolean, operator?: Operator): IQueryStatementBuilder;
     toString(): string;
 }

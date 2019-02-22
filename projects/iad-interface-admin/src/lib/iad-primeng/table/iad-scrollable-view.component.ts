@@ -19,7 +19,7 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     }
 
     ngAfterViewInit() {
-        super.ngAfterViewInit()
+        super.ngAfterViewInit();
     }
 
     ngOnDestroy() {

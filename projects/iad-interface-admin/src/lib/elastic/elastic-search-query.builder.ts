@@ -75,7 +75,6 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
 
     /**
      * Добавляет к строке с запросом buildFromString
-     * @param condition
      */
     addFromString(condition: string): String {
         const build = this.build();

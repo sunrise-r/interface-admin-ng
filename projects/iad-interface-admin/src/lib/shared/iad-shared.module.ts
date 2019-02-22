@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {MomentPipe} from './pipes/moment.pipe';
 import {BooleanPipe} from './pipes/boolean.pipe';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [MomentPipe, BooleanPipe],

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ProjectionGridComponent } from './projection-grid/projection-grid.component';
 import {IadSharedModule} from '../shared';
 import {IadPrimengModule} from '../iad-primeng';
@@ -11,8 +10,7 @@ import {TableColumnFilterComponent} from './table-column-filter/table-column-fil
   declarations: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent, TableColumnFilterComponent],
   imports: [
     IadPrimengModule,
-    IadSharedModule,
-    CommonModule
+    IadSharedModule
   ],
   exports: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent]
 })

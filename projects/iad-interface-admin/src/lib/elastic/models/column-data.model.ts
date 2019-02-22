@@ -21,7 +21,6 @@ export class ColumnData {
      * Конструктор
      * @param name Название колонки
      * @param statementBuilder билдер комманд поиска для колонки
-     * @param operator
      */
     constructor(name: string, statementBuilder: IQueryStatementBuilder, operator: Operator) {
         this._statement = statementBuilder;
