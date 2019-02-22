@@ -1,0 +1,9 @@
+<input type="text" class="ui-grid-filter-input ui-grid-filter-input-0"
+       [(ngModel)]="term"
+       (input)="onFilter()"
+       [maxlength]="maxLength">
+<div role="button" class="ui-grid-filter-button"
+     (click)="onRemoveFilter()"
+     [hidden]="!term || term === ''">
+    <i class="ui-grid-icon-cancel">&nbsp;</i>
+</div>

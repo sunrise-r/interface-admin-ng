@@ -1,13 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {MomentPipe} from './pipes/moment.pipe';
+import {BooleanPipe} from './pipes/boolean.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [],
+  declarations: [MomentPipe, BooleanPipe],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    MomentPipe,
+    BooleanPipe
   ]
 })
 export class IadSharedModule { }
