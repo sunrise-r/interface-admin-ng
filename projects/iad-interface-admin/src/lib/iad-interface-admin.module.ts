@@ -8,7 +8,7 @@ import { ProjectionTreeComponent } from './projection-tree/projection-tree.compo
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import { IadConfigService } from './config.service';
 import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
-import {IadSharedModule} from './shared';
+import {IadSharedModule} from './shared/iad-shared.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

@@ -9,7 +9,7 @@ import {TableSortIconComponent} from '../table-sort-icon/table-sort-icon.compone
 import {BooleanPipe} from '../../shared/pipes/boolean.pipe';
 import {MomentPipe} from '../../shared/pipes/moment.pipe';
 import {SelectableRow, SortableColumn} from 'primeng/table';
-import {Paginator} from 'primeng/primeng';
+import {DropdownModule, Paginator} from 'primeng/primeng';
 import {IadTableBodyComponent} from '../../iad-primeng/table/iad-table-body.component';
 import {IadSharedModule} from '../../shared';
 
@@ -25,15 +25,14 @@ describe('ProjectionGridComponent', () => {
         TableColumnSizeDirective,
         TableColumnFilterComponent,
         TableSortIconComponent,
-        BooleanPipe,
-        MomentPipe,
         Paginator,
         SelectableRow,
         SortableColumn,
         IadTableBodyComponent,
         IadScrollableViewComponent ],
       imports: [
-        IadSharedModule
+        IadSharedModule,
+        DropdownModule
       ]
     })
     .compileComponents();
