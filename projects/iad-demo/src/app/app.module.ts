@@ -5,6 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { IadInterfaceAdminModule } from 'iad-interface-admin';
 import { MainComponent } from './main/main.component';
 import {AppRoutingModule} from './app-routing.module';
+import {fakeBackendProvider} from './faker/fake-backend.interceptor';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import {AppRoutingModule} from './app-routing.module';
       noi18nMessage: 'translation-not-found'
     })
   ],
-  providers: [],
+  providers: [
+    fakeBackendProvider
+  ],
   bootstrap: [MainComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
