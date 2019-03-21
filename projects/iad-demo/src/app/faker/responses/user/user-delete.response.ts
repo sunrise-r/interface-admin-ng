@@ -1,10 +1,12 @@
-import {AbstractResponse} from './abstract.response';
 import {Observable, of, throwError} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';
-import {users} from '../users';
+import {AbstractResponse} from '../abstract.response';
+import {users} from '../../users';
+
+export const userDeleteConditionCallback = (request) => request.url.match(/\/users\/\d+$/) && request.method === 'DELETE';
 
 export class UserDeleteResponse extends AbstractResponse {
-  get(): Observable<any> {
+  getResponse(): Observable<any> {
     // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
     if (this.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
       // find user by id in users array

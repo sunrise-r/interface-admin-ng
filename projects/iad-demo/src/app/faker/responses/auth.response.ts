@@ -3,8 +3,10 @@ import {AbstractResponse} from './abstract.response';
 import {Observable, of, throwError} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';
 
+export const authConditionCallback = (request) => request.url.endsWith('/users/authenticate') && request.method === 'POST';
+
 export class AuthResponse extends AbstractResponse {
-  get(): Observable<any> {
+  getResponse(): Observable<any> {
     // find if any user matches login credentials
     const filteredUsers = users.filter(user => {
       return user.username === this.request.body.username && user.password === this.request.body.password;

@@ -1,10 +1,12 @@
-import {AbstractResponse} from './abstract.response';
 import {Observable, of, throwError} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';
-import {users} from '../users';
+import {AbstractResponse} from '../abstract.response';
+import {users} from '../../users';
+
+export const userRegisterConditionCallback = (request) => request.url.endsWith('/users/register') && request.method === 'POST';
 
 export class UserRegisterResponse extends AbstractResponse {
-  get(): Observable<any> {
+  getResponse(): Observable<any> {
     // get new user object from post body
     const newUser = this.request.body;
 

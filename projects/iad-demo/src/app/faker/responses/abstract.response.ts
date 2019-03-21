@@ -1,7 +1,12 @@
-import {HttpRequest} from '@angular/common/http';
+import {HttpEvent, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
-export abstract class AbstractResponse {
+export interface IFakeResponse {
+  request: HttpRequest<any>;
+  getResponse(): Observable<HttpEvent<any>>;
+}
+
+export abstract class AbstractResponse implements IFakeResponse{
 
   request: HttpRequest<any>;
 
@@ -9,5 +14,5 @@ export abstract class AbstractResponse {
     this.request = request;
   }
 
-  abstract get(): Observable<any>;
+  abstract getResponse(): Observable<HttpEvent<any>>;
 }
