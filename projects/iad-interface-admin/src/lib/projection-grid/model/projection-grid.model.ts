@@ -1,4 +1,4 @@
-import {IadProjectionInterface} from '../../model/iad-projection';
+import {IadProjectionInterface} from '../../model/iad-interfaces';
 import {Operator, statementTypes} from '../../elastic';
 import {ToolbarAction} from '../../toolbar';
 import {IadGridColumn} from './iad-grid-column.model';

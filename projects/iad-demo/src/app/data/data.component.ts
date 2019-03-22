@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-data',
+  selector: 'iad-data',
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.scss']
 })
