@@ -1,0 +1,136 @@
+<iad-table
+    #dt
+    columnResizeMode="expand"
+    dataKey="id"
+    selectionMode="single"
+    tableStyleClass="partner-table"
+    [allowUnSelectRow]="allowUnSelectRow"
+    [askToRefresh]="askToRefresh"
+    [changeTableHeight]="changeTableHeight"
+    [columns]="columns"
+    [frozenColumns]="frozenCols"
+    [frozenWidth]="frozenWidth"
+    [frozenRightColumns]="frozenRightCols"
+    [frozenRightWidth]="frozenRightWidth"
+    [lazy]="lazyLoadingEnabled"
+    [loading]="loading"
+    [noSortOnInit]="true"
+    [reorderableColumns]="true"
+    [resizableColumns]="true"
+    [resize]="resize"
+    [rows]="size"
+    [(selection)]="selection"
+    [scrollable]="true"
+    [staticFrozenColumns]="staticFrozenColumns"
+    [staticFrozenWidth]="staticFrozenWidth"
+    [staticFrozenRightColumns]="staticFrozenRightColumns"
+    [staticFrozenRightWidth]="staticFrozenRightWidth"
+    [totalRecords]="totalItems"
+    [unSelectRow]="unSelectRow"
+    [value]="items"
+
+    (onFilterChanged)="onFilter($event)"
+    (onColResize)="onColResize($event)"
+    (onColReorder)="onColReorder($event)"
+    (onSort)="onSort($event)"
+    (page)="updateData($event)"
+    (selectionChange)="onSelectionChange($event)"
+    >
+
+    <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+            <ng-template ngFor let-col [ngForOf]="columns">
+                <col *ngIf="col.visible"
+                     [jhiTableColumnSize]="col.width"
+                     [jhiTableColumnSizeDisabled]="!(isColumnResizable(col))">
+            </ng-template>
+        </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr class="ui-column-header-row" [ngClass]="{'ui-column-filter-shown': showFilter || showSearchPanel}">
+            <ng-template ngFor let-col [ngForOf]="columns">
+                <th *ngIf="col.visible"
+                    pResizableColumn
+                    pReorderableColumn
+                    [jhiTableColumnSize]="col.width"
+                    [pResizableColumnDisabled]="!(isColumnResizable(col))"
+                    [pReorderableColumnDisabled]="!(isColumnReorderable(col))"
+                    [jhiTableColumnSizeDisabled]="!(isColumnResizable(col))"
+                    [ngClass]="[col.style || '']">
+
+                    <div class="ui-grid-header-label"
+                         [pSortableColumn]="col.field"
+                         [pSortableColumnDisabled]="!(isColumnSortable(col))"
+                    >
+                        <span *ngIf="col.translate" [jhiTranslate]="col.header"></span>
+                        <span *ngIf="!col.translate">{{col.header}}</span>
+                        <jhi-table-sort-icon [field]="col.field"></jhi-table-sort-icon>
+                    </div>
+                    <jhi-table-header-menu
+                        *ngIf="hasColumnMenu(col)"
+                        [columns]="columns"
+                        [column]="col"
+                        [defaultSortField]="defaultSortField"
+                        [groupSettingsKey]="groupSettingsKey"
+                        (freeze)="onFrozenColumn($event)"></jhi-table-header-menu>
+                </th>
+            </ng-template>
+        </tr>
+        <tr [hidden]="!showFilter" class="ui-column-filter-row">
+            <ng-template ngFor let-col [ngForOf]="columns">
+                <th *ngIf="col.visible" [ngClass]="[col.style || '']">
+                    <jhi-table-column-filter
+                        *ngIf="col.searching"
+                        [field]="col.field"
+                        [resetFilter]="resetFilter"
+                        (filter)="onColFilter($event, col)"
+                    ></jhi-table-column-filter>
+                </th>
+            </ng-template>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <ng-template ngFor let-col [ngForOf]="columns">
+                <td *ngIf="col.visible"
+                    [ngClass]="[isColumnResizable(col) ? 'ui-resizable-column' : '', (col.style || '')]">
+                    <ng-container
+                        iadDataTableTdHost
+                        [rowData]="rowData"
+                        [col]="col"
+                        [selected]="selection === rowData"
+                        (manageTable)="manageTable($event.code, $event.value)"></ng-container>
+                </td>
+            </ng-template>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="interlayer" let-columns>
+        <table [hidden]="!showSearchPanel" class="table-search-panel partner-table">
+            <thead>
+            <tr>
+                <th>
+                    <jhi-table-search-panel
+                        [resetFilter]="resetFilter"
+                        (search)="onSearch($event)"
+                    ></jhi-table-search-panel>
+                </th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </ng-template>
+    <ng-template pTemplate="frozeninterlayer" let-columns>
+        <table [hidden]="!showSearchPanel" class="table-search-panel partner-table">
+            <thead>
+            <tr>
+                <ng-template ngFor let-col [ngForOf]="columns">
+                    <th>
+                        <div class="jhi-table-search-panel-placeholder"></div>
+                    </th>
+                </ng-template>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </ng-template>
+</iad-table>

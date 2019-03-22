@@ -1,0 +1,28 @@
+<perfect-scrollbar *ngIf="operations" style="max-width: 100%; max-height: 100%;">
+    <ng-container *ngFor="let operation of operations">
+        <div [ngClass]="['operation', operation.style ? operation.style : '']">
+            <div class="operation-name"><span class="title">{{'partnerGatewayApp.partnerDocuments.operationType.' + operation.type | translate}}</span>
+            </div>
+            <div class="resolution-block-wrapper">
+                <div *ngFor="let resolution of operation.resolutions" class="resolution-block">
+                    <div [ngClass]="['resolution-block-icon', resolution.type ? resolution.type : '']">
+                        <jhi-secured-image [src]="imageUrl" defaultSrc="default-employee.png"E
+                                           [imageStyle]="{height:'67px', width: '50px'}"></jhi-secured-image>
+                        <fa-icon [icon]="['fa4', 'check-square-o']" size="2x" flip="vertical"
+                                 [hidden]="!resolution.signed"></fa-icon>
+                    </div>
+                    <div class="text-block">
+                        <div class="name">{{resolution.resolver}}{{resolution.post ? ' - ' + resolution.post :
+                            ''}}
+                        </div>
+                        <div class="organization">{{resolution.organization}}</div>
+                        <div class="text">{{resolution.description}}</div>
+                        <div class="time"><span *ngIf="resolution.startDate">{{resolution.startDate | moment | date:'medium'}}</span><span
+                            *ngIf="resolution.creationDate"> - {{resolution.creationDate | moment | date:'medium'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</perfect-scrollbar>

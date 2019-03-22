@@ -1,0 +1,40 @@
+<jhi-table-toolbar
+    [actions]="projection.actions"
+    [filterActive]="showFilter"
+    [filterEnabled]="filterEnabled"
+    [groupSettingsKey]="groupSettingsKey"
+    [searchActive]="showSearchPanel"
+    [deactivateActionButton]="deactivateActionButton"
+    (actionClicked)="onActionClicked($event)"
+></jhi-table-toolbar>
+<iad-table-dropdown #columnVisibility (hidden)="onHiddenToolbarDropdown('search')">
+    <iad-dropdown-column-selector
+        [columns]="columns"
+        [groupSettingsKey]="groupSettingsKey"
+        (visibilityChanged)="settingsTable.onUpdateColumnsVisibility(columns, $event)"
+    ></iad-dropdown-column-selector>
+</iad-table-dropdown>
+<ng-content></ng-content>
+<jhi-iad-settings-table
+    #settingsTable
+    class="grid-with-toolbar"
+    defaultSortField="creationDate"
+    [actionClicked]="actionClicked"
+    [allowUnSelectRow]="allowUnSelectRow"
+    [changeTableHeight]="changeTableHeight"
+    [columns]="columns"
+    [groupSettingsKey]="groupSettingsKey"
+    [items]="items"
+    [onBuildQuery]="queryCallback"
+    [refresh]="refresh"
+    [searchUrl]="searchUrl"
+    [showFilter]="showFilter"
+    [showSearchPanel]="showSearchPanel"
+    [staticFrozenColumns]="staticFrozenColumns"
+    [staticFrozenRightColumns]="staticFrozenRightColumns"
+    [staticFrozenRightWidth]="staticFrozenRightWidth"
+    [staticFrozenWidth]="staticFrozenWidth"
+    [unSelectRow]="unSelectRow"
+    (selectedItem)="onSelectedItem($event)"
+    (unSelectedItem)="onUnSelectItem()"
+></jhi-iad-settings-table>

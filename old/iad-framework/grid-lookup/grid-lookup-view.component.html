@@ -1,0 +1,32 @@
+<ng-template [ngIf]="projection">
+    <ng-template #dataTableTpl>
+        <jhi-projection-table
+            #dataTable
+            class="content-flex bordered"
+            [allowUnSelectRow]="true"
+            [filterEnabled]="false"
+            [items]="items"
+            [ngStyle]="{'height.px': multiple ? 176 : 96, 'max-height.px': multiple ? 176 : 96}"
+            [presentationCode]="presentation.code"
+            [projection]="projection"
+            [context]="context"
+            (selectedItem)="onSelectViewItem($event)"
+            (actionClicked)="onActionClicked($event)"
+        ></jhi-projection-table>
+    </ng-template>
+
+    <ng-template [ngIf]="disableDropdown === false" [ngIfElse]="noDropdown">
+        <p-panel #panel [collapsed]="true" (onBeforeToggle)="$event.collapsed ? panel.expand($event.event) : panel.collapse($event.event)">
+            <p-header>
+                <div class="block-title link" (click)="panel.toggle($event)">
+                    <fa-icon [icon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" class="text-left"></fa-icon>
+                    {{label}}
+                </div>
+            </p-header>
+            <ng-template [ngTemplateOutlet]="dataTableTpl"></ng-template>
+        </p-panel>
+    </ng-template>
+    <ng-template #noDropdown>
+        <ng-template [ngTemplateOutlet]="dataTableTpl"></ng-template>
+    </ng-template>
+</ng-template>

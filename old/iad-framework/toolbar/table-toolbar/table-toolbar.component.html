@@ -1,0 +1,53 @@
+<div class="grid-toolbar">
+    <div class="buttons-section left">
+        <div class="toolbar-action-group" *ngFor="let group of actions">
+            <button
+                *ngFor="let action of group"
+                title="{{'partnerTable.toolbar.' + action.code | translate}}"
+                class="grid-button"
+                type="button"
+                [jhiToolbarAction]="action"
+                [active]="action.active"
+                [disabled]="action.disabled"
+                (invoke)="onActionInvoke($event)"
+            ></button>
+        </div>
+    </div>
+    <div class="buttons-section right">
+        <button
+            *ngIf="showColumnSelector"
+            title="{{'partnerTable.toolbar.columns' | translate}}"
+            class="grid-button"
+            type="button"
+            [jhiToolbarAction]="defaultActions.columns"
+            [active]="columnSelectorActive"
+            (invoke)="onToggleColumnSelector()"
+        ></button>
+        <ng-container *ngIf="filterEnabled">
+            <button
+                title="{{'partnerTable.toolbar.filter' | translate}}"
+                class="grid-button"
+                type="button"
+                [jhiToolbarAction]="defaultActions.filter"
+                [active]="filterActive"
+                (invoke)="onToggleFilter()"
+            ></button>
+            <button
+                title="{{'partnerTable.toolbar.search' | translate}}"
+                class="grid-button"
+                type="button"
+                [jhiToolbarAction]="defaultActions.search"
+                [active]="searchActive"
+                (invoke)="onToggleSearchPanel()"
+            ></button>
+            <button
+                title="{{'partnerTable.toolbar.reset' | translate}}"
+                class="grid-button"
+                type="button"
+                [jhiToolbarAction]="defaultActions.clear"
+                [disabled]="!filterActive && !searchActive"
+                (invoke)="onClearFilter()"
+            ></button>
+        </ng-container>
+    </div>
+</div>
