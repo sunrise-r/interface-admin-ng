@@ -1,7 +1,7 @@
 export class ProjectionTreeModel {
   code: string;
   label: string;
-  url: string;
+  routerLink: string[];
 }
 export class PresentationTreeModel {
   code: string; // Presentation code

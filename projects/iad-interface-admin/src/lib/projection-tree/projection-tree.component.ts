@@ -40,8 +40,7 @@ export class ProjectionTreeComponent implements OnInit {
       item.items = !presentation.projections ? null : presentation.projections.map(projection => {
         return <MenuItem>{
           label: projection.label,
-          url: projection.url
-          // routerLink?: any;
+          routerLink: projection.routerLink
         };
       });
       return item;

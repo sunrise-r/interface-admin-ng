@@ -11,28 +11,28 @@ export class ProjectionTreeResponse extends AbstractResponse {
 
     const data: PresentationTreeModel[] = [
       <PresentationTreeModel>{
-        code: 'myPresentation',
+        code: 'presentationOne',
         label: 'presentation.label',
         projections: [
           <ProjectionTreeModel>{
-            url: 'http://yandex.ru/',
-            code: 'myProjection',
+            routerLink: ['/data/presentation-one/show-projection-one'],
+            code: 'projectionOne',
             label: 'presentation.projection.label'
           },
           <ProjectionTreeModel>{
-            url: 'http://yandex.ru/',
-            code: 'myProjection2',
-            label: 'presentation.projection.label2'
+            routerLink: ['/data/presentation-one/show-projection-two'],
+            code: 'projectionTwo',
+            label: 'presentation.projection.label'
           }
         ]
       },
       <PresentationTreeModel>{
-        code: 'myPresentation2',
+        code: 'presentationTwo',
         label: 'presentation.label2',
         projections: [
           <ProjectionTreeModel>{
-            url: 'http://yandex.ru/',
-            code: 'myProjection',
+            routerLink: ['/data/presentation-two/show-projection-one'],
+            code: 'projectionOne',
             label: 'presentation.projection.label'
           }
         ]
