@@ -15,9 +15,12 @@ export class ProjectionTreeComponent implements OnInit {
   constructor(public projectionTreeService: ProjectionTreeService, public translateService: TranslateService) { }
 
   ngOnInit() {
+    const convertBind = this.convert.bind(this);
+    const translateBind = this.translate.bind(this);
+
     this.loadAll()
-      .then(this.translate.bind(this))
-      .then(this.convert.bind(this))
+      .then(translateBind)
+      .then(convertBind)
       .then(items  => {
         this.items = items;
       })

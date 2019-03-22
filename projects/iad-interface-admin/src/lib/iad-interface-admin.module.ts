@@ -1,5 +1,7 @@
 import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {CommonModule} from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -18,6 +20,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [ProjectionTreeComponent],
   imports: [
+    CommonModule,
+    BrowserAnimationsModule,
     IadSharedModule,
     HttpClientModule,
     MultiSelectModule,
