@@ -8,6 +8,8 @@ import { MainComponent } from './main/main.component';
 import {AppRoutingModule} from './app-routing.module';
 import {fakeBackendProvider} from './faker/fake-backend.interceptor';
 
+import {DataComponent} from './data';
+
 @NgModule({
   declarations: [
     MainComponent
@@ -21,7 +23,8 @@ import {fakeBackendProvider} from './faker/fake-backend.interceptor';
       i18nEnabled: true,
       defaultI18nLang: 'ru',
       noi18nMessage: 'translation-not-found'
-    })
+    }),
+    DataComponent
   ],
   providers: [
     fakeBackendProvider
