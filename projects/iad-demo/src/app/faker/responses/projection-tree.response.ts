@@ -17,18 +17,23 @@ export class ProjectionTreeResponse extends AbstractResponse {
           <ProjectionTreeModel>{
             url: 'http://yandex.ru/',
             code: 'myProjection',
-            label: 'my.projection.label'
+            label: 'presentation.projection.label'
+          },
+          <ProjectionTreeModel>{
+            url: 'http://yandex.ru/',
+            code: 'myProjection2',
+            label: 'presentation.projection.label2'
           }
         ]
       },
       <PresentationTreeModel>{
         code: 'myPresentation2',
-        label: 'presentation2.label',
+        label: 'presentation.label2',
         projections: [
           <ProjectionTreeModel>{
             url: 'http://yandex.ru/',
-            code: 'myProjection2',
-            label: 'my.projection2.label'
+            code: 'myProjection',
+            label: 'presentation.projection.label'
           }
         ]
       }

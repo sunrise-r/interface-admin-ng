@@ -29,4 +29,4 @@ import {fakeBackendProvider} from './faker/fake-backend.interceptor';
   bootstrap: [MainComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule {}

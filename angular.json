@@ -64,7 +64,8 @@
             "tsConfig": "projects/iad-demo/tsconfig.app.json",
             "assets": [
               "projects/iad-demo/src/favicon.ico",
-              "projects/iad-demo/src/assets"
+              "projects/iad-demo/src/assets",
+              "projects/iad-demo/src/i18n"
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
@@ -130,7 +131,8 @@
             "scripts": [],
             "assets": [
               "projects/iad-demo/src/favicon.ico",
-              "projects/iad-demo/src/assets"
+              "projects/iad-demo/src/assets",
+              "projects/iad-demo/src/i18n"
             ]
           }
         },
