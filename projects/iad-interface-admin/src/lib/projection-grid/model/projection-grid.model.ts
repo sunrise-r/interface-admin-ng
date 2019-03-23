@@ -1,4 +1,3 @@
-import {IadProjectionInterface} from '../../model/iad-interfaces';
 import {Operator, statementTypes} from '../../elastic';
 import {ToolbarAction} from '../../toolbar';
 import {IadGridColumn} from './iad-grid-column.model';
@@ -10,7 +9,7 @@ export interface FilterInterface {
   operator?: Operator;
 }
 
-export class DocumentListProjection implements IadProjectionInterface {
+export interface IadListProjectionInterrface {
   actions: ToolbarAction[][];
   label: string;
   code: string;
@@ -18,8 +17,22 @@ export class DocumentListProjection implements IadProjectionInterface {
   searchUrl?: string;
   columns?: IadGridColumn[];
   filters?: FilterInterface[];
-  settingsGroupName?: string; // Is it used anywhere?
-  resourceSearchUrl?: string; // Is it used anywhere?
   properties?: any;
   loadActualInfo?: boolean;
+  settingsGroupName?: string; // Not used yet
+  resourceSearchUrl?: string; // Not used yet
+}
+
+export class DocumentListProjection implements IadListProjectionInterrface {
+  actions: ToolbarAction[][];
+  label: string;
+  code: string;
+  active?: boolean;
+  searchUrl?: string;
+  columns?: IadGridColumn[];
+  filters?: FilterInterface[];
+  properties?: any;
+  loadActualInfo?: boolean;
+  settingsGroupName?: string; // Not used yet
+  resourceSearchUrl?: string; // Not used yet. What the difference with searchUrl ?
 }

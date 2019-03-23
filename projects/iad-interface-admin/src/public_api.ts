@@ -12,7 +12,9 @@ export * from './lib/shared/helpers/string.helper';
 // projection-tree
 export * from './lib/projection-tree/projection-tree.model';
 // projection-grid
-export * from './lib/projection-grid';
+export * from './lib/projection-grid/model/projection-grid.model';
+// projection form
+export * from './lib/projection-form/model/projection-form.model';
 
 // # public-services
 export * from './lib/public-services/iad-projection-tree.service';

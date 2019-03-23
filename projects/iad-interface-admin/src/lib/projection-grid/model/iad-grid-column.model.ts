@@ -11,6 +11,9 @@ export interface IadGridColumnInterface {
     frozenOrder?: number;
     width?: any;
     searching?: boolean;
+    displayFormat?: string;
+    sorting?: boolean;
+    properties?: { [param: string]: string | boolean | number };
 }
 
 export class IadGridColumn implements IadGridColumnInterface {
@@ -26,10 +29,13 @@ export class IadGridColumn implements IadGridColumnInterface {
     frozenOrder?: number;
     position?: string;
     searching?: boolean;
-    constructor(field: string, header: string, formatter?: string, style?: string, translate?: boolean) {
+    displayFormat?: string;
+    sorting?: boolean;
+    properties?: { [param: string]: string | boolean | number };
+    constructor(field: string, header: string, displayFormat?: string, style?: string, translate?: boolean) {
         this.field = field;
         this.header = header;
-        this.formatter = formatter;
+        this.displayFormat = displayFormat;
         this.style = style;
         this.translate = translate || false;
         this.visible = true;
@@ -38,5 +44,6 @@ export class IadGridColumn implements IadGridColumnInterface {
         this.frozenOrder = 0;
         this.position = 'center';
         this.searching = false;
+        this.sorting = false;
     }
 }

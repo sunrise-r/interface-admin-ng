@@ -1,6 +1,8 @@
+import {IadListProjectionInterrface} from '../projection-grid/model/projection-grid.model';
+import {IadFormProjectionInterface} from '../projection-form/model/projection-form.model';
+
 export interface IadProjectionInterface {
   code: string;
-  label: string;
   properties?: {[prop: string]: string};
 }
 
@@ -11,7 +13,7 @@ export interface IadPresentationInterface {
   code: string;
   label?: string;
   name?: string;
-  projections?: Array<IadProjectionInterface>;
-  formProjections?: Array<IadProjectionInterface>;
-  dataProjections?: Array<IadProjectionInterface>;
+  projections?: IadListProjectionInterrface[];
+  formProjections?: IadFormProjectionInterface[];
+  dataProjections?: IadProjectionInterface[];
 }
