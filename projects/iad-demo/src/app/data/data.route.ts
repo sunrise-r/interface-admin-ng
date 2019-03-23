@@ -1,5 +1,8 @@
 import {Routes} from '@angular/router';
 import {DataComponent} from './data.component';
+import {HomeComponent} from './home/home.component';
+import {GridComponent} from './grid/grid.component';
+import {PresentationResolverService} from './resolvers/presentation-resolver.service';
 
 export const dataRoutes: Routes = <Routes>[
   {
@@ -9,15 +12,18 @@ export const dataRoutes: Routes = <Routes>[
   },
   {
     path: 'data',
-    resolve: {},
-    data: {
-      pageTitle: 'home.title'
-    },
+    component: DataComponent,
     children: [
       {
+        path: '',
+        component: HomeComponent
+      },
+      {
         path: ':presentationCode/:projectionCode',
-        component: DataComponent,
-        resolve: {}
+        component: GridComponent,
+        resolve: {
+          presentation: PresentationResolverService
+        }
       }
     ]
   }

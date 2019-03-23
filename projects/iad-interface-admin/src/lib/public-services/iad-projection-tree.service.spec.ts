@@ -1,13 +1,13 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { ProjectionTreeService } from './projection-tree.service';
-import {PresentationTreeModel} from './projection-tree.model';
+import { IadProjectionTreeService } from './iad-projection-tree.service';
+import {PresentationTreeModel} from '../projection-tree/projection-tree.model';
 import {IadConfigService} from '../config.service';
 
 describe('ProjectionTreeService', () => {
   let injector: TestBed;
-  let service: ProjectionTreeService;
+  let service: IadProjectionTreeService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('ProjectionTreeService', () => {
       providers: [IadConfigService]
     });
     injector = getTestBed();
-    service = injector.get(ProjectionTreeService);
+    service = injector.get(IadProjectionTreeService);
     httpMock = injector.get(HttpTestingController);
   });
 

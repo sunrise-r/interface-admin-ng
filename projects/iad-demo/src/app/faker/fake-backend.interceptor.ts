@@ -2,13 +2,14 @@ import {Injectable, Type} from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
-import {AbstractResponse, IFakeResponse} from './responses/abstract.response';
+import {IFakeResponse} from './responses/abstract.response';
 import {authConditionCallback, AuthResponse} from './responses/auth.response';
 import {userGetListConditionCallback, UserGetListResponse} from './responses/user/user-get-list.response';
 import {userGetByIdConditionCallback, UserGetByIdResponse} from './responses/user/user-get-by-id.response';
 import {userRegisterConditionCallback, UserRegisterResponse} from './responses/user/user-register.response';
 import {userDeleteConditionCallback, UserDeleteResponse} from './responses/user/user-delete.response';
 import {projectionTreeConditionCallback, ProjectionTreeResponse} from './responses/projection-tree.response';
+import {presentationConditionCallback, PresentationResponse} from './responses/cms/api/iad/presentation.response';
 
 class FakerRegistry {
   constructor(
@@ -27,7 +28,8 @@ const registry = [
     new FakerRegistry(UserGetByIdResponse, userGetByIdConditionCallback),
     new FakerRegistry(UserRegisterResponse, userRegisterConditionCallback),
     new FakerRegistry(UserDeleteResponse, userDeleteConditionCallback),
-    new FakerRegistry(ProjectionTreeResponse, projectionTreeConditionCallback)
+    new FakerRegistry(ProjectionTreeResponse, projectionTreeConditionCallback),
+    new FakerRegistry(PresentationResponse, presentationConditionCallback)
 ];
 
 @Injectable()

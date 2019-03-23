@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 
-import {ProjectionTreeService} from './projection-tree.service';
+import {IadProjectionTreeService} from '../public-services/iad-projection-tree.service';
 import {PresentationTreeModel} from './projection-tree.model';
 
 @Component({
@@ -12,7 +12,7 @@ import {PresentationTreeModel} from './projection-tree.model';
 export class ProjectionTreeComponent implements OnInit {
   items: MenuItem[];
 
-  constructor(public projectionTreeService: ProjectionTreeService, public translateService: TranslateService) { }
+  constructor(public projectionTreeService: IadProjectionTreeService, public translateService: TranslateService) { }
 
   ngOnInit() {
     const convertBind = this.convert.bind(this);
@@ -30,7 +30,7 @@ export class ProjectionTreeComponent implements OnInit {
   }
 
   loadAll(): Promise<PresentationTreeModel[]> {
-    return this.projectionTreeService.request().toPromise();
+    return this.projectionTreeService.request('/api/projection-tree').toPromise();
   }
 
   convert(items: PresentationTreeModel[]): Promise<MenuItem[]> {

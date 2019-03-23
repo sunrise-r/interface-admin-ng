@@ -5,7 +5,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {of} from 'rxjs';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {PresentationTreeModel} from './projection-tree.model';
-import {ProjectionTreeService} from './projection-tree.service';
+import {IadProjectionTreeService} from '../public-services/iad-projection-tree.service';
 import {IadConfigService} from '../config.service';
 import {IadModuleConfigInterface} from '../config';
 import { MenuItem } from 'primeng/api';
@@ -13,7 +13,7 @@ import { MenuItem } from 'primeng/api';
 describe('ProjectionTreeComponent', () => {
   let component: ProjectionTreeComponent;
   let fixture: ComponentFixture<ProjectionTreeComponent>;
-  let service: ProjectionTreeService;
+  let service: IadProjectionTreeService;
   let configService: IadConfigService;
   let translateService: TranslateService;
   let presentation: PresentationTreeModel;
@@ -42,7 +42,7 @@ describe('ProjectionTreeComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    service = fixture.debugElement.injector.get(ProjectionTreeService);
+    service = fixture.debugElement.injector.get(IadProjectionTreeService);
     translateService = fixture.debugElement.injector.get(TranslateService);
 
     presentation = new PresentationTreeModel();
