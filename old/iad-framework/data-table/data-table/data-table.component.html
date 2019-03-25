@@ -121,10 +121,15 @@
     </ng-template>
     <ng-template pTemplate="frozeninterlayer" let-columns>
         <table [hidden]="!showSearchPanel" class="table-search-panel partner-table">
+            <colgroup>
+                <ng-template ngFor let-col [ngForOf]="columns">
+                    <col *ngIf="col.visible" [jhiTableColumnSize]="col.width">
+                </ng-template>
+            </colgroup>
             <thead>
             <tr>
                 <ng-template ngFor let-col [ngForOf]="columns">
-                    <th>
+                    <th *ngIf="col.visible">
                         <div class="jhi-table-search-panel-placeholder"></div>
                     </th>
                 </ng-template>

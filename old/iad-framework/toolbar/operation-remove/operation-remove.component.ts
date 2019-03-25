@@ -13,6 +13,7 @@ import { ActualSelectionModel } from '../../data-table';
 import { OperationRemoveService } from 'app/iad-framework/toolbar/operation-remove/operation-remove.service';
 import { onResolutionSent } from 'app/documents/document-resolution-form/resolution.event';
 
+// @TODO THIS CLASS IS DUPLICATE FOR DocumentRemoveComponent; You need to join them in some way
 @Component({
     selector: 'jhi-document-path',
     templateUrl: './operation-remove.component.html',

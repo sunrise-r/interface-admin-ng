@@ -115,18 +115,18 @@ export class ToolbarDropdownComponent implements OnChanges, OnInit, OnDestroy {
         this._shown = true;
         this.renderer.addClass(this.dropdownWrapper.nativeElement, 'show');
         this.eventsService.broadcastShown(this.id);
-        this.bindClickEventListener();
+        // this.bindClickEventListener(); <--- it causes bug with clicking on toggle button to perform close action
     }
 
     hide() {
         this._shown = false;
         this.renderer.removeClass(this.dropdownWrapper.nativeElement, 'show');
         this.hidden.emit(this.code);
-        this.unbindEventListener();
+        // this.unbindEventListener(); <--- it causes bug with clicking on toggle button to perform close action
     }
 
     onClick(event) {
-        if(!this.el.nativeElement.contains(event.target)) {
+        if (!this.el.nativeElement.contains(event.target)) {
             this.hide();
         }
     }
@@ -139,7 +139,7 @@ export class ToolbarDropdownComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     private unbindEventListener() {
-        if(this.clickListener) {
+        if (this.clickListener) {
             window.removeEventListener('mousedown', this.clickListener);
         }
     }

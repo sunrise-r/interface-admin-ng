@@ -13,6 +13,7 @@ import { ActualSelectionModel } from '../../data-table';
 
 import { DocumentRemoveService } from './document-remove.service';
 
+// @TODO THIS CLASS IS DUPLICATE FOR OperationRemoveComponent; You need to join them in some way
 @Component({
     selector: 'jhi-document-path',
     templateUrl: './document-remove.component.html',
