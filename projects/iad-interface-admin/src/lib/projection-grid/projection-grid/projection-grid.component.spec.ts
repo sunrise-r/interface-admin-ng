@@ -11,7 +11,7 @@ import {MomentPipe} from '../../shared/pipes/moment.pipe';
 import {SelectableRow, SortableColumn} from 'primeng/table';
 import {DropdownModule, Paginator} from 'primeng/primeng';
 import {IadTableBodyComponent} from '../../iad-primeng/table/iad-table-body.component';
-import {IadSharedModule} from '../../shared';
+import {IadSharedModule} from '../../shared/iad-shared.module';
 
 describe('ProjectionGridComponent', () => {
   let component: ProjectionGridComponent;

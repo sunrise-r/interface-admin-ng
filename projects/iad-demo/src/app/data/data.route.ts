@@ -3,6 +3,7 @@ import {DataComponent} from './data.component';
 import {HomeComponent} from './home/home.component';
 import {GridComponent} from './grid/grid.component';
 import {PresentationResolverService} from './resolvers/presentation-resolver.service';
+import {ProjectionNameResolverService} from './resolvers/projection-name-resolver.service';
 
 export const dataRoutes: Routes = <Routes>[
   {
@@ -22,7 +23,8 @@ export const dataRoutes: Routes = <Routes>[
         path: ':presentationCode/:projectionCode',
         component: GridComponent,
         resolve: {
-          presentation: PresentationResolverService
+          presentation: PresentationResolverService,
+          projectionCode: ProjectionNameResolverService
         }
       }
     ]

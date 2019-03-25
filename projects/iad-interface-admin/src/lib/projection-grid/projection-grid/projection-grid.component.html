@@ -36,7 +36,7 @@
     </tr>
     <ng-template #thTemplate let-col>
       <th *ngIf="col.visible" pResizableColumn pReorderableColumn [iadTableColumnSize]="col.width" [pSortableColumn]="col.field"
-          [ngClass]="[col.style !== undefined ? col.style : '']">
+          [ngClass]="[col.style !== undefined && col.style !== null ? col.style : '']">
           <span>{{col.header}}</span>
           <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
       </th>
@@ -51,7 +51,7 @@
       </ng-template>
     </tr>
     <ng-template #tdTemplate let-col let-rowData="rowData">
-      <td *ngIf="col.visible" [ngSwitch]="col.formatter" [ngClass]="['ui-resizable-column', col.style !== undefined ? col.style : '']">
+      <td *ngIf="col.visible" [ngSwitch]="col.formatter" [ngClass]="['ui-resizable-column', col.style !== undefined && col.style !== null ? col.style : '']">
         <span *ngSwitchCase="'ZonedDateTime'">{{rowData[col.field] | moment | date:'medium'}}</span>
         <span *ngSwitchCase="'Boolean'">{{rowData[col.field] | boolean }}</span>
         <span *ngSwitchDefault>{{rowData[col.field]}}</span>

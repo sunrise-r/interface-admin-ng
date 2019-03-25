@@ -11,6 +11,7 @@ import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import { IadConfigService } from './config.service';
 import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
+import { ProjectionGridModule } from './projection-grid/projection-grid.module'
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -32,9 +33,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    ProjectionGridModule
   ],
-  exports: [TranslateModule, ProjectionTreeComponent],
+  exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadInterfaceAdminModule {

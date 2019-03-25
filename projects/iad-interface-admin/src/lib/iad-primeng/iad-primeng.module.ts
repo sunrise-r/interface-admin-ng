@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { IadSharedModule } from '../shared';
+import { IadSharedModule } from '../shared/iad-shared.module';
 
 // Original
 import { TableModule } from 'primeng/table';

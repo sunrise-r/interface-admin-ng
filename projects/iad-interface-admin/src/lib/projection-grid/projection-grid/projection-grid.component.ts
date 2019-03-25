@@ -1,15 +1,16 @@
-import {AfterContentInit, Component, ContentChildren, Input, OnInit, QueryList, TemplateRef} from '@angular/core';
-import {DocumentListProjection} from '../model/projection-grid.model';
-import {IadGridColumn} from '../model/iad-grid-column.model';
+import {AfterContentInit, Component, ContentChildren, Input, OnChanges, OnInit, QueryList, SimpleChanges, TemplateRef} from '@angular/core';
 import {PrimeTemplate} from 'primeng/shared';
 import {Subject} from 'rxjs';
+
+import {DocumentListProjection} from '../model/projection-grid.model';
+import {IadGridColumn} from '../model/iad-grid-column.model';
 
 @Component({
   selector: 'iad-projection-grid',
   templateUrl: './projection-grid.component.html',
   styleUrls: ['./projection-grid.component.scss']
 })
-export class ProjectionGridComponent implements OnInit, AfterContentInit {
+export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges {
 
   /**
    * Projection table columns
@@ -64,16 +65,17 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit {
    */
   resetFilter: Subject<boolean> = new Subject<boolean>();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterContentInit(): void {
     this.templates.forEach(item => {
       this.colTemplates[item.getType()] = item.template;
     });
   }
+
+  ngOnChanges(changes: SimpleChanges): void {}
 
   /**
    * Filter event handler
