@@ -37,7 +37,9 @@
     <ng-template #thTemplate let-col>
       <th *ngIf="col.visible" pResizableColumn pReorderableColumn [iadTableColumnSize]="col.width" [pSortableColumn]="col.field"
           [ngClass]="[col.style !== undefined && col.style !== null ? col.style : '']">
-          <span>{{col.header}}</span>
+          <ng-container *ngIf="col.translate; then translateTh; else notTranslateTh" ></ng-container>
+          <ng-template #translateTh>{{col.header | translate}}</ng-template>
+          <ng-template #notTranslateTh>{{col.header}}</ng-template>
           <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
       </th>
     </ng-template>

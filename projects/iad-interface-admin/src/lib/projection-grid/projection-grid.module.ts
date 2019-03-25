@@ -10,7 +10,7 @@ import {TableColumnFilterComponent} from './table-column-filter/table-column-fil
   declarations: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent, TableColumnFilterComponent],
   imports: [
     IadPrimengModule,
-    IadSharedModule
+    IadSharedModule,
   ],
   exports: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent]
 })

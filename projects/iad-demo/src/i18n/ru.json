@@ -4,7 +4,14 @@
     "label2": "Представление 2",
     "projection": {
       "label": "Проекция 1",
-      "label2": "Проекция 2"
+      "label2": "Проекция 2",
+      "main": {
+        "nameField": "Имя",
+        "surnameField": "Фамилия",
+        "birthDate": "Дата рождения",
+        "phone": "Телефон",
+        "email": "Email"
+      }
     }
   }
 }

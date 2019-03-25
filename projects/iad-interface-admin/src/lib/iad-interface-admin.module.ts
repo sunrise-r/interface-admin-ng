@@ -13,10 +13,7 @@ import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
 import { ProjectionGridModule } from './projection-grid/projection-grid.module'
 
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, 'i18n/', '.json');
-}
+
 
 @NgModule({
   declarations: [ProjectionTreeComponent],
@@ -27,13 +24,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     MultiSelectModule,
     PanelMenuModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
     ProjectionGridModule
   ],
   exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent],
