@@ -19,7 +19,7 @@ import {ElasticSearchQueryBuilder} from '../../elastic';
 import {LazyLoadData, ResizeEvent} from '../../iad-primeng/table/iad-table-models';
 import {FILTER_TYPE, IadGridConfigModel} from '../model/iad-grid-model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
-import {IadTableComponent} from '../../iad-primeng';
+import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
 import {columnComponents} from '../column-components/column-components.factory';
 
 export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => ElasticSearchQueryBuilder;
