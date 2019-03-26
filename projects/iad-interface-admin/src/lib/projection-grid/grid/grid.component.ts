@@ -21,9 +21,13 @@ import {FILTER_TYPE, IadGridConfigModel} from '../model/iad-grid-model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
 import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
 import {columnComponents} from '../column-components/column-components.factory';
+import {IadConfigService} from '../../config.service';
 
 export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => ElasticSearchQueryBuilder;
 
+/**
+ * @todo The main idea is to leave in iad-grid only Inputs and Outputs. This compnent is general template to show full-featured primeng table;
+ */
 @Component({
   selector: 'iad-grid',
   templateUrl: './grid.component.html',
@@ -89,6 +93,11 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
    * @Todo make query builder as input param and a method to initialize it when it is not passed
    */
   @Input() onBuildQuery: QueryBuildCallback;
+
+  /**
+   * Flag to set if table should request data on initialization;
+   */
+  @Input() refreshOnInit: boolean;
 
   /**
    * Grid data Source
@@ -249,14 +258,32 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
    */
   projectionFilter: string;
 
-  constructor(private gridDataService: IadProjectionGridService) { }
+  constructor(private gridDataService: IadProjectionGridService,
+              private configService: IadConfigService
+  ) {
+    this.size = this.configService.getConfig().pageSize;
+  }
 
   ngOnInit() {
+    /**
+     * @todo think if you can do it better
+     */
+    if (this.refreshOnInit) {
+      this.refresh();
+    }
   }
 
   ngAfterViewInit(): void {
+    /**
+     * What is happpen here:
+     * When current component is loaded it cannot correctly subscribe to refresh because it calls this.dt methods and props
+     * Then we need to create refresh ReplaySubject
+     * wait for Sort Event (fired when sortField or sortOrder is set)
+     * and finally call that refresh ReplaySubject to update data
+     * @todo think if you can do it better
+     */
     this.askToRefresh.subscribe(() => {
-      // @todo WE NEED THIS for infinite scroll
+      // @todo WE NEED string below for infinite scroll
       // this.dt.paginatorService.resetFirst();
       this.updateData(this.dt.createLazyLoadMetadata(true));
     });
@@ -330,6 +357,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
   // }
 
   /**
+   * @todo since we dont use onLazyLoad it can be moved to upper level
    * Добавление данных в таблицу
    * @param event
    */
@@ -391,7 +419,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
     // const sort = this.buildSort(event.field, event.order);
     // const settings = new CmsSetting('sort', sort);
     // this.generateSettingsChangedEvent(settings);
-    // this.refresh();
+    this.refresh();
   }
 
   /**
@@ -426,7 +454,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
   }
 
   /**
-   * Refresh table
+   * This method sends refresh event
    */
   refresh() {
     this.askToRefresh.next();
@@ -452,7 +480,9 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
           queryBuilder.addColumn(field).addStatement(value, true);
         }
       });
-      queryBuilder = this.onBuildQuery(queryBuilder);
+      if (this.onBuildQuery) {
+        queryBuilder = this.onBuildQuery(queryBuilder);
+      }
     }
     // @todo check if it is necessary
     // if (this.projectionFilter) {

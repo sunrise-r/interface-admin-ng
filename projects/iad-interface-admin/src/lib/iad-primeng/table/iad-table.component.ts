@@ -40,6 +40,11 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
 
     /**
      * Контент события для подгрузки данных onLazyLoad
+     * @TODO MAy be move this code into grid-component and use its own table settings with ability to update from events
+     * It is used in methods:
+     * onPageChange, onSortSingle, onSortMultiple, _filter(), reset, handleVirtualScroll, OnInit;
+     * when set property value and not lazy
+     * when set sort field or sort order
      * @param clearData
      */
     createLazyLoadMetadata(clearData?: boolean): LazyLoadData {

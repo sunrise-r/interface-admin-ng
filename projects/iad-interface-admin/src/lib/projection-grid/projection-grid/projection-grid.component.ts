@@ -23,6 +23,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
   @Input() hasToolbar: boolean;
 
   /**
+   * unique code to identify current presentation
+   */
+  @Input() presentationCode: string;
+
+  /**
    * current projection
    */
   private _projection: DocumentListProjection;
@@ -67,6 +72,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
    */
   resetFilter: Subject<boolean> = new Subject<boolean>();
 
+  /**
+   * Search url for grid-component
+   */
+  searchUrl: string;
+
   constructor() {}
 
   ngOnInit() {}
@@ -77,7 +87,17 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+      if ((changes['projection'] && this.projection) || (changes['presentationCode'] && this.presentationCode)) {
+        // this.queryCallback = this.initQueryCallback.bind(this);
+        // this.initColumns();
+        // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
+        // this.loadActualInfo = this.initLoadActualInformationFlag();
+        // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
+        // this.unSelectRow.next(true);
+        this.searchUrl = this.projection.searchUrl;
+      }
+  }
 
   /**
    * Filter event handler

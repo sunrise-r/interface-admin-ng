@@ -15,6 +15,8 @@ export class GridComponent implements OnInit {
 
   projection: IadListProjectionInterrface;
 
+  presentationCode: string;
+
   routerSubscription: Subscription;
 
   constructor(private route: ActivatedRoute, private router: Router) { }
@@ -22,7 +24,7 @@ export class GridComponent implements OnInit {
   ngOnInit() {
       this.routerSubscription = this.route.data.subscribe(data => {
         const presentation: IadPresentation = data.presentation;
-        // const projectionCode = data.projectionCode;
+        this.presentationCode = data.presentation.code;
         // Actually we have only one list projection to show and it's name is 'main';
         // And we don't need projectionCode for this case
         this.projection = <IadListProjectionInterrface>ProjectionsHelper
