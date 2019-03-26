@@ -10,6 +10,7 @@ import {userRegisterConditionCallback, UserRegisterResponse} from './responses/u
 import {userDeleteConditionCallback, UserDeleteResponse} from './responses/user/user-delete.response';
 import {projectionTreeConditionCallback, ProjectionTreeResponse} from './responses/projection-tree.response';
 import {presentationConditionCallback, PresentationResponse} from './responses/cms/api/iad/presentation.response';
+import {phonebookConditionCallback, PhonebookResponse} from './responses/documents/api/_search/phonebook.response';
 
 class FakerRegistry {
   constructor(
@@ -29,7 +30,8 @@ const registry = [
     new FakerRegistry(UserRegisterResponse, userRegisterConditionCallback),
     new FakerRegistry(UserDeleteResponse, userDeleteConditionCallback),
     new FakerRegistry(ProjectionTreeResponse, projectionTreeConditionCallback),
-    new FakerRegistry(PresentationResponse, presentationConditionCallback)
+    new FakerRegistry(PresentationResponse, presentationConditionCallback),
+    new FakerRegistry(PhonebookResponse, phonebookConditionCallback)
 ];
 
 @Injectable()

@@ -22,7 +22,7 @@ export class ProjectionTreeResponse extends AbstractResponse {
           <ProjectionTreeModel>{
             routerLink: ['/data/presentation-one/show-projection-two'],
             code: 'projectionTwo',
-            label: 'presentation.projection.label'
+            label: 'presentation.projection.label2'
           }
         ]
       },
