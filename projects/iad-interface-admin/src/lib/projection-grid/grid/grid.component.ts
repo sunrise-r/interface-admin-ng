@@ -77,7 +77,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
   /**
    * Data to display in the table
    */
-  @Input() items: any[] = [];
+  @Input() value: any[] = [];
 
   /**
    * Flag to toggle Primeng table lazy loading
@@ -349,7 +349,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
         (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
         () => {
           if (event.clearData) {
-            this.items = [];
+            this.value = [];
           }
         }
       );
@@ -484,7 +484,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
    */
   private addItems(data: Array<any>, headers: HttpHeaders, clearData?: boolean): void {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.items = clearData ? data : this.items.concat(data);
+    this.value = clearData ? data : this.value.concat(data);
     this.dt.tableService.onValueChange(data);
     // force current selection reset
     if (this.selection) {

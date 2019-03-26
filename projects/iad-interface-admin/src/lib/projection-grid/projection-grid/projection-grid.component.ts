@@ -36,6 +36,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
   }
 
   /**
+   * @todo check if we need it
    * Flag to add 'responsive' css class
    */
   @Input() responsive: boolean;
@@ -61,6 +62,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
   colTemplates: { [param: string]: TemplateRef<any> } = {};
 
   /**
+   * @todo check if we need it
    * Throws filter reset event
    */
   resetFilter: Subject<boolean> = new Subject<boolean>();
