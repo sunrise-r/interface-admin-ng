@@ -1,10 +1,8 @@
 import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {CommonModule} from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 import { ProjectionTreeComponent } from './projection-tree/projection-tree.component';
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
@@ -13,13 +11,10 @@ import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
 import { ProjectionGridModule } from './projection-grid/projection-grid.module'
 
-
-
 @NgModule({
   declarations: [ProjectionTreeComponent],
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     IadSharedModule,
     HttpClientModule,
     MultiSelectModule,
