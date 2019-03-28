@@ -207,6 +207,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
     }
 
     /**
+     * @todo сделать совместимым с this.onPage ??
      * Страница изменена при скролле
      * @param event
      */

@@ -13,6 +13,11 @@ import {IadGridColumn} from '../model/iad-grid-column.model';
 export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges {
 
   /**
+   * #4 Add paginator to the table
+   */
+  @Input() paginator: boolean;
+
+  /**
    * Projection table columns
    */
   @Input() columns: IadGridColumn[];

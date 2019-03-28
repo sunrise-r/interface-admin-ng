@@ -34,6 +34,10 @@ export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => Elastic
   styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
+  /**
+   * #4 Add paginator to the table
+   */
+  @Input() paginator: boolean;
 
   /**
    * Flag to toggle possibility to remove row selection
@@ -250,11 +254,11 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
   /**
    * Count of total data items
    */
-  totalItems: number;
+  totalRecords: number;
 
   /**
    * Projection filter
-   * @TODO Check if it is necessary
+   // @todo Так делать не надо. Нужно выносить отсюда....
    */
   projectionFilter: string;
 
@@ -427,6 +431,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
    * Фильтрация данных таблицы
    */
   onFilter(event: any) {
+    // @todo Так делать не надо. Нужно выносить отсюда....
     // this.projectionFilter = event.query;
     // this.refresh();
   }
@@ -438,6 +443,14 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
    */
   onSelectionChange(event: any) {
     this.selectionChange.emit(event);
+  }
+
+  /**
+   * @param event
+   */
+  onNativePager(event: {first: number, rows: number}) {
+    // this.updateData(this.dt.createLazyLoadMetadata(true));
+    this.refresh();
   }
 
   /**
@@ -484,7 +497,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
         queryBuilder = this.onBuildQuery(queryBuilder);
       }
     }
-    // @todo check if it is necessary
+    // @todo Так делать не надо. Нужно выносить отсюда....
     // if (this.projectionFilter) {
     //   return queryBuilder.addFromQueryTail(this.projectionFilter);
     // }
@@ -513,7 +526,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
    * @param clearData
    */
   private addItems(data: Array<any>, headers: HttpHeaders, clearData?: boolean): void {
-    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+    this.totalRecords = parseInt(headers.get('X-Total-Count'), 10);
     this.value = clearData ? data : this.value.concat(data);
     this.dt.tableService.onValueChange(data);
     // force current selection reset
