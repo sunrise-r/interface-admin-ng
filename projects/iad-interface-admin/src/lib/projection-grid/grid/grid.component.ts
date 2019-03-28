@@ -203,7 +203,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
   /**
    * List of dynamically added lefts frozen columns
    */
-  frozenCols: IadGridColumn[] = [];
+  frozenCols: IadGridColumn[];
 
   /**
    * List of dynamically added rights frozen columns
