@@ -17,11 +17,6 @@
     </fieldset>
 
     <div class="content-flex-footer">
-        <button class="big-button float-left" type="button"
-                [ngClass]="{ 'active' : helpActive }"
-                (click)="help()">
-            <span class="title helpBtn">Помощь</span>
-        </button>
         <div class="float-right">
             <iad-tooltip-notifier position="top-right" class="form-errors float-left" *ngIf="errors" caption="Ошибка!" [text]="errors" size="32"></iad-tooltip-notifier>
             <button class="big-button" type="button" (click)="cancel()" [disabled]="sending">

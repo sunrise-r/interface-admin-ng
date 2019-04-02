@@ -108,8 +108,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
         this.formCancel.next(true);
     }
 
-    help() {}
-
     /**
      * Определяет размер текущей колонки по количеству колонок
      * @param child
