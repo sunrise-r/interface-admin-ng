@@ -744,114 +744,164 @@ export class PresentationResponse extends AbstractResponse {
       {
         'className': 'BankAccount',
         'code': 'BankAccount',
-        'title': 'partnerGatewayApp.partnerDocumentsBankAccount.detail.title',
+        'title': 'Редактирование',
         'fields': [
           {
-            'validationTypes': {'email': false, 'required': false},
-            'type': 'Hidden',
-            'name': 'id',
-            'label': '',
+            'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
+            'type': 'String',
+            'name': 'nameField',
+            'label': 'Имя',
             'column': 0,
             'hidden': false
+          },
+          {
+            'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
+            'type': 'String',
+            'name': 'surnameField',
+            'label': 'Фамилия',
+            'column': 0,
+            'hidden': false,
           },
           {
             'validationTypes': {'email': false, 'required': true},
             'type': 'ZonedDateTime',
-            'name': 'creationDate',
-            'label': 'Дата создания',
+            'name': 'birthDate',
+            'label': 'Дата рождения',
             'defaultValue': 'NOW',
-            'fieldInputType': 'DISABLED',
-            'column': 0,
-            'hidden': false
-          },
-          {
-            'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
-            'type': 'String',
-            'name': 'paymentAccount',
-            'label': 'Расчетный счет',
             'column': 0,
             'hidden': false,
-            'inputMask': '99999999999999999999'
           },
           {
-            'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
+            'validationTypes': {'maxLength': '9', 'email': false, 'required': false},
             'type': 'String',
-            'name': 'correspondentAccount',
-            'label': 'Корр. Счет',
-            'column': 0,
-            'hidden': false,
-            'inputMask': '99999999999999999999'
-          },
-          {
-            'validationTypes': {'maxLength': '9', 'email': false, 'required': true},
-            'type': 'String',
-            'name': 'bankIdentificationAccount',
-            'label': 'БИК',
+            'name': 'phone',
+            'label': 'Телефон',
             'column': 0,
             'hidden': false,
             'inputMask': '999999999'
           },
           {
-            'validationTypes': {'maxLength': '256', 'email': false, 'required': true},
+            'validationTypes': {'maxLength': '256', 'email': true, 'required': true},
             'type': 'String',
-            'name': 'bankName',
-            'label': 'Наименование банка',
+            'name': 'email',
+            'label': 'E-mail',
             'column': 0,
             'hidden': false
           },
-          // {
-          //   'validationTypes': {'email': false, 'required': false},
-          //   'presentationCode': 'common',
-          //   'type': 'List',
-          //   'name': 'additionalDocuments',
-          //   'label': 'Дополнительные документы',
-          //   'column': 0,
-          //   'hidden': false,
-          //   'lookupViewProjectionCode': 'additionalDocumentsLookupViewProjection',
-          //   'lookupSourceProjectionCode': 'additionalDocumentsLookupSourceProjection'
-          // },
-          {
-            'validationTypes': {'maxLength': '12', 'email': false, 'required': false},
-            'type': 'String',
-            'name': 'status',
-            'label': 'Статус',
-            'column': 0,
-            'hidden': true
-          },
-          {
-            'validationTypes': {'maxLength': '50', 'email': false, 'required': false},
-            'type': 'String',
-            'name': 'number',
-            'label': 'Номер',
-            'column': 0,
-            'hidden': true
-          },
-          {
-            'validationTypes': {'maxLength': '6', 'email': false, 'required': false},
-            'type': 'Boolean',
-            'name': 'archive',
-            'label': 'Архив',
-            'column': 0,
-            'hidden': true
-          },
-          {
-            'validationTypes': {'maxLength': '15', 'email': false, 'required': false},
-            'type': 'String',
-            'name': 'operation',
-            'label': 'Операция',
-            'column': 0,
-            'hidden': true
-          }, {
-            'validationTypes': {'maxLength': '25', 'email': false, 'required': false},
-            'type': 'String',
-            'name': 'documentClassLabel',
-            'label': 'Вид',
-            'column': 0,
-            'hidden': true
-          }
         ],
         'properties': null
       }
+      // {
+      //   'className': 'BankAccount',
+      //   'code': 'BankAccount',
+      //   'title': 'partnerGatewayApp.partnerDocumentsBankAccount.detail.title',
+      //   'fields': [
+      //     {
+      //       'validationTypes': {'email': false, 'required': false},
+      //       'type': 'Hidden',
+      //       'name': 'id',
+      //       'label': '',
+      //       'column': 0,
+      //       'hidden': false
+      //     },
+      //     {
+      //       'validationTypes': {'email': false, 'required': true},
+      //       'type': 'ZonedDateTime',
+      //       'name': 'creationDate',
+      //       'label': 'Дата создания',
+      //       'defaultValue': 'NOW',
+      //       'fieldInputType': 'DISABLED',
+      //       'column': 0,
+      //       'hidden': false
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
+      //       'type': 'String',
+      //       'name': 'paymentAccount',
+      //       'label': 'Расчетный счет',
+      //       'column': 0,
+      //       'hidden': false,
+      //       'inputMask': '99999999999999999999'
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
+      //       'type': 'String',
+      //       'name': 'correspondentAccount',
+      //       'label': 'Корр. Счет',
+      //       'column': 0,
+      //       'hidden': false,
+      //       'inputMask': '99999999999999999999'
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '9', 'email': false, 'required': true},
+      //       'type': 'String',
+      //       'name': 'bankIdentificationAccount',
+      //       'label': 'БИК',
+      //       'column': 0,
+      //       'hidden': false,
+      //       'inputMask': '999999999'
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '256', 'email': false, 'required': true},
+      //       'type': 'String',
+      //       'name': 'bankName',
+      //       'label': 'Наименование банка',
+      //       'column': 0,
+      //       'hidden': false
+      //     },
+      //     {
+      //       'validationTypes': {'email': false, 'required': false},
+      //       'presentationCode': 'common',
+      //       'type': 'List',
+      //       'name': 'additionalDocuments',
+      //       'label': 'Дополнительные документы',
+      //       'column': 0,
+      //       'hidden': false,
+      //       'lookupViewProjectionCode': 'additionalDocumentsLookupViewProjection',
+      //       'lookupSourceProjectionCode': 'additionalDocumentsLookupSourceProjection'
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '12', 'email': false, 'required': false},
+      //       'type': 'String',
+      //       'name': 'status',
+      //       'label': 'Статус',
+      //       'column': 0,
+      //       'hidden': true
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '50', 'email': false, 'required': false},
+      //       'type': 'String',
+      //       'name': 'number',
+      //       'label': 'Номер',
+      //       'column': 0,
+      //       'hidden': true
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '6', 'email': false, 'required': false},
+      //       'type': 'Boolean',
+      //       'name': 'archive',
+      //       'label': 'Архив',
+      //       'column': 0,
+      //       'hidden': true
+      //     },
+      //     {
+      //       'validationTypes': {'maxLength': '15', 'email': false, 'required': false},
+      //       'type': 'String',
+      //       'name': 'operation',
+      //       'label': 'Операция',
+      //       'column': 0,
+      //       'hidden': true
+      //     }, {
+      //       'validationTypes': {'maxLength': '25', 'email': false, 'required': false},
+      //       'type': 'String',
+      //       'name': 'documentClassLabel',
+      //       'label': 'Вид',
+      //       'column': 0,
+      //       'hidden': true
+      //     }
+      //   ],
+      //   'properties': null
+      // }
       // ,
       // {
       //   'fields': [
