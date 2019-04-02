@@ -18,6 +18,7 @@ export * from './lib/projection-grid/model/iad-grid-column.model';
 export * from './lib/projection-grid/projection-grid.module';
 // projection form
 export * from './lib/projection-form/model/projection-form.model';
+export * from './lib/projection-form/model/form-projection-field.model';
 
 // # public-services
 export * from './lib/public-services/iad-projection-tree.service';

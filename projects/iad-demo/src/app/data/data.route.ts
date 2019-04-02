@@ -4,6 +4,7 @@ import {HomeComponent} from './home/home.component';
 import {GridComponent} from './grid/grid.component';
 import {PresentationResolverService} from './resolvers/presentation-resolver.service';
 import {ProjectionNameResolverService} from './resolvers/projection-name-resolver.service';
+import {FormComponent} from './form/form.component';
 
 export const dataRoutes: Routes = <Routes>[
   {
@@ -22,6 +23,14 @@ export const dataRoutes: Routes = <Routes>[
       {
         path: ':presentationCode/:projectionCode',
         component: GridComponent,
+        resolve: {
+          presentation: PresentationResolverService,
+          projectionCode: ProjectionNameResolverService
+        }
+      },
+      {
+        path: 'edit/:presentationCode/:id',
+        component: FormComponent,
         resolve: {
           presentation: PresentationResolverService,
           projectionCode: ProjectionNameResolverService

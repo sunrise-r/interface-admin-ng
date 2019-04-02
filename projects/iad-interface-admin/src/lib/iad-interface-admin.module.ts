@@ -11,6 +11,7 @@ import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
 import { ProjectionGridModule } from './projection-grid/projection-grid.module';
 import {DynamicFormModule} from './customize/dynamic-form/dynamic-form.module';
+import {ProjectionFormModule} from './projection-form/projection-form.module';
 
 @NgModule({
   declarations: [ProjectionTreeComponent],
@@ -21,9 +22,10 @@ import {DynamicFormModule} from './customize/dynamic-form/dynamic-form.module';
     MultiSelectModule,
     PanelMenuModule,
     ProjectionGridModule,
-    DynamicFormModule
+    DynamicFormModule,
+    ProjectionFormModule
   ],
-  exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent],
+  exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent, ProjectionFormModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadInterfaceAdminModule {

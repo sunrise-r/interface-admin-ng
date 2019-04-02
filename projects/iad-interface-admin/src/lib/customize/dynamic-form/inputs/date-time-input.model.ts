@@ -1,5 +1,5 @@
 import { FormatValueInterface, FormInput } from './form-input.model';
-import * as moment from 'moment';
+import * as momentImported from 'moment'; const moment = momentImported;
 
 const NOW = 'NOW';
 

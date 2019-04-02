@@ -12,6 +12,9 @@
         "phone": "Телефон",
         "email": "Email"
       }
+    },
+    "formProjection": {
+      "label1": "Проекция формы 1"
     }
   }
 }

@@ -6,9 +6,10 @@ import { GridComponent } from './grid/grid.component';
 import {IadSharedModule} from '../shared';
 import { HomeComponent } from './home/home.component';
 import {IadInterfaceAdminModule} from 'iad-interface-admin';
+import {FormComponent} from './form/form.component';
 
 @NgModule({
-  declarations: [DataComponent, GridComponent, HomeComponent],
+  declarations: [DataComponent, GridComponent, HomeComponent, FormComponent],
   imports: [
     IadSharedModule,
     RouterModule.forChild(dataRoutes),

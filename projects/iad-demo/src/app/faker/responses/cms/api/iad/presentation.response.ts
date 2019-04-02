@@ -799,17 +799,17 @@ export class PresentationResponse extends AbstractResponse {
             'column': 0,
             'hidden': false
           },
-          {
-            'validationTypes': {'email': false, 'required': false},
-            'presentationCode': 'common',
-            'type': 'List',
-            'name': 'additionalDocuments',
-            'label': 'Дополнительные документы',
-            'column': 0,
-            'hidden': false,
-            'lookupViewProjectionCode': 'additionalDocumentsLookupViewProjection',
-            'lookupSourceProjectionCode': 'additionalDocumentsLookupSourceProjection'
-          },
+          // {
+          //   'validationTypes': {'email': false, 'required': false},
+          //   'presentationCode': 'common',
+          //   'type': 'List',
+          //   'name': 'additionalDocuments',
+          //   'label': 'Дополнительные документы',
+          //   'column': 0,
+          //   'hidden': false,
+          //   'lookupViewProjectionCode': 'additionalDocumentsLookupViewProjection',
+          //   'lookupSourceProjectionCode': 'additionalDocumentsLookupSourceProjection'
+          // },
           {
             'validationTypes': {'maxLength': '12', 'email': false, 'required': false},
             'type': 'String',

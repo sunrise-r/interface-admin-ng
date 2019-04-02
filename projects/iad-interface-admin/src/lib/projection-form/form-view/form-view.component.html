@@ -1,0 +1,15 @@
+<div class="content-flex-wrapper" *ngIf="formInputGroup">
+    <div class="content-flex bordered">
+        <div class="content-flex-inner">
+            <iad-dynamic-form
+                class="content-flex form-wrapper flex-center"
+                [formInputGroup]="formInputGroup"
+                [serverError]="serverError"
+                [inputComponents]="inputComponents"
+                (formSubmit)="onFormSubmit($event)"
+                (formCancel)="onFormCancel()"
+                [context]="predefinedValues"
+            ></iad-dynamic-form>
+        </div>
+    </div>
+</div>
