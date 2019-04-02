@@ -5,11 +5,12 @@ import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../custom
 import {LookupInputModel} from '../inputs/lookup-input.model';
 import {MultipleLookupInputModel} from '../inputs/multiple-lookup-input.model';
 import {GenderSelectionDropdownInput} from '../inputs/gender-selection-dropdown-input.model';
-import {IadFormProjection} from '../model/projection-form.model';
+import {IadFormProjection, IadFormProjectionInterface} from '../model/projection-form.model';
 import {DISABLED, IFormProjectionField, READONLY} from '../model/form-projection-field.model';
 import {FormInput} from '../../customize/dynamic-form/inputs/form-input.model';
 import {InputFactory} from '../../customize/dynamic-form/inputs/input.factory';
 import {ActualSelectionModel} from '../model/actual-selection.model';
+import {IadReferenceProjectionProviderService} from '../../public-services/iad-reference-projection-provider.service';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -45,6 +46,9 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
      */
     @Input('projection')
     formProjection: IadFormProjection;
+
+    @Input()
+    projectionService: IadReferenceProjectionProviderService;
 
     /**
      * Компоненты инпутов для передачи в модуль форм-билдера
@@ -117,18 +121,18 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
                 }
                 requestParams[referenceField.presentationCode].push(referenceField.referenceProjectionCode);
             });
-            // this.projectionService
-            //     .findProjectionsByName(requestParams)
-            //     .toPromise()
-            //     .then((data: DocumentFormProjectionGroup) => {
-            //         const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
-            //         this.formInputGroup = new FormInputGroup({
-            //             children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
-            //         });
-            //     })
-            //     .catch(err => {
-            //         console.error(err);
-            //     });
+            this.projectionService
+                .findProjectionsByName(requestParams)
+                .toPromise()
+                .then((data: {[param: string]: IadFormProjectionInterface}) => {
+                    const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+                    this.formInputGroup = new FormInputGroup({
+                        children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                });
         } else {
             const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
             this.formInputGroup = new FormInputGroup({ children: this.initInputs(fields) });
@@ -174,29 +178,29 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         return result;
     }
-    //
-    // /**
-    //  * Инициализирует список групп инпутов (будут преобразованы в FormGroup) и инпутов (будут преобразованы в FormControl)
-    //  * @param field
-    //  * @param groups
-    //  */
-    // initInputAndGroup(field: IFormProjectionField, groups: DocumentFormProjectionGroup): FormGroupChild {
-    //     if (field.type === 'ProjectionReference') {
-    //         const dataKey = field.presentationCode + '.' + field.referenceProjectionCode;
-    //         if (groups[dataKey]) {
-    //             const inputs = this.initInputs(groups[dataKey].fields, field.name);
-    //             return new FormInputGroup({
-    //                 column: field.column,
-    //                 key: field.name,
-    //                 label: field.label,
-    //                 children: inputs
-    //             });
-    //         }
-    //     } else {
-    //         return this.initFormInput(field);
-    //     }
-    // }
-    //
+
+    /**
+     * Инициализирует список групп инпутов (будут преобразованы в FormGroup) и инпутов (будут преобразованы в FormControl)
+     * @param field
+     * @param groups
+     */
+    initInputAndGroup(field: IFormProjectionField, groups: {[param: string]: IadFormProjectionInterface} ): FormGroupChild {
+        if (field.type === 'ProjectionReference') {
+            const dataKey = field.presentationCode + '.' + field.referenceProjectionCode;
+            if (groups[dataKey]) {
+                const inputs = this.initInputs(groups[dataKey].fields, field.name);
+                return new FormInputGroup({
+                    column: field.column,
+                    key: field.name,
+                    label: field.label,
+                    children: inputs
+                });
+            }
+        } else {
+            return this.initFormInput(field);
+        }
+    }
+
     /**
      * Инициализирует FormInput для DTO (информации о поле проекции), который (будут преобразованы в FormControl)
      * @param field

@@ -10,7 +10,7 @@ export class PresentationLoadService {
 
   constructor(private iadPresentationLoadService: IadPresentationLoadService) { }
 
-  findListPresentation(presentationName: string): Observable<IadPresentationInterface> {
+  findPresentation(presentationName: string): Observable<IadPresentationInterface> {
     return this.iadPresentationLoadService.request(presentationName, 'partnercms/api/iad/presentation/' + presentationName);
   }
 

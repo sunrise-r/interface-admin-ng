@@ -788,6 +788,16 @@ export class PresentationResponse extends AbstractResponse {
             'column': 0,
             'hidden': false
           },
+          {
+            'validationTypes': {'email': false, 'required': false},
+            'type': 'ProjectionReference',
+            'name': 'formReference',
+            'label': 'Дополнительные поля',
+            'column': 0,
+            'hidden': false,
+            'referenceProjectionCode': 'formReference',
+            'presentationCode': 'presentationOne'
+          },
         ],
         'properties': null
       }

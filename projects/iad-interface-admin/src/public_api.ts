@@ -19,6 +19,9 @@ export * from './lib/projection-grid/projection-grid.module';
 // projection form
 export * from './lib/projection-form/model/projection-form.model';
 export * from './lib/projection-form/model/form-projection-field.model';
+export * from './lib/public-services/iad-projection-load.service';
+export * from './lib/public-services/iad-reference-projection-provider.service';
+export * from './lib/customize/fa/fa4AngleDoubleDown';
 
 // # public-services
 export * from './lib/public-services/iad-projection-tree.service';

@@ -14,6 +14,6 @@ export class PresentationResolverService implements Resolve<IadPresentationInter
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IadPresentationInterface> {
     const presentationCode = route.params['presentationCode'] ? StringHelper.kebabToCamel(route.params['presentationCode'], false) : null;
-    return this.presentationLoader.findListPresentation(presentationCode);
+    return this.presentationLoader.findPresentation(presentationCode);
   }
 }
