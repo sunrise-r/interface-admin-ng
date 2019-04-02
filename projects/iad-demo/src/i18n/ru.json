@@ -16,5 +16,64 @@
     "formProjection": {
       "label1": "Проекция формы 1"
     }
+  },
+  "calendar": {
+    "dayNames": {
+      "Sunday": "Воскресенье",
+      "Monday": "Понедельник",
+      "Tuesday": "Вторник",
+      "Wednesday": "Среда",
+      "Thursday": "Четверг",
+      "Friday": "Пятница",
+      "Saturday": "Суббота"
+    },
+    "dayNamesShort": {
+      "Sun": "Вос",
+      "Mon": "Пон",
+      "Tue": "Вто",
+      "Wed": "Сре",
+      "Thu": "Чет",
+      "Fri": "Пят",
+      "Sat": "Суб"
+    },
+    "dayNamesMin": {
+      "Su": "Вс",
+      "Mo": "Пн",
+      "Tu": "Вт",
+      "We": "Ср",
+      "Th": "Чт",
+      "Fr": "Пт",
+      "Sa": "Сб"
+    },
+    "monthNames": {
+      "January": "Январь",
+      "February": "Февраль",
+      "March": "Март",
+      "April": "Апрель",
+      "May": "Май",
+      "June": "Июнь",
+      "July": "Июль",
+      "August": "Август",
+      "September": "Сентябрь",
+      "October": "Октябрь",
+      "November": "Ноябрь",
+      "December": "Декабрь"
+    },
+    "monthNamesShort": {
+      "Jan": "Янв",
+      "Feb": "Фев",
+      "Mar": "Мар",
+      "Apr": "Апр",
+      "May": "Май",
+      "Jun": "Июн",
+      "Jul": "Июл",
+      "Aug": "Авг",
+      "Sep": "Сен",
+      "Oct": "Окт",
+      "Nov": "Ноя",
+      "Dec": "Дек"
+    },
+    "Today": "Сегодня",
+    "Clear": "Очистить"
   }
 }
