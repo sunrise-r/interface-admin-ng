@@ -71,13 +71,13 @@
             <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
           </div>
           <!--We need to replace header menu to upper level-->
-          <!--<jhi-table-header-menu-->
+          <!--<iad-table-header-menu-->
             <!--*ngIf="hasColumnMenu(col)"-->
             <!--[columns]="columns"-->
             <!--[column]="col"-->
             <!--[defaultSortField]="defaultSortField"-->
             <!--[groupSettingsKey]="groupSettingsKey"-->
-            <!--(freeze)="onFrozenColumn($event)"></jhi-table-header-menu>-->
+            <!--(freeze)="onFrozenColumn($event)"></iad-table-header-menu>-->
         </th>
       </ng-template>
     </tr>
@@ -117,10 +117,10 @@
       <!--<thead>-->
       <!--<tr>-->
         <!--<th>-->
-          <!--<jhi-table-search-panel-->
+          <!--<iad-table-search-panel-->
             <!--[resetFilter]="resetFilter"-->
             <!--(search)="onSearch($event)"-->
-          <!--&gt;</jhi-table-search-panel>-->
+          <!--&gt;</iad-table-search-panel>-->
         <!--</th>-->
       <!--</tr>-->
       <!--</thead>-->
@@ -131,14 +131,14 @@
     <!--<table [hidden]="!showSearchPanel" class="table-search-panel partner-table">-->
       <!--<colgroup>-->
         <!--<ng-template ngFor let-col [ngForOf]="columns">-->
-          <!--<col *ngIf="col.visible" [jhiTableColumnSize]="col.width">-->
+          <!--<col *ngIf="col.visible" [iadTableColumnSize]="col.width">-->
         <!--</ng-template>-->
       <!--</colgroup>-->
       <!--<thead>-->
       <!--<tr>-->
         <!--<ng-template ngFor let-col [ngForOf]="columns">-->
           <!--<th *ngIf="col.visible">-->
-            <!--<div class="jhi-table-search-panel-placeholder"></div>-->
+            <!--<div class="iad-table-search-panel-placeholder"></div>-->
           <!--</th>-->
         <!--</ng-template>-->
       <!--</tr>-->

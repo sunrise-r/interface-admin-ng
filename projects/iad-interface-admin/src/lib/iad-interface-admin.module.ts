@@ -9,7 +9,8 @@ import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import { IadConfigService } from './config.service';
 import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
-import { ProjectionGridModule } from './projection-grid/projection-grid.module'
+import { ProjectionGridModule } from './projection-grid/projection-grid.module';
+import {DynamicFormModule} from './customize/dynamic-form/dynamic-form.module';
 
 @NgModule({
   declarations: [ProjectionTreeComponent],
@@ -19,7 +20,8 @@ import { ProjectionGridModule } from './projection-grid/projection-grid.module'
     HttpClientModule,
     MultiSelectModule,
     PanelMenuModule,
-    ProjectionGridModule
+    ProjectionGridModule,
+    DynamicFormModule
   ],
   exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
