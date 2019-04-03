@@ -742,8 +742,8 @@ export class PresentationResponse extends AbstractResponse {
     ];
     data.formProjections = [
       {
-        'className': 'BankAccount',
-        'code': 'BankAccount',
+        'className': 'CustomClass',
+        'code': 'form-projection',
         'title': 'Редактирование',
         'fields': [
           {

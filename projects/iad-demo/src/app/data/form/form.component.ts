@@ -31,7 +31,7 @@ export class FormComponent implements OnInit {
         // And we don't need projectionCode for this case
         this.projection = <IadFormProjectionInterface>ProjectionsHelper
           .filterFormProjections(presentation, PROJECTION_TYPE.FORM)
-          .find(_projection => _projection.code === 'BankAccount');
+          .find(_projection => _projection.code === 'form-projection');
 
         this.fields = this.projection.fields;
       });

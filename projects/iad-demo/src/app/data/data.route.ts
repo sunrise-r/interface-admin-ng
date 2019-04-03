@@ -22,19 +22,20 @@ export const dataRoutes: Routes = <Routes>[
       },
       {
         path: ':presentationCode/:projectionCode',
-        component: GridComponent,
         resolve: {
           presentation: PresentationResolverService,
           projectionCode: ProjectionNameResolverService
-        }
-      },
-      {
-        path: 'edit/:presentationCode/:id',
-        component: FormComponent,
-        resolve: {
-          presentation: PresentationResolverService,
-          projectionCode: ProjectionNameResolverService
-        }
+        },
+        children: [
+          {
+            path: '',
+            component: GridComponent
+          },
+          {
+            path: 'edit/:id',
+            component: FormComponent
+          }
+        ]
       }
     ]
   }

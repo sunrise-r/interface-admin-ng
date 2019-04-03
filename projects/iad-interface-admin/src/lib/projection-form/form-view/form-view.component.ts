@@ -11,6 +11,7 @@ import {FormInput} from '../../customize/dynamic-form/inputs/form-input.model';
 import {InputFactory} from '../../customize/dynamic-form/inputs/input.factory';
 import {ActualSelectionModel} from '../model/actual-selection.model';
 import {IadReferenceProjectionProviderService} from '../../public-services/iad-reference-projection-provider.service';
+import {IadDataOperationsService} from '../../public-services/iad-data-operations.service';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -78,6 +79,7 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
     serverError: HttpErrorResponse;
 
     constructor(
+      private iadDataOperationsService: IadDataOperationsService,
         // private activatedRoute: ActivatedRoute,
         // private router: Router,
         // private stateStorageService: StateStorageService,
@@ -230,6 +232,9 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
     }
 
     onFormSubmit(value: any) {
+      this.iadDataOperationsService.saveData(value).subscribe(
+        (response: any) => this.redirect(),
+        (err: any) => this.onError(err));
         // const fileInputKeys = this.findFileInputsRecursive(this.formInputGroup);
         // this.formSenderSubscription = this.formSender
         //     .performOperation(this.actionCode, value, this.formProjection.code, this.operationId, fileInputKeys)
