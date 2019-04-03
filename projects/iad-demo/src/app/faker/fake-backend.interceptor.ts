@@ -11,6 +11,7 @@ import {userDeleteConditionCallback, UserDeleteResponse} from './responses/user/
 import {projectionTreeConditionCallback, ProjectionTreeResponse} from './responses/projection-tree.response';
 import {presentationConditionCallback, PresentationResponse} from './responses/cms/api/iad/presentation.response';
 import {phonebookConditionCallback, PhonebookResponse} from './responses/documents/api/_search/phonebook.response';
+import {phonebookShowConditionCallback, PhonebookShowResponse} from './responses/documents/api/show/phonebook-show.response';
 import {projectionReferenceConditionCallback, ProjectionReferenceResponse} from './responses/cms/api/iad/projection-reference.response';
 
 class FakerRegistry {
@@ -33,6 +34,7 @@ const registry = [
     new FakerRegistry(ProjectionTreeResponse, projectionTreeConditionCallback),
     new FakerRegistry(PresentationResponse, presentationConditionCallback),
     new FakerRegistry(PhonebookResponse, phonebookConditionCallback),
+    new FakerRegistry(PhonebookShowResponse, phonebookShowConditionCallback),
     new FakerRegistry(ProjectionReferenceResponse, projectionReferenceConditionCallback)
 ];
 

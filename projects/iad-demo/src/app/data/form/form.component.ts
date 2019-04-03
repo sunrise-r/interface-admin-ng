@@ -19,19 +19,22 @@ export class FormComponent implements OnInit {
 
   presentationCode: string;
 
+  rawFormData: any;
+
   routerSubscription: Subscription;
 
-  constructor(private route: ActivatedRoute, private router: Router, private projectionService: ReferenceProjectionProviderService) { }
+  constructor(private route: ActivatedRoute, private router: Router, public projectionService: ReferenceProjectionProviderService) { }
 
   ngOnInit() {
       this.routerSubscription = this.route.data.subscribe(data => {
         const presentation: IadPresentation = data.presentation;
         this.presentationCode = data.presentation.code;
+        this.rawFormData = data.rawFormData;
         // Actually we have only one list projection to show and it's name is 'main';
         // And we don't need projectionCode for this case
         this.projection = <IadFormProjectionInterface>ProjectionsHelper
           .filterFormProjections(presentation, PROJECTION_TYPE.FORM)
-          .find(_projection => _projection.code === 'form-projection');
+          .find(_projection => _projection.code === data.projectionCode);
 
         this.fields = this.projection.fields;
       });

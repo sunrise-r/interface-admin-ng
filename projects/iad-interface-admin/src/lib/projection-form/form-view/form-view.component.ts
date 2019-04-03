@@ -72,7 +72,7 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
   /**
      * Raw data to fill the form
      */
-    @Input('rawFormData')
+    @Input()
     rawFormData: any;
 
     /**
@@ -286,9 +286,7 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
             }
         }
         if (!options.value && this.rawFormData) {
-            options.value = field.dataSourcePath
-                ? this.resolveItemsPath(field.dataSourcePath, this.rawFormData)
-                : this.rawFormData.properties ? this.rawFormData.properties[field.name] : null;
+            options.value = this.rawFormData ? this.rawFormData[field.name] : null;
         }
         return options;
     }

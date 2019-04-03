@@ -5,6 +5,7 @@ import {GridComponent} from './grid/grid.component';
 import {PresentationResolverService} from './resolvers/presentation-resolver.service';
 import {ProjectionNameResolverService} from './resolvers/projection-name-resolver.service';
 import {FormComponent} from './form/form.component';
+import {RawDataResolverService} from './resolvers/raw-data-resolver.service';
 
 export const dataRoutes: Routes = <Routes>[
   {
@@ -33,7 +34,13 @@ export const dataRoutes: Routes = <Routes>[
           },
           {
             path: 'edit/:id',
-            component: FormComponent
+            component: FormComponent,
+            data: {
+              apiPath: '/partnerdocuments/api/phonebook/'
+            },
+            resolve: {
+              rawFormData: RawDataResolverService
+            }
           }
         ]
       }

@@ -25,7 +25,7 @@ export class ProjectionTreeResponse extends AbstractResponse {
             label: 'presentation.projection.label2'
           },
           <ProjectionTreeModel>{
-              routerLink: ['/data/presentation-one/form-projection-one/edit/42'],
+              routerLink: ['/data/presentation-one/form-projection/edit/42'],
               code: 'formProjectionTwo',
               label: 'presentation.formProjection.label1'
           }

@@ -13,7 +13,7 @@ export const projectionReferenceConditionCallback = (request) => {
 export class ProjectionReferenceResponse extends AbstractResponse {
   getResponse(): Observable<HttpResponse<{[param: string]: IadFormProjection}>> {
     const projection = new IadFormProjection();
-    projection.code = 'formReference';
+    projection.code = 'additionalFields';
     projection.title = 'Ссылка';
     projection.fields = [
       {
@@ -35,7 +35,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
       },
     ];
     projection.properties = [];
-    const response = {'presentationOne.formReference': projection};
+    const response = {'presentationOne.additionalFields': projection};
     return of(new HttpResponse({status: 200, body: response}));
   }
 }

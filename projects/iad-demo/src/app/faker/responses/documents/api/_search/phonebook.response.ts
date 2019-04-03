@@ -2,21 +2,11 @@ import {Observable, of} from 'rxjs';
 import {HttpHeaders, HttpResponse} from '@angular/common/http';
 
 import {AbstractResponse} from '../../../abstract.response';
+import {PhoneBook} from '../../model/phonebook.model';
 
 export const phonebookConditionCallback = (request) => {
   return request.url.match(/partnerdocuments\/api\/_search\/phonebook$/) && request.method === 'GET';
 };
-
-export class PhoneBook {
-  constructor(
-    public id: number,
-    public nameField: string,
-    public surnameField: string,
-    public birthDate: string,
-    public phone: string,
-    public email: string
-  ) {}
-}
 
 // IadProjectionInterface
 export class PhonebookResponse extends AbstractResponse {

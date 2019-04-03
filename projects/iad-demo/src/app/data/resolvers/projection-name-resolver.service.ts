@@ -9,7 +9,7 @@ import {StringHelper} from 'iad-interface-admin';
 export class ProjectionNameResolverService implements Resolve<string> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
     const projectionCode = route.params['projectionCode'];
-    return StringHelper.kebabToCamel(projectionCode);
+    return StringHelper.toCamelCase(projectionCode, true);
   }
 
 }

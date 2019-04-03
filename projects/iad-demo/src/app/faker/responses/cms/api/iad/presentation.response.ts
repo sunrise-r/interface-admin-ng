@@ -743,7 +743,7 @@ export class PresentationResponse extends AbstractResponse {
     data.formProjections = [
       {
         'className': 'CustomClass',
-        'code': 'form-projection',
+        'code': 'formProjection',
         'title': 'Редактирование',
         'fields': [
           {
@@ -772,13 +772,13 @@ export class PresentationResponse extends AbstractResponse {
             'hidden': false,
           },
           {
-            'validationTypes': {'maxLength': '9', 'email': false, 'required': false},
+            'validationTypes': {'maxLength': '10', 'email': false, 'required': false},
             'type': 'String',
             'name': 'phone',
             'label': 'Телефон',
             'column': 0,
             'hidden': false,
-            'inputMask': '999999999'
+            'inputMask': '(999) 999-99-99'
           },
           {
             'validationTypes': {'maxLength': '256', 'email': true, 'required': true},
@@ -791,11 +791,11 @@ export class PresentationResponse extends AbstractResponse {
           {
             'validationTypes': {'email': false, 'required': false},
             'type': 'ProjectionReference',
-            'name': 'formReference',
+            'name': 'additionalFields',
             'label': 'Дополнительные поля',
             'column': 0,
             'hidden': false,
-            'referenceProjectionCode': 'formReference',
+            'referenceProjectionCode': 'additionalFields',
             'presentationCode': 'presentationOne'
           },
         ],
