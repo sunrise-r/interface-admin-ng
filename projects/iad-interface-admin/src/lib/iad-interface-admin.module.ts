@@ -1,17 +1,18 @@
-import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
-import { ProjectionTreeComponent } from './projection-tree/projection-tree.component';
+import {ProjectionTreeComponent} from './projection-tree/projection-tree.component';
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
-import { IadConfigService } from './config.service';
-import { MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
+import {IadConfigService} from './config.service';
+import {MultiSelectModule, PanelMenuModule} from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
-import { ProjectionGridModule } from './projection-grid/projection-grid.module';
+import {ProjectionGridModule} from './projection-grid/projection-grid.module';
 import {DynamicFormModule} from './customize/dynamic-form/dynamic-form.module';
 import {ProjectionFormModule} from './projection-form/projection-form.module';
+import {IadRouterHistoryService} from './public-services/iad-router-history.service';
 
 @NgModule({
   declarations: [ProjectionTreeComponent],
@@ -49,7 +50,7 @@ export class IadInterfaceAdminModule {
     };
   }
 
-  constructor(translate: TranslateService, config: IadConfigService) {
+  constructor(translate: TranslateService, config: IadConfigService, iadRouterHistoryService: IadRouterHistoryService) {
     // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang(config.getConfig().defaultI18nLang);
 

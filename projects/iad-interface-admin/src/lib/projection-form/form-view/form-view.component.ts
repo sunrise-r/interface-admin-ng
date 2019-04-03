@@ -12,6 +12,8 @@ import {InputFactory} from '../../customize/dynamic-form/inputs/input.factory';
 import {ActualSelectionModel} from '../model/actual-selection.model';
 import {IadReferenceProjectionProviderService} from '../../public-services/iad-reference-projection-provider.service';
 import {IadDataOperationsService} from '../../public-services/iad-data-operations.service';
+import {IadRouterHistoryService} from '../../public-services/iad-router-history.service';
+import {Router} from '@angular/router';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -79,9 +81,10 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
     serverError: HttpErrorResponse;
 
     constructor(
-      private iadDataOperationsService: IadDataOperationsService,
+        private iadDataOperationsService: IadDataOperationsService,
+        private iadRouterHistoryService: IadRouterHistoryService,
         // private activatedRoute: ActivatedRoute,
-        // private router: Router,
+        private router: Router,
         // private stateStorageService: StateStorageService,
         // private presentationService: PresentationService,
         // private projectionService: ProjectionsApiService,
@@ -311,12 +314,7 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
      * При успешной отправке данных редиректисм пользователя к списку
      */
     private redirect() {
-        // let redirect = this.stateStorageService.getUrl();
-        // if (!redirect) {
-        //     redirect = '/';
-        // }
-        // this.stateStorageService.storeUrl(null);
-        // this.router.navigate([redirect]);
+      this.router.navigate([this.iadRouterHistoryService.previousUrl]);
     }
 
     /**
