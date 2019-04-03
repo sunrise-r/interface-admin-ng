@@ -1,6 +1,5 @@
-import {AfterContentInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterContentInit, Component, Input} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Subscription} from 'rxjs';
 import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../customize/dynamic-form/form-input-group';
 import {LookupInputModel} from '../inputs/lookup-input.model';
 import {MultipleLookupInputModel} from '../inputs/multiple-lookup-input.model';
@@ -9,7 +8,6 @@ import {IadFormProjection, IadFormProjectionInterface} from '../model/projection
 import {DISABLED, IFormProjectionField, READONLY} from '../model/form-projection-field.model';
 import {FormInput} from '../../customize/dynamic-form/inputs/form-input.model';
 import {InputFactory} from '../../customize/dynamic-form/inputs/input.factory';
-import {ActualSelectionModel} from '../model/actual-selection.model';
 import {IadReferenceProjectionProviderService} from '../../public-services/iad-reference-projection-provider.service';
 import {IadDataOperationsService} from '../../public-services/iad-data-operations.service';
 import {IadRouterHistoryService} from '../../public-services/iad-router-history.service';
@@ -31,7 +29,7 @@ const inputComponents = {
     templateUrl: './form-view.component.html',
     styles: []
 })
-export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
+export class FormViewComponent implements AfterContentInit {
     /**
      * Код нажатой в тулбаре кнопки
      */
@@ -41,8 +39,6 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
      * Инпуты формы для передачи в компонент генератора формы
      */
     formInputGroup: FormInputGroup;
-
-    formSenderSubscription: Subscription;
 
     /**
      * Проекция по которой строится форма
@@ -57,11 +53,6 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
      * Компоненты инпутов для передачи в модуль форм-билдера
      */
     inputComponents = inputComponents;
-
-    /**
-     * Номер документа
-     */
-    operationId: any;
 
     /**
      * Предустановленные значения для полей формы
@@ -83,34 +74,11 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
     constructor(
         private iadDataOperationsService: IadDataOperationsService,
         private iadRouterHistoryService: IadRouterHistoryService,
-        // private activatedRoute: ActivatedRoute,
-        private router: Router,
-        // private stateStorageService: StateStorageService,
-        // private presentationService: PresentationService,
-        // private projectionService: ProjectionsApiService,
-        // private formSender: DocumentOperationsService,
-        // private infoBufferService: DocumentInfoBufferService
+        private router: Router
     ) {}
-
-    ngOnInit() {
-        // this.activatedRoute.data.subscribe(({ action, model, predefinedValues, rawData, operationId }) => {
-        //     if (model) {
-        //         this.formProjection = model;
-        //         this.actionCode = action;
-        //         this.predefinedValues = predefinedValues;
-        //         this.rawFormData = rawData;
-        //         this.operationId = operationId;
-        //         this.initForm();
-        //     }
-        // });
-    }
 
     ngAfterContentInit() {
         this.initForm();
-    }
-
-    ngOnDestroy(): void {
-        // this.infoBufferService.clear();
     }
 
     /**
@@ -238,10 +206,6 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
       this.iadDataOperationsService.saveData(value).subscribe(
         (response: any) => this.redirect(),
         (err: any) => this.onError(err));
-        // const fileInputKeys = this.findFileInputsRecursive(this.formInputGroup);
-        // this.formSenderSubscription = this.formSender
-        //     .performOperation(this.actionCode, value, this.formProjection.code, this.operationId, fileInputKeys)
-        //     .subscribe((response: any) => this.redirect(), (err: any) => this.onError(err));
     }
 
     /**
@@ -249,26 +213,6 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
      */
     onFormCancel() {
         this.redirect();
-    }
-
-    /**
-     * Рекурсивный поиск ключей инпутов типа file..
-     * @param group FormInputGroup
-     * @param parentInput string
-     */
-    private findFileInputsRecursive(group: FormGroupChild, parentInput = ''): string[] {
-        let fileInputs: string[] = [];
-        (<FormInputGroup>group).children.forEach((childColumn: FormGroupChildColumn) => {
-            childColumn.forEach((child: FormGroupChild) => {
-                const childKey = (parentInput ? parentInput + '.' : '') + child.key;
-                if ((<FormInputGroup>child).children) {
-                    fileInputs = fileInputs.concat(this.findFileInputsRecursive(child, childKey));
-                } else if (child.controlType === 'file') {
-                    fileInputs.push(childKey);
-                }
-            });
-        });
-        return fileInputs;
     }
 
     /**
@@ -289,23 +233,6 @@ export class FormViewComponent implements OnInit, OnDestroy, AfterContentInit {
             options.value = this.rawFormData ? this.rawFormData[field.name] : null;
         }
         return options;
-    }
-
-    /**
-     * Resolve source items for lookupViewProjections
-     */
-    private resolveItemsPath(path: string, selection: ActualSelectionModel): any {
-        if (!selection) {
-            return selection;
-        }
-        const pathArray = path.split('.');
-        let diver: any = selection;
-        let level = 0;
-        while (level < pathArray.length) {
-            diver = diver[pathArray[level]];
-            level++;
-        }
-        return diver;
     }
 
     /**
