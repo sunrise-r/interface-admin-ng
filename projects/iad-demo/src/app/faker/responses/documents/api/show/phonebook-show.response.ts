@@ -5,7 +5,7 @@ import {AbstractResponse} from '../../../abstract.response';
 import {PhoneBook} from '../../model/phonebook.model';
 
 export const phonebookShowConditionCallback = (request) => {
-  return request.url.match(/partnerdocuments\/api\/phonebook\/42$/) && request.method === 'GET';
+  return request.url.match(/partnerdocuments\/api\/phonebook\/\d+$/) && request.method === 'GET';
 };
 
 // IadProjectionInterface

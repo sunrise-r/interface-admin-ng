@@ -198,7 +198,10 @@ export class PresentationResponse extends AbstractResponse {
             'translate': true,
             'visible': true,
             'formatter': 'actions',
-            'displayFormat': 'edit|delete'
+            'displayFormat': 'edit|delete',
+            'properties': {
+              'editUrl': '/data/presentation-one/form-projection/edit'
+            }
           }
         ],
         'settingsGroupName': null,
