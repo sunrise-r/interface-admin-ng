@@ -10,7 +10,8 @@
         "surnameField": "Фамилия",
         "birthDate": "Дата рождения",
         "phone": "Телефон",
-        "email": "Email"
+        "email": "Email",
+        "actions": "Действия"
       }
     },
     "formProjection": {

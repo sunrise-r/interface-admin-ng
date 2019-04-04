@@ -1,0 +1,21 @@
+import {Component} from '@angular/core';
+import {TableTdContentInterface} from './column-components.model';
+import {IadGridColumn} from '../model/iad-grid-column.model';
+
+@Component({
+  selector: 'iad-action-column',
+  template: `<div style="text-align: center">
+    <a href="#"><fa-icon *ngIf="display('edit')" [icon]="'edit'" [size]="'2x'" style="color: dimgray"></fa-icon></a>
+    <a href="#"><fa-icon *ngIf="display('delete')" [icon]="'trash'" [size]="'2x'" style="color: dimgray"></fa-icon></a>
+  </div>`
+})
+export class ActionsColumnComponent implements TableTdContentInterface {
+  col: IadGridColumn;
+  selected: boolean;
+  rowData: any;
+  disabled: boolean;
+
+  display(action: string): boolean {
+    return this.col.displayFormat.split('|').find(e => e === action) !== undefined;
+  }
+}

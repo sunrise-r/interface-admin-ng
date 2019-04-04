@@ -10,14 +10,15 @@ import {GridTdHostDirective} from './grid/grid-td-host.directive';
 import {SelectionIndicatorColumnComponent} from './column-components/selection-indicator-column.component';
 import {DefaultColumnComponent} from './column-components/default-column.component';
 import {SpecialColumnComponent} from './column-components/special-column.component';
+import {ActionsColumnComponent} from './column-components/actions-column.component';
 
 @NgModule({
-  declarations: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent, TableColumnFilterComponent, GridComponent, GridTdHostDirective, SelectionIndicatorColumnComponent, DefaultColumnComponent, SpecialColumnComponent],
+  declarations: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent, TableColumnFilterComponent, GridComponent, GridTdHostDirective, SelectionIndicatorColumnComponent, DefaultColumnComponent, SpecialColumnComponent, ActionsColumnComponent],
   imports: [
     IadPrimengModule,
     IadSharedModule,
   ],
-  entryComponents: [SelectionIndicatorColumnComponent, DefaultColumnComponent, SpecialColumnComponent],
+  entryComponents: [SelectionIndicatorColumnComponent, DefaultColumnComponent, SpecialColumnComponent, ActionsColumnComponent],
   exports: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent]
 })
 export class ProjectionGridModule { }

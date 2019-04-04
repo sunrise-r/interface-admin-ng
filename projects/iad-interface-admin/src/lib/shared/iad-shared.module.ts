@@ -8,9 +8,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faChevronUp, faChevronDown, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import {faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faChevronUp, faChevronDown, faChevronLeft, faChevronRight);
+library.add(faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faEdit, faTrash);
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

@@ -191,6 +191,14 @@ export class PresentationResponse extends AbstractResponse {
             'sorting': true,
             'position': null,
             'properties': null
+          },
+          {
+            'field': 'actions',
+            'header': 'presentation.projection.main.actions',
+            'translate': true,
+            'visible': true,
+            'formatter': 'actions',
+            'displayFormat': 'edit|delete'
           }
         ],
         'settingsGroupName': null,
