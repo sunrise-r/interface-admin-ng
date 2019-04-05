@@ -19,6 +19,8 @@ export class FormComponent implements OnInit {
 
   presentationCode: string;
 
+  postDataUrl: any;
+
   rawFormData: any;
 
   routerSubscription: Subscription;
@@ -29,6 +31,7 @@ export class FormComponent implements OnInit {
       this.routerSubscription = this.route.data.subscribe(data => {
         const presentation: IadPresentation = data.presentation;
         this.presentationCode = data.presentation.code;
+        this.postDataUrl = data.postDataUrl;
         this.rawFormData = data.rawFormData;
         // Actually we have only one list projection to show and it's name is 'main';
         // And we don't need projectionCode for this case

@@ -11,6 +11,6 @@ export class RawDataResolverService implements Resolve<{[param: string]: any}> {
   constructor(private http: HttpClient) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{[param: string]: any}> | Promise<{[param: string]: any}> {
-    return this.http.get<any>(route.data.apiPath + route.params.id, { observe: 'body' });
+    return this.http.get<any>(route.data.getDataUrl + route.params.id, { observe: 'body' });
   }
 }

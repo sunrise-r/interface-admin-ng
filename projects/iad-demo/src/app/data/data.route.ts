@@ -36,7 +36,8 @@ export const dataRoutes: Routes = <Routes>[
             path: 'edit/:id',
             component: FormComponent,
             data: {
-              apiPath: '/partnerdocuments/api/phonebook/'
+              getDataUrl: '/partnerdocuments/api/phonebook/',
+              postDataUrl: '/api/phonebook/edit'
             },
             resolve: {
               rawFormData: RawDataResolverService

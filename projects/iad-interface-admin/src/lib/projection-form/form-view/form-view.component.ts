@@ -59,8 +59,10 @@ export class FormViewComponent implements AfterContentInit {
      */
     predefinedValues: any;
 
+    @Input()
+    postDataUrl: string;
 
-  /**
+    /**
      * Raw data to fill the form
      */
     @Input()
@@ -206,7 +208,7 @@ export class FormViewComponent implements AfterContentInit {
     }
 
     onFormSubmit(value: any) {
-      this.iadDataOperationsService.saveData(value).subscribe(
+      this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
         (response: any) => this.redirect(),
         (err: any) => this.onError(err));
     }
