@@ -14,7 +14,7 @@ import {ContextAware} from '../context-aware';
                 <p-header>
                     <div class="block-title link" (click)="panel.toggle($event)">
                         <fa-icon [icon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" class="text-left"></fa-icon>
-                        {{this.config.label}}
+                        {{config.translate ? (config.label | translate) : config.label}}
                     </div>
                 </p-header>
                 <div [formGroupName]="config.key" *ngIf="childGroup">

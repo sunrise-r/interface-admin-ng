@@ -7,7 +7,9 @@ import { ValidationInput } from './validation-input';
     selector: 'iad-form-file',
     template: `
     <ng-container [formGroup]="group">
-        <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">{{config.label}}</label>
+        <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
+          {{config.translate ? (config.label | translate) : config.label}}
+        </label>
         <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
             <iad-file-upload
                 class="custom-form-control"

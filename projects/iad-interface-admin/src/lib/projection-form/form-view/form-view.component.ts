@@ -166,6 +166,7 @@ export class FormViewComponent implements AfterContentInit {
                     column: field.column,
                     key: field.name,
                     label: field.label,
+                    translate: field.translate,
                     children: inputs
                 });
             }
@@ -194,7 +195,8 @@ export class FormViewComponent implements AfterContentInit {
             referenceProjectionCode: field.referenceProjectionCode || null,
             inputMask: field.inputMask || null,
             valueField: field.valueField,
-            dataSourcePath: field.dataSourcePath || null
+            dataSourcePath: field.dataSourcePath || null,
+            translate: field.translate || false
         };
         if (field.properties) {
             Object.assign(options, field.properties);

@@ -20,17 +20,19 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'validationTypes': {'maxLength': '20', 'email': false, 'required': false},
         'type': 'String',
         'name': 'firstField',
-        'label': 'Первое поле',
+        'label': 'presentation.projection.main.firstField',
         'column': 0,
         'hidden': false,
+        'translate': true
       },
       {
         'validationTypes': {'email': false, 'required': false},
         'type': 'String',
         'name': 'secondField',
-        'label': 'Второе поле',
+        'label': 'presentation.projection.main.secondField',
         'column': 0,
         'hidden': false,
+        'translate': true,
         'inputMask': '99999999'
       },
     ];

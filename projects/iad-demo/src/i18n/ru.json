@@ -11,7 +11,10 @@
         "birthDate": "Дата рождения",
         "phone": "Телефон",
         "email": "Email",
-        "actions": "Действия"
+        "actions": "Действия",
+        "additionalFields": "Дополнительные поля",
+        "firstField": "Первое поле",
+        "secondField": "Второе поле"
       }
     },
     "formProjection": {
