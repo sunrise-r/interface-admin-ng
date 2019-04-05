@@ -196,7 +196,8 @@ export class FormViewComponent implements AfterContentInit {
             inputMask: field.inputMask || null,
             valueField: field.valueField,
             dataSourcePath: field.dataSourcePath || null,
-            translate: field.translate || false
+            // TODO: set default value to false after the according field is added to form projections
+            translate: field.translate || true
         };
         if (field.properties) {
             Object.assign(options, field.properties);
