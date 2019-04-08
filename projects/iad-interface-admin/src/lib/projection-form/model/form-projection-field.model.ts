@@ -13,7 +13,8 @@ export interface IFormProjectionField {
     lookupViewProjectionCode?: string; // Код лист-проекции для отображения данных в Lookup
     referenceProjectionCode?: string; // Код форм-проекции, которую нужно отобразить как вложенную группу полей данной формы
     hidden: boolean; // Поле игнорируется при выводе html-input
-    translate?: boolean;
+    visible: boolean; // Поле отображается при выводе или скрывается
+    translate?: boolean; // Производится перевод по метке
     inputMask?: string; // Маска ввода для плагинов ввода по маске
     validationTypes: {
         email?: boolean;

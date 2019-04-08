@@ -23,6 +23,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'label': 'presentation.projection.main.firstField',
         'column': 0,
         'hidden': false,
+        'visible': true,
         'translate': true
       },
       {
@@ -32,6 +33,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'label': 'presentation.projection.main.secondField',
         'column': 0,
         'hidden': false,
+        'visible': true,
         'translate': true,
         'inputMask': '99999999'
       },

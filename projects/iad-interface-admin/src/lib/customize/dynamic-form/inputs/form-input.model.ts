@@ -16,6 +16,7 @@ export class FormInput<T> {
     controlType: string;
     disabled: boolean;
     readonly: boolean;
+    visible: boolean;
     translate: boolean;
 
     constructor(
@@ -29,6 +30,7 @@ export class FormInput<T> {
             disabled?: boolean;
             readonly?: boolean;
             column?: number;
+            visible?: boolean;
             translate?: boolean;
         } = {}
     ) {
@@ -41,6 +43,7 @@ export class FormInput<T> {
         this.disabled = options.disabled || false;
         this.readonly = options.readonly || false;
         this.column = options.column || 0;
+        this.visible = options.visible;
         this.translate = options.translate || false;
     }
 }

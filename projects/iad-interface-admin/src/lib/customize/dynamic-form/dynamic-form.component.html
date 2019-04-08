@@ -1,6 +1,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form" class="content-flex" autocomplete="off">
     <fieldset class="content-flex">
         <ng-template ngFor let-child [ngForOf]="formInputGroup.children">
+          <div [hidden]="!child[0].visible">
             <ng-container *ngIf="child.length === 1; then singleColumn; else multiColumn"></ng-container>
             <ng-template #singleColumn>
                 <div [iadDynamicField]="child[0]" [context]="context" [inputComponents]="inputComponents" [group]="form" styleClass="form-row mb-2" (touched)="onTouched(child[0])"></div>
@@ -13,6 +14,7 @@
                     <div class="clearfix"></div>
                 </div>
             </ng-template>
+          </div>
         </ng-template>
     </fieldset>
 

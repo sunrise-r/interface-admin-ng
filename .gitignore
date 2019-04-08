@@ -45,3 +45,6 @@ Thumbs.db
 
 # OLD lib files (we need them to develop)
 # /old
+
+# Scripts
+deploy

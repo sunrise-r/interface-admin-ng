@@ -764,7 +764,8 @@ export class PresentationResponse extends AbstractResponse {
             'label': 'presentation.projection.main.nameField',
             'translate': true,
             'column': 0,
-            'hidden': false
+            'hidden': false,
+            'visible': true
           },
           {
             'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
@@ -774,6 +775,7 @@ export class PresentationResponse extends AbstractResponse {
             'translate': true,
             'column': 0,
             'hidden': false,
+            'visible': true
           },
           {
             'validationTypes': {'email': false, 'required': true},
@@ -784,6 +786,7 @@ export class PresentationResponse extends AbstractResponse {
             'defaultValue': 'NOW',
             'column': 0,
             'hidden': false,
+            'visible': true
           },
           {
             'validationTypes': {'maxLength': '10', 'email': false, 'required': false},
@@ -793,6 +796,7 @@ export class PresentationResponse extends AbstractResponse {
             'translate': true,
             'column': 0,
             'hidden': false,
+            'visible': true,
             'inputMask': '(999) 999-99-99'
           },
           {
@@ -802,7 +806,8 @@ export class PresentationResponse extends AbstractResponse {
             'label': 'presentation.projection.main.email',
             'translate': true,
             'column': 0,
-            'hidden': false
+            'hidden': false,
+            'visible': true
           },
           {
             'validationTypes': {'email': false, 'required': false},
@@ -812,6 +817,7 @@ export class PresentationResponse extends AbstractResponse {
             'translate': true,
             'column': 0,
             'hidden': false,
+            'visible': true,
             'referenceProjectionCode': 'additionalFields',
             'presentationCode': 'presentationOne'
           },
