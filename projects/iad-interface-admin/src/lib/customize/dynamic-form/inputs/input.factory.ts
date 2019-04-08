@@ -7,10 +7,11 @@ import {FileInput} from './file-input.model';
 import {DateTimeInput} from './date-time-input.model';
 import {TextareaInput} from './textarea-input.model';
 import {FormInput} from './form-input.model';
+import {BooleanInput} from './boolean-input.model';
 
 const typeFactory = {
     BigDecimal: NumberInput,
-    Boolean: TextInput, // Text until checkbox/radio
+    Boolean: BooleanInput,
     Integer: NumberInput,
     ZonedDateTime: DateInput,
     String: TextInput,

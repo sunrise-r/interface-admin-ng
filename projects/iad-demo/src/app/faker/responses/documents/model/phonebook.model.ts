@@ -7,6 +7,7 @@ export class PhoneBook {
     public phone: string,
     public email: string,
     public firstField?: string,
-    public secondField?: string
+    public secondField?: string,
+    public booleanField?: boolean
   ) {}
 }

@@ -37,6 +37,16 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'translate': true,
         'inputMask': '99999999'
       },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'Boolean',
+        'name': 'booleanField',
+        'label': 'presentation.projection.main.booleanField',
+        'column': 0,
+        'hidden': false,
+        'visible': true,
+        'translate': true
+      },
     ];
     projection.properties = [];
     const response = {'presentationOne.additionalFields': projection};

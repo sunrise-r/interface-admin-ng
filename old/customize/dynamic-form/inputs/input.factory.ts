@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { DateInput, NumberInput, TextInput, HiddenInput, FileInput, FormInput, DateTimeInput, TextareaInput } from '../';
+import { DateInput, NumberInput, TextInput, HiddenInput, FileInput, FormInput, DateTimeInput, TextareaInput, BooleanInput } from '../';
 
 const typeFactory = {
     BigDecimal: NumberInput,
-    Boolean: TextInput, // Text until checkbox/radio
+    Boolean: BooleanInput,
     Integer: NumberInput,
     ZonedDateTime: DateInput,
     String: TextInput,

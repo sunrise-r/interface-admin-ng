@@ -14,7 +14,8 @@
         "actions": "Действия",
         "additionalFields": "Дополнительные поля",
         "firstField": "Первое поле",
-        "secondField": "Второе поле"
+        "secondField": "Второе поле",
+        "booleanField": "Булево поле"
       }
     },
     "formProjection": {
