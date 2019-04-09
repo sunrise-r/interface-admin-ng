@@ -1,11 +1,10 @@
 import { Directive, ElementRef, AfterViewInit, NgZone, Input } from '@angular/core';
 import { Tooltip } from 'primeng/components/tooltip/tooltip';
-import { DomHandler } from 'primeng/components/dom/domhandler';
+import {IadDomHandler} from '../../../iad-primeng/dom/iad-dom-handler';
 @Directive({
   selector: '[iadPTooltip]'
 })
 export class TooltipDirective extends Tooltip implements AfterViewInit {
-  domHandler: any;
 
   @Input('iadPTooltip')
   set text(text: string) {
@@ -26,7 +25,7 @@ export class TooltipDirective extends Tooltip implements AfterViewInit {
     return this._text;
   }
 
-  constructor(el: ElementRef, domHandler: DomHandler, zone: NgZone) {
+  constructor(el: ElementRef, zone: NgZone) {
     super(el, zone);
   }
 
@@ -89,32 +88,32 @@ export class TooltipDirective extends Tooltip implements AfterViewInit {
   alignBottomRight() {
     this.preAlign('bottom-right');
     const hostOffset = this.getHostOffset();
-    const left = hostOffset.left + this.domHandler.getOuterWidth(this.el.nativeElement);
-    const top = hostOffset.top + this.domHandler.getOuterHeight(this.el.nativeElement);
+    const left = hostOffset.left + IadDomHandler.getOuterWidth(this.el.nativeElement);
+    const top = hostOffset.top + IadDomHandler.getOuterHeight(this.el.nativeElement);
     this.setContainerPosition(left, top);
   }
 
   alignBottomLeft() {
     this.preAlign('bottom-left');
     const hostOffset = this.getHostOffset();
-    const left = hostOffset.left - this.domHandler.getOuterWidth(this.container);
-    const top = hostOffset.top + this.domHandler.getOuterHeight(this.el.nativeElement);
+    const left = hostOffset.left - IadDomHandler.getOuterWidth(this.container);
+    const top = hostOffset.top + IadDomHandler.getOuterHeight(this.el.nativeElement);
     this.setContainerPosition(left, top);
   }
 
   alignTopRight() {
     this.preAlign('top-right');
     const hostOffset = this.getHostOffset();
-    const left = hostOffset.left + this.domHandler.getOuterWidth(this.el.nativeElement);
-    const top = hostOffset.top - this.domHandler.getOuterHeight(this.container);
+    const left = hostOffset.left + IadDomHandler.getOuterWidth(this.el.nativeElement);
+    const top = hostOffset.top - IadDomHandler.getOuterHeight(this.container);
     this.setContainerPosition(left, top);
   }
 
   alignTopLeft() {
     this.preAlign('top-left');
     const hostOffset = this.getHostOffset(),
-      left = hostOffset.left - this.domHandler.getOuterWidth(this.container),
-      top = hostOffset.top - this.domHandler.getOuterHeight(this.container);
+      left = hostOffset.left - IadDomHandler.getOuterWidth(this.container),
+      top = hostOffset.top - IadDomHandler.getOuterHeight(this.container);
     this.setContainerPosition(left, top);
   }
 
