@@ -758,7 +758,7 @@ export class PresentationResponse extends AbstractResponse {
         'title': 'Редактирование',
         'fields': [
           {
-            'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
+            'validationTypes': {'minLength': '5', 'maxLength': '20', 'email': false, 'required': true},
             'type': 'String',
             'name': 'nameField',
             'label': 'presentation.projection.main.nameField',
@@ -789,7 +789,7 @@ export class PresentationResponse extends AbstractResponse {
             'visible': true
           },
           {
-            'validationTypes': {'maxLength': '10', 'email': false, 'required': false},
+            'validationTypes': {'maxLength': '15', 'email': false, 'required': false},
             'type': 'String',
             'name': 'phone',
             'label': 'presentation.projection.main.phone',

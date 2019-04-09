@@ -34,6 +34,7 @@ import { ValidationInput } from './validation-input';
                            [id]="config.key"
                            [type]="config.type"
                            [readonly]="config.readonly"
+                           [minLength]="config.validators?.minLength"
                            [maxLength]="config.validators?.maxLength"
                            (blur)="onBlur()">
                 </ng-template>

@@ -16,9 +16,10 @@ export interface IFormProjectionField {
     visible: boolean; // Поле отображается при выводе или скрывается
     translate?: boolean; // Производится перевод по метке
     inputMask?: string; // Маска ввода для плагинов ввода по маске
-    validationTypes: {
+    validationTypes?: {
         email?: boolean;
         required?: boolean;
+        minLength?: string;
         maxLength?: string;
     };
     valueField?: string; // Название поля, по которому следует определять значение этого поля. Было сделаано для Lookup, но может быть применено к другим полям

@@ -15,6 +15,7 @@ import { ValidationInput } from './validation-input';
                    [formControlName]="config | formatInputName"
                    [id]="config.key"
                    [readonly]="config.readonly"
+                   [minLength]="config.validators?.minLength"
                    [maxLength]="config.validators?.maxLength"
                    (blur)="onBlur()"></textarea>
             <iad-tooltip-notifier *ngIf="isInvalid && error" caption="Ошибка!" [text]="error" size="16"></iad-tooltip-notifier>
