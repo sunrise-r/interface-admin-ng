@@ -14,12 +14,12 @@ enum Sizes {
     selector: 'iad-tooltip-notifier',
     templateUrl: './tooltip-notifier.component.html'
 })
-export class TooltipNotifierComponent implements OnInit, AfterViewInit, OnChanges {
+export class TooltipNotifierComponent implements OnInit, OnChanges {
     content: string;
 
     @Input() position = 'bottom-right';
     @Input() caption: string;
-    @Input() size: Sizes;
+    @Input() hasErrors: boolean;
     @Input() text: string;
 
     @ViewChild('iadPTooltip') iadPTooltip: ElementRef;
@@ -29,10 +29,6 @@ export class TooltipNotifierComponent implements OnInit, AfterViewInit, OnChange
     ngOnInit() {
         this.renderer.addClass(this.el.nativeElement, 'iad-tooltip-notifier');
         this.initContent(this.text);
-    }
-
-    ngAfterViewInit(): void {
-        this.renderer.addClass(this.iadPTooltip.nativeElement, 'error-tooltip-' + this.size);
     }
 
     ngOnChanges(changes: SimpleChanges): void {

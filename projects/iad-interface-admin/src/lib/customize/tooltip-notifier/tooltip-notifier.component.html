@@ -1,1 +1,5 @@
-<div #iadPTooltip class="error-tooltip" [iadPTooltip]='content' [tooltipPosition]="position" tooltipStyleClass="qtip" [escape]="false"></div>
+<div class="error-tooltip">
+  <fa-icon *ngIf="!hasErrors" [icon]="'check-circle'" [size]="'2x'" style="color: green"></fa-icon>
+  <fa-icon *ngIf="hasErrors" [icon]="'exclamation-circle'" [size]="'2x'" style="color: red"
+           [pTooltip]='content' [tooltipPosition]="'right'" tooltipStyleClass="qtip" [escape]="false"></fa-icon>
+</div>
