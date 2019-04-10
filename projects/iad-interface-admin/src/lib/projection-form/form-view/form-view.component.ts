@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, Input} from '@angular/core';
+import {AfterContentInit, Component, Input, ViewEncapsulation} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../customize/dynamic-form/form-input-group';
 import {LookupInputModel} from '../inputs/lookup-input.model';
@@ -27,7 +27,8 @@ const inputComponents = {
 @Component({
     selector: 'iad-form-view',
     templateUrl: './form-view.component.html',
-    styles: []
+    styleUrls: ['./form-view.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class FormViewComponent implements AfterContentInit {
     /**

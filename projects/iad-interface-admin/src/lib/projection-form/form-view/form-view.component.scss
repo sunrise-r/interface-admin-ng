@@ -1,0 +1,41 @@
+.block-title {
+  cursor: pointer;
+}
+
+.ui-tooltip-text {
+  width: fit-content;
+}
+
+.iad-tooltip-notifier {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 32px;
+  z-index: 5;
+}
+
+.form-control,
+.custom-form-control {
+  height: 38px;
+  width: 100%;
+}
+
+.ui-calendar {
+  width: 100%;
+}
+
+.ui-calendar .ui-datepicker {
+  min-width: 50%;
+}
+
+body .ui-widget {
+  font-size: inherit;
+}
+
+.error-text {
+  width: max-content;
+  max-width: 500px;
+}
