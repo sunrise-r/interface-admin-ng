@@ -7,23 +7,7 @@ import {IadDomHandler} from '../../../iad-primeng/dom/iad-dom-handler';
 export class TooltipDirective extends Tooltip implements AfterViewInit {
 
   @Input('iadPTooltip')
-  set text(text: string) {
-    this._text = text;
-    if (this.active) {
-      if (this._text) {
-        if (this.container && this.container.offsetParent) {
-          this.updateText();
-        } else {
-          this.show();
-        }
-      } else {
-        this.hide();
-      }
-    }
-  }
-  get text(): string {
-    return this._text;
-  }
+  text: string;
 
   constructor(el: ElementRef, zone: NgZone) {
     super(el, zone);
@@ -86,34 +70,34 @@ export class TooltipDirective extends Tooltip implements AfterViewInit {
   }
 
   alignBottomRight() {
-    this.preAlign('bottom-right');
     const hostOffset = this.getHostOffset();
     const left = hostOffset.left + IadDomHandler.getOuterWidth(this.el.nativeElement);
     const top = hostOffset.top + IadDomHandler.getOuterHeight(this.el.nativeElement);
+    this.preAlign('bottom-right');
     this.setContainerPosition(left, top);
   }
 
   alignBottomLeft() {
-    this.preAlign('bottom-left');
     const hostOffset = this.getHostOffset();
     const left = hostOffset.left - IadDomHandler.getOuterWidth(this.container);
     const top = hostOffset.top + IadDomHandler.getOuterHeight(this.el.nativeElement);
+    this.preAlign('bottom-left');
     this.setContainerPosition(left, top);
   }
 
   alignTopRight() {
-    this.preAlign('top-right');
     const hostOffset = this.getHostOffset();
     const left = hostOffset.left + IadDomHandler.getOuterWidth(this.el.nativeElement);
     const top = hostOffset.top - IadDomHandler.getOuterHeight(this.container);
+    this.preAlign('top-right');
     this.setContainerPosition(left, top);
   }
 
   alignTopLeft() {
+    const hostOffset = this.getHostOffset();
+    const left = hostOffset.left - IadDomHandler.getOuterWidth(this.container);
+    const top = hostOffset.top - IadDomHandler.getOuterHeight(this.container);
     this.preAlign('top-left');
-    const hostOffset = this.getHostOffset(),
-      left = hostOffset.left - IadDomHandler.getOuterWidth(this.container),
-      top = hostOffset.top - IadDomHandler.getOuterHeight(this.container);
     this.setContainerPosition(left, top);
   }
 

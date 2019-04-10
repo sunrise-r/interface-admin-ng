@@ -17,12 +17,10 @@ enum Sizes {
 export class TooltipNotifierComponent implements OnInit, OnChanges {
     content: string;
 
-    @Input() position = 'bottom-right';
+    @Input() position = 'bottom-left';
     @Input() caption: string;
     @Input() hasErrors: boolean;
     @Input() text: string;
-
-    @ViewChild('iadPTooltip') iadPTooltip: ElementRef;
 
     constructor(private el: ElementRef, private renderer: Renderer2) {}
 

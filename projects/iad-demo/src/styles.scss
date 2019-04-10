@@ -6,3 +6,12 @@
 .navbar-holder {
   height: 56px;
 }
+
+.ui-tooltip-text {
+  width: fit-content;
+}
+
+.error-text {
+  width: max-content;
+  max-width: 500px;
+}
