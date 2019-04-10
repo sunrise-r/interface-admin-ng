@@ -23,7 +23,7 @@ import { ValidationInput } from './validation-input';
                   styleClass="iad-calendar"
                   dateFormat="dd.mm.yy"
                   (onBlur)="onBlur()"></iad-calendar>
-            <iad-tooltip-notifier *ngIf="isInvalid && error" caption="Ошибка!" [text]="error" size="16"></iad-tooltip-notifier>
+            <iad-tooltip-notifier [hasErrors]="isInvalid && error" caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
         </div>
     </ng-container>`
 })

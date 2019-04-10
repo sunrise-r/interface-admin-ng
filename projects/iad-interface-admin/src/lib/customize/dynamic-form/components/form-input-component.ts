@@ -38,8 +38,7 @@ import { ValidationInput } from './validation-input';
                            [maxLength]="config.validators?.maxLength"
                            (blur)="onBlur()">
                 </ng-template>
-                <iad-tooltip-notifier [hasErrors]="isInvalid && error" caption="Ошибка!" [text]="error"
-                                      size="16"></iad-tooltip-notifier>
+                <iad-tooltip-notifier [hasErrors]="isInvalid && error" caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
             </div>
         </ng-container>`
 })
