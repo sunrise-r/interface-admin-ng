@@ -16,7 +16,7 @@ import { ValidationInput } from './validation-input';
                    [id]="config.key"
                    [readonly]="config.readonly"
                    [minLength]="config.validators?.minLength"
-                   [maxLength]="config.validators?.maxLength"
+                   [maxLength]="config.validators?.maxLength || 1000"
                    (blur)="onBlur()"></textarea>
             <iad-tooltip-notifier [hasErrors]="isInvalid && error" caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
         </div>

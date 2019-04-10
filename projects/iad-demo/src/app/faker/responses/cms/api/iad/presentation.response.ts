@@ -768,7 +768,7 @@ export class PresentationResponse extends AbstractResponse {
             'visible': true
           },
           {
-            'validationTypes': {'maxLength': '20', 'email': false, 'required': true},
+            'validationTypes': {'email': false, 'required': true},
             'type': 'String',
             'name': 'surnameField',
             'label': 'presentation.projection.main.surnameField',
