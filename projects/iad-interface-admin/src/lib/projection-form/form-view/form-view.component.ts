@@ -101,13 +101,16 @@ export class FormViewComponent implements AfterContentInit {
                 .findProjectionsByName(requestParams)
                 .toPromise()
                 .then((data: {[param: string]: IadFormProjectionInterface}) => {
-                    let fields = this.formProjection.fields.filter(
-                      (field: IFormProjectionField) => !field.hidden && !(field.properties && field.properties.plainReference));
-                    const plainReferences = this.formProjection.fields.filter(field => field.properties && field.properties.plainReference)
-                      .map(field => field.presentationCode + '.' + field.referenceProjectionCode);
-                    plainReferences.forEach(reference => fields = fields.concat(data[reference].fields));
+                    const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+                    const plainReferenceIndexes = fields
+                      .map((field, index) => field.properties && field.properties['plainReference'] ? index : undefined)
+                      .filter(field => field);
+                    plainReferenceIndexes.forEach(index => {
+                      const field = fields[index];
+                      fields.splice(index, 1, ...data[field.presentationCode + '.' + field.referenceProjectionCode].fields);
+                    });
                     this.formInputGroup = new FormInputGroup({
-                        children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
+                      children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
                     });
                 })
                 .catch(err => {
