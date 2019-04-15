@@ -8,12 +8,14 @@ import { PaginatorModule } from 'primeng/paginator';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from 'primeng/shared';
+import {ConfirmationService} from 'primeng/api';
 
 // Table
 import { IadScrollableViewComponent } from './table/iad-scrollable-view.component';
 import { IadTableBodyComponent } from './table/iad-table-body.component';
 import { IadTableComponent } from './table/iad-table.component';
 import { TableKeysDirective } from './table-keys/table-keys.directive';
+import {ConfirmDialogModule} from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -22,9 +24,11 @@ import { TableKeysDirective } from './table-keys/table-keys.directive';
         ButtonModule,
         InputTextModule,
         PaginatorModule,
-        IadSharedModule
+        IadSharedModule,
+        ConfirmDialogModule
     ],
     declarations: [IadScrollableViewComponent, IadTableBodyComponent, IadTableComponent, TableKeysDirective],
-    exports: [TableModule, ButtonModule, TableModule, IadTableComponent]
+    exports: [TableModule, ButtonModule, TableModule, IadTableComponent, ConfirmDialogModule],
+    providers: [ConfirmationService]
 })
 export class IadPrimengModule {}

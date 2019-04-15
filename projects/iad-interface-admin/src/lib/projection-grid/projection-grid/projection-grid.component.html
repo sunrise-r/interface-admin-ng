@@ -1,5 +1,11 @@
 <div *ngIf="hasToolbar">Toolbar</div>
+<p-confirmDialog key="deleteTableRecord"
+                 [header]="'grid.dialog.delete.header'|translate"
+                 [message]="'grid.dialog.delete.message'|translate"
+                 [acceptLabel]="'grid.dialog.delete.confirm'|translate"
+                 [rejectLabel]="'grid.dialog.delete.reject'|translate">
 
+</p-confirmDialog>
 <iad-grid
   [columns]="columns"
   [value]="value"
