@@ -23,6 +23,7 @@ export class GridTdHostDirective implements OnInit, OnDestroy, OnChanges {
     @Input() selected: any;
     @Input() rowData: any;
     @Input() components: any;
+    @Input() doRefresh: any = null;
     @Output() manageTable: EventEmitter<{ code: string; value: any }> = new EventEmitter<{ code: string; value: any }>();
 
     componentRef: any;
@@ -52,6 +53,7 @@ export class GridTdHostDirective implements OnInit, OnDestroy, OnChanges {
         (<TableTdContentInterface>this.componentRef.instance).col = this.col;
         (<TableTdContentInterface>this.componentRef.instance).rowData = this.rowData;
         (<TableTdContentInterface>this.componentRef.instance).selected = this.selected;
+        if (this.componentRef.instance.hasOwnProperty('doRefresh')) { this.componentRef.instance.doRefresh = this.doRefresh; }
         if ('manageTable' in this.componentRef.instance) {
             (<AffectTableInterface>this.componentRef.instance).manageTable.subscribe(result => {
                 this.manageTable.emit(result);

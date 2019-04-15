@@ -106,6 +106,7 @@
             [components]="columnComponents"
             [col]="col"
             [selected]="selection === rowData"
+            [doRefresh]="doRefresh"
             (manageTable)="manageTable($event.code, $event.value)"></ng-container>
         </td>
       </ng-template>

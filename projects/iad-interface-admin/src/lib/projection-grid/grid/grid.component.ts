@@ -3,7 +3,7 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
-  Input,
+  Input, OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -33,7 +33,7 @@ export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => Elastic
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
+export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   /**
    * #4 Add paginator to the table
    */
@@ -275,6 +275,13 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit {
     if (this.refreshOnInit) {
       this.refresh();
     }
+    if (this.doRefresh) {
+      this.doRefresh.subscribe(() => this.refresh());
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.doRefresh.unsubscribe();
   }
 
   ngAfterViewInit(): void {

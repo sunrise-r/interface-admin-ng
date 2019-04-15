@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {TableTdContentInterface} from './column-components.model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
 import {HttpClient} from '@angular/common/http';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'iad-action-column',
@@ -15,6 +16,7 @@ export class ActionsColumnComponent implements TableTdContentInterface {
   selected: boolean;
   rowData: any;
   disabled: boolean;
+  doRefresh: Subject<any> = null;
 
   constructor(private http: HttpClient) {}
 
@@ -32,6 +34,6 @@ export class ActionsColumnComponent implements TableTdContentInterface {
     let deleteUrl: string = <string>this.col.properties['deleteUrl'];
     if (!deleteUrl.endsWith('\/')) { deleteUrl += '\/'; }
     this.http.delete(deleteUrl + this.rowData['id'])
-      .subscribe(response => {}, error => {});
+      .subscribe(response => this.doRefresh.next(), error => {});
   }
 }

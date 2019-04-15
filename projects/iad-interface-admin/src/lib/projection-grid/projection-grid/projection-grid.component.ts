@@ -1,9 +1,21 @@
-import {AfterContentInit, Component, ContentChildren, Input, OnChanges, OnInit, QueryList, SimpleChanges, TemplateRef} from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  TemplateRef
+} from '@angular/core';
 import {PrimeTemplate} from 'primeng/shared';
 import {Subject} from 'rxjs';
 
 import {DocumentListProjection} from '../model/projection-grid.model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
+import {IadGridConfigModel} from '../model/iad-grid-model';
 
 @Component({
   selector: 'iad-projection-grid',
@@ -31,6 +43,8 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
    * unique code to identify current presentation
    */
   @Input() presentationCode: string;
+
+  doRefresh: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
 
   /**
    * current projection

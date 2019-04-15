@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {IadGridColumn, IadPresentation} from 'iad-interface-admin';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {
+  IadGridColumn,
+  IadListProjectionInterrface,
+  IadPresentation,
+  PROJECTION_TYPE,
+  ProjectionsHelper
+} from 'iad-interface-admin';
 import {Subscription} from 'rxjs';
-import {ProjectionsHelper, IadListProjectionInterrface, PROJECTION_TYPE} from 'iad-interface-admin';
 
 @Component({
   selector: 'iad-grid',
@@ -19,7 +24,14 @@ export class GridComponent implements OnInit {
 
   routerSubscription: Subscription;
 
+  @ViewChild('iadProjectionGrid')
+  iadProjectionGrid: any;
+
   constructor(private route: ActivatedRoute, private router: Router) { }
+
+  update() {
+    this.iadProjectionGrid.doRefresh.next();
+  }
 
   ngOnInit() {
       this.routerSubscription = this.route.data.subscribe(data => {
