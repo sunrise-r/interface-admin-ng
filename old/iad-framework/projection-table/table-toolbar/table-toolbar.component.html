@@ -1,0 +1,19 @@
+<div class="grid-toolbar">
+    <div class="buttons-section left">
+        <iad-toolbar-actions
+            [actions]="leftActions"
+            translationPrefix="partnerTable.toolbar."
+            (actionInvoke)="onActionInvoke($event)"
+            ></iad-toolbar-actions>
+    </div>
+    <div class="buttons-section right">
+        <iad-toolbar-actions
+            [actions]="rightActions"
+            translationPrefix="partnerTable.toolbar."
+            (actionInvoke)="onActionInvoke($event)"
+        ></iad-toolbar-actions>
+        <ng-template
+            [ngTemplateOutlet]="rightAddonTemplate"
+        ></ng-template>
+    </div>
+</div>

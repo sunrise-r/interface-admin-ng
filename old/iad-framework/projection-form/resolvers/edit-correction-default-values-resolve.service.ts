@@ -17,7 +17,8 @@ export class EditCorrectionDefaultValuesResolveService implements Resolve<any> {
             map((editInfo: ActualSelectionModel) => {
                 return {
                     document: editInfo.documentIndex,
-                    id: parseInt(operationId, 10)
+                    id: parseInt(operationId, 10),
+                    documentId: editInfo.documentIndex.id
                 };
             })
         );

@@ -1,0 +1,69 @@
+<ng-template #printLabel let-item>
+    <ng-container *ngIf="item.translate; then translateLabel; else noTranslateLabel"></ng-container>
+    <ng-template #translateLabel>
+        <span>{{item.name | translate}}</span>
+    </ng-template>
+    <ng-template #noTranslateLabel>
+        <span>{{item.name}}</span>
+    </ng-template>
+</ng-template>
+
+<!-- Define the recursive template. -->
+<ng-template #ulTemplateRef let-items>
+    <ul>
+        <ng-template
+            ngFor
+            let-child
+            [ngForOf]="items">
+            <ng-template
+                [ngTemplateOutlet]="liTemplateRef"
+                [ngTemplateOutletContext]="{ $implicit: child }">
+            </ng-template>
+        </ng-template>
+    </ul>
+</ng-template>
+
+<!-- Define the recursive template. -->
+<ng-template #liTemplateRef let-item>
+    <ng-template [ngIf]="item">
+        <li [hidden]="!item.visible" [ngClass]="{'catalog-tree': item.hasItems()}">
+            <div class="catalog-tree-item">
+                <ng-container *ngIf="item.hasItems(); then printUl; else printLi"></ng-container>
+                <ng-template #printUl>
+                    <ng-template
+                        [ngTemplateOutlet]="printLabel"
+                        [ngTemplateOutletContext]="{ $implicit: item }">
+                    </ng-template>
+                    <ng-template
+                        [ngTemplateOutlet]="ulTemplateRef"
+                        [ngTemplateOutletContext]="{ $implicit: item.items }">
+                    </ng-template>
+                </ng-template>
+                <ng-template #printLi>
+                    <a (click)="onClick(item)">
+                        <ng-template
+                            [ngTemplateOutlet]="printLabel"
+                            [ngTemplateOutletContext]="{ $implicit: item }">
+                        </ng-template>
+                    </a>
+                </ng-template>
+            </div>
+        </li>
+    </ng-template>
+</ng-template>
+
+<!--
+    Initiate the recursive template rendering. Because our recursive template is going to
+    be using the ngFor directive to render recursively, the "context" in the recursive
+    instances is going to be the ngForContext. As such, we have to "mock" the initial
+    context to look like the context that the ngFor directive will expose internally.
+
+    NOTE: If we used ngContainer or ngTemplate to invoke the recursion internally, we'd
+    have more control over which values were made available at each level.
+-->
+<ng-template [ngIf]="catalogTree">
+    <ng-template
+        [ngTemplateOutlet]="ulTemplateRef"
+        [ngTemplateOutletContext]="{ $implicit: catalogTree }">
+    </ng-template>
+</ng-template>

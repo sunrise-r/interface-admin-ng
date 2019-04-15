@@ -12,41 +12,63 @@ enum Sizes {
 
 @Component({
     selector: 'jhi-tooltip-notifier',
-    templateUrl: './tooltip-notifier.component.html'
+    template: `<div #jhiPTooltip class="tooltip-notifier" [jhiPTooltip]='content' [tooltipPosition]="position" tooltipStyleClass="qtip" [escape]="false"></div>`
 })
-export class TooltipNotifierComponent implements OnInit, AfterViewInit, OnChanges {
+export class TooltipNotifierComponent implements OnInit, OnChanges {
     content: string;
 
     @Input() position = 'bottom-right';
     @Input() caption: string;
     @Input() size: Sizes;
     @Input() text: string;
+    @Input() requiredIcon: boolean;
+    @Input() required: boolean;
+    @Input() activated: boolean;
+    @Input() styleClass: string;
 
     @ViewChild('jhiPTooltip') jhiPTooltip: ElementRef;
 
     constructor(private el: ElementRef, private renderer: Renderer2) {}
 
     ngOnInit() {
-        this.renderer.addClass(this.el.nativeElement, 'jhi-tooltip-notifier');
         this.initContent(this.text);
-    }
-
-    ngAfterViewInit(): void {
-        this.renderer.addClass(this.jhiPTooltip.nativeElement, 'error-tooltip-' + this.size);
+        if (this.styleClass) {
+            this.renderer.addClass(this.jhiPTooltip.nativeElement, this.styleClass + '-' + this.size);
+        }
+        if (this.activated) {
+            this.renderer.addClass(this.jhiPTooltip.nativeElement, 'activated');
+        }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        if ('activated' in changes) {
+            if (this.activated) {
+                this.renderer.addClass(this.jhiPTooltip.nativeElement, 'activated');
+            } else {
+                this.renderer.removeClass(this.jhiPTooltip.nativeElement, 'activated');
+            }
+        }
         if ('text' in changes) {
             this.initContent(changes['text'].currentValue);
         }
     }
 
     initContent(text: string) {
+        if (text === undefined) {
+            this.content = '';
+            return;
+        }
+        if (!this.activated) {
+            this.content = '';
+            return;
+        }
+
         const captionElement = this.addDivWithText(this.caption, 'caption');
         const textElement = this.addDivWithText(text, 'text');
 
         const div = this.renderer.createElement('div');
-        this.renderer.addClass(div, 'error-text');
+        this.renderer.addClass(div, 'tooltip-text');
+        this.renderer.addClass(div, this.styleClass + '-text');
 
         this.renderer.appendChild(div, captionElement);
         this.renderer.appendChild(div, textElement);

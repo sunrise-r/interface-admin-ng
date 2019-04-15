@@ -28,11 +28,12 @@ export const operationStatusConditions = {
 @Injectable()
 export class RegularOperationsToggleService {
     updateOperationsState(operations: CatalogTree[], body: ActualSelectionModel): CatalogTree[] {
-        const state = new DocumentActionState(body).getState();
-        return operations.map(operation => {
-            operation.toggle(this.resolveDocumentState(operation.code, state));
-            return operation;
-        });
+        return body
+            ? operations.map(operation => {
+                  operation.toggle(this.resolveDocumentState(operation.code, new DocumentActionState(body).getState()));
+                  return operation;
+              })
+            : operations;
     }
 
     /**

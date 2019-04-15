@@ -2,16 +2,16 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitte
 import { Subject, Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { CmsUserSettingsLoaderService, onAccountChange, EntityResponseType } from 'app/core';
+import { CmsUserSettingsLoaderService, EntityResponseType } from 'app/core';
 import { AutoUnsubscribe } from 'app/shared';
 import { ToolbarAction } from '../toolbar';
 
-import { QueryBuildCallback } from '../data-table/data-table/data-table.component';
 import { DataTableConfigProvider, DataTableConfigModel } from '../data-table/data-table/data-table-config.model';
-import { DataTableColumn, IDataTableColumn } from '../data-table/data-table/data-table.model';
+import { IDataTableColumn } from '../data-table/data-table/data-table.model';
 import { CmsSetting } from '../data-table/services/settings-provider';
 
 import { GridConfigService } from './grid-config.service';
+import { CustomizeQuery } from '../filter-builder/action/customize-query';
 
 @Component({
     selector: 'jhi-iad-settings-table',
@@ -56,6 +56,11 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     @Input() items: any[] = [];
 
     /**
+     * Включает Lazy Loading если есть URL ресурса
+     */
+    @Input() lazyLoadingEnabled: boolean;
+
+    /**
      * Адресс ресурса - источника данных
      */
     @Input() searchUrl: string;
@@ -63,7 +68,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     /**
      * Коллбэк в ктором можено указать дополнительные параметры для построения query
      */
-    @Input() onBuildQuery: QueryBuildCallback;
+    @Input() filter: CustomizeQuery;
 
     /**
      * Обновляет данные таблицы

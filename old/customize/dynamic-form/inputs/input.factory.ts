@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { DateInput, NumberInput, TextInput, HiddenInput, FileInput, FormInput, DateTimeInput, TextareaInput, BooleanInput } from '../';
+import { DateInput, NumberInput, TextInput, HiddenInput, FileInput, FormInput, DateTimeInput, TextareaInput } from '../';
 
 const typeFactory = {
     BigDecimal: NumberInput,
-    Boolean: BooleanInput,
+    Boolean: TextInput, // Text until checkbox/radio
     Integer: NumberInput,
     ZonedDateTime: DateInput,
     String: TextInput,
@@ -20,8 +20,8 @@ const typeFactory = {
 export class InputFactory {
     typeFactory: { [prop: string]: any };
 
-    initTypeFactory(extendTypeFactory: { [prop: string]: any } = {}) {
-        this.typeFactory = Object.assign({}, typeFactory, extendTypeFactory);
+    initTypeFactory(extendTypeFactory?: { [prop: string]: any }) {
+        this.typeFactory = extendTypeFactory ? Object.assign({}, typeFactory, extendTypeFactory) : typeFactory;
         return this;
     }
 

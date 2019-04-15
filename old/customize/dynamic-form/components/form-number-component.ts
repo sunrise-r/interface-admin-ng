@@ -17,7 +17,20 @@ import { ValidationInput } from './validation-input';
                    [readonly]="config.readonly"
                    [step]="config.step"
                    (blur)="onBlur()">
-            <jhi-tooltip-notifier *ngIf="isInvalid && error" caption="Ошибка!" [text]="error" size="16"></jhi-tooltip-notifier>
+                   <ng-template [ngIf]="config.type !== 'hidden'">
+                <jhi-tooltip-notifier
+                       styleClass="require-tooltip"
+                       [activated]="config.validators.required"
+                       caption="Внимание!"
+                       text="Это поле обязательно к заполнению."
+                       size="16"></jhi-tooltip-notifier>
+                   <jhi-tooltip-notifier
+                       styleClass="error-tooltip"
+                       [activated]="isInvalid && error"
+                       caption="Ошибка!"
+                       [text]="error"
+                       size="16"></jhi-tooltip-notifier>
+               </ng-template>
         </div>
     </ng-container>`
 })

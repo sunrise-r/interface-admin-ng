@@ -3,45 +3,41 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 import { PartnerGatewaySharedModule } from 'app/shared';
 
-import { DropdownColumnSelectorComponent } from './dropdown-column-selector/dropdown-column-selector.component';
-import { ToolbarActionDirective } from './table-toolbar/toolbar-action.directive';
-import { TableToolbarComponent } from './table-toolbar/table-toolbar.component';
+import { ToolbarActionDirective } from './toolbar-actions/toolbar-action.directive';
 import { DocumentPathComponent } from './document-path/document-path.component';
-import { DocumentRemoveComponent } from './document-remove/document-remove.component';
+
+// BAD OPTION
 import { CustomizeModule } from 'app/customize';
+
 import { PdfViewComponent } from './pdf-view/pdf-view.component';
 import { ToolbarDropdownComponent } from './toolbar-dropdown/toolbar-dropdown.component';
 import { OperationsListComponent } from './operations-list/operations-list.component';
 import { CreationOperationsListComponent } from './operations-list/creation-operations-list.component';
-import { FilterToolbarListComponent } from 'app/iad-framework/toolbar/filter/filter-toolbar.component.ts';
 import { OperationRemoveComponent } from './operation-remove/operation-remove.component';
+import { CatalogTreeModule } from '../catalog-tree/catalog-tree.module';
+import { ToolbarActionsComponent } from './toolbar-actions/toolbar-actions.component';
+import { FilterBuilderModule } from '../filter-builder/filter-builder.module';
 
 @NgModule({
-    imports: [PartnerGatewaySharedModule, CustomizeModule, PdfJsViewerModule],
+    imports: [PartnerGatewaySharedModule, CustomizeModule, PdfJsViewerModule, CatalogTreeModule, FilterBuilderModule],
     declarations: [
-        DropdownColumnSelectorComponent,
         ToolbarActionDirective,
-        TableToolbarComponent,
         DocumentPathComponent,
-        DocumentRemoveComponent,
         PdfViewComponent,
         ToolbarDropdownComponent,
         OperationsListComponent,
         CreationOperationsListComponent,
-        FilterToolbarListComponent,
-        OperationRemoveComponent
+        OperationRemoveComponent,
+        ToolbarActionsComponent
     ],
-    entryComponents: [DocumentPathComponent, DocumentRemoveComponent, PdfViewComponent, OperationRemoveComponent],
+    entryComponents: [DocumentPathComponent, PdfViewComponent, OperationRemoveComponent],
     exports: [
-        TableToolbarComponent,
         DocumentPathComponent,
-        DocumentRemoveComponent,
         ToolbarDropdownComponent,
-        DropdownColumnSelectorComponent,
         OperationsListComponent,
         CreationOperationsListComponent,
-        FilterToolbarListComponent,
-        OperationRemoveComponent
+        OperationRemoveComponent,
+        ToolbarActionsComponent
     ]
 })
 export class ToolbarModule {}

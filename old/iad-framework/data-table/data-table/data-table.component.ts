@@ -6,11 +6,13 @@ import {
     ElementRef,
     EventEmitter,
     Input,
+    OnChanges,
     OnInit,
     Output,
     QueryList,
     TemplateRef,
-    ViewChild
+    ViewChild,
+    SimpleChanges
 } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { JhiAlertService } from 'ng-jhipster';
@@ -18,26 +20,22 @@ import { PrimeTemplate } from 'primeng/shared';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 
-import { ElasticSearchQueryBuilder } from 'app/elastic';
-
 import { CmsSetting, DataTableColumn, DataTableInformationService, FILTER_TYPE, IDataTableColumn } from '../';
 import { ReplaySubject, Subject } from 'rxjs';
 
-import { clearFilter, refresh, toggleFilter, toggleSearch } from '../../toolbar/table-toolbar/toolbar-action-constants';
 import { DataTableColumnsService } from './data-table-columns.service';
 import { DataTableConfigModel } from './data-table-config.model';
 import { IadTableComponent, ResizeEvent } from '../../iad-primeng';
 import { DTColumnFrozen, FrozenEvent, FrozenStructure } from './freeze-column.model';
-import { FilterCommunicationService } from 'app/iad-framework/toolbar/filter/filter-communication.service';
-
-export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => ElasticSearchQueryBuilder;
+import { FilterBuilderService } from '../../filter-builder/filter-builder.service';
+import { CustomizeQuery } from '../../filter-builder/action/customize-query';
 
 @Component({
     selector: 'jhi-data-table',
     templateUrl: './data-table.component.html',
     providers: [DataTableColumnsService]
 })
-export class DataTableComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class DataTableComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges {
     /**
      * Возможность снятия выделения строки таблицы
      */
@@ -84,9 +82,9 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     @Input() lazyLoadingEnabled: boolean;
 
     /**
-     * Коллбэк в ктором можено указать дополнительные параметры для построения query
+     * Дополнительный фильтр
      */
-    @Input() onBuildQuery: QueryBuildCallback;
+    @Input() filter: CustomizeQuery;
 
     /**
      * Ссылка на ресурс - источник данных
@@ -230,16 +228,11 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      */
     totalItems: number;
 
-    /**
-     * Фильтр по проекциям
-     */
-    projectionFilter: string;
-
     constructor(
         private dataSearchService: DataTableInformationService,
         private jhiAlertService: JhiAlertService,
         private columnsService: DataTableColumnsService,
-        private filterCommunicationService: FilterCommunicationService,
+        private filterBuilderService: FilterBuilderService,
         private el: ElementRef
     ) {
         this.size = ITEMS_PER_PAGE;
@@ -262,24 +255,28 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
         if (this.updateVisibility) {
             this.updateVisibility.subscribe(column => this.onColToggle(column));
         }
-
-        // Subscription to update data filters
-        if (this.filterCommunicationService) {
-            this.filterCommunicationService.getMessage().subscribe(message => this.onFilter(message));
-        }
     }
 
     ngAfterViewInit(): void {
-        this.askToRefresh.subscribe(() => {
-            this.dt.paginatorService.resetFirst();
-            this.updateData(this.dt.createLazyLoadMetadata(true));
-        });
+        // issue #779
+        if (this.lazyLoadingEnabled && this.searchUrl) {
+            this.askToRefresh.subscribe(() => {
+                this.dt.paginatorService.resetFirst();
+                this.updateData(this.dt.createLazyLoadMetadata(true));
+            });
+        }
     }
 
     ngAfterContentInit(): void {
         this.templates.forEach(item => {
             this.colTemplates[item.getType()] = item.template;
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if ('filter' in changes) {
+            this.refresh();
+        }
     }
 
     /**
@@ -345,7 +342,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * @param col
      */
     onColFilter(event: any, col: any) {
-        this.dt.filters = {};
+        // this.dt.filters = {}; // commented to solve issue #1745
         this.resetFilter.next(FILTER_TYPE.GLOBAL);
         this.dt.filter(event.value, col.field, col.filterMatchMode);
         this.refresh();
@@ -377,7 +374,6 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * Фильтрация данных таблицы
      */
     onFilter(event: any) {
-        this.projectionFilter = event.query;
         this.refresh();
     }
 
@@ -398,12 +394,15 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
             return;
         }
         this.dataSearchService
-            .search(this.searchUrl, {
-                query: this.buildQuery(event),
-                sort: [this.buildSort(event.sortField, event.sortOrder)],
-                size: event.rows,
-                page: event.first / event.rows
-            })
+            .search(
+                this.searchUrl,
+                {
+                    sort: [this.buildSort(event.sortField, event.sortOrder)],
+                    size: event.rows,
+                    page: event.first / event.rows
+                },
+                this.buildQuery(event)
+            )
             .subscribe(
                 (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
                 () => {
@@ -421,17 +420,17 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      */
     manageTable(action, value) {
         switch (action) {
-            case toggleFilter:
+            case 'columnFilter':
                 this.showFilter = value;
                 this.showSearchPanel = false;
                 this.changeTableHeight.next(true);
                 break;
-            case toggleSearch:
+            case 'search':
                 this.showFilter = false;
                 this.showSearchPanel = value;
                 this.changeTableHeight.next(true);
                 break;
-            case clearFilter:
+            case 'clear':
                 this.dt.filters = {};
                 this.resetFilter.next(FILTER_TYPE.BOTH);
                 this.changeTableHeight.next(true);
@@ -439,7 +438,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
                 this.showSearchPanel = false;
                 this.refresh();
                 break;
-            case refresh:
+            case 'refresh':
                 this.refresh();
                 break;
             case 'unselect':
@@ -495,24 +494,28 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * event.globalFilter строка с фильтром
      */
 
-    private buildQuery(event: any) {
-        let queryBuilder = new ElasticSearchQueryBuilder();
+    private buildQuery(event: any): String {
+        const filterBuilder = this.filterBuilderService.createFilter();
+        if (this.filter) {
+            filterBuilder.merge(this.filter.raw());
+        }
         if (event.globalFilter && event.globalFilter !== '') {
-            return ElasticSearchQueryBuilder.buildFromString(event.globalFilter);
-        }
-        if (event.filters) {
-            Object.keys(event.filters).forEach((field: string) => {
-                if (event.filters[field].value !== null && event.filters[field].value !== '') {
+            filterBuilder.addFilter('all', event.globalFilter, false).addOption('allMatchDelegate');
+        } else if (event.filters) {
+            Object.keys(event.filters)
+                .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
+                .forEach((field: string) => {
                     const value = event.filters[field].value;
-                    queryBuilder.addColumn(field).addStatement(value, true);
-                }
-            });
-            queryBuilder = this.onBuildQuery(queryBuilder);
+                    filterBuilder.addFilter(field, value, this.columnHasWildCard(field));
+                });
         }
-        if (this.projectionFilter) {
-            return queryBuilder.addFromQueryTail(this.projectionFilter);
+        if (event.sortField && event.sortField === 'onResolution') {
+            filterBuilder.addOption('resolutionSortingDelegate', 'sort', 'onResolution');
         }
-        return queryBuilder.build();
+        if (event.sortField && event.sortField === 'onOperation') {
+            filterBuilder.addOption('operationSortingDelegate', 'sort', 'onOperation');
+        }
+        return filterBuilder.build();
     }
 
     /**
@@ -544,8 +547,12 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
         this.dt.columns = this.columns = data.columns;
         this.dt.frozenWidth = this.frozenWidth = data.leftWidth;
         this.dt.frozenRightWidth = this.frozenRightWidth = data.rightWidth;
+
         this.dt._sortField = data.sortField;
         this.dt._sortOrder = data.sortOrder;
+        if (this.dt.sortMode === 'single' && !this.searchUrl) {
+            this.dt.sortSingle();
+        }
     }
 
     /**
@@ -598,5 +605,13 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
         this.frozenRightCols = data.right;
         this.frozenWidth = data.leftWidth;
         this.frozenRightWidth = data.rightWidth;
+    }
+
+    /**
+     * Check if column has wildcard
+     */
+    private columnHasWildCard(field: string) {
+        const column = this.columns.find(_column => _column.field === field);
+        return !column.properties || column.properties.useWildcard !== false;
     }
 }

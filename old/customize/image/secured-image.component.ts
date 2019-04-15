@@ -62,7 +62,7 @@ export class SecuredImageComponent implements OnChanges, OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if ('src' in changes && changes['src'].currentValue) {
+        if ('src' in changes) {
             this.src$.next(changes['src'].currentValue);
         }
     }

@@ -24,11 +24,16 @@
                     <ng-content select="p-header"></ng-content>
                     <a class="ui-datepicker-prev ui-corner-all" href="#" (click)="navBackward($event)"
                        *ngIf="i === 0">
-                        <fa-icon [icon]="'chevron-left'"></fa-icon>
+                       <img class="calendar-arrow" src="/content/images/calendar-arrow.png" alt="arrow">
+                        <!-- <fa-icon [icon]="'chevron-left'"></fa-icon> -->
                     </a>
+                    <div class="house-icon-wrapper">
+                        <img src="/content/images/calendar-house.png" alt="house">
+                    </div>
                     <a class="ui-datepicker-next ui-corner-all" href="#" (click)="navForward($event)"
                        *ngIf="numberOfMonths === 1 ? true : (i === numberOfMonths -1)">
-                        <fa-icon [icon]="'chevron-right'"></fa-icon>
+                        <!-- <fa-icon [icon]="'chevron-right'"></fa-icon> -->
+                       <img class="calendar-arrow" src="/content/images/calendar-arrow.png" alt="arrow">
                     </a>
                     <div class="ui-datepicker-title">
                         <span class="ui-datepicker-month" *ngIf="!monthNavigator && (view !== 'month')">{{locale.monthNames[month.month]}}</span>

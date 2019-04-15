@@ -10,6 +10,8 @@ import {
     FileUploadComponent,
     CheckboxListComponent
 } from './';
+import { ProfileCardComponent } from './profile-card/profile-card.component';
+import { GoogleMapComponent } from './google-map/google-map.component';
 
 @NgModule({
     imports: [PartnerGatewaySharedModule, PrimengCustomizeModule, AdminScrollModule],
@@ -21,7 +23,9 @@ import {
         ImageComponent,
         SecuredImageComponent,
         FileUploadComponent,
-        CheckboxListComponent
+        CheckboxListComponent,
+        ProfileCardComponent,
+        GoogleMapComponent
     ],
     exports: [
         PrimengCustomizeModule,
@@ -31,7 +35,9 @@ import {
         ImageComponent,
         SecuredImageComponent,
         FileUploadComponent,
-        CheckboxListComponent
+        CheckboxListComponent,
+        ProfileCardComponent,
+        GoogleMapComponent
     ]
 })
 export class CustomizeModule {}

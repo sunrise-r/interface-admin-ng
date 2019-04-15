@@ -17,6 +17,7 @@ import {
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
+import { ToolbarAction } from 'app/iad-framework';
 
 @Injectable({
     providedIn: 'root'
@@ -71,6 +72,8 @@ export class ToolbarDropdownComponent implements OnChanges, OnInit, OnDestroy {
 
     private clickListener: any;
 
+    private caller: ToolbarAction; // Установка текущей кнопки (#1595)
+
     constructor(
         private renderer: Renderer2,
         private el: ElementRef,
@@ -103,7 +106,8 @@ export class ToolbarDropdownComponent implements OnChanges, OnInit, OnDestroy {
         }
     }
 
-    doToggle(shown: boolean) {
+    doToggle(shown: boolean, caller: ToolbarAction) {
+        this.caller = caller; // Установка текущей кнопки (#1595)
         if (shown) {
             this.show();
         } else {
@@ -115,18 +119,22 @@ export class ToolbarDropdownComponent implements OnChanges, OnInit, OnDestroy {
         this._shown = true;
         this.renderer.addClass(this.dropdownWrapper.nativeElement, 'show');
         this.eventsService.broadcastShown(this.id);
-        // this.bindClickEventListener(); <--- it causes bug with clicking on toggle button to perform close action
+        this.bindClickEventListener(); // <--- it causes bug with clicking on toggle button to perform close action (#1595)
     }
-
     hide() {
         this._shown = false;
         this.renderer.removeClass(this.dropdownWrapper.nativeElement, 'show');
         this.hidden.emit(this.code);
-        // this.unbindEventListener(); <--- it causes bug with clicking on toggle button to perform close action
+        if (this.caller) {
+            this.caller.active = false; // Установка текущей кнопки (#1595)
+        }
+        this.unbindEventListener(); // <--- it causes bug with clicking on toggle button to perform close action (#1595)
     }
 
     onClick(event) {
-        if (!this.el.nativeElement.contains(event.target)) {
+        if (!this.el.nativeElement.contains(event.target) && !this.isSameButton(event.target.className)) {
+            this.caller.value = false; // Установка текущей кнопки (#1595)
+
             this.hide();
         }
     }
@@ -151,5 +159,10 @@ export class ToolbarDropdownComponent implements OnChanges, OnInit, OnDestroy {
                 .toString(36)
                 .substr(2, 9)
         );
+    }
+
+    private isSameButton(divClassName: string): boolean {
+        if (!divClassName) return false;
+        return divClassName.indexOf(this.caller.code) > 0;
     }
 }

@@ -6,7 +6,7 @@
             <div class="resolution-block-wrapper">
                 <div *ngFor="let resolution of operation.resolutions" class="resolution-block">
                     <div [ngClass]="['resolution-block-icon', resolution.type ? resolution.type : '']">
-                        <jhi-secured-image [src]="imageUrl" defaultSrc="default-employee.png"E
+                        <jhi-secured-image [src]="imageUrl" defaultSrc="default-employee.png"
                                            [imageStyle]="{height:'67px', width: '50px'}"></jhi-secured-image>
                         <fa-icon [icon]="['fa4', 'check-square-o']" size="2x" flip="vertical"
                                  [hidden]="!resolution.signed"></fa-icon>

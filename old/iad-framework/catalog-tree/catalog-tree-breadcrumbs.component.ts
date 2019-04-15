@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CatalogTree } from './catalog-tree.model';
 import { ActivatedRoute } from '@angular/router';
-import { CatalogTreeHelper } from 'app/iad-framework/catalog-tree/catalog-tree.helper';
+import { CatalogTreeHelper } from './catalog-tree.helper';
 
 @Component({
-    selector: 'jhi-catalog-tree-breadcrumbs-component',
+    selector: 'jhi-catalog-tree-breadcrumbs',
     template: `
         <ng-template #nodeTemplateRef let-item>
             <span jhiTranslate="{{item.name}}"></span>
@@ -21,7 +21,7 @@ import { CatalogTreeHelper } from 'app/iad-framework/catalog-tree/catalog-tree.h
                 </ng-template>
             </ng-template>
         </ng-template>
-        
+
         <ng-template [ngIf]="innerCatalogTree">
             <ng-template
                 [ngTemplateOutlet]="nodeTemplateRef"
@@ -29,21 +29,22 @@ import { CatalogTreeHelper } from 'app/iad-framework/catalog-tree/catalog-tree.h
             </ng-template>
         </ng-template>`
 })
-export class CatalogTreeBreadcrumbsComponent implements OnInit {
+export class CatalogTreeBreadcrumbsComponent implements OnChanges {
+    @Input() catalogTree: CatalogTree[];
     @Input() additionalLabels: string[];
     innerCatalogTree: CatalogTree[];
 
     constructor(public activatedRoute: ActivatedRoute) {}
 
-    ngOnInit(): void {
-        this.activatedRoute.data.subscribe(({ params }) => {
-            this.innerCatalogTree = CatalogTreeHelper.cloneCatalogBranchesRecursive([params]);
+    ngOnChanges(changes: SimpleChanges): void {
+        if ('catalogTree' in changes) {
+            this.innerCatalogTree = CatalogTreeHelper.cloneCatalogBranchesRecursive(this.catalogTree);
             if (this.additionalLabels) {
                 const item = CatalogTreeHelper.findLastBranchRecursive(this.innerCatalogTree);
                 this.additionalLabels.forEach(label => {
-                    item.items.push(new CatalogTree(label));
+                    item.items.push(new CatalogTree(label, null, true));
                 });
             }
-        });
+        }
     }
 }

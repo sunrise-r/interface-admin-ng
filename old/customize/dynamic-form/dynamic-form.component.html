@@ -23,7 +23,7 @@
             <span class="title helpBtn">Помощь</span>
         </button>
         <div class="float-right">
-            <jhi-tooltip-notifier position="top-right" class="form-errors float-left" *ngIf="errors" caption="Ошибка!" [text]="errors" size="32"></jhi-tooltip-notifier>
+            <jhi-tooltip-notifier position="top-right" class="form-errors float-left" styleClass="error-tooltip" [activated]="errors" caption="Ошибка!" [text]="errors" size="32"></jhi-tooltip-notifier>
             <button class="big-button" type="button" (click)="cancel()" [disabled]="sending">
                 <span class="title clear">Отмена</span>
             </button>

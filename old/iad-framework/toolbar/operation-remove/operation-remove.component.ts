@@ -11,7 +11,6 @@ import { Resolution } from 'app/customize/document-resolutions/resolution.model'
 
 import { ActualSelectionModel } from '../../data-table';
 import { OperationRemoveService } from 'app/iad-framework/toolbar/operation-remove/operation-remove.service';
-import { onResolutionSent } from 'app/documents/document-resolution-form/resolution.event';
 
 // @TODO THIS CLASS IS DUPLICATE FOR DocumentRemoveComponent; You need to join them in some way
 @Component({
@@ -82,7 +81,7 @@ export class OperationRemoveComponent implements OnInit, FloatingWindowInnerInte
         this.operationRemoveService.remove(this.getSelectionId()).subscribe(
             () => {
                 this.eventManager.broadcast({ name: 'onRemoved' });
-                this.eventManager.broadcast({ name: onResolutionSent });
+                this.eventManager.broadcast({ name: 'onResolutionSent' });
                 this.close();
             },
             () => {}

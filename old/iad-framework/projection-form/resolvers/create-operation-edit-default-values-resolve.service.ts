@@ -17,7 +17,10 @@ export class CreateOperationEditDefaultValuesResolveService implements Resolve<a
         const documentId = route.params['documentId'];
         return this.documentInfoBufferService.getCreateInfo(documentId, DATA_DEPENDENCY_LEVEL.DOCUMENT).pipe(
             map((editInfo: ActualSelectionModel) => {
-                return Object.assign({}, editInfo.documentDTO, editInfo.documentIndex, editInfo.selection, editInfo.properties);
+                // removed editInfo.documentIndex, editInfo.selection from data predefined values
+                // In order to avoid indexed translated "type" field using please do not
+                // add INDEX as form data!
+                return Object.assign({}, editInfo.documentDTO, editInfo.properties);
             })
         );
     }

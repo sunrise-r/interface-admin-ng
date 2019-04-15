@@ -17,7 +17,8 @@ export class CreateCorrectionDefaultValuesResolveService implements Resolve<any>
         return this.documentInfoBufferService.getCreateInfo(documentId, DATA_DEPENDENCY_LEVEL.DOCUMENT).pipe(
             map((editInfo: ActualSelectionModel) => {
                 return {
-                    document: editInfo.documentIndex
+                    document: editInfo.documentIndex,
+                    documentId: parseInt(documentId, 10) // #1741
                 };
             })
         );

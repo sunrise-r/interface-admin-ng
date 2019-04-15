@@ -5,14 +5,8 @@ export class CatalogTreeHelper {
      * Will update innerCatalogTree with projections
      */
     static updateCatalogTreeWithProjections(item: CatalogTree, projections: any): CatalogTree {
-        if (item) {
-            item.items = item.items.concat(
-                projections.map(projection => {
-                    const branch = new CatalogTree(projection.title, item);
-                    branch.code = projection.code;
-                    return branch;
-                })
-            );
+        if (item && projections) {
+            item.items = item.items.concat(projections.map(projection => new CatalogTree(projection.title, projection.code, true, item)));
         }
         return item;
     }
@@ -50,5 +44,20 @@ export class CatalogTreeHelper {
             });
         }
         return clone;
+    }
+
+    /**
+     * Populate hierarchy of route params documents/{level1}/{level2}
+     * @param plain
+     * @param translate
+     */
+    static createTreeFromPlain(plain: { [p: string]: string }, translate?: boolean): CatalogTree {
+        const key = Object.keys(plain).shift();
+        const hierarchy = new CatalogTree(plain[key], null, translate);
+        delete plain[key];
+        if (Object.keys(plain).length > 0) {
+            hierarchy.items.push(CatalogTreeHelper.createTreeFromPlain(plain, translate));
+        }
+        return hierarchy;
     }
 }

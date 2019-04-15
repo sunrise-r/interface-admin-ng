@@ -16,8 +16,7 @@
             <button class="big-button float-right" type="submit" [disabled]="sending" >
                 <span class="title discardBtn">{{'partnerGatewayApp.partnerDocuments.actions.remove' | translate}}</span>
             </button>
-
-            <jhi-tooltip-notifier position="top-right" class="form-errors float-right" *ngIf="actionsForm.invalid && errors" caption="Ошибка!" [text]="errors" size="32"></jhi-tooltip-notifier>
+            <jhi-tooltip-notifier position="top-right" class="form-errors float-right" caption="Ошибка!" styleClass="error-tooltip" [activated]="actionsForm.invalid && errors" [text]="errors" size="32"></jhi-tooltip-notifier>
 
         </div>
 

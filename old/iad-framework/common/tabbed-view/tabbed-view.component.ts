@@ -62,7 +62,7 @@ export class TabbedViewComponent implements OnChanges, OnDestroy {
                 this.currentItems = items;
             });
         }
-        if ('tabProjections' in changes) {
+        if ('tabProjections' in changes && changes['tabProjections'].currentValue.length > 0) {
             this.tabProjections = changes['tabProjections'].currentValue;
             this.initTabInfo();
         }

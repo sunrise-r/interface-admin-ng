@@ -13,37 +13,48 @@ export class ToolbarActionsCommonHandlerService {
     constructor(private modalService: NgbModal, private eventManager: JhiEventManager) {}
 
     handle(action: ToolbarAction, uid: string, selection: ActualSelectionModel, pathType: string) {
-        if (action.code === 'path') {
-            this.eventManager.broadcast(<FloatingWindowEvent>{
-                name: onFloatingWindow,
-                content: {
-                    id: uid,
-                    component: DocumentPathComponent,
-                    componentData: {
-                        selection,
-                        pathType
+        const strategy = {
+            path: () => {
+                this.eventManager.broadcast(<FloatingWindowEvent>{
+                    name: onFloatingWindow,
+                    content: {
+                        id: uid,
+                        component: DocumentPathComponent,
+                        componentData: {
+                            selection,
+                            pathType
+                        }
                     }
-                }
-            });
-        } else if (action.code === 'operationRemove') {
-            this.eventManager.broadcast(<FloatingWindowEvent>{
-                name: onFloatingWindow,
-                content: {
-                    id: uid,
-                    component: OperationRemoveComponent,
-                    componentData: {
-                        selection
+                });
+            },
+            operationRemove: () => {
+                this.eventManager.broadcast(<FloatingWindowEvent>{
+                    name: onFloatingWindow,
+                    content: {
+                        id: uid,
+                        component: OperationRemoveComponent,
+                        componentData: {
+                            selection
+                        }
                     }
-                }
-            });
-        } else if (
-            [ENTITY_TYPE.DOCUMENT + 'Card', ENTITY_TYPE.OPERATION + 'Card', ENTITY_TYPE.RESOLUTION + 'Card'].indexOf(action.code) !== -1
-        ) {
-            const entityType = <ENTITY_TYPE>action.code.replace('Card', '');
-            const modalRef = this.modalService.open(PdfViewComponent, { windowClass: 'pdf-view' });
-            (<PdfViewComponent>modalRef.componentInstance).selection = selection;
-            (<PdfViewComponent>modalRef.componentInstance).entityType = entityType;
-            // modalRef.result.then();
+                });
+            },
+            documentCard: () => {
+                const entityType = <ENTITY_TYPE>action.code.replace('Card', '');
+                const modalRef = this.modalService.open(PdfViewComponent, { windowClass: 'pdf-view' });
+                (<PdfViewComponent>modalRef.componentInstance).selection = selection;
+                (<PdfViewComponent>modalRef.componentInstance).entityType = entityType;
+                // modalRef.result.then();
+            },
+            operationCard: function() {
+                return this.documentCard();
+            },
+            resolutionCard: function() {
+                return this.documentCard();
+            }
+        };
+        if (strategy[action.code] !== undefined) {
+            strategy[action.code]();
         }
     }
 }

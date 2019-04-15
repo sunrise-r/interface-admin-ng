@@ -20,7 +20,8 @@ export class CreateOperationDefaultValuesResolveService implements Resolve<any> 
             map((editInfo: ActualSelectionModel) => {
                 return {
                     document: editInfo.documentIndex,
-                    type: actionCode
+                    type: actionCode,
+                    documentId: parseInt(documentId, 10) // #1741
                 };
             })
         );

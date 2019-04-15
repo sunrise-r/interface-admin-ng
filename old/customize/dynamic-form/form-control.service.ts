@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 import { FormInput } from './inputs/form-input.model';
 import { DynamicFormHelper } from './dynamic-form.helper';
@@ -49,5 +49,31 @@ export class FormControlService {
                     return validators[name] ? Validators[name] : Validators.nullValidator;
             }
         });
+    }
+
+    /**
+     * Пересчитывает состояние зависимых полей. Также очищает те поля,
+     * которые потеряли объект, от которого зависели.
+     *
+     * Проверки на enabled и disabled нужны, чтобы не возникала бесконечная рекурсия
+     *
+     * @author krovyaka
+     */
+    public recalculateDependencies(formInputGroup: FormInputGroup, context: any, form: FormGroup) {
+        formInputGroup.children.forEach(formInputs =>
+            formInputs.forEach(formInput => {
+                if (formInput.dependencies) {
+                    formInput.dependencies.forEach(dependency => {
+                        if (!(dependency in context) || !context[dependency]) {
+                            const depended = form.controls[formInput.key + 'Id'];
+                            if (depended.enabled) depended.disable();
+                        } else {
+                            const independent = form.controls[formInput.key + 'Id'];
+                            if (independent.disabled) independent.enable();
+                        }
+                    });
+                }
+            })
+        );
     }
 }

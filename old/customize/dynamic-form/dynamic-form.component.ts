@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
@@ -74,11 +74,18 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     ngOnInit() {
         if (this.formInputGroup) {
             this.form = this.fcs.toFormGroup(this.formInputGroup);
-            this.form.valueChanges.subscribe(() => this.addFormErrors());
+            this.form.valueChanges.subscribe(() => {
+                if (this.context === undefined) this.context = {};
+                for (const k in this.form.value) this.context[k] = this.form.value[k];
+
+                this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
+                this.addFormErrors();
+            });
         }
         this.formErrorsStringify.errors.subscribe(errors => {
             this.errors = errors;
         });
+        this.fcs.recalculateDependencies(this.formInputGroup, {}, this.form);
     }
 
     ngOnChanges(changes: SimpleChanges): void {

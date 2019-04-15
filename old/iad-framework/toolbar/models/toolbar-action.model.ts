@@ -12,5 +12,6 @@ export class ToolbarAction {
         this.toggle = toggle;
         this.style = style;
         this.active = active || false;
+        this.visible = true;
     }
 }

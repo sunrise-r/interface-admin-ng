@@ -21,9 +21,12 @@ export class DataTableInformationService {
             : this.http.get<ActualSelectionModel>(this.getFullUrl(`partnerdocuments/api/document/actual/${id}`), { observe: 'body' });
     }
 
-    search(searchUrl: string, req?: any): Observable<EntityArrayResponseType> {
+    search(searchUrl: string, req?: any, additional?: String): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
-        return this.http.get<Array<any>>(this.getFullUrl(searchUrl), { params: options, observe: 'response' });
+        return this.http.get<Array<any>>(this.getFullUrl(searchUrl) + additional, {
+            params: options,
+            observe: 'response'
+        });
     }
 
     private getFullUrl(url: string): string {

@@ -1,0 +1,10 @@
+<jhi-dynamic-form
+    *ngIf="formInputGroup"
+    class="content-flex form-wrapper flex-center"
+    [formInputGroup]="formInputGroup"
+    [serverError]="serverError"
+    [inputComponents]="inputComponents"
+    (formSubmit)="onFormSubmit($event)"
+    (formCancel)="onFormCancel()"
+    [context]="data"
+></jhi-dynamic-form>

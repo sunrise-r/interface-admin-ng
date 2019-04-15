@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ToolbarAction } from '../toolbar';
-import {
-    DocumentActionsService,
-    DocumentState,
-    DocumentUpdater,
-    OperationState,
-    OperationUpdater
-} from 'app/iad-framework/services/document-actions-service';
+import { DocumentActionsService } from 'app/iad-framework/services/document-actions-service';
 import { ActualSelectionModel } from 'app/iad-framework/data-table';
-import { documentStatusesMap } from 'app/iad-framework/model/russian-to-english.constants';
+import {
+    DocumentActionState,
+    DocumentActionUpdater,
+    OperationActionState,
+    OperationActionUpdater
+} from 'app/iad-framework/projection-table/tollbar-action-state-resolvers.model';
 
 interface ActionStatusCondition {
     disableOnStatuses: string[];
@@ -40,10 +39,11 @@ export class ToolbarActionsToggleService {
     /**
      * Задисэйблить все действия при инициализации
      * @param actions
+     * @param force
      */
-    disableActions(actions: ToolbarAction[][]): ToolbarAction[][] {
+    disableActions(actions: ToolbarAction[][], force?: boolean): ToolbarAction[][] {
         this.iterateActions(actions, action => {
-            action.disabled = alwaysEnabledActions.indexOf(action.code) === -1;
+            action.disabled = force || alwaysEnabledActions.indexOf(action.code) === -1;
         });
         return actions;
     }
@@ -51,10 +51,11 @@ export class ToolbarActionsToggleService {
     /**
      * Энейблить все действия при выделении
      * @param actions
+     * @param forcedOnly enable only forced disabled actions
      */
-    enableActions(actions: ToolbarAction[][]): ToolbarAction[][] {
+    enableActions(actions: ToolbarAction[][], forcedOnly?: boolean): ToolbarAction[][] {
         this.iterateActions(actions, action => {
-            action.disabled = false;
+            action.disabled = forcedOnly ? alwaysEnabledActions.indexOf(action.code) === -1 : false;
         });
         return actions;
     }
@@ -118,49 +119,4 @@ export class ToolbarActionsToggleService {
             DocumentActionsService.resolveDocumentState(new DocumentActionState(body), new DocumentActionUpdater(actionsHeap));
         }
     }
-}
-
-class DocumentActionState implements DocumentState {
-    public readonly archive = this.actualSelectionModel.selection.archive;
-    public readonly documentStatus = documentStatusesMap[this.actualSelectionModel.documentIndex.status];
-    public readonly needResolution = this.actualSelectionModel.selection.onResolution;
-    public readonly needOperation = this.actualSelectionModel.selection.onOperation;
-    constructor(private actualSelectionModel: ActualSelectionModel) {}
-}
-
-class DocumentActionUpdater implements DocumentUpdater {
-    constructor(private toolbarActions: ToolbarAction[]) {}
-    disableEdit() {
-        this.toolbarActions.filter(action => action.code === 'edit').forEach(action => (action.disabled = true));
-    }
-    disableOperations() {
-        this.toolbarActions.filter(action => action.code === 'operation').forEach(action => (action.disabled = true));
-    }
-    disableResolutions() {
-        this.toolbarActions
-            .filter(action => ['ACCEPTED', 'REJECTED', 'REVIEW'].indexOf(action.code) !== -1)
-            .forEach(action => (action.disabled = true));
-    }
-
-    disableDelete() {
-        this.toolbarActions.filter(action => action.code === 'delete').forEach(action => (action.disabled = true));
-    }
-}
-
-class OperationActionUpdater implements OperationUpdater {
-    constructor(private actions: ToolbarAction[]) {}
-
-    disableDelete() {
-        this.actions.filter(action => action.code === 'operationRemove').forEach(action => (action.disabled = true));
-    }
-
-    disableEdit() {
-        this.actions.filter(action => action.code === 'operationEdit').forEach(action => (action.disabled = true));
-    }
-}
-
-class OperationActionState implements OperationState {
-    public readonly operationStatus = this.body.selection.operationStatus;
-
-    constructor(private body: ActualSelectionModel) {}
 }

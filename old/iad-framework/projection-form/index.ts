@@ -2,6 +2,7 @@ export * from './resolvers/presentation-resolve.service';
 export * from './resolvers/form-projection-resolve.service';
 export * from './resolvers/form-projection-edit-correction-resolve.service';
 export * from './resolvers/operation-form-projection-resolve.service';
+export * from './resolvers/create-raw-information-resolve.service';
 export * from './resolvers/create-operation-default-values-resolve.service';
 export * from './resolvers/create-correction-default-values-resolve.service';
 export * from './resolvers/edit-raw-information-resolve.service';
@@ -10,5 +11,5 @@ export * from './resolvers/create-operation-edit-default-values-resolve.service'
 export * from './resolvers/operation-id-resolve.service';
 export * from './resolvers/edit-operation-new-default-values-resolve.service';
 export * from './resolvers/edit-correction-default-values-resolve.service';
-export * from './form-view/form-view.component';
+export * from './projection-form/projection-form.component';
 export * from './projection-form.module';

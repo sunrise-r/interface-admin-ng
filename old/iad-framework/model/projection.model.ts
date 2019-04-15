@@ -1,6 +1,4 @@
 import { IDataTableColumn } from 'app/iad-framework';
-import { statementTypes } from 'app/elastic';
-import { Operator } from 'app/elastic';
 
 export enum DATA_DEPENDENCY_LEVEL {
     DOCUMENT = 'document',
@@ -11,12 +9,12 @@ export enum DATA_DEPENDENCY_LEVEL {
 export interface IProjectionDefaultFilter {
     field: string;
     values: string[];
-    statementType: statementTypes;
-    operator?: Operator;
+    statementType: any;
+    operator?: any;
 }
 
 export class ProjectionDefaultFilter implements IProjectionDefaultFilter {
-    constructor(public field: string, public values: string[], public statementType = statementTypes.eq, public operator = Operator.OR) {}
+    constructor(public field: string, public values: string[], public statementType = 'eq', public operator = 'or') {}
 }
 
 export interface IIADProjection {
@@ -53,13 +51,14 @@ export class DocumentFormProjection implements IIADProjection {
     fields: any[];
     documentPhoto?: string; // Is it used anywhere?
     properties?: any;
+    className?: string;
 }
 
 export class IadFormField {
-    column: number; //0 or 1
+    column: number; // 0 or 1
     defaultValue: string;
-    fieldInputType: string; //i.e. DISABLED
-    hidden: boolean; //hide column in form
+    fieldInputType: string; // i.e. DISABLED
+    hidden: boolean; // hide column in form
     label: string; // translated label
     name: string; // field name attr
     type: string; // formatter
@@ -68,7 +67,7 @@ export class IadFormField {
 
 export class IadActualDataField {
     code: string; // code according to specific data
-    formatter: string; //formatter
+    formatter: string; // formatter
     label: string; // translated label
 }
 

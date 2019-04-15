@@ -23,7 +23,6 @@ export class SpecialColumnComponent implements OnInit, TableTdContentInterface {
 
     ngOnInit() {
         if (this.col.displayFormat === 'status') {
-            console.log(this.rowData);
             this.iconClass = 'status-' + documentStatusesMap[this.rowData[this.col.field]];
         } else {
             this.iconClass = this.col.displayFormat;
@@ -33,7 +32,7 @@ export class SpecialColumnComponent implements OnInit, TableTdContentInterface {
 
     initTooltip(): Promise<string> {
         if (this.col.displayFormat === 'operation' || this.col.displayFormat === 'status') {
-            return Promise.resolve(this.rowData[this.col.displayFormat]);
+            return Promise.resolve(this.rowData[this.col.displayFormat] || this.rowData[this.col.field]);
         }
         return this.translationService.get('additionalFields.' + this.col.field).toPromise();
     }

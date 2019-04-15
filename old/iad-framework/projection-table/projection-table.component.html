@@ -1,10 +1,11 @@
 <jhi-table-toolbar
-    [actions]="projection.actions"
+    [deactivateActionButton]="deactivateActionButton"
+    [leftActions]="projection.actions"
     [filterActive]="showFilter"
     [filterEnabled]="filterEnabled"
-    [groupSettingsKey]="groupSettingsKey"
+    [ngClass]="{'disabled': disabled}"
+    [rightAddonTemplate]="rightAddonTemplate"
     [searchActive]="showSearchPanel"
-    [deactivateActionButton]="deactivateActionButton"
     (actionClicked)="onActionClicked($event)"
 ></jhi-table-toolbar>
 <iad-table-dropdown #columnVisibility (hidden)="onHiddenToolbarDropdown('search')">
@@ -25,7 +26,9 @@
     [columns]="columns"
     [groupSettingsKey]="groupSettingsKey"
     [items]="items"
-    [onBuildQuery]="queryCallback"
+    [lazyLoadingEnabled]="lazyLoadingEnabled"
+    [ngClass]="{'disabled': disabled}"
+    [filter]="filter"
     [refresh]="refresh"
     [searchUrl]="searchUrl"
     [showFilter]="showFilter"

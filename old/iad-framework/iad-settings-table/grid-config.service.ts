@@ -21,8 +21,12 @@ export class GridConfigService {
             dgColumnVisibility: { [param: string]: boolean };
         if (prefs.has('sort')) {
             [sortField, sortOrder] = prefs.get('sort').split(',');
+            const convertSorting = (sort: string) => (sort === 'asc' ? 1 : sort === 'desc' ? -1 : false);
             model.sortField = sortField;
-            model.sortOrder = parseInt(sortOrder, 10);
+            model.sortOrder = convertSorting(sortOrder) || parseInt(sortOrder, 10);
+            if (Number.isNaN(model.sortOrder)) {
+                model.sortOrder = 1;
+            }
         }
         if (prefs.has('dgSidesInfo')) {
             dgSidesInfo = JSON.parse(prefs.get('dgSidesInfo'));

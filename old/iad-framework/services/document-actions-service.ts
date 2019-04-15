@@ -20,16 +20,21 @@ export class DocumentActionsService {
             updater.disableEdit();
             updater.disableDelete();
         }
+        if (!state.needResolution) {
+            updater.disableResolutions();
+        }
     }
 }
 
 export interface OperationState {
+    readonly needResolution;
     readonly operationStatus;
 }
 
 export interface OperationUpdater {
     disableEdit();
     disableDelete();
+    disableResolutions();
 }
 
 export interface DocumentState {

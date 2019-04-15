@@ -1,10 +1,9 @@
 export class CatalogTree {
     items: CatalogTree[];
-    code?: string;
-    url?: string;
     visible: boolean;
+    url?: any;
 
-    constructor(public name: string, public root?: CatalogTree) {
+    constructor(public name: string, public code?: string, public translate?: boolean, public root?: CatalogTree) {
         this.items = [];
         this.visible = true;
     }
@@ -14,8 +13,7 @@ export class CatalogTree {
     }
 
     clone() {
-        const clone = new CatalogTree(this.name, this.root);
-        clone.code = this.code;
+        const clone = new CatalogTree(this.name, this.code, this.translate, this.root);
         clone.url = this.url;
         return clone;
     }

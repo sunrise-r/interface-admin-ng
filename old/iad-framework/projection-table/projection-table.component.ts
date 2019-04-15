@@ -1,4 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+    AfterContentInit,
+    Component,
+    ContentChildren,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    QueryList,
+    SimpleChanges,
+    TemplateRef,
+    ViewChild
+} from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -6,28 +18,20 @@ import { ToolbarActionsCommonHandlerService } from './toolbar-actions-common-han
 
 import * as _ from 'lodash';
 
-import {
-    DATA_DEPENDENCY_LEVEL,
-    DataTableColumn,
-    DocumentListProjection,
-    IProjectionDefaultFilter,
-    PresentationHelper,
-    SELECT_ACTION
-} from '../';
-import {
-    ActualSelectionChainService,
-    ActualSelectionEvent,
-    ActualSelectionModel,
-    DataTableInformationService,
-    IDataTableColumn,
-    QueryBuildCallback
-} from '../data-table';
-import { ToolbarAction } from '../toolbar';
+import { DATA_DEPENDENCY_LEVEL, DocumentListProjection } from '../model/projection.model';
+import { SELECT_ACTION, ActualSelectionEvent, ActualSelectionModel } from '../data-table/models/actual-selection.model';
+import { DataTableColumn, IDataTableColumn } from '../data-table/data-table/data-table.model';
+import { DataTableInformationService } from '../data-table/services/data-table-information.service';
+import { ActualSelectionChainService } from '../data-table/services/actual-selection-chain.service';
+import { ToolbarAction } from '../toolbar/models/toolbar-action.model';
+import { PresentationHelper } from '../services/presentation-helper';
 
 import { ToolbarActionsToggleService } from './toolbar-actions-toggle.service';
-import { ElasticSearchQueryBuilder } from 'app/elastic';
-import { ActionToggle, toggleColumnSelector } from '../toolbar/table-toolbar/toolbar-action-constants';
 import { ToolbarDropdownComponent } from '../toolbar/toolbar-dropdown/toolbar-dropdown.component';
+import { DataChainService } from 'app/iad-framework';
+import { PrimeTemplate } from 'primeng/shared';
+import { CustomizeQuery } from 'app/iad-framework/filter-builder/action/customize-query';
+import { IadHelper } from 'app/iad-framework/utils/iad.helper';
 
 // TODO Может, разделить для операций и для таблиц данных?
 @Component({
@@ -35,9 +39,7 @@ import { ToolbarDropdownComponent } from '../toolbar/toolbar-dropdown/toolbar-dr
     templateUrl: './projection-table.component.html',
     providers: [ToolbarActionsToggleService, ToolbarActionsCommonHandlerService, PresentationHelper]
 })
-export class ProjectionTableComponent implements OnChanges {
-    private _projection: DocumentListProjection;
-
+export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * Контекст работы компонента.
      * Используется для:
@@ -61,9 +63,14 @@ export class ProjectionTableComponent implements OnChanges {
     @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * Внешний дополнительный фильтр ProjectionDefaultFilter[]
+     * #1686 make table and toolbar disabled
      */
-    @Input() filter: IProjectionDefaultFilter[];
+    @Input() disabled: boolean;
+
+    /**
+     * Внешний дополнительный фильтр CustomizeQuery
+     */
+    @Input() filter: CustomizeQuery;
 
     /**
      * Включен ли фильтр по столбцам (По умолчанию true)
@@ -83,15 +90,12 @@ export class ProjectionTableComponent implements OnChanges {
     /**
      * Текущая проекция
      */
-    @Input()
-    get projection(): DocumentListProjection {
-        return this._projection;
-    }
+    @Input() projection: DocumentListProjection;
 
-    set projection(projection: DocumentListProjection) {
-        projection.actions = this.toolbarActionsToggleService.disableActions(projection.actions);
-        this._projection = projection;
-    }
+    /**
+     * Свойства для обновления тулбара
+     */
+    @Input() toolbarProps: any;
 
     /**
      * сабжект обновления таблицы
@@ -136,7 +140,7 @@ export class ProjectionTableComponent implements OnChanges {
     /**
      * сабжект для переключения кнопок тулбара
      */
-    @Input() deactivateActionButton: Subject<ActionToggle> = new Subject<ActionToggle>();
+    @Input() deactivateActionButton: Subject<{ code: string }> = new Subject<{ code: string }>();
 
     /**
      * тип отображаемой информации - документ или операция
@@ -147,6 +151,11 @@ export class ProjectionTableComponent implements OnChanges {
      * сабжект снятия выделения
      */
     @Input() unSelectRow: Subject<boolean> = new Subject<boolean>();
+
+    /**
+     * Включает Lazy Loading если есть URL ресурса
+     */
+    @Input() lazyLoadingEnabled: boolean;
 
     /**
      * Нажата какая-либо кнопка в тулбаре
@@ -169,6 +178,16 @@ export class ProjectionTableComponent implements OnChanges {
     @ViewChild('columnVisibility') columnVisibility: ToolbarDropdownComponent;
 
     /**
+     * Шаблоны для применения в <projection-table></projection-table>
+     */
+    @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
+
+    /**
+     * Шаблон для добавления контента в правую часть кнопок тулбара
+     */
+    rightAddonTemplate: TemplateRef<any>;
+
+    /**
      * Все колонки таблицы
      */
     columns: IDataTableColumn[] = [];
@@ -182,11 +201,6 @@ export class ProjectionTableComponent implements OnChanges {
      * Флаг "Загружать актуальную информацию"
      */
     loadActualInfo: boolean;
-
-    /**
-     * Колбек запроса для установки доп. параметров фильтрации
-     */
-    queryCallback: QueryBuildCallback;
 
     /**
      * Url поиска данных для документа
@@ -210,9 +224,10 @@ export class ProjectionTableComponent implements OnChanges {
         private informationService: DataTableInformationService,
         private toolbarActionsToggleService: ToolbarActionsToggleService,
         private eventManager: JhiEventManager,
-        private dataPreviewChainService: ActualSelectionChainService,
         private toolbarActionsCommonHandler: ToolbarActionsCommonHandlerService,
-        private presentationHelper: PresentationHelper
+        private presentationHelper: PresentationHelper,
+        private dataChainService: DataChainService,
+        private dataPreviewChainService: ActualSelectionChainService
     ) {}
 
     /**
@@ -224,7 +239,8 @@ export class ProjectionTableComponent implements OnChanges {
      */
     ngOnChanges(changes: SimpleChanges): void {
         if ((changes['projection'] && this.projection) || (changes['presentationCode'] && this.presentationCode)) {
-            this.queryCallback = this.initQueryCallback.bind(this);
+            this.projection.actions = this.toolbarActionsToggleService.disableActions(this.projection.actions, this.disabled); // #1686
+            this.selectionRequestField = IadHelper.getProperty('selectionRequestField', this.selectionRequestField, this.projection);
             this.initColumns();
             // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
             this.loadActualInfo = this.initLoadActualInformationFlag();
@@ -232,14 +248,30 @@ export class ProjectionTableComponent implements OnChanges {
             this.unSelectRow.next(true);
             this.searchUrl = ProjectionTableComponent.resolveUrl(this.projection.searchUrl, this.context);
         }
+        // #1686
+        if (changes['disabled']) {
+            this.projection.actions = this.disabled
+                ? this.toolbarActionsToggleService.disableActions(this.projection.actions, this.disabled)
+                : this.toolbarActionsToggleService.enableActions(this.projection.actions, true);
+        }
+    }
+
+    ngAfterContentInit() {
+        this.templates.forEach(item => {
+            switch (item.getType()) {
+                case 'toolbarRightAddon':
+                    this.rightAddonTemplate = item.template;
+                    break;
+            }
+        });
     }
 
     /**
      * Произведён клик в тулбаре
      */
     onActionClicked(action: ToolbarAction): void {
-        if (action.code === toggleColumnSelector) {
-            this.columnVisibility.doToggle(action.value);
+        if (action.code === 'columns') {
+            this.columnVisibility.doToggle(action.value, action);
         } else {
             this.toolbarActionsCommonHandler.handle(
                 action,
@@ -256,7 +288,7 @@ export class ProjectionTableComponent implements OnChanges {
      * @param code
      */
     onHiddenToolbarDropdown(code) {
-        this.deactivateActionButton.next(<ToolbarAction>{ code });
+        this.deactivateActionButton.next({ code });
     }
 
     /**
@@ -281,7 +313,10 @@ export class ProjectionTableComponent implements OnChanges {
         if (!this.actualSelection) {
             return;
         }
-        this.toolbarActionsToggleService.disableActions(this._projection.actions);
+        this.toolbarActionsToggleService.disableActions(this.projection.actions);
+
+        // this.dataChainService.reset(this.type);
+
         this.removeSelectedDataFromPreview(this.actualSelection);
         this.actualSelection = undefined;
         this.unSelectedItem.next();
@@ -296,17 +331,6 @@ export class ProjectionTableComponent implements OnChanges {
         if (!this.unSelectRow.closed) {
             this.unSelectRow.next(true);
         }
-    }
-
-    /**
-     * Init query callback;
-     * @param builder
-     */
-    initQueryCallback(builder: ElasticSearchQueryBuilder) {
-        if (this.filter) {
-            builder = this.addFilterValues(builder);
-        }
-        return builder;
     }
 
     /**
@@ -345,7 +369,8 @@ export class ProjectionTableComponent implements OnChanges {
                 response.documentDTO = Object.assign({}, response.documentDTO, response.documentIndex);
                 this.actualSelection = response;
 
-                this._projection.actions = this.resolveActions(this.actualSelection);
+                this.projection.actions = this.resolveActions(this.actualSelection);
+                // this.dataChainService.add(this.type, this.actualSelection);
                 this.sendSelectionToDataPreview(this.actualSelection);
                 this.selectedItem.next(this.actualSelection);
                 this.eventManager.broadcast(new ActualSelectionEvent(this.actualSelection));
@@ -403,28 +428,14 @@ export class ProjectionTableComponent implements OnChanges {
     }
 
     /**
-     * Добавляет предустановленные значения фильтра.
-     * @param builder
-     */
-    private addFilterValues(builder: ElasticSearchQueryBuilder): ElasticSearchQueryBuilder {
-        this.filter.forEach((filter: IProjectionDefaultFilter) => {
-            const statement = builder.addColumn(filter.field).setStatementType(filter.statementType);
-            filter.values.forEach(value => {
-                statement.addStatement(value, false, filter.operator);
-            });
-        });
-        return builder;
-    }
-
-    /**
      * Определяем доступность экшнов в тулбаре текущей проекции
      * @param body ActualSelectionModel
      */
     private resolveActions(body: ActualSelectionModel): ToolbarAction[][] {
-        if (body.documentDTO) {
-            return this.toolbarActionsToggleService.resolveActionsByStatus(this._projection.actions, body);
+        if (body && body.documentDTO) {
+            return this.toolbarActionsToggleService.resolveActionsByStatus(this.projection.actions, body);
         }
-        return this.toolbarActionsToggleService.enableActions(this._projection.actions);
+        return this.toolbarActionsToggleService.enableActions(this.projection.actions);
     }
 
     /**
