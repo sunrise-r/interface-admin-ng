@@ -1,4 +1,15 @@
 {
+  "phoneBook": {
+    "firstField": {
+      "values": {
+        "One": "Один",
+        "Two": "Два",
+        "Three": "Три",
+        "Four": "Четыре",
+        "Five": "Пять"
+      }
+    }
+  },
   "presentation": {
     "label": "Представление 1",
     "label2": "Представление 2",

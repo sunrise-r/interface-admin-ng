@@ -30,7 +30,8 @@ export class ProjectionReferenceResponse extends AbstractResponse {
             'One', 'Two', 'Three', 'Four', 'Five'
           ],
           'maxSelectedLabels': 5,
-          'filter': false
+          'filter': false,
+          'translatePrefix': 'phoneBook.firstField.values'
         }
       },
       {

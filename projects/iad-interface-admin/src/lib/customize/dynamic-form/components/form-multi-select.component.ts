@@ -18,7 +18,7 @@ import { ValidationInput } from './validation-input';
           [formControlName]="config | formatInputName"
           [id]="config.key"
           [disabled]="config.readonly"
-          [options]="multiSelectValues(config.values)"
+          [options]="multiSelectValues(config.translatePrefix, config.values)"
           [(ngModel)]="config.value"
         ></p-multiSelect>
       </div>
@@ -30,7 +30,10 @@ export class FormMultiSelectComponent extends ValidationInput implements OnInit,
     super(translateService, el, renderer);
   }
 
-  multiSelectValues(values: string[]) {
-    return values.map(value => ({label: value, value: value}));
+  multiSelectValues(translatePrefix: string, values: string[]) {
+    return values.map(value => ({
+      label: translatePrefix ? this.translateService.instant(translatePrefix + '.' + value) : value,
+      value: value
+    }));
   }
 }

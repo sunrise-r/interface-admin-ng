@@ -25,7 +25,7 @@ export class ValidationInput extends ClassStyledInput implements OnInit {
         return this.config.column && this.config.column > 0 ? 8 : 10;
     }
 
-    constructor(private translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
+    constructor(protected translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
         super(el, renderer);
     }
 
