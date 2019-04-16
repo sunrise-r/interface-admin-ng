@@ -10,8 +10,8 @@ import { FormDateTimeComponent } from './form-date-time-component';
 import { FormTextareaComponent } from './form-textarea-component';
 import { Subscription } from 'rxjs';
 import {ContextAware} from '../context-aware';
-import {BooleanInput} from '../inputs/boolean-input.model';
 import {FormBooleanComponent} from './form-boolean-component';
+import {FormMultiSelectComponent} from './form-multi-select.component';
 
 
 const components = {
@@ -23,7 +23,8 @@ const components = {
     hidden: FormInputComponent,
     datetime: FormDateTimeComponent,
     textarea: FormTextareaComponent,
-    boolean: FormBooleanComponent
+    boolean: FormBooleanComponent,
+    multiSelect: FormMultiSelectComponent
 };
 
 @Directive({

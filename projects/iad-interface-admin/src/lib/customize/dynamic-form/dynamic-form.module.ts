@@ -17,6 +17,7 @@ import {IadSharedModule} from '../../shared/iad-shared.module';
 import {CustomizeModule} from '../customize.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {FormBooleanComponent} from './components/form-boolean-component';
+import {FormMultiSelectComponent} from './components/form-multi-select.component';
 
 @NgModule({
     imports: [InputMaskModule, IadSharedModule, CustomizeModule, FontAwesomeModule],
@@ -31,7 +32,8 @@ import {FormBooleanComponent} from './components/form-boolean-component';
         FormFileComponent,
         FormDateTimeComponent,
         FormTextareaComponent,
-        FormBooleanComponent
+        FormBooleanComponent,
+        FormMultiSelectComponent
     ],
     entryComponents: [
         FormDateComponent,
@@ -41,7 +43,8 @@ import {FormBooleanComponent} from './components/form-boolean-component';
         FormFileComponent,
         FormDateTimeComponent,
         FormTextareaComponent,
-        FormBooleanComponent
+        FormBooleanComponent,
+        FormMultiSelectComponent
     ],
     exports: [DynamicFormComponent, FormatInputNamePipe, FontAwesomeModule]
 })

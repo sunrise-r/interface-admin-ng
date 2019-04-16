@@ -18,13 +18,20 @@ export class ProjectionReferenceResponse extends AbstractResponse {
     projection.fields = [
       {
         'validationTypes': {'maxLength': '20', 'email': false, 'required': false},
-        'type': 'String',
+        'type': 'MultiSelect',
         'name': 'firstField',
         'label': 'presentation.projection.main.firstField',
         'column': 0,
         'hidden': false,
         'visible': true,
-        'translate': true
+        'translate': true,
+        'properties': {
+          'values': [
+            'One', 'Two', 'Three', 'Four', 'Five'
+          ],
+          'maxSelectedLabels': 5,
+          'filter': false
+        }
       },
       {
         'validationTypes': {'email': false, 'required': false},

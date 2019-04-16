@@ -17,7 +17,7 @@ export class IadDataOperationsService {
     Object.keys(data).forEach(key => {
       if (data[key] instanceof Date) {
         plainData[key] = this.toISOStringWithTimezone(data[key]);
-      } else if (data[key] instanceof Object) {
+      } else if (data[key] instanceof Object && !(data[key] instanceof Array)) {
         Object.assign(plainData, this.plainObject(data[key]));
       } else {
         plainData[key] = data[key];

@@ -6,7 +6,7 @@ export class PhoneBook {
     public birthDate: string,
     public phone: string,
     public email: string,
-    public firstField?: string,
+    public firstField?: string[],
     public secondField?: string,
     public booleanField?: boolean
   ) {}

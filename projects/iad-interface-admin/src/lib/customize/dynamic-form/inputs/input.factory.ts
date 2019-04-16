@@ -8,10 +8,12 @@ import {DateTimeInput} from './date-time-input.model';
 import {TextareaInput} from './textarea-input.model';
 import {FormInput} from './form-input.model';
 import {BooleanInput} from './boolean-input.model';
+import {MultiSelectInputModel} from './multi-select-input.model';
 
 const typeFactory = {
     BigDecimal: NumberInput,
     Boolean: BooleanInput,
+    MultiSelect: MultiSelectInputModel,
     Integer: NumberInput,
     ZonedDateTime: DateInput,
     String: TextInput,
