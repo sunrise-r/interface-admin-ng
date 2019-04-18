@@ -12,9 +12,11 @@ import { ValidationInput } from './validation-input';
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
         <p-multiSelect
+          [selectedItemsLabel]="config.translatePrefix + '.elementsSelected' | translate"
+          [defaultLabel]="config.translatePrefix + '.label' | translate"
           [panelStyle]="{minWidth: '12em'}"
           [maxSelectedLabels]="config.maxSelectedLabels"
-          [filter]="config.filter"
+          [showHeader]="config.showHeader"
           [formControlName]="config | formatInputName"
           [id]="config.key"
           [disabled]="config.readonly"
