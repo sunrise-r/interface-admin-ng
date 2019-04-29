@@ -131,14 +131,17 @@ export class PresentationResponse extends AbstractResponse {
             'field': 'nameField',
             'header': 'presentation.projection.main.nameField',
             'formatter': null,
-            'displayFormat': 'String',
+            'displayFormat': 'Link',
             'visible': true,
             'translate': true,
             'searching': true,
             'style': null,
             'sorting': true,
             'position': null,
-            'properties': null
+            'properties': {
+              'url': '/#/data/presentation-one/form-projection/edit/',
+              'idKey': 'id'
+            }
           },
           {
             'field': 'surnameField',

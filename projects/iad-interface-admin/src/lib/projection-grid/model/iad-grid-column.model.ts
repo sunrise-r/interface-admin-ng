@@ -13,7 +13,7 @@ export interface IadGridColumnInterface {
     searching?: boolean;
     displayFormat?: string;
     sorting?: boolean;
-    properties?: { [param: string]: string | boolean | number };
+    properties?: { [param: string]: any };
 }
 
 export class IadGridColumn implements IadGridColumnInterface {
@@ -31,7 +31,7 @@ export class IadGridColumn implements IadGridColumnInterface {
     searching?: boolean;
     displayFormat?: string;
     sorting?: boolean;
-    properties?: { [param: string]: string | boolean | number };
+    properties?: { [param: string]: any };
     constructor(field: string, header: string, displayFormat?: string, style?: string, translate?: boolean) {
         this.field = field;
         this.header = header;
