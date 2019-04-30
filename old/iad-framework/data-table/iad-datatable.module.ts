@@ -4,13 +4,13 @@ import { PartnerGatewaySharedModule } from 'app/shared';
 import { SharedModule } from 'primeng/shared';
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
 
+// @TODO REMOVE FROM IAD!
 import { CustomizeModule } from 'app/customize';
 import { IadPrimengModule } from '../iad-primeng/iad-primeng.module';
 
 import { TableHeaderMenuComponent } from './table-header-menu/table-header-menu.component';
 import { TableSortIconComponent } from './table-sort-icon/table-sort-icon.component';
 import { TableColumnFilterComponent } from './table-column-filter/table-column-filter.component';
-import { TableSearchPanelComponent } from './table-search-panel/table-search-panel.component';
 
 import { TableColumnSizeDirective } from './table-column-size/table-column-size.directive';
 import { DataTableComponent } from './data-table/data-table.component';
@@ -32,7 +32,6 @@ import { FilterBuilderModule } from '../filter-builder/filter-builder.module';
         TableColumnFilterComponent,
         DataTableComponent,
         TableColumnSizeDirective,
-        TableSearchPanelComponent,
         DataTableTdHostDirective,
         DefaultColumnComponent,
         SpecialColumnComponent

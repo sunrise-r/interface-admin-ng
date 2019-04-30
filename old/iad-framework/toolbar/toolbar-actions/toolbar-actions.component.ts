@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChildren, QueryList } from '@angular/core';
 import { ToolbarAction } from '../models/toolbar-action.model';
+import { Subject } from 'rxjs';
+import { ToolbarActionDirective } from 'app/iad-framework';
 
 @Component({
     selector: 'iad-toolbar-actions',
@@ -11,14 +13,14 @@ import { ToolbarAction } from '../models/toolbar-action.model';
                 [class]="styleClass"
                 type="button"
                 [iadToolbarAction]="action"
-                [active]="action.active"
+                [active]="!!action.active"
                 [disabled]="action.disabled"
                 (invoke)="actionInvoke.emit($event)"
             ></button>
         </ng-template>
   </div>`
 })
-export class ToolbarActionsComponent {
+export class ToolbarActionsComponent implements OnChanges {
     /**
      * Доступные действия
      */
@@ -28,6 +30,11 @@ export class ToolbarActionsComponent {
      * prefix to add to actionCode to translate it as action label
      */
     @Input() translationPrefix = '';
+
+    /**
+     * Subject to deactivate all active toggleable buttons
+     */
+    @Input() resetToggleableStatus: Subject<{ code: string }>;
 
     /**
      * Css style class to add to each toolbar action button
@@ -42,4 +49,17 @@ export class ToolbarActionsComponent {
         nativeEvent: Event;
         action: ToolbarAction;
     }>();
+
+    @ViewChildren(ToolbarActionDirective) buttons: QueryList<ToolbarActionDirective>;
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if ('resetToggleableStatus' in changes && this.resetToggleableStatus) {
+            this.resetToggleableStatus.subscribe(toggle => {
+                const button = this.buttons.find(item => item.action.code === toggle.code);
+                if (button) {
+                    button.deactivate();
+                }
+            });
+        }
+    }
 }

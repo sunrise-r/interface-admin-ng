@@ -3,27 +3,25 @@ import { Subject, Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { CmsUserSettingsLoaderService, EntityResponseType } from 'app/core';
-import { AutoUnsubscribe } from 'app/shared';
 import { ToolbarAction } from '../toolbar';
 
 import { DataTableConfigProvider, DataTableConfigModel } from '../data-table/data-table/data-table-config.model';
-import { IDataTableColumn } from '../data-table/data-table/data-table.model';
+import { FILTER_TYPE, IDataTableColumn } from '../data-table/data-table/data-table.model';
 import { CmsSetting } from '../data-table/services/settings-provider';
 
 import { GridConfigService } from './grid-config.service';
 import { CustomizeQuery } from '../filter-builder/action/customize-query';
 
 @Component({
-    selector: 'jhi-iad-settings-table',
+    selector: 'iad-settings-table',
     templateUrl: './iad-settings-table.component.html',
     providers: [GridConfigService]
 })
-@AutoUnsubscribe
 export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableConfigProvider, OnDestroy {
     /**
      * Нажата какая-либо кнопка в тулбаре
      */
-    @Input() actionClicked: Subject<ToolbarAction>;
+    @Input() doTableAction: Subject<{ code: string; value: any }>;
 
     /**
      * Флаг "Разрешить снятие выделения"
@@ -76,6 +74,11 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     @Input() refresh: Subject<any> = new Subject<any>();
 
     /**
+     * Посылает событие сброса фильтра
+     */
+    @Input() resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
+
+    /**
      * сабжект снятия выделения
      */
     @Input() unSelectRow: Subject<boolean> = new Subject<boolean>();
@@ -91,14 +94,14 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
 
     /**
+     * Updates settings inside projection-table
+     */
+    @Input() settingsUpdater: Subject<any> = new Subject<any>();
+
+    /**
      * Flag to check if grid filter should be shown by default
      */
     @Input() showFilter: boolean;
-
-    /**
-     * Flag to check if grid search panel should be shown by default
-     */
-    @Input() showSearchPanel: boolean;
 
     /**
      * Список "статически замороженных справа колонок"
@@ -136,11 +139,6 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     initialSort: string;
 
     /**
-     * Подписка на событие onAccountChange
-     */
-    onAccountChangeSbt: Subscription;
-
-    /**
      * Данные таблицы были изменены
      * Передаёт в data-table.component информацию обо всех текущих настройках в виде единого DatatableConfigModel файла
      * Это позволяет исключить установку сортировки до обработки запроса на обновление данных без
@@ -158,6 +156,10 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
      */
     selection: any;
 
+    private settingUpdateSbt: Subscription;
+
+    private refreshSbt: Subscription;
+
     constructor(
         private settingsLoader: CmsUserSettingsLoaderService,
         private eventManager: JhiEventManager,
@@ -166,11 +168,17 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
 
     ngOnInit(): void {
         // Подписка на refresh настроек
-        this.refresh.subscribe(() => {
+        this.refreshSbt = this.refresh.subscribe(() => {
             if (!this.config) {
                 this.initSettings(this.groupSettingsKey);
             } else {
                 this.refreshConfig.next(this.config);
+            }
+        });
+
+        this.settingUpdateSbt = this.settingsUpdater.subscribe(event => {
+            if (event.name === 'columns') {
+                this.onUpdateColumnsVisibility(event.content.columns, event.content.prevEvent);
             }
         });
 
@@ -180,12 +188,24 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['groupSettingsKey'] && this.groupSettingsKey) {
+        if ('groupSettingsKey' in changes && this.groupSettingsKey) {
             this.initSettings(this.groupSettingsKey);
+        }
+        // issue #1792 Перенёс это из data-table.component:
+        // issue #1745 поправил работу фильтра по проекциям
+        if ('filter' in changes) {
+            this.refreshConfig.next(this.config);
         }
     }
 
-    ngOnDestroy(): void {}
+    ngOnDestroy(): void {
+        if (this.refreshSbt) {
+            this.refreshSbt.unsubscribe();
+        }
+        if (this.settingUpdateSbt) {
+            this.settingUpdateSbt.unsubscribe();
+        }
+    }
 
     /**
      * Обработчик смены настроек, если они были изменены с помощью контролов таблицы

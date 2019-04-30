@@ -2,8 +2,8 @@ import { FilterBuilderFactory } from './filter-builder-factory';
 
 export class Example {
     public exampleBuild(): any {
-        var builder = new FilterBuilderFactory();
-        let query = builder
+        const builder = new FilterBuilderFactory();
+        const query = builder
             .createFilter()
             .addFilter('name', 'ivan')
             .addOption('fioOrOperator')

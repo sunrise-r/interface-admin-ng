@@ -15,7 +15,7 @@ export class GoogleMapComponent implements OnInit, AfterViewInit {
     /**
      * Данные для карты
      */
-    @Input() address: string = '';
+    @Input() address = '';
 
     /**
      * Высота таблицы в px

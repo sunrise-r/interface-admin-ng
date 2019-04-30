@@ -8,11 +8,12 @@ export * from './services/projections-api.service';
 export * from './services/presentation-helper';
 export * from './services/data-chain.service';
 
-export * from './toolbar';
+export * from './toolbar/toolbar-actions/toolbar-action.directive';
+export * from './toolbar/toolbar-actions/toolbar-actions.component';
+export * from './toolbar/models/toolbar-action.model';
+export * from './toolbar/toolbar.module';
 
 export * from './projection-table/table-toolbar/table-toolbar.component';
-export * from './projection-table/table-toolbar/toolbar-action-constants';
-export * from './toolbar/toolbar-actions/toolbar-actions.component';
 
 export * from './common';
 export * from './data-table';

@@ -1,12 +1,12 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
 
 @Directive({
-    selector: '[jhiTableColumnSize]'
+    selector: '[iadTableColumnSize]'
 })
 export class TableColumnSizeDirective implements OnInit, OnChanges {
-    @Input('jhiTableColumnSize') size: string | number;
+    @Input('iadTableColumnSize') size: string | number;
 
-    @Input() jhiTableColumnSizeDisabled: boolean;
+    @Input() iadTableColumnSizeDisabled: boolean;
 
     constructor(private el: ElementRef, private renderer: Renderer2) {}
 
@@ -27,6 +27,6 @@ export class TableColumnSizeDirective implements OnInit, OnChanges {
     }
 
     isEnabled() {
-        return this.jhiTableColumnSizeDisabled !== true;
+        return this.iadTableColumnSizeDisabled !== true;
     }
 }

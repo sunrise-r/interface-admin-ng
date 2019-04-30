@@ -94,10 +94,6 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
      */
     @Input() unSelectRow: Subject<boolean> = new Subject<boolean>();
 
-    interlayerTemplate: TemplateRef<any>;
-
-    frozenInterlayerTemplate: TemplateRef<any>;
-
     constructor(
         public el: ElementRef,
         public domHandler: IadDomHandler,
@@ -133,77 +129,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
     }
 
     ngAfterContentInit() {
-        this.templates.forEach(item => {
-            switch (item.getType()) {
-                case 'caption':
-                    this.captionTemplate = item.template;
-                    break;
-
-                case 'header':
-                    this.headerTemplate = item.template;
-                    break;
-
-                case 'body':
-                    this.bodyTemplate = item.template;
-                    break;
-
-                case 'footer':
-                    this.footerTemplate = item.template;
-                    break;
-
-                case 'summary':
-                    this.summaryTemplate = item.template;
-                    break;
-
-                case 'colgroup':
-                    this.colGroupTemplate = item.template;
-                    break;
-
-                case 'rowexpansion':
-                    this.expandedRowTemplate = item.template;
-                    break;
-
-                case 'frozenrows':
-                    this.frozenRowsTemplate = item.template;
-                    break;
-
-                case 'frozenheader':
-                    this.frozenHeaderTemplate = item.template;
-                    break;
-
-                case 'frozenbody':
-                    this.frozenBodyTemplate = item.template;
-                    break;
-
-                case 'frozenfooter':
-                    this.frozenFooterTemplate = item.template;
-                    break;
-
-                case 'frozencolgroup':
-                    this.frozenColGroupTemplate = item.template;
-                    break;
-
-                case 'emptymessage':
-                    this.emptyMessageTemplate = item.template;
-                    break;
-
-                case 'paginatorleft':
-                    this.paginatorLeftTemplate = item.template;
-                    break;
-
-                case 'paginatorright':
-                    this.paginatorRightTemplate = item.template;
-                    break;
-
-                case 'interlayer':
-                    this.interlayerTemplate = item.template;
-                    break;
-
-                case 'frozeninterlayer':
-                    this.frozenInterlayerTemplate = item.template;
-                    break;
-            }
-        });
+        super.ngAfterContentInit();
     }
 
     /**

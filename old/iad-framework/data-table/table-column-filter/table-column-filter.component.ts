@@ -6,7 +6,7 @@ import { TableColumnFilter } from './table-column-filter.model';
 import { FILTER_TYPE } from '../data-table/data-table.model';
 
 @Component({
-    selector: 'jhi-table-column-filter',
+    selector: 'iad-table-column-filter',
     template: `<input type="text" class="ui-grid-filter-input ui-grid-filter-input-0"
                       [(ngModel)]="term"
                       (input)="onFilter()"

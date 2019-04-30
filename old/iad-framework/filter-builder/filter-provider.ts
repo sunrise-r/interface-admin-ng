@@ -29,11 +29,13 @@ export class FilterProvider implements AddFilter, AddOption, BuildQuery, Customi
         if (action == null) {
             action = 'query';
         }
-        let option = new Option();
+        const option = new Option();
         option.field = field;
         option.action = action;
         option.delegate = delegate;
-        if (this.currentFilter) option.field = this.currentFilter.field;
+        if (this.currentFilter) {
+            option.field = this.currentFilter.field;
+        }
         this.options.push(option);
         return this;
     }

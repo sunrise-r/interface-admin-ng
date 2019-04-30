@@ -6,7 +6,7 @@ import { StringHelperService } from 'app/shared';
 import { Subject, Subscription } from 'rxjs';
 
 @Component({
-    selector: 'jhi-tabbed-view',
+    selector: 'iad-tabbed-view',
     templateUrl: './tabbed-view.component.html',
     styles: []
 })

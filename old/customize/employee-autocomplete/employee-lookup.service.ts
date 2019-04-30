@@ -4,9 +4,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'app/shared';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class EmployeeLookupService {
     constructor(private http: HttpClient) {}
 

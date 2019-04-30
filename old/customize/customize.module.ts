@@ -7,7 +7,6 @@ import {
     ImageComponent,
     SecuredImageComponent,
     EmployeeAutocompleteComponent,
-    FileUploadComponent,
     CheckboxListComponent
 } from './';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
@@ -22,7 +21,6 @@ import { GoogleMapComponent } from './google-map/google-map.component';
         EmployeeAutocompleteComponent,
         ImageComponent,
         SecuredImageComponent,
-        FileUploadComponent,
         CheckboxListComponent,
         ProfileCardComponent,
         GoogleMapComponent
@@ -34,7 +32,6 @@ import { GoogleMapComponent } from './google-map/google-map.component';
         EmployeeAutocompleteComponent,
         ImageComponent,
         SecuredImageComponent,
-        FileUploadComponent,
         CheckboxListComponent,
         ProfileCardComponent,
         GoogleMapComponent

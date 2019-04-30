@@ -1,7 +1,7 @@
-import { DocumentState, DocumentUpdater, OperationState, OperationUpdater } from 'app/iad-framework/services/document-actions-service';
-import { ToolbarAction } from 'app/iad-framework/toolbar';
-import { documentStatusesMap } from 'app/iad-framework/model/russian-to-english.constants';
-import { ActualSelectionModel } from 'app/iad-framework/data-table';
+import { DocumentState, DocumentUpdater, OperationState, OperationUpdater } from '../services/document-actions-service';
+import { ToolbarAction } from '../toolbar/models/toolbar-action.model';
+import { documentStatusesMap } from '../model/russian-to-english.constants';
+import { ActualSelectionModel } from '../data-table/models/actual-selection.model';
 
 export class DocumentActionState implements DocumentState {
     public readonly archive = this.actualSelectionModel.selection.archive;

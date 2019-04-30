@@ -1,16 +1,16 @@
-<jhi-data-table
+<iad-data-table
     [allowUnSelectRow]="allowUnSelectRow"
     [changeTableHeight]="changeTableHeight"
     [defaultSortField]="defaultSortField"
-    [doTableAction]="actionClicked"
+    [doTableAction]="doTableAction"
     [doRefresh]="refreshConfig"
+    [filter]="filter"
     [groupSettingsKey]="groupSettingsKey"
     [items]="items"
     [lazyLoadingEnabled]="lazyLoadingEnabled"
-    [filter]="filter"
+    [resetFilter]="resetFilter"
     [searchUrl]="searchUrl"
     [showFilter]="showFilter"
-    [showSearchPanel]="showSearchPanel"
     [staticFrozenColumns]="staticFrozenColumns"
     [staticFrozenRightColumns]="staticFrozenRightColumns"
     [staticFrozenRightWidth]="staticFrozenRightWidth"
@@ -20,4 +20,4 @@
     (onSettingChanged)="onSettingChanged($event)"
     (selectionChange)="onSelectionChange($event)"
 >
-</jhi-data-table>
+</iad-data-table>

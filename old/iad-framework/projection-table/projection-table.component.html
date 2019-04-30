@@ -1,5 +1,5 @@
-<jhi-table-toolbar
-    [deactivateActionButton]="deactivateActionButton"
+<iad-table-toolbar
+    [resetToggleableStatus]="resetToggleableStatus"
     [leftActions]="projection.actions"
     [filterActive]="showFilter"
     [filterEnabled]="filterEnabled"
@@ -7,20 +7,21 @@
     [rightAddonTemplate]="rightAddonTemplate"
     [searchActive]="showSearchPanel"
     (actionClicked)="onActionClicked($event)"
-></jhi-table-toolbar>
-<iad-table-dropdown #columnVisibility (hidden)="onHiddenToolbarDropdown('search')">
-    <iad-dropdown-column-selector
-        [columns]="columns"
-        [groupSettingsKey]="groupSettingsKey"
-        (visibilityChanged)="settingsTable.onUpdateColumnsVisibility(columns, $event)"
-    ></iad-dropdown-column-selector>
-</iad-table-dropdown>
-<ng-content></ng-content>
-<jhi-iad-settings-table
+></iad-table-toolbar>
+<ng-template ngFor let-tpl [ngForOf]="belowTheToolbarTemplates">
+    <ng-template [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: groupSettingsKey}"></ng-template>
+</ng-template>
+<div [hidden]="!showSearchPanel" class="table-search-panel">
+    <iad-table-search-panel
+        [resetFilter]="resetFilter"
+        (search)="onSearch($event)"
+    ></iad-table-search-panel>
+</div>
+<iad-settings-table
     #settingsTable
     class="grid-with-toolbar"
     defaultSortField="creationDate"
-    [actionClicked]="actionClicked"
+    [doTableAction]="doTableAction"
     [allowUnSelectRow]="allowUnSelectRow"
     [changeTableHeight]="changeTableHeight"
     [columns]="columns"
@@ -30,9 +31,10 @@
     [ngClass]="{'disabled': disabled}"
     [filter]="filter"
     [refresh]="refresh"
+    [resetFilter]="resetFilter"
     [searchUrl]="searchUrl"
     [showFilter]="showFilter"
-    [showSearchPanel]="showSearchPanel"
+    [settingsUpdater]="settingsUpdater"
     [staticFrozenColumns]="staticFrozenColumns"
     [staticFrozenRightColumns]="staticFrozenRightColumns"
     [staticFrozenRightWidth]="staticFrozenRightWidth"
@@ -40,4 +42,4 @@
     [unSelectRow]="unSelectRow"
     (selectedItem)="onSelectedItem($event)"
     (unSelectedItem)="onUnSelectItem()"
-></jhi-iad-settings-table>
+></iad-settings-table>

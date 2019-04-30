@@ -6,7 +6,7 @@ import { IadTableComponent } from '../table/iad-table.component';
  * https://github.com/primefaces/primeng/issues/5429#issuecomment-407518667
  */
 @Directive({
-    selector: '[jhiTableKeys]',
+    selector: '[iadTableKeys]',
     providers: [IadDomHandler]
 })
 export class TableKeysDirective implements OnInit {

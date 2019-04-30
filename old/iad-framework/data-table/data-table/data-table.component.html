@@ -41,50 +41,51 @@
         <colgroup>
             <ng-template ngFor let-col [ngForOf]="columns">
                 <col *ngIf="col.visible"
-                     [jhiTableColumnSize]="col.width"
-                     [jhiTableColumnSizeDisabled]="!(isColumnResizable(col))">
+                     [iadTableColumnSize]="col.width"
+                     [iadTableColumnSizeDisabled]="!(isColumnResizable(col))">
             </ng-template>
         </colgroup>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
-        <tr class="ui-column-header-row" [ngClass]="{'ui-column-filter-shown': showFilter || showSearchPanel}">
+        <tr class="ui-column-header-row" [ngClass]="{'ui-column-filter-shown': showFilter}">
             <ng-template ngFor let-col [ngForOf]="columns">
                 <th *ngIf="col.visible"
                     pResizableColumn
                     pReorderableColumn
-                    [jhiTableColumnSize]="col.width"
+                    [iadTableColumnSize]="col.width"
                     [pResizableColumnDisabled]="!(isColumnResizable(col))"
                     [pReorderableColumnDisabled]="!(isColumnReorderable(col))"
-                    [jhiTableColumnSizeDisabled]="!(isColumnResizable(col))"
+                    [iadTableColumnSizeDisabled]="!(isColumnResizable(col))"
                     [ngClass]="[col.style || '']">
 
                     <div class="ui-grid-header-label"
                          [pSortableColumn]="col.field"
                          [pSortableColumnDisabled]="!(isColumnSortable(col))"
                     >
-                        <span *ngIf="col.translate" [jhiTranslate]="col.header"></span>
-                        <span *ngIf="!col.translate">{{col.header}}</span>
-                        <jhi-table-sort-icon [field]="col.field"></jhi-table-sort-icon>
+                        <ng-container *ngIf="col.translate; then doTranslate; else noTranslate"></ng-container>
+                        <ng-template #doTranslate><span>{{col.header | translate}}</span></ng-template>
+                        <ng-template #noTranslate><span>{{col.header}}</span></ng-template>
+                        <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
                     </div>
-                    <jhi-table-header-menu
+                    <iad-table-header-menu
                         *ngIf="hasColumnMenu(col)"
                         [columns]="columns"
                         [column]="col"
                         [defaultSortField]="defaultSortField"
                         [groupSettingsKey]="groupSettingsKey"
-                        (freeze)="onFrozenColumn($event)"></jhi-table-header-menu>
+                        (freeze)="onFrozenColumn($event)"></iad-table-header-menu>
                 </th>
             </ng-template>
         </tr>
         <tr [hidden]="!showFilter" class="ui-column-filter-row">
             <ng-template ngFor let-col [ngForOf]="columns">
                 <th *ngIf="col.visible" [ngClass]="[col.style || '']">
-                    <jhi-table-column-filter
+                    <iad-table-column-filter
                         *ngIf="col.searching"
                         [field]="col.field"
                         [resetFilter]="resetFilter"
                         (filter)="onColFilter($event, col)"
-                    ></jhi-table-column-filter>
+                    ></iad-table-column-filter>
                 </th>
             </ng-template>
         </tr>
@@ -103,39 +104,5 @@
                 </td>
             </ng-template>
         </tr>
-    </ng-template>
-    <ng-template pTemplate="interlayer" let-columns>
-        <table [hidden]="!showSearchPanel" class="table-search-panel partner-table">
-            <thead>
-            <tr>
-                <th>
-                    <jhi-table-search-panel
-                        [resetFilter]="resetFilter"
-                        (search)="onSearch($event)"
-                    ></jhi-table-search-panel>
-                </th>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </ng-template>
-    <ng-template pTemplate="frozeninterlayer" let-columns>
-        <table [hidden]="!showSearchPanel" class="table-search-panel partner-table">
-            <colgroup>
-                <ng-template ngFor let-col [ngForOf]="columns">
-                    <col *ngIf="col.visible" [jhiTableColumnSize]="col.width">
-                </ng-template>
-            </colgroup>
-            <thead>
-            <tr>
-                <ng-template ngFor let-col [ngForOf]="columns">
-                    <th *ngIf="col.visible">
-                        <div class="jhi-table-search-panel-placeholder"></div>
-                    </th>
-                </ng-template>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
     </ng-template>
 </iad-table>

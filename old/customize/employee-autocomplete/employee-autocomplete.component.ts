@@ -24,7 +24,7 @@ export const EMPLOYEE_VALUE_ACCESSOR: any = {
             styleClass="w-100">
         <ng-template let-employee pTemplate="item"><span [innerHTML]="highlightValue(employee)"></span></ng-template>
     </p-autoComplete>`,
-    providers: [EMPLOYEE_VALUE_ACCESSOR]
+    providers: [EMPLOYEE_VALUE_ACCESSOR, EmployeeLookupService]
 })
 export class EmployeeAutocompleteComponent implements OnInit, ControlValueAccessor {
     /**

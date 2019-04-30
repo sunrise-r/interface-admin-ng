@@ -5,7 +5,5 @@ export * from './employee-autocomplete/employee-autocomplete.component';
 export * from './document-resolutions/document-resolutions.component';
 export * from './checkbox-list/checkbox-list.component';
 export * from './tooltip-notifier/tooltip-notifier.component';
-export * from './file-upload/file-upload.component';
 export * from './primeng-customize/primeng-customize.module';
 export * from './customize.module';
-export * from './dynamic-form';

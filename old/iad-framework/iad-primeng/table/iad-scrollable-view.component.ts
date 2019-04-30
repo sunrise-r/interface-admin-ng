@@ -41,11 +41,6 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * #1372 interlayer viewChild
-     */
-    @ViewChild('scrollInterlayer') scrollInterlayerViewChild: ElementRef;
-
-    /**
      * Контейнеры закреплённых колонок
      */
     frozenSiblingsScrollableBodies: Element[];
@@ -197,11 +192,7 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
             if (this.scrollHeaderViewChild && this.scrollHeaderViewChild.nativeElement) {
                 headerHeight = this.domHandler.getOuterHeight(this.scrollHeaderViewChild.nativeElement);
             }
-            let interlayHeight = 0;
-            if (this.scrollInterlayerViewChild && this.scrollInterlayerViewChild.nativeElement) {
-                interlayHeight = this.domHandler.getOuterHeight(this.scrollInterlayerViewChild.nativeElement);
-            }
-            const height = 'calc(100% - ' + (headerHeight + scrollHeight + interlayHeight) + 'px)';
+            const height = 'calc(100% - ' + (headerHeight + scrollHeight) + 'px)';
             this.scrollBodyViewChild.nativeElement.style.maxHeight = height;
             this.scrollBodyViewChild.nativeElement.style.height = height;
         }

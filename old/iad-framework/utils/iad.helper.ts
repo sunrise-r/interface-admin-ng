@@ -7,10 +7,12 @@ export type OnInvalidCallback = (name: string, obj: HasPropertiesInterface) => a
 
 export class IadHelper {
     static getProperty(propertyName: string, defaultValue: any, obj: HasPropertiesInterface) {
-        return obj.properties && obj.properties[propertyName] ? obj.properties[propertyName] : defaultValue;
+        return obj && obj[propertyName] !== undefined && obj[propertyName] !== null ? obj[propertyName] : defaultValue;
     }
 
     static runPropertyCondition(propertyName: string, obj: HasPropertiesInterface, onValid: OnValidCallback, onInvalid: OnInvalidCallback) {
-        return obj.properties && obj.properties[propertyName] ? onValid(obj.properties[propertyName]) : onInvalid(propertyName, obj);
+        return obj && obj[propertyName] !== undefined && obj[propertyName] !== null
+            ? onValid(obj[propertyName])
+            : onInvalid(propertyName, obj);
     }
 }

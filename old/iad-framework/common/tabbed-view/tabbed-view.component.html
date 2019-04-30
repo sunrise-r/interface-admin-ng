@@ -5,7 +5,7 @@
         <a class="nav-link"
            [ngClass]="{'active': projectionTab.projection.active}"
            (click)="onNavigateToProjection($event, projectionTab)">
-            <span class="uib-tab-heading" jhiTranslate="{{projectionTab.projection.label}}"></span>
+            <span class="uib-tab-heading">{{projectionTab.projection.label | translate}}</span>
         </a>
     </li>
 </ul>

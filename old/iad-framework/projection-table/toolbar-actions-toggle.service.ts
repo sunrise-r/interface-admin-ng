@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ToolbarAction } from '../toolbar';
-import { DocumentActionsService } from 'app/iad-framework/services/document-actions-service';
-import { ActualSelectionModel } from 'app/iad-framework/data-table';
+import { ToolbarAction } from '../toolbar/models/toolbar-action.model';
+import { DocumentActionsService } from '../services/document-actions-service';
+import { ActualSelectionModel } from '../data-table/models/actual-selection.model';
 import {
     DocumentActionState,
     DocumentActionUpdater,
     OperationActionState,
     OperationActionUpdater
-} from 'app/iad-framework/projection-table/tollbar-action-state-resolvers.model';
+} from './tollbar-action-state-resolvers.model';
 
 interface ActionStatusCondition {
     disableOnStatuses: string[];
@@ -15,10 +15,10 @@ interface ActionStatusCondition {
 
 type IterateActionsCallback = (action: ToolbarAction) => void;
 
-export const alwaysEnabledActions = ['new', 'help', 'refresh', 'add', 'filter', 'newsFilter'];
+export const alwaysEnabledActions = ['new', 'help', 'refresh', 'add', 'filter', 'newsFilter', 'partnershipFilter'];
 
 export const actionStatusConditions = {
-    operation: <ActionStatusCondition>{
+    operationForm: <ActionStatusCondition>{
         disableOnStatuses: ['REVIEW', 'DISCARD']
     },
     merge: <ActionStatusCondition>{
@@ -100,16 +100,10 @@ export class ToolbarActionsToggleService {
     }
 
     private updateActionsState(actionGroups: ToolbarAction[][], body: ActualSelectionModel): void {
-        const actionsHeap = actionGroups.reduce(
-            (accu, group) =>
-                accu.concat(
-                    group.map(action => {
-                        action.disabled = false;
-                        return action;
-                    })
-                ),
-            []
-        );
+        const actionsHeap = actionGroups.reduce((accu, group) => accu.concat(group), []).map(action => {
+            action.disabled = false;
+            return action;
+        });
 
         if (body.type === 'operation') {
             DocumentActionsService.resovleOperationState(new OperationActionState(body), new OperationActionUpdater(actionsHeap));

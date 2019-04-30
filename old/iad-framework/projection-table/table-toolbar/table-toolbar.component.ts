@@ -1,12 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, TemplateRef } from '@angular/core';
 import { ToolbarAction } from '../../toolbar/models/toolbar-action.model';
 import { Subject } from 'rxjs';
 
 @Component({
-    selector: 'jhi-table-toolbar',
+    selector: 'iad-table-toolbar',
     templateUrl: './table-toolbar.component.html'
 })
-export class TableToolbarComponent implements OnInit, OnChanges {
+export class TableToolbarComponent implements OnInit {
     /**
      * Флаг "Фильтр активирован" (Фильтр по колонкам показан в таблице)
      * @type {boolean}
@@ -18,12 +18,6 @@ export class TableToolbarComponent implements OnInit, OnChanges {
      * @type {boolean}
      */
     @Input() searchActive = false;
-
-    /**
-     * Отображение контрола выбора колонок
-     * @type {boolean}
-     */
-    @Input() columnSelectorActive = false;
 
     /**
      * Отображение контрола выбора колонок
@@ -44,7 +38,7 @@ export class TableToolbarComponent implements OnInit, OnChanges {
     /**
      * Событие очистки фильтра
      */
-    @Input() deactivateActionButton: Subject<{ code: string }>;
+    @Input() resetToggleableStatus: Subject<{ code: string }> = new Subject<{ code: string }>();
 
     /**
      * Шаблон дополнения к правой части панели тулбара
@@ -54,7 +48,11 @@ export class TableToolbarComponent implements OnInit, OnChanges {
     /**
      * Нажата кнопка в тулбаре
      */
-    @Output() actionClicked: EventEmitter<ToolbarAction> = new EventEmitter<ToolbarAction>();
+    @Output()
+    actionClicked: EventEmitter<{ nativeEvent: Event; action: ToolbarAction }> = new EventEmitter<{
+        nativeEvent: Event;
+        action: ToolbarAction;
+    }>();
 
     /**
      * Default actions
@@ -73,54 +71,31 @@ export class TableToolbarComponent implements OnInit, OnChanges {
         this.rightActions = this.updateDefaultActionsOptions();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if ('deactivateActionButton' in changes && this.deactivateActionButton) {
-            this.deactivateActionButton.subscribe(toggle => {
-                let action = this.findAction(toggle, this.leftActions);
-                if (!action) {
-                    action = this.findAction(toggle, this.rightActions);
-                }
-                if (action) {
-                    action.active = false;
-                }
-            });
-        }
-    }
-
     /**
      * //onToolbarActionClicked
      * Кидаем наверх кликнутую кнопку
      * @param event
      */
     onActionInvoke(event: { nativeEvent: Event; action: ToolbarAction }) {
-        switch (event.action.code) {
-            case 'columns':
-                this.columnSelectorActive = !this.columnSelectorActive;
-                break;
-            case 'columnFilter':
+        const strategy = {
+            columnFilter: () => {
                 this.filterActive = !this.filterActive;
                 this.searchActive = false;
-                break;
-            case 'search':
+            },
+            search: () => {
                 this.searchActive = !this.searchActive;
                 this.filterActive = false;
-                break;
-            case 'clear':
+            },
+            clear: () => {
                 this.filterActive = false;
                 this.searchActive = false;
-                break;
+            }
+        };
+        if (event.action.code in strategy) {
+            strategy[event.action.code]();
         }
-        this.updateDefaultActionsOptions();
-        this.actionClicked.emit(event.action);
-    }
-
-    /**
-     * Find action in group
-     * @param term
-     * @param actions
-     */
-    private findAction(term, actions: ToolbarAction[][]): ToolbarAction {
-        return this.expandActionGroup(actions).find(action => action.code === term.code);
+        this.rightActions = this.updateDefaultActionsOptions();
+        this.actionClicked.emit(event);
     }
 
     /**
@@ -136,23 +111,22 @@ export class TableToolbarComponent implements OnInit, OnChanges {
      */
     private updateDefaultActionsOptions(): ToolbarAction[][] {
         this.expandActionGroup(this.rightActions).forEach((action: ToolbarAction) => {
-            switch (action.code) {
-                case 'columns':
-                    action.visible = this.showColumnSelector;
-                    action.active = this.columnSelectorActive;
-                    break;
-                case 'columnFilter':
+            const strategy = {
+                columnFilter: () => {
                     action.visible = this.filterEnabled;
                     action.active = this.filterActive;
-                    break;
-                case 'search':
+                },
+                search: () => {
                     action.visible = this.filterEnabled;
                     action.active = this.searchActive;
-                    break;
-                case 'clear':
+                },
+                clear: () => {
                     action.visible = this.filterEnabled;
                     action.disabled = !this.filterActive && !this.searchActive;
-                    break;
+                }
+            };
+            if (action.code in strategy) {
+                strategy[action.code]();
             }
         });
         return this.rightActions;

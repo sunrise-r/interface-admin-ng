@@ -25,13 +25,7 @@ export class ToolbarActionDirective implements OnInit, OnChanges {
     /**
      * Кнопка активна
      */
-    @Input()
-    set active(active: boolean) {
-        this.action.active = active;
-    }
-    get active(): boolean {
-        return this.action.active;
-    }
+    @Input() active: boolean;
 
     /**
      * Action invocation event
@@ -52,7 +46,7 @@ export class ToolbarActionDirective implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if ('active' in changes) {
-            this.toggleActiveCssClass();
+            this.toggleActivity(this.active);
         }
     }
 
@@ -65,23 +59,32 @@ export class ToolbarActionDirective implements OnInit, OnChanges {
 
     @HostListener('click', ['$event'])
     onClick(event: Event) {
-        this.toggleActive();
-        this.toggleActiveCssClass();
+        if (this.action.toggle) {
+            this.updateActiveState(!this.active);
+        }
+        this.toggleActivity(this.active);
         this.invoke.emit({ nativeEvent: event, action: this.action });
     }
 
-    private toggleActive() {
-        if (this.action.toggle) {
-            this.active = !this.active;
+    toggleActivity(activate?: boolean) {
+        if (activate) {
+            this.activate();
+        } else {
+            this.deactivate();
         }
     }
 
-    private toggleActiveCssClass() {
-        this.action.value = this.active;
-        if (this.active) {
-            this.renderer.addClass(this.el.nativeElement, 'active');
-        } else {
-            this.renderer.removeClass(this.el.nativeElement, 'active');
-        }
+    activate() {
+        this.updateActiveState(true);
+        this.renderer.addClass(this.el.nativeElement, 'active');
+    }
+
+    deactivate() {
+        this.updateActiveState(false);
+        this.renderer.removeClass(this.el.nativeElement, 'active');
+    }
+
+    private updateActiveState(state: boolean) {
+        this.action.active = this.active = state;
     }
 }

@@ -57,7 +57,7 @@ export const SORT_ASC = 1;
 export const SORT_DESC = -1;
 
 @Component({
-    selector: 'jhi-table-header-menu',
+    selector: 'iad-table-header-menu',
     template: `<p-menu #menu [popup]="true" [model]="items" appendTo="body" styleClass="ui-grid-menu"></p-menu>
     <a class="ui-grid-column-menu-button" (click)="menu.toggle($event)"><i class="ui-grid-icon-angle-down"></i></a>`
 })

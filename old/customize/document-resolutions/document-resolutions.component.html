@@ -1,6 +1,6 @@
 <perfect-scrollbar *ngIf="operations" style="max-width: 100%; max-height: 100%;">
     <ng-container *ngFor="let operation of operations">
-        <div [ngClass]="['operation', operation.style ? operation.style : '']">
+        <div *ngIf="operation" [ngClass]="['operation', operation.style ? operation.style : '']">
             <div class="operation-name"><span class="title">{{'partnerGatewayApp.partnerDocuments.operationType.' + operation.type | translate}}</span>
             </div>
             <div class="resolution-block-wrapper">

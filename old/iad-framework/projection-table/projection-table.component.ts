@@ -8,36 +8,32 @@ import {
     Output,
     QueryList,
     SimpleChanges,
-    TemplateRef,
-    ViewChild
+    TemplateRef
 } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
-
-import { ToolbarActionsCommonHandlerService } from './toolbar-actions-common-handler.service';
 
 import * as _ from 'lodash';
 
 import { DATA_DEPENDENCY_LEVEL, DocumentListProjection } from '../model/projection.model';
 import { SELECT_ACTION, ActualSelectionEvent, ActualSelectionModel } from '../data-table/models/actual-selection.model';
-import { DataTableColumn, IDataTableColumn } from '../data-table/data-table/data-table.model';
+import { DataTableColumn, FILTER_TYPE, IDataTableColumn } from '../data-table/data-table/data-table.model';
 import { DataTableInformationService } from '../data-table/services/data-table-information.service';
 import { ActualSelectionChainService } from '../data-table/services/actual-selection-chain.service';
 import { ToolbarAction } from '../toolbar/models/toolbar-action.model';
 import { PresentationHelper } from '../services/presentation-helper';
 
 import { ToolbarActionsToggleService } from './toolbar-actions-toggle.service';
-import { ToolbarDropdownComponent } from '../toolbar/toolbar-dropdown/toolbar-dropdown.component';
-import { DataChainService } from 'app/iad-framework';
+import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
-import { CustomizeQuery } from 'app/iad-framework/filter-builder/action/customize-query';
-import { IadHelper } from 'app/iad-framework/utils/iad.helper';
+import { CustomizeQuery } from '../filter-builder/action/customize-query';
+import { IadHelper } from '../utils/iad.helper';
 
 // TODO Может, разделить для операций и для таблиц данных?
 @Component({
-    selector: 'jhi-projection-table',
+    selector: 'iad-projection-table',
     templateUrl: './projection-table.component.html',
-    providers: [ToolbarActionsToggleService, ToolbarActionsCommonHandlerService, PresentationHelper]
+    providers: [ToolbarActionsToggleService, PresentationHelper]
 })
 export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
@@ -93,6 +89,11 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     @Input() projection: DocumentListProjection;
 
     /**
+     * Ability to pass any templates outside of projection table
+     */
+    @Input() templates: QueryList<PrimeTemplate>;
+
+    /**
      * Свойства для обновления тулбара
      */
     @Input() toolbarProps: any;
@@ -103,9 +104,19 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     @Input() refresh: Subject<boolean> = new Subject<boolean>();
 
     /**
+     * Посылает событие сброса фильтра
+     */
+    @Input() resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
+
+    /**
      * Поле выделенной строки для запроса актуальной информации по строке
      */
     @Input() selectionRequestField = 'id';
+
+    /**
+     * Updates settings inside projection-table
+     */
+    @Input() settingsUpdater: Subject<any> = new Subject<any>();
 
     /**
      * Flag to check if grid filter should be shown by default
@@ -140,7 +151,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * сабжект для переключения кнопок тулбара
      */
-    @Input() deactivateActionButton: Subject<{ code: string }> = new Subject<{ code: string }>();
+    @Input() resetToggleableStatus: Subject<{ code: string }> = new Subject<{ code: string }>();
 
     /**
      * тип отображаемой информации - документ или операция
@@ -160,7 +171,11 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * Нажата какая-либо кнопка в тулбаре
      */
-    @Output() actionClicked: EventEmitter<ToolbarAction> = new EventEmitter<ToolbarAction>();
+    @Output()
+    actionClicked: EventEmitter<{ nativeEvent: Event; action: ToolbarAction }> = new EventEmitter<{
+        nativeEvent: Event;
+        action: ToolbarAction;
+    }>();
 
     /**
      * В таблице была выбрна строка
@@ -173,19 +188,19 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     @Output() unSelectedItem: EventEmitter<null> = new EventEmitter<null>();
 
     /**
-     * Column visibility component
-     */
-    @ViewChild('columnVisibility') columnVisibility: ToolbarDropdownComponent;
-
-    /**
      * Шаблоны для применения в <projection-table></projection-table>
      */
-    @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
+    @ContentChildren(PrimeTemplate) innerTemplates: QueryList<PrimeTemplate>;
 
     /**
      * Шаблон для добавления контента в правую часть кнопок тулбара
      */
     rightAddonTemplate: TemplateRef<any>;
+
+    /**
+     * Template to add content between toolbar and settings-table
+     */
+    belowTheToolbarTemplates: TemplateRef<any>[] = [];
 
     /**
      * Все колонки таблицы
@@ -208,6 +223,11 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     searchUrl: String;
 
     /**
+     * Subject to invoke any table action
+     */
+    doTableAction: Subject<{ code: string; value: any }> = new Subject<{ code: string; value: any }>();
+
+    /**
      * Текущая выделенная запись
      */
     private actualSelection: ActualSelectionModel;
@@ -224,7 +244,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
         private informationService: DataTableInformationService,
         private toolbarActionsToggleService: ToolbarActionsToggleService,
         private eventManager: JhiEventManager,
-        private toolbarActionsCommonHandler: ToolbarActionsCommonHandlerService,
         private presentationHelper: PresentationHelper,
         private dataChainService: DataChainService,
         private dataPreviewChainService: ActualSelectionChainService
@@ -240,7 +259,11 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     ngOnChanges(changes: SimpleChanges): void {
         if ((changes['projection'] && this.projection) || (changes['presentationCode'] && this.presentationCode)) {
             this.projection.actions = this.toolbarActionsToggleService.disableActions(this.projection.actions, this.disabled); // #1686
-            this.selectionRequestField = IadHelper.getProperty('selectionRequestField', this.selectionRequestField, this.projection);
+            this.selectionRequestField = IadHelper.getProperty(
+                'selectionRequestField',
+                this.selectionRequestField,
+                this.projection.properties
+            );
             this.initColumns();
             // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
             this.loadActualInfo = this.initLoadActualInformationFlag();
@@ -257,38 +280,45 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     }
 
     ngAfterContentInit() {
-        this.templates.forEach(item => {
-            switch (item.getType()) {
-                case 'toolbarRightAddon':
-                    this.rightAddonTemplate = item.template;
-                    break;
-            }
-        });
+        this.updateTemplates(this.templates);
+        this.updateTemplates(this.innerTemplates);
     }
 
     /**
      * Произведён клик в тулбаре
      */
-    onActionClicked(action: ToolbarAction): void {
-        if (action.code === 'columns') {
-            this.columnVisibility.doToggle(action.value, action);
-        } else {
-            this.toolbarActionsCommonHandler.handle(
-                action,
-                [this.projection.code, this.presentationCode].join('.'),
-                this.actualSelection,
-                this.type
-            );
+    onActionClicked(event: { nativeEvent: Event; action: ToolbarAction }): void {
+        const strategy = {
+            columnFilter: () => {
+                this.showFilter = event.action.active;
+                this.showSearchPanel = false;
+                this.changeTableHeight.next(true);
+            },
+            search: () => {
+                this.showFilter = false;
+                this.resetFilter.next(FILTER_TYPE.PARTICULAR);
+                this.showSearchPanel = event.action.active;
+                this.changeTableHeight.next(true);
+            },
+            clear: () => {
+                this.resetFilter.next(FILTER_TYPE.BOTH);
+                this.showSearchPanel = false;
+                this.showFilter = false;
+            }
+        };
+        if (event.action.code in strategy) {
+            strategy[event.action.code]();
         }
-        this.actionClicked.emit(action);
+        this.actionClicked.emit(event);
+        this.doTableAction.next({ code: event.action.code, value: event.action.active });
     }
 
     /**
-     * Handle any toolbar dropdown hide event
-     * @param code
+     * Search event handler
+     * @param query
      */
-    onHiddenToolbarDropdown(code) {
-        this.deactivateActionButton.next({ code });
+    onSearch(query: string) {
+        this.doTableAction.next({ code: 'globalSearch', value: query });
     }
 
     /**
@@ -319,27 +349,16 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
 
         this.removeSelectedDataFromPreview(this.actualSelection);
         this.actualSelection = undefined;
-        this.unSelectedItem.next();
+        this.unSelectedItem.emit();
         const event = new ActualSelectionEvent({ action: SELECT_ACTION.UNSELECT, type: this.type });
         this.eventManager.broadcast(event);
-    }
-
-    /**
-     * Бросить событие снятия выделения
-     */
-    emitUnSelectItem() {
-        if (!this.unSelectRow.closed) {
-            this.unSelectRow.next(true);
-        }
     }
 
     /**
      * Init actual information flag;
      */
     initLoadActualInformationFlag() {
-        return this.projection.loadActualInfo === undefined || this.projection.loadActualInfo === null
-            ? true
-            : this.projection.loadActualInfo;
+        return IadHelper.getProperty('loadActualInfo', true, this.projection);
     }
 
     /**
@@ -372,7 +391,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
                 this.projection.actions = this.resolveActions(this.actualSelection);
                 // this.dataChainService.add(this.type, this.actualSelection);
                 this.sendSelectionToDataPreview(this.actualSelection);
-                this.selectedItem.next(this.actualSelection);
+                this.selectedItem.emit(this.actualSelection);
                 this.eventManager.broadcast(new ActualSelectionEvent(this.actualSelection));
             }
         });
@@ -452,5 +471,21 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
      */
     private removeSelectedDataFromPreview(body: ActualSelectionModel) {
         this.dataPreviewChainService.unsetData(body);
+    }
+
+    /**
+     * Update templates to show them inside templateOutlets
+     * @param templates
+     */
+    private updateTemplates(templates: QueryList<PrimeTemplate>) {
+        templates.forEach(item => {
+            switch (item.getType()) {
+                case 'toolbarRightAddon':
+                    this.rightAddonTemplate = item.template;
+                    break;
+                default:
+                    this.belowTheToolbarTemplates.push(item.template);
+            }
+        });
     }
 }

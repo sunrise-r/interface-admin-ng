@@ -1,10 +1,11 @@
-<jhi-dynamic-form
+<iad-dynamic-form
     *ngIf="formInputGroup"
     class="content-flex form-wrapper flex-center"
     [formInputGroup]="formInputGroup"
+    [formTemplates]="formTemplates"
     [serverError]="serverError"
     [inputComponents]="inputComponents"
     (formSubmit)="onFormSubmit($event)"
     (formCancel)="onFormCancel()"
     [context]="data"
-></jhi-dynamic-form>
+></iad-dynamic-form>

@@ -13,9 +13,6 @@
         </table>
     </div>
 </div>
-<div #scrollInterlayer class="ui-table-interlayer">
-    <ng-container *ngTemplateOutlet="frozen ? dt.frozenInterlayerTemplate||dt.interlayerTemplate : dt.interlayerTemplate; context: {$implicit: columns}"></ng-container>
-</div>
 <div #scrollBody class="ui-table-scrollable-body"
      infiniteScroll
      [infiniteScrollDistance]="2"
@@ -24,7 +21,7 @@
      (scrolled)="onScroll()">
     <table #scrollTable [ngClass]="{'ui-table-scrollable-body-table': true, 'ui-table-virtual-table': dt.virtualScroll}" [class]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
         <ng-container *ngTemplateOutlet="frozen ? dt.frozenColGroupTemplate||dt.colGroupTemplate : dt.colGroupTemplate; context {$implicit: columns}"></ng-container>
-        <tbody class="ui-table-tbody" jhiTableKeys [iadTableBody]="columns" [iadTableBodyTemplate]="frozen ? dt.frozenBodyTemplate||dt.bodyTemplate : dt.bodyTemplate"></tbody>
+        <tbody class="ui-table-tbody" iadTableKeys [iadTableBody]="columns" [iadTableBodyTemplate]="frozen ? dt.frozenBodyTemplate||dt.bodyTemplate : dt.bodyTemplate"></tbody>
     </table>
     <div #virtualScroller class="ui-table-virtual-scroller"></div>
 </div>

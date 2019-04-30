@@ -31,11 +31,11 @@ import { FilterBuilderService } from '../../filter-builder/filter-builder.servic
 import { CustomizeQuery } from '../../filter-builder/action/customize-query';
 
 @Component({
-    selector: 'jhi-data-table',
+    selector: 'iad-data-table',
     templateUrl: './data-table.component.html',
     providers: [DataTableColumnsService]
 })
-export class DataTableComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges {
+export class DataTableComponent implements OnInit, AfterViewInit, AfterContentInit {
     /**
      * Возможность снятия выделения строки таблицы
      */
@@ -87,6 +87,11 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     @Input() filter: CustomizeQuery;
 
     /**
+     * Посылает событие сброса фильтра
+     */
+    @Input() resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
+
+    /**
      * Ссылка на ресурс - источник данных
      */
     @Input() searchUrl: string;
@@ -95,11 +100,6 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * Flag to check if grid filter should be showed
      */
     @Input() showFilter: boolean;
-
-    /**
-     * Flag to check if grid filter should be showed
-     */
-    @Input() showSearchPanel: boolean;
 
     /**
      * Поле для сортировки
@@ -204,11 +204,6 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     loading: boolean;
 
     /**
-     * Посылает событие сброса фильтра
-     */
-    resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
-
-    /**
      * Изменение размеров таблицы
      */
     resize: Subject<ResizeEvent> = new Subject<ResizeEvent>();
@@ -271,12 +266,6 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
         this.templates.forEach(item => {
             this.colTemplates[item.getType()] = item.template;
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if ('filter' in changes) {
-            this.refresh();
-        }
     }
 
     /**
@@ -349,17 +338,6 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     }
 
     /**
-     * Обновление поискового запроса
-     * @param query
-     */
-    onSearch(query: string) {
-        this.dt.filters = {};
-        this.resetFilter.next(FILTER_TYPE.PARTICULAR);
-        this.dt.filterGlobal(query, 'contains');
-        this.refresh();
-    }
-
-    /**
      * При сортировке таблицы необходимо перезагружать данные
      * @param event
      */
@@ -385,12 +363,23 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     }
 
     /**
+     * Method to reset items
+     */
+    reset() {
+        this.items = [];
+    }
+
+    /**
      * Добавление данных в таблицу
      * @param event
      */
     updateData(event) {
         // #631 we do not need refresh if no searchUrl set and items are set externally
         if (!this.searchUrl) {
+            // #1808
+            if (this.lazyLoadingEnabled) {
+                this.reset();
+            }
             return;
         }
         this.dataSearchService
@@ -407,7 +396,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
                 (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
                 () => {
                     if (event.clearData) {
-                        this.items = [];
+                        this.reset();
                     }
                 }
             );
@@ -419,31 +408,25 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * @param value
      */
     manageTable(action, value) {
-        switch (action) {
-            case 'columnFilter':
-                this.showFilter = value;
-                this.showSearchPanel = false;
-                this.changeTableHeight.next(true);
-                break;
-            case 'search':
-                this.showFilter = false;
-                this.showSearchPanel = value;
-                this.changeTableHeight.next(true);
-                break;
-            case 'clear':
+        const strategy = {
+            globalSearch: () => {
                 this.dt.filters = {};
-                this.resetFilter.next(FILTER_TYPE.BOTH);
+                this.resetFilter.next(FILTER_TYPE.PARTICULAR);
+                this.dt.filterGlobal(value, 'contains');
+                this.refresh();
+            },
+            clear: () => {
+                this.dt.filters = {};
                 this.changeTableHeight.next(true);
-                this.showFilter = false;
-                this.showSearchPanel = false;
                 this.refresh();
-                break;
-            case 'refresh':
-                this.refresh();
-                break;
-            case 'unselect':
+            },
+            refresh: this.refresh,
+            unselect: () => {
                 this.unSelectRow.next(value);
-                break;
+            }
+        };
+        if (action in strategy) {
+            strategy[action]();
         }
     }
 
@@ -526,7 +509,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      */
     private addItems(data: Array<any>, headers: HttpHeaders, clearData?: boolean) {
         if (clearData) {
-            this.items = [];
+            this.reset();
         }
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         data.forEach(el => this.items.push(el));

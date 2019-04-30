@@ -30,7 +30,7 @@ export class DocumentResolutionsComponent implements OnInit, OnChanges {
         let startDate;
         if (operations) {
             operations.forEach(operation => {
-                if (operation.resolutions) {
+                if (operation && operation.resolutions) {
                     operation.resolutions.forEach(resolution => {
                         resolution.startDate = startDate === undefined ? resolution.creationDate : startDate;
                         startDate = resolution.creationDate;

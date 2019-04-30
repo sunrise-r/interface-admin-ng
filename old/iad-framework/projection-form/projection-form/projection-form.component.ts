@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input, TemplateRef, ContentChildren, QueryList } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { FormGroupChild, FormGroupChildColumn, FormInput, FormInputGroup, InputFactory } from 'app/customize';
+import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../../common/dynamic-form/core/form-input-group';
+import { InputFactory } from '../../common/dynamic-form/core/input.factory';
 
 import {
     DocumentFormProjection,
@@ -9,11 +10,12 @@ import {
     ProjectionsApiService,
     DISABLED,
     IFormProjectionField,
-    READONLY,
-    ActualSelectionModel
+    READONLY
 } from '../../';
 
 import { DocumentInfoBufferService } from '../services/document-info-buffer.service';
+import { FormInput } from 'app/iad-framework/common/dynamic-form/core/form-input.model';
+import { PrimeTemplate } from 'primeng/shared';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -55,6 +57,11 @@ export class ProjectionFormComponent implements OnInit, OnDestroy {
 
     @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
     @Output() formCancel: EventEmitter<any> = new EventEmitter<any>();
+
+    /**
+     * Templates to pass to dynamic form
+     */
+    @ContentChildren(PrimeTemplate) formTemplates: QueryList<PrimeTemplate>;
 
     /**
      * Инпуты формы для передачи в компонент генератора формы

@@ -2,7 +2,7 @@ export class DocumentActionsService {
     static resolveDocumentState(state: DocumentState, updater: DocumentUpdater) {
         if (state.documentStatus === 'new') {
             updater.disableOperations();
-        } else {
+        } else if (state.documentStatus) {
             updater.disableEdit();
             updater.disableDelete();
         }

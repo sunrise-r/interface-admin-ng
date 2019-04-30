@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
 
 @Component({
-    selector: 'jhi-table-sort-icon',
+    selector: 'iad-table-sort-icon',
     template: `
         <i [ngClass]="{ 'ui-grid-icon-up-dir': sortOrder === 1, 'ui-grid-icon-down-dir': sortOrder === -1, 'ui-grid-icon-blank': sortOrder === 0 }" aria-hidden="true"></i>
     `
