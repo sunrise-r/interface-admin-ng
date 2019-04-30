@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IadPresentation, PROJECTION_TYPE, ProjectionsHelper} from 'iad-interface-admin';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {IadFormProjectionInterface} from 'iad-interface-admin';
 import {IFormProjectionField} from 'iad-interface-admin';
 import {ReferenceProjectionProviderService} from '../services/reference-projection-provider.service';
@@ -12,9 +12,6 @@ import {ReferenceProjectionProviderService} from '../services/reference-projecti
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-
-  fields: IFormProjectionField[];
-
   projection: IadFormProjectionInterface;
 
   presentationCode: string;
@@ -22,6 +19,8 @@ export class FormComponent implements OnInit {
   postDataUrl: any;
 
   rawFormData: any;
+
+  formProjectionSubject: Subject<{[param: string]: any}> = new Subject();
 
   routerSubscription: Subscription;
 
@@ -38,8 +37,8 @@ export class FormComponent implements OnInit {
         this.projection = <IadFormProjectionInterface>ProjectionsHelper
           .filterFormProjections(presentation, PROJECTION_TYPE.FORM)
           .find(_projection => _projection.code === data.projectionCode);
-
-        this.fields = this.projection.fields;
+        this.formProjectionSubject.next();
+        this.formProjectionSubject.complete();
       });
   }
 

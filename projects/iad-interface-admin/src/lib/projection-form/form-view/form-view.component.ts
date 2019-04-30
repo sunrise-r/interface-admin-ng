@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, Input, ViewEncapsulation} from '@angular/core';
+import {AfterContentInit, Component, Input, Output, ViewEncapsulation} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../customize/dynamic-form/form-input-group';
 import {LookupInputModel} from '../inputs/lookup-input.model';
@@ -12,6 +12,7 @@ import {IadReferenceProjectionProviderService} from '../../public-services/iad-r
 import {IadDataOperationsService} from '../../public-services/iad-data-operations.service';
 import {IadRouterHistoryService} from '../../public-services/iad-router-history.service';
 import {Router} from '@angular/router';
+import {Subject} from 'rxjs';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -48,6 +49,9 @@ export class FormViewComponent implements AfterContentInit {
     formProjection: IadFormProjection;
 
     @Input()
+    formProjectionSubject: Subject<{[param: string]: any}>;
+
+    @Input()
     projectionService: IadReferenceProjectionProviderService;
 
     /**
@@ -81,7 +85,15 @@ export class FormViewComponent implements AfterContentInit {
     ) {}
 
     ngAfterContentInit() {
-        this.initForm();
+        if (this.formProjectionSubject && !this.formProjectionSubject.isStopped) {
+            this.formProjectionSubject.subscribe((data) => {
+              this.formProjection = data['projection'];
+              this.rawFormData = data['rawFormData'];
+              this.initForm();
+            });
+        } else {
+            this.initForm();
+        }
     }
 
     /**
