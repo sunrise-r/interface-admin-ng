@@ -28,7 +28,8 @@
         "additionalFields": "Дополнительные поля",
         "firstField": "Первое поле",
         "secondField": "Второе поле",
-        "booleanField": "Булево поле"
+        "booleanField": "Булево поле",
+        "dropdownField": "Выпадающий список"
       }
     },
     "formProjection": {

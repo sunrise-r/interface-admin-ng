@@ -8,6 +8,7 @@ export class PhoneBook {
     public email: string,
     public firstField?: string[],
     public secondField?: string,
-    public booleanField?: boolean
+    public booleanField?: boolean,
+    public dropdownField?: string
   ) {}
 }

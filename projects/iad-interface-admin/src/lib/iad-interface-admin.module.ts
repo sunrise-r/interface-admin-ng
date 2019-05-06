@@ -7,7 +7,7 @@ import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {ProjectionTreeComponent} from './projection-tree/projection-tree.component';
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import {IadConfigService} from './config.service';
-import {MultiSelectModule, PanelMenuModule} from 'primeng/primeng';
+import {DropdownModule, MultiSelectModule, PanelMenuModule} from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
 import {ProjectionGridModule} from './projection-grid/projection-grid.module';
 import {DynamicFormModule} from './customize/dynamic-form/dynamic-form.module';
@@ -21,6 +21,7 @@ import {IadRouterHistoryService} from './public-services/iad-router-history.serv
     IadSharedModule,
     HttpClientModule,
     MultiSelectModule,
+    DropdownModule,
     PanelMenuModule,
     ProjectionGridModule,
     DynamicFormModule,

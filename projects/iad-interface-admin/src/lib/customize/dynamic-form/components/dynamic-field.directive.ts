@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import {ContextAware} from '../context-aware';
 import {FormBooleanComponent} from './form-boolean-component';
 import {FormMultiSelectComponent} from './form-multi-select.component';
+import {DropdownComponent} from './form-dropdown-select.component';
 
 
 const components = {
@@ -24,7 +25,8 @@ const components = {
     datetime: FormDateTimeComponent,
     textarea: FormTextareaComponent,
     boolean: FormBooleanComponent,
-    multiSelect: FormMultiSelectComponent
+    multiSelect: FormMultiSelectComponent,
+    dropdown: DropdownComponent
 };
 
 @Directive({

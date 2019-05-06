@@ -9,7 +9,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { DomHandler } from 'primeng/components/dom/domhandler';
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
-import {CheckboxModule, MultiSelectModule, PanelModule} from 'primeng/primeng';
+import {CheckboxModule, DropdownModule, MultiSelectModule, PanelModule} from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -42,6 +42,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         InputTextModule,
         CheckboxModule,
         MultiSelectModule,
+        DropdownModule,
         SharedModule,
         FontAwesomeModule
     ],
@@ -63,7 +64,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         CalendarComponent,
         DropdownComponent,
         CheckboxModule,
-        MultiSelectModule
+        MultiSelectModule,
+        DropdownModule
     ]
 })
 export class PrimengCustomizeModule {}
