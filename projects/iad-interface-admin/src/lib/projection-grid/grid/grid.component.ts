@@ -3,10 +3,10 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
-  Input, OnDestroy,
+  Input, OnChanges, OnDestroy,
   OnInit,
   Output,
-  QueryList,
+  QueryList, SimpleChanges,
   TemplateRef,
   ViewChild
 } from '@angular/core';
@@ -33,7 +33,7 @@ export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => Elastic
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
   /**
    * #4 Add paginator to the table
    */
@@ -304,6 +304,12 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, O
     this.templates.forEach(item => {
       this.colTemplates[item.getType()] = item.template;
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchUrl']) {
+      this.refresh();
+    }
   }
 
   isColumnResizable(col: IadGridColumn) {

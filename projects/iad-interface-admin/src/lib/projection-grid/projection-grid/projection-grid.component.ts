@@ -107,7 +107,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      if ((changes['projection'] && this.projection) || (changes['presentationCode'] && this.presentationCode)) {
+      if ((changes['projection'] || (changes['presentationCode'] && this.presentationCode)) && this.projection) {
         // this.queryCallback = this.initQueryCallback.bind(this);
         // this.initColumns();
         // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
