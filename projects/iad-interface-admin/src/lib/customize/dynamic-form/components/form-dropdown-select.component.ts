@@ -18,7 +18,7 @@ import {Dropdown} from 'primeng/primeng';
           [options]="dropdownValues(config.translatePrefix, config.values)"
           [required]="config.required"
           [formControlName]="config.key"
-          [(ngModel)]="config.value"
+          [(ngModel)]="config.value || config.values[0]"
         >
         </p-dropdown>
       </div>
