@@ -3,9 +3,6 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
-import { OperationForm } from 'app/documents';
-
 class FileUploadValue {
     constructor(public uuid) {}
 }
@@ -118,7 +115,7 @@ export class DocumentOperationsService {
                 break;
             default:
                 url = '/partnerprocess/api/bp/operation/start';
-                data = <OperationForm>body;
+                data = body;
         }
         return this.http.post<any>(this.getFullUrl(url), data, { observe: 'response' });
     }
@@ -144,8 +141,8 @@ export class DocumentOperationsService {
      * @param projectionCode
      * @param operationId
      */
-    private prepareEditData(action: string, body: any, projectionCode: string, operationId: number): OperationForm {
-        return <OperationForm>{
+    private prepareEditData(action: string, body: any, projectionCode: string, operationId: number) {
+        return {
             type: body && body.type ? body.type : action,
             documentSource: body,
             documentId: body.id,
@@ -215,6 +212,6 @@ export class DocumentOperationsService {
     }
 
     private getFullUrl(url: string): string {
-        return SERVER_API_URL + url;
+        return url;
     }
 }

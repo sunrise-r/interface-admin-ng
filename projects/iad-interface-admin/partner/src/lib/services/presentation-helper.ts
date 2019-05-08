@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {StringHelper} from '../../../../src/lib/shared/helpers/string.helper';
+import {StringHelper} from '../shared/helpers/string.helper';
 
 @Injectable()
 export class PresentationHelper {

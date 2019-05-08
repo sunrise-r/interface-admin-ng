@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DocumentOperationsService } from './document-operations.service';
-import { DataTableInformationService } from '../../data-table';
-import { DATA_DEPENDENCY_LEVEL } from 'app/iad-framework/model/projection.model';
+import {DATA_DEPENDENCY_LEVEL} from '../../model/projection.model';
+import {DataTableInformationService} from '../../data-table/services/data-table-information.service';
 
 @Injectable({
     providedIn: 'root'

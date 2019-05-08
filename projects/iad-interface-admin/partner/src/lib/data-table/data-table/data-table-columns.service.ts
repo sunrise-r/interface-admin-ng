@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DomHandler } from 'primeng/primeng';
 
-import { IDataTableColumn } from '../';
 import {
     FrozenStructure,
     CurrentColumnInfo,
@@ -12,6 +10,7 @@ import {
     ColumnOrder
 } from './freeze-column.model';
 import {IadDomHandler} from '../../iad-primeng/dom/iad-dom-handler';
+import {IDataTableColumn} from './data-table.model';
 
 const SCROLLABLE_WRAPPER_CLASS = 'ui-table-scrollable-wrapper';
 const FROZEN_STATIC_CONTAINER_CLASS = 'frozen-static';

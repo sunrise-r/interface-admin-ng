@@ -6,15 +6,13 @@ import { IadTableComponent } from '../table/iad-table.component';
  * https://github.com/primefaces/primeng/issues/5429#issuecomment-407518667
  */
 @Directive({
-    selector: '[iadTableKeys]',
-    providers: [IadDomHandler]
+    selector: '[iadTableKeys]'
 })
 export class TableKeysDirective implements OnInit {
     constructor(
         private table: IadTableComponent,
         private el: ElementRef<HTMLElement>,
-        private renderer: Renderer2,
-        private domHandler: IadDomHandler
+        private renderer: Renderer2
     ) {}
 
     ngOnInit() {
@@ -57,11 +55,11 @@ export class TableKeysDirective implements OnInit {
      * @param index
      */
     scroll(index: number): void {
-        const scrollable = this.domHandler.findParentByClassName(this.el.nativeElement, 'ui-table-scrollable-body');
+        const scrollable = IadDomHandler.findParentByClassName(this.el.nativeElement, 'ui-table-scrollable-body');
         const selectedRow = <HTMLElement>this.el.nativeElement.children[index];
         let scrollableTop = scrollable.scrollTop + this.el.nativeElement.offsetTop;
-        if (this.domHandler.hasHorizontalScrollbar(this.el.nativeElement)) {
-            scrollableTop -= this.domHandler.calculateScrollbarWidth();
+        if (IadDomHandler.hasHorizontalScrollbar(this.el.nativeElement)) {
+            scrollableTop -= IadDomHandler.calculateScrollbarWidth();
         }
         const scrollableBottom = scrollableTop + scrollable.offsetHeight;
         const rowTop = selectedRow.offsetTop;

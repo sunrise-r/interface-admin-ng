@@ -1,7 +1,5 @@
 import { DomHandler } from 'primeng/api';
-import { Injectable } from '@angular/core';
 
-@Injectable()
 export class IadDomHandler extends DomHandler {
     /**
      * Recursively looks for parent by css class

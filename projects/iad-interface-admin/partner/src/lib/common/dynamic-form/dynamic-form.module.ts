@@ -15,7 +15,7 @@ import { IadDropdownGroupComponent } from './components/iad-dropdown-group.compo
 import { IadFormDateTimeComponent } from './components/iad-form-date-time.component';
 import { IadFormTextareaComponent } from './components/iad-form-textarea.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
-import { IadSharedModule } from '../../../../../src/lib/shared/iad-shared.module';
+import {IadSharedModule} from '../../shared/iad-shared.module';
 
 @NgModule({
     imports: [CalendarModule, InputMaskModule, PanelModule, IadSharedModule],

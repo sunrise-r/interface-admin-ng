@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse, HttpClient, HttpParams } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
-
-import { DocumentFormProjection, DocumentListProjection } from '../';
+import {DocumentFormProjection, DocumentListProjection} from '../model/projection.model';
 
 @Injectable({
     providedIn: 'root'

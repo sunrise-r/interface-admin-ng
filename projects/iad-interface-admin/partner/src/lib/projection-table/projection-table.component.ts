@@ -11,7 +11,6 @@ import {
     TemplateRef
 } from '@angular/core';
 import { of, Subject } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
 
 import * as _ from 'lodash';
 
@@ -28,6 +27,7 @@ import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
 import { CustomizeQuery } from '../filter-builder/action/customize-query';
 import { IadHelper } from '../utils/iad.helper';
+import {IadEventManager} from '../services/event-manager.service';
 
 // TODO Может, разделить для операций и для таблиц данных?
 @Component({
@@ -243,7 +243,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     constructor(
         private informationService: DataTableInformationService,
         private toolbarActionsToggleService: ToolbarActionsToggleService,
-        private eventManager: JhiEventManager,
+        private eventManager: IadEventManager,
         private presentationHelper: PresentationHelper,
         private dataChainService: DataChainService,
         private dataPreviewChainService: ActualSelectionChainService

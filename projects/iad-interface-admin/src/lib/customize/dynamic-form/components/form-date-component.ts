@@ -19,6 +19,7 @@ import { ValidationInput } from './validation-input';
                   [monthNavigator]="true"
                   [yearNavigator]="true"
                   yearRange="1931:2040"
+                  inputStyleClass="form-control form-control-thin"
                   styleClass="iad-calendar"
                   dateFormat="dd.mm.yy"
                   (blur)="onBlur()"></iad-calendar>

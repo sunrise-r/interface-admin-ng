@@ -13,11 +13,11 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
-import { FormErrorsStringifyService, FormHelperService } from 'app/shared';
-
 import { FormControlService } from './form-control.service';
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from './core/form-input-group';
 import { PrimeTemplate } from 'primeng/shared';
+import {FormErrorsStringifyService} from '../../shared/services/form-errors-stringify.service';
+import {FormHelperService} from '../../shared/util/form-helper.service';
 
 @Component({
     selector: 'iad-dynamic-form',

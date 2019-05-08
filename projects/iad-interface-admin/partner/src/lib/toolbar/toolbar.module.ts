@@ -4,7 +4,7 @@ import { ToolbarActionDirective } from './toolbar-actions/toolbar-action.directi
 
 import { ToolbarActionsComponent } from './toolbar-actions/toolbar-actions.component';
 import { FilterBuilderModule } from '../filter-builder/filter-builder.module';
-import {IadSharedModule} from '../../../../src/lib/shared/iad-shared.module';
+import {IadSharedModule} from '../shared/iad-shared.module';
 
 @NgModule({
     imports: [IadSharedModule, FilterBuilderModule],

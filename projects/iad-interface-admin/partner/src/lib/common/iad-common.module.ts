@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { IadSharedModule } from '../../../../src/lib/shared/iad-shared.module';
-
 import { TabbedViewComponent } from './tabbed-view/tabbed-view.component';
+import {IadSharedModule} from '../shared/iad-shared.module';
 
 @NgModule({
     imports: [IadSharedModule],

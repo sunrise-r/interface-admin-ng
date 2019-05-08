@@ -1,4 +1,4 @@
-import { IDataTableColumn } from 'app/iad-framework';
+import {IDataTableColumn} from '../data-table/data-table/data-table.model';
 
 export enum DATA_DEPENDENCY_LEVEL {
     DOCUMENT = 'document',
@@ -14,7 +14,16 @@ export interface IProjectionDefaultFilter {
 }
 
 export class ProjectionDefaultFilter implements IProjectionDefaultFilter {
-    constructor(public field: string, public values: string[], public statementType = 'eq', public operator = 'or') {}
+  field: string;
+  values: string[];
+  statementType: any;
+  operator: any;
+  constructor(field: string, values: string[], statementType?: any, operator?: any) {
+    this.field = field;
+    this.values = values;
+    this.statementType = statementType || 'eq';
+    this.operator = operator ||  'or';
+  }
 }
 
 export interface IIADProjection {

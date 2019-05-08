@@ -15,8 +15,33 @@ export * from './lib/toolbar/toolbar.module';
 
 export * from './lib/projection-table/table-toolbar/table-toolbar.component';
 
-export * from './lib/common';
-export * from './lib/data-table';
-export * from './lib/projection-form';
-export * from './lib/projection-table';
+export * from './lib/common/tabbed-view/projection-tab.model';
+export * from './lib/common/tabbed-view/tabbed-view.component';
+export * from './lib/common/iad-common.module';
+
+export * from './lib/data-table/data-table/data-table.model';
+export * from './lib/data-table/models/actual-selection.model';
+export * from './lib/data-table/services/data-table-information.service';
+export * from './lib/data-table/services/settings-provider';
+export * from './lib/data-table/data-table/data-table-columns.service';
+export * from './lib/data-table/services/actual-selection-chain.service';
+export * from './lib/data-table/services/selection-buffer.service';
+export * from './lib/data-table/data-table/data-table.component';
+export * from './lib/data-table/iad-datatable.module';
+
+export * from './lib/projection-table/projection-table.component';
+export * from './lib/projection-table/projection-table.module';
+
+export * from './lib/projection-form/projection-form/projection-form.component';
+export * from './lib/projection-form/projection-form.module';
+
+export * from './lib/iad-settings-table/iad-settings-table.component';
+export * from './lib/iad-settings-table/iad-settings-table.module';
+
+export * from './lib/iad-primeng/table/iad-scrollable-view.component';
+export * from './lib/iad-primeng/table/iad-table.component';
+export * from './lib/iad-primeng/models';
+export * from './lib/iad-primeng/iad-primeng.module';
+
 export * from './lib/iad-framework.module';
+

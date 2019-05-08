@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { JhiEventManager } from 'ng-jhipster';
-
-import { JhiEvent } from 'app/shared';
 import { onInfiniteScroll } from '../models';
+import {IadEventManager} from '../../services/event-manager.service';
 
 @Injectable()
 export class PaginatorService {
@@ -34,7 +32,7 @@ export class PaginatorService {
      */
     lastScroll = 0;
 
-    constructor(private eventManager: JhiEventManager) {}
+    constructor(private eventManager: IadEventManager) {}
 
     /**
      * @param totalRecords
@@ -47,7 +45,7 @@ export class PaginatorService {
         this.first = first;
         this.rows = rows;
 
-        this.eventManager.subscribe(onInfiniteScroll, (event: JhiEvent) => {
+        this.eventManager.subscribe(onInfiniteScroll, event => {
             const sec: number = new Date().getTime();
             if (sec > this.lastScroll + 50) {
                 this.lastScroll = sec;

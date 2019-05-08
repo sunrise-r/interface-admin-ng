@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
 
 @Injectable()
-export class IadObjectUtils extends ObjectUtils {
-    static resolveFieldData(data: any, field: any): any {
+export class CustomObjectUtils extends ObjectUtils {
+    public resolveFieldData(data: any, field: any): any {
         if (data && field) {
-            if (ObjectUtils.isFunction(field)) {
+            if (this.isFunctionCustom(field)) {
                 return field(data);
             } else if (typeof data === 'string') {
                 return data;
@@ -26,4 +26,6 @@ export class IadObjectUtils extends ObjectUtils {
             return null;
         }
     }
+
+    private isFunctionCustom = (obj: any) => !!(obj && obj.constructor && obj.call && obj.apply);
 }

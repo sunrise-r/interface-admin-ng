@@ -1,9 +1,7 @@
 import { Component, forwardRef, ElementRef, Renderer2, ChangeDetectorRef, NgZone, Input, HostBinding } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DomHandler, SelectItem } from 'primeng/api';
 import { Dropdown } from 'primeng/dropdown';
-import { CustomObjectUtils } from '../utils/objectutils';
 
 export const IAD_DROPDOWN_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -34,7 +32,7 @@ export const IAD_DROPDOWN_VALUE_ACCESSOR: any = {
             transition('visible => void', animate('{{hideTransitionParams}}'))
         ])
     ],
-    providers: [DomHandler, IAD_DROPDOWN_VALUE_ACCESSOR, CustomObjectUtils]
+    providers: [IAD_DROPDOWN_VALUE_ACCESSOR]
 })
 export class DropdownComponent extends Dropdown {
     @Input() showTransitionOptions = '225ms ease-out';
@@ -47,10 +45,8 @@ export class DropdownComponent extends Dropdown {
 
     constructor(
         public el: ElementRef,
-        public domHandler: DomHandler,
         public renderer: Renderer2,
         private cdr: ChangeDetectorRef,
-        public objectUtils: CustomObjectUtils,
         public zone: NgZone
     ) {
         super(el, renderer, cdr, zone);

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'primeng/shared';
 
-import { PartnerGatewaySharedModule } from 'app/shared';
 import { IADDataTableModule } from '../data-table/iad-datatable.module';
 
 import { IADSettingsTableComponent } from './iad-settings-table.component';
+import {IadSharedModule} from '../shared/iad-shared.module';
 
 @NgModule({
-    imports: [PartnerGatewaySharedModule, SharedModule, IADDataTableModule],
+    imports: [IadSharedModule, SharedModule, IADDataTableModule],
     declarations: [IADSettingsTableComponent],
     exports: [IADDataTableModule, IADSettingsTableComponent]
 })

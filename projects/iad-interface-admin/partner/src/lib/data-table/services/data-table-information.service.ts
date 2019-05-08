@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { DATA_DEPENDENCY_LEVEL } from '../../';
 import {ActualSelectionModel} from '../models/actual-selection.model';
-import {RequestParamsBuilder} from '../../../../../src/lib/shared/util/request-params-builder';
+import {RequestParamsBuilder} from '../../shared/util/request-params-builder';
+import {DATA_DEPENDENCY_LEVEL} from '../../model/projection.model';
 
 type EntityArrayResponseType = HttpResponse<Array<any>>;
 

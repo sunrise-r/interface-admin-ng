@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from 'primeng/shared';
-import { ObjectUtils } from 'primeng/components/utils/objectutils';
 
 import { IadPrimengModule } from '../iad-primeng/iad-primeng.module';
 
@@ -19,8 +18,8 @@ import { SelectionIndicatorColumnComponent } from './column-components/selection
 import { DefaultColumnComponent } from './column-components/default-column.component';
 import { SpecialColumnComponent } from './column-components/special-column.component';
 import { FilterBuilderModule } from '../filter-builder/filter-builder.module';
-import { IadSharedModule } from '../../../../src/lib/shared/iad-shared.module';
 import { IADCommonModule } from '../common/iad-common.module';
+import { IadSharedModule } from '../shared/iad-shared.module';
 
 @NgModule({
     imports: [IadSharedModule, SharedModule, IADCommonModule, IadPrimengModule, ToolbarModule, FilterBuilderModule],
@@ -35,7 +34,6 @@ import { IADCommonModule } from '../common/iad-common.module';
         DefaultColumnComponent,
         SpecialColumnComponent
     ],
-    providers: [ObjectUtils],
     entryComponents: [DefaultColumnComponent, SelectionIndicatorColumnComponent, SpecialColumnComponent],
     exports: [TableColumnFilterComponent, DataTableComponent, SelectionIndicatorColumnComponent]
 })

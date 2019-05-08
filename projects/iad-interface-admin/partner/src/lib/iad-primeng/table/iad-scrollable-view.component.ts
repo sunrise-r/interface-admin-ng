@@ -1,15 +1,14 @@
 import { Component, ElementRef, Input, NgZone, AfterViewInit, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
 
 import { IadTableComponent } from './iad-table.component';
-import { JhiEvent } from 'app/shared';
 
 import { onInfiniteScroll } from '../models';
 
 import { ScrollableView } from 'primeng/table';
-import { IadDomHandler } from '../dom/iad-dom-handler';
+import {IadDomHandler} from '../dom/iad-dom-handler';
 import { Column } from 'primeng/shared';
+import {IadEventManager} from '../../services/event-manager.service';
 
 export interface ResizeEvent {
     frozenLeft: string;
@@ -19,8 +18,7 @@ export interface ResizeEvent {
 
 @Component({
     selector: '[iadScrollableView]',
-    templateUrl: './iad-scrollable-view.component.html',
-    providers: [IadDomHandler]
+    templateUrl: './iad-scrollable-view.component.html'
 })
 export class IadScrollableViewComponent extends ScrollableView implements AfterViewInit, OnDestroy, OnInit {
     @Input('iadScrollableView') columns: Column[];
@@ -48,11 +46,10 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     constructor(
         public dt: IadTableComponent,
         public el: ElementRef,
-        public domHandler: IadDomHandler,
         public zone: NgZone,
-        private eventManager: JhiEventManager
+        private eventManager: IadEventManager
     ) {
-        super(dt, el, domHandler, zone);
+        super(dt, el, zone);
     }
 
     ngOnInit() {
@@ -77,23 +74,23 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
         this.dt.onSort.subscribe(() => this.scrollTop());
 
         if (!this.frozen) {
-            const frozenViews = this.domHandler.find(scrollableWrapper, '.ui-table-frozen-view');
+            const frozenViews = IadDomHandler.find(scrollableWrapper, '.ui-table-frozen-view');
             if (frozenViews) {
-                this.domHandler.addClass(this.el.nativeElement, 'ui-table-unfrozen-view');
+                IadDomHandler.addClass(this.el.nativeElement, 'ui-table-unfrozen-view');
                 this.frozenSiblingsScrollableBodies = [];
                 Array.from(frozenViews).forEach((frozenView: HTMLElement) => {
-                    this.frozenSiblingsScrollableBodies.push(this.domHandler.findSingle(frozenView, '.ui-table-scrollable-body'));
+                    this.frozenSiblingsScrollableBodies.push(IadDomHandler.findSingle(frozenView, '.ui-table-scrollable-body'));
                 });
             }
             this.resizeMainContainer(this.dt.frozenWidth, this.dt.frozenRightWidth);
         } else {
-            this.scrollBodyViewChild.nativeElement.style.marginBottom = this.domHandler.calculateScrollbarWidth() + 'px';
+            this.scrollBodyViewChild.nativeElement.style.marginBottom = IadDomHandler.calculateScrollbarWidth() + 'px';
             const scrollableViews = Array.from(scrollableWrapper.children).filter(
                 (node: HTMLElement) => !node.classList.contains('ui-table-frozen-view')
             );
 
             if (scrollableViews[0]) {
-                this.scrollableSiblingBody = this.domHandler.findSingle(scrollableViews[0], '.ui-table-scrollable-body');
+                this.scrollableSiblingBody = IadDomHandler.findSingle(scrollableViews[0], '.ui-table-scrollable-body');
             }
 
             if (!this.isStatic) {
@@ -134,10 +131,10 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
         }
 
         if (this.dt.virtualScroll) {
-            const viewport = this.domHandler.getOuterHeight(this.scrollBodyViewChild.nativeElement);
-            const tableHeight = this.domHandler.getOuterHeight(this.scrollTableViewChild.nativeElement);
+            const viewport = IadDomHandler.getOuterHeight(this.scrollBodyViewChild.nativeElement);
+            const tableHeight = IadDomHandler.getOuterHeight(this.scrollTableViewChild.nativeElement);
             const pageHeight = this.dt.virtualRowHeight * this.dt.rows;
-            const virtualTableHeight = this.domHandler.getOuterHeight(this.virtualScrollerViewChild.nativeElement);
+            const virtualTableHeight = IadDomHandler.getOuterHeight(this.virtualScrollerViewChild.nativeElement);
             const pageCount = virtualTableHeight / pageHeight || 1;
             const scrollBodyTop = this.scrollTableViewChild.nativeElement.style.top || '0';
 
@@ -168,7 +165,7 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
      * Обработчик события Infinite Scroll
      */
     onScroll() {
-        this.eventManager.broadcast(<JhiEvent>{
+        this.eventManager.broadcast({
             name: onInfiniteScroll
         });
     }
@@ -185,12 +182,12 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
         super.setScrollHeight();
         if (!this.scrollHeight && this.scrollBodyViewChild && this.scrollBodyViewChild.nativeElement) {
             const scrollHeight =
-                this.frozen && this.scrollableSiblingBody && this.domHandler.hasHorizontalScrollbar(<HTMLElement>this.scrollableSiblingBody)
-                    ? this.domHandler.calculateScrollbarWidth()
+                this.frozen && this.scrollableSiblingBody && IadDomHandler.hasHorizontalScrollbar(<HTMLElement>this.scrollableSiblingBody)
+                    ? IadDomHandler.calculateScrollbarWidth()
                     : 0;
             let headerHeight = 0;
             if (this.scrollHeaderViewChild && this.scrollHeaderViewChild.nativeElement) {
-                headerHeight = this.domHandler.getOuterHeight(this.scrollHeaderViewChild.nativeElement);
+                headerHeight = IadDomHandler.getOuterHeight(this.scrollHeaderViewChild.nativeElement);
             }
             const height = 'calc(100% - ' + (headerHeight + scrollHeight) + 'px)';
             this.scrollBodyViewChild.nativeElement.style.maxHeight = height;

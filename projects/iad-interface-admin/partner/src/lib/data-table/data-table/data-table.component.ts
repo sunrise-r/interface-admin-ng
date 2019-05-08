@@ -15,15 +15,18 @@ import {
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
 
-import { CmsSetting, DataTableColumn, DataTableInformationService, FILTER_TYPE, IDataTableColumn } from '../';
 import { ReplaySubject, Subject } from 'rxjs';
 
 import { DataTableColumnsService } from './data-table-columns.service';
 import { DataTableConfigModel } from './data-table-config.model';
-import { IadTableComponent, ResizeEvent } from '../../iad-primeng';
 import { DTColumnFrozen, FrozenEvent, FrozenStructure } from './freeze-column.model';
 import { FilterBuilderService } from '../../filter-builder/filter-builder.service';
 import { CustomizeQuery } from '../../filter-builder/action/customize-query';
+import {DataTableColumn, FILTER_TYPE, IDataTableColumn} from './data-table.model';
+import {DataTableInformationService} from '../services/data-table-information.service';
+import {CmsSetting} from '../services/settings-provider';
+import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
+import {ResizeEvent} from '../../iad-primeng/table/iad-scrollable-view.component';
 
 @Component({
     selector: 'iad-data-table',

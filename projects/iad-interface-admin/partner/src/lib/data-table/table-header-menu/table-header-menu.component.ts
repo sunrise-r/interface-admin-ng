@@ -1,16 +1,14 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
-import { DomHandler } from 'primeng/components/dom/domhandler';
 import { TranslateService } from '@ngx-translate/core';
 
-import { IadTableComponent } from '../../iad-primeng';
-
-import { onColumnHide, onLastColumnChecked, LastColumnChecked } from '../../';
-import { IDataTableColumn } from '../';
 import { FROZEN_ACTION, FROZEN_POSITION, FrozenEvent } from '../data-table/freeze-column.model';
 import {IadEventManager} from '../../services/event-manager.service';
 import {IadDomHandler} from '../../iad-primeng/dom/iad-dom-handler';
+import {IDataTableColumn} from '../data-table/data-table.model';
+import {LastColumnChecked, onColumnHide, onLastColumnChecked} from '../../model/events.models';
+import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
 
 interface TableMenuItem {
     icon: string;
@@ -91,7 +89,6 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
     constructor(
         private iadTableComponent: IadTableComponent,
         private el: ElementRef,
-        private domHandler: DomHandler,
         private eventManager: IadEventManager,
         private translateService: TranslateService
     ) {

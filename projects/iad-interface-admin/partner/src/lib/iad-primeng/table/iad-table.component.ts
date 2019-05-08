@@ -10,22 +10,21 @@ import {
     SimpleChanges,
     EventEmitter,
     Output,
-    TemplateRef,
     AfterContentInit
 } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 
 import { IadDomHandler } from '../dom/iad-dom-handler';
-import { ObjectUtils } from 'primeng/components/utils/objectutils';
 import { Table, TableService } from 'primeng/table';
 
 import { PaginatorService } from '../paginator/paginator.service';
 import { ResizeEvent } from './iad-scrollable-view.component';
+import {IadObjectUtils} from '../utils/objectutils';
 
 @Component({
     selector: 'iad-table',
     templateUrl: './iad-table.component.html',
-    providers: [IadDomHandler, TableService, PaginatorService, { provide: Table, useExisting: IadTableComponent }]
+    providers: [TableService, PaginatorService, { provide: Table, useExisting: IadTableComponent }]
 })
 @Injectable()
 export class IadTableComponent extends Table implements AfterContentInit, OnInit, OnDestroy, OnChanges {
@@ -96,13 +95,11 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
 
     constructor(
         public el: ElementRef,
-        public domHandler: IadDomHandler,
-        public objectUtils: ObjectUtils,
         public zone: NgZone,
         public tableService: TableService,
         public paginatorService: PaginatorService
     ) {
-        super(el, domHandler, objectUtils, zone, tableService);
+        super(el, zone, tableService);
     }
 
     ngOnInit() {
@@ -172,7 +169,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
             parentNode === 'INPUT' ||
             parentNode === 'BUTTON' ||
             parentNode === 'A' ||
-            this.domHandler.hasClass(event.originalEvent.target, 'ui-clickable')
+            IadDomHandler.hasClass(event.originalEvent.target, 'ui-clickable')
         ) {
             return;
         }
@@ -181,7 +178,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
             this.preventSelectionSetterPropagation = true;
 
             if (this.isMultipleSelectionMode() && event.originalEvent.shiftKey && this.anchorRowIndex != null) {
-                this.domHandler.clearSelection();
+                IadDomHandler.clearSelection();
                 if (this.rangeRowIndex != null) {
                     this.clearSelectionRange(event.originalEvent);
                 }
@@ -192,7 +189,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
                 const rowData = event.rowData;
                 const selected = this.isSelected(rowData);
                 const metaSelection = this.rowTouched ? false : this.metaKeySelection;
-                const dataKeyValue = this.dataKey ? String(this.objectUtils.resolveFieldData(rowData, this.dataKey)) : null;
+                const dataKeyValue = this.dataKey ? String(IadObjectUtils.resolveFieldData(rowData, this.dataKey)) : null;
                 this.anchorRowIndex = event.rowIndex;
                 this.rangeRowIndex = event.rowIndex;
 
@@ -307,9 +304,9 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
     onColumnDrop(event, dropColumn) {
         event.preventDefault();
         if (this.draggedColumn) {
-            const dragIndex = this.domHandler.indexWithinGroup(this.draggedColumn, 'preorderablecolumn');
-            const dropIndex = this.domHandler.indexWithinGroup(dropColumn, 'preorderablecolumn');
-            const tableContainer = this.domHandler.findParentByClassName(this.draggedColumn, 'ui-table-scrollable-view');
+            const dragIndex = IadDomHandler.indexWithinGroup(this.draggedColumn, 'preorderablecolumn');
+            const dropIndex = IadDomHandler.indexWithinGroup(dropColumn, 'preorderablecolumn');
+            const tableContainer = IadDomHandler.findParentByClassName(this.draggedColumn, 'ui-table-scrollable-view');
             const columns = tableContainer.classList.contains('frozen-left')
                 ? this.frozenColumns
                 : tableContainer.classList.contains('frozen-right') ? this.frozenRightColumns : this.columns;
@@ -322,7 +319,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
             }
 
             if (allowDrop) {
-                this.objectUtils.reorderArray(columns, dragIndex, dropIndex);
+                IadObjectUtils.reorderArray(columns, dragIndex, dropIndex);
 
                 this.onColReorder.emit({
                     dragIndex,
@@ -364,16 +361,16 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
                     if (newColumnWidth > 15 && nextColumnWidth > parseInt(nextColumnMinWidth, 10)) {
                         if (this.scrollable) {
                             const scrollableView = this.findParentScrollableView(column);
-                            const scrollableBodyTable = this.domHandler.findSingle(scrollableView, 'table.ui-table-scrollable-body-table');
-                            const scrollableHeaderTable = this.domHandler.findSingle(
+                            const scrollableBodyTable = IadDomHandler.findSingle(scrollableView, 'table.ui-table-scrollable-body-table');
+                            const scrollableHeaderTable = IadDomHandler.findSingle(
                                 scrollableView,
                                 'table.ui-table-scrollable-header-table'
                             );
-                            const scrollableFooterTable = this.domHandler.findSingle(
+                            const scrollableFooterTable = IadDomHandler.findSingle(
                                 scrollableView,
                                 'table.ui-table-scrollable-footer-table'
                             );
-                            const resizeColumnIndex = this.domHandler.index(column);
+                            const resizeColumnIndex = IadDomHandler.index(column);
 
                             this.resizeColGroup(scrollableHeaderTable, resizeColumnIndex, newColumnWidth, nextColumnWidth);
                             this.resizeColGroup(scrollableBodyTable, resizeColumnIndex, newColumnWidth, nextColumnWidth);
@@ -389,9 +386,9 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
             } else if (this.columnResizeMode === 'expand') {
                 if (this.scrollable) {
                     const scrollableView = this.findParentScrollableView(column);
-                    const scrollableBodyTable = this.domHandler.findSingle(scrollableView, 'table.ui-table-scrollable-body-table');
-                    const scrollableHeaderTable = this.domHandler.findSingle(scrollableView, 'table.ui-table-scrollable-header-table');
-                    const scrollableFooterTable = this.domHandler.findSingle(scrollableView, 'table.ui-table-scrollable-footer-table');
+                    const scrollableBodyTable = IadDomHandler.findSingle(scrollableView, 'table.ui-table-scrollable-body-table');
+                    const scrollableHeaderTable = IadDomHandler.findSingle(scrollableView, 'table.ui-table-scrollable-header-table');
+                    const scrollableFooterTable = IadDomHandler.findSingle(scrollableView, 'table.ui-table-scrollable-footer-table');
 
                     // #1226 We don't need to set fixed width if it was not set in settings. Otherwise we'll meet troubles changing page width
                     if (scrollableBodyTable.style.width && scrollableBodyTable.style.width.toString().lenght > 0) {
@@ -402,7 +399,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
                         }
                     }
 
-                    const resizeColumnIndex = this.domHandler.index(column);
+                    const resizeColumnIndex = IadDomHandler.index(column);
 
                     this.resizeColGroup(scrollableHeaderTable, resizeColumnIndex, newColumnWidth, null);
                     this.resizeColGroup(scrollableBodyTable, resizeColumnIndex, newColumnWidth, null);
@@ -422,7 +419,7 @@ export class IadTableComponent extends Table implements AfterContentInit, OnInit
         }
 
         this.resizeHelperViewChild.nativeElement.style.display = 'none';
-        this.domHandler.removeClass(this.containerViewChild.nativeElement, 'ui-unselectable-text');
+        IadDomHandler.removeClass(this.containerViewChild.nativeElement, 'ui-unselectable-text');
     }
 
     /**

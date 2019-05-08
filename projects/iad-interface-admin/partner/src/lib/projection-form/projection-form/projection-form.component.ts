@@ -4,18 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../../common/dynamic-form/core/form-input-group';
 import { InputFactory } from '../../common/dynamic-form/core/input.factory';
 
-import {
-    DocumentFormProjection,
-    DocumentFormProjectionGroup,
-    ProjectionsApiService,
-    DISABLED,
-    IFormProjectionField,
-    READONLY
-} from '../../';
-
 import { DocumentInfoBufferService } from '../services/document-info-buffer.service';
-import { FormInput } from 'app/iad-framework/common/dynamic-form/core/form-input.model';
 import { PrimeTemplate } from 'primeng/shared';
+import {DocumentFormProjection, DocumentFormProjectionGroup} from '../../model/projection.model';
+import {ProjectionsApiService} from '../../services/projections-api.service';
+import {DISABLED, IFormProjectionField, READONLY} from '../../model/form-projection-field.model';
+import {FormInput} from '../../common/dynamic-form/core/form-input.model';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 

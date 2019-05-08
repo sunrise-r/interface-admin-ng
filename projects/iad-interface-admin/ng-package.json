@@ -13,7 +13,22 @@
       "primeng/shared": "primengShared",
       "primeng/api": "primengApi",
       "primeng/table": "primengTable",
-      "moment": "momentImported"
+      "moment": "momentImported",
+      "@fortawesome/fontawesome-svg-core": "fontawesomeSvgCore",
+      "@fortawesome/free-solid-svg-icons": "freeSolidSvgIcons",
+      "primeng/inputmask": "inputmask",
+      "primeng/panelmenu": "panelmenu",
+      "primeng/menu": "menu",
+      "primeng/tooltip": "tooltip",
+      "primeng/components/dom/domhandler": "domhandler",
+      "primeng/components/utils/objectutils": "objectutils",
+      "primeng/scrollpanel": "scrollpanel",
+      "primeng/autocomplete": "autocomplete",
+      "primeng/components/tooltip/tooltip": "tooltip$1",
+      "primeng/components/panelmenu/panelmenu": "panelmenu$1",
+      "primeng/dropdown": "dropdown",
+      "@fortawesome/angular-fontawesome": "angularFontawesome"
+
     }
   }
 }

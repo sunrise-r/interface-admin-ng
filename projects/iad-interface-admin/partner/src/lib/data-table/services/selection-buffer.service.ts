@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { ActualSelectionModel } from '../models/actual-selection.model';
 import { Subject } from 'rxjs';
-import {StringHelper} from '../../../../../src/lib/shared/helpers/string.helper';
 import {DataBufferService} from './data-buffer.service';
+import {StringHelper} from '../../shared/helpers/string.helper';
 
 @Injectable({
     providedIn: 'root'

@@ -22,6 +22,7 @@ import { PanelMenuComponent } from './panelmenu/panelmenu.component';
 import { PanelMenuSubComponent } from './panelmenu/panelmenu-sub.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
+import { DropdownItemComponent } from './dropdown/dropdown-item.component';
 
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
@@ -46,7 +47,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         SharedModule,
         FontAwesomeModule
     ],
-    declarations: [TooltipDirective, PanelMenuComponent, PanelMenuSubComponent, CalendarComponent, DropdownComponent],
+    declarations: [TooltipDirective, PanelMenuComponent, PanelMenuSubComponent, CalendarComponent, DropdownComponent, DropdownItemComponent],
     providers: [DomHandler, ObjectUtils],
     exports: [
         TooltipModule,

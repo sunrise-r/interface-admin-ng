@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { PartnerGatewaySharedModule } from 'app/shared';
-
 import { DynamicFormModule } from '../common/dynamic-form/dynamic-form.module';
 
 import { ProjectionFormComponent } from './projection-form/projection-form.component';
+import {IadSharedModule} from '../shared/iad-shared.module';
 
 @NgModule({
-    imports: [PartnerGatewaySharedModule, DynamicFormModule],
+    imports: [IadSharedModule, DynamicFormModule],
     declarations: [ProjectionFormComponent],
     exports: [ProjectionFormComponent]
 })
