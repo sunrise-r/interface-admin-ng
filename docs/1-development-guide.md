@@ -1,6 +1,38 @@
 # [InterfaceAdminNg](../README.md) / Development
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
+## Publish library to the local Nexus server
+
+1. To build library open the project root directory and type: 
+
+```
+user@desktop:~/interface-admin-ng$ yarn run build:lib
+```
+
+2. Follow the output path
+
+```
+user@desktop:~/interface-admin-ng$ cd dist/iad-interface-admin
+```
+
+3. Log in to the nexus server
+
+```
+user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm login --registry=http://192.168.1.9:84/repository/npm-group/
+```
+
+4. Publish (development version)
+
+```
+user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm publish --tag devel
+```
+
+5. Log out from the nexus server
+
+```
+user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm logout --registry=http://192.168.1.9:84/repository/npm-group/
+```
+
+6. Enjoy!
 
 ## Development server
 
