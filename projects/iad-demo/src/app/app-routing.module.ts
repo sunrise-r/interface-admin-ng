@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 @NgModule({
     imports: [
-        RouterModule.forRoot([],{ useHash: true, enableTracing: false })
+        RouterModule.forRoot([], { useHash: true, enableTracing: false })
     ],
     exports: [RouterModule]
 })

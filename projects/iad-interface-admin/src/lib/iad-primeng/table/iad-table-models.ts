@@ -14,7 +14,7 @@ export interface LazyLoadData {
   filters: {
     [s: string]: FilterMetadata;
   };
-  globalFilter: any,
-  multiSortMeta: SortMeta[],
+  globalFilter: any;
+  multiSortMeta: SortMeta[];
   clearData: boolean;
 }

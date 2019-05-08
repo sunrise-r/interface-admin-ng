@@ -6,7 +6,7 @@ export interface IFakeResponse {
   getResponse(): Observable<HttpEvent<any>>;
 }
 
-export abstract class AbstractResponse implements IFakeResponse{
+export abstract class AbstractResponse implements IFakeResponse {
 
   request: HttpRequest<any>;
 
