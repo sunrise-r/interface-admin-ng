@@ -44,6 +44,8 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
    */
   @Input() presentationCode: string;
 
+  @Input() lazy: boolean;
+
   doRefresh: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
 
   /**
