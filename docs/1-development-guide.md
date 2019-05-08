@@ -17,7 +17,7 @@ user@desktop:~/interface-admin-ng$ cd dist/iad-interface-admin
 3. Log in to the nexus server
 
 ```
-user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm login --registry=http://192.168.1.9:84/repository/npm-group/
+user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm login --registry=http://192.168.1.9:84/repository/sunrise-npm/
 ```
 
 4. Publish (development version)
@@ -29,7 +29,7 @@ user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm publish --tag de
 5. Log out from the nexus server
 
 ```
-user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm logout --registry=http://192.168.1.9:84/repository/npm-group/
+user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm logout --registry=http://192.168.1.9:84/repository/sunrise-npm/
 ```
 
 6. Enjoy!
