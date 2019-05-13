@@ -1,13 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {TableTdContentInterface} from './column-components.model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
-import {ConfirmationService} from 'primeng/primeng';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'iad-chips-column',
+  styleUrls: ['chips-column.component.scss'],
   template: `<div>
     <p-chips [(ngModel)]="values" (ngModelChange)="valuesChanged()"></p-chips>
   </div>`

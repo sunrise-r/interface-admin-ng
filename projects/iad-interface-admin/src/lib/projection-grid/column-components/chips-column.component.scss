@@ -1,0 +1,12 @@
+p-chips ::ng-deep .ui-chips ul {
+  width: 100%;
+}
+
+p-chips ::ng-deep .ui-chips .ui-chips-input-token {
+  width: 5px;
+}
+
+p-chips ::ng-deep .ui-chips li.ui-chips-token {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
