@@ -15,7 +15,7 @@ import { IadScrollableViewComponent } from './table/iad-scrollable-view.componen
 import { IadTableBodyComponent } from './table/iad-table-body.component';
 import { IadTableComponent } from './table/iad-table.component';
 import { TableKeysDirective } from './table-keys/table-keys.directive';
-import {ConfirmDialogModule} from 'primeng/primeng';
+import {ChipsModule, ConfirmDialogModule} from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -25,10 +25,11 @@ import {ConfirmDialogModule} from 'primeng/primeng';
         InputTextModule,
         PaginatorModule,
         IadSharedModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        ChipsModule
     ],
     declarations: [IadScrollableViewComponent, IadTableBodyComponent, IadTableComponent, TableKeysDirective],
-    exports: [TableModule, ButtonModule, TableModule, IadTableComponent, ConfirmDialogModule],
+    exports: [TableModule, ButtonModule, TableModule, IadTableComponent, ConfirmDialogModule, ChipsModule],
     providers: [ConfirmationService]
 })
 export class IadPrimengModule {}

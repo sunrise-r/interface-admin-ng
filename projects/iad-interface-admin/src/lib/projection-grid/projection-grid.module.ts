@@ -11,14 +11,33 @@ import {SelectionIndicatorColumnComponent} from './column-components/selection-i
 import {DefaultColumnComponent} from './column-components/default-column.component';
 import {SpecialColumnComponent} from './column-components/special-column.component';
 import {ActionsColumnComponent} from './column-components/actions-column.component';
+import {ChipsColumnComponent} from './column-components/chips-column.component';
 
 @NgModule({
-  declarations: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent, TableColumnFilterComponent, GridComponent, GridTdHostDirective, SelectionIndicatorColumnComponent, DefaultColumnComponent, SpecialColumnComponent, ActionsColumnComponent],
+  declarations: [
+    ProjectionGridComponent,
+    TableColumnSizeDirective,
+    TableSortIconComponent,
+    TableColumnFilterComponent,
+    GridComponent,
+    GridTdHostDirective,
+    SelectionIndicatorColumnComponent,
+    DefaultColumnComponent,
+    SpecialColumnComponent,
+    ActionsColumnComponent,
+    ChipsColumnComponent
+  ],
   imports: [
     IadPrimengModule,
     IadSharedModule,
   ],
-  entryComponents: [SelectionIndicatorColumnComponent, DefaultColumnComponent, SpecialColumnComponent, ActionsColumnComponent],
+  entryComponents: [
+    SelectionIndicatorColumnComponent,
+    DefaultColumnComponent,
+    SpecialColumnComponent,
+    ActionsColumnComponent,
+    ChipsColumnComponent
+  ],
   exports: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent]
 })
 export class ProjectionGridModule { }
