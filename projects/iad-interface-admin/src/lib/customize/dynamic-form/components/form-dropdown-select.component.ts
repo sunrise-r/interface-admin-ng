@@ -12,7 +12,7 @@ import {Dropdown} from 'primeng/primeng';
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-        <p-dropdown
+        <p-dropdown class="custom-form-control"
           [id]="config.key"
           [disabled]="config.readonly"
           [options]="dropdownValues(config.translatePrefix, config.values)"

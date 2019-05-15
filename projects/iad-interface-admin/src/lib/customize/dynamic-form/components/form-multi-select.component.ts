@@ -11,7 +11,7 @@ import { ValidationInput } from './validation-input';
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-        <p-multiSelect
+        <p-multiSelect class="custom-form-control"
           [selectedItemsLabel]="config.translatePrefix + '.elementsSelected' | translate"
           [defaultLabel]="config.translatePrefix + '.label' | translate"
           [panelStyle]="{minWidth: '12em'}"

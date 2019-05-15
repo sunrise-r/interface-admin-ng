@@ -17,8 +17,10 @@
   z-index: 5;
 }
 
-.form-control,
-.custom-form-control {
+iad-dynamic-form .input-group > .form-control,
+iad-dynamic-form .input-group > .custom-form-control {
+  margin-top: auto;
+  margin-bottom: auto;
   height: 38px;
   width: 100%;
 }
@@ -38,4 +40,8 @@ body .ui-widget {
 .error-text {
   width: max-content;
   max-width: 500px;
+}
+
+.form-submit-buttons {
+  text-align: right;
 }
