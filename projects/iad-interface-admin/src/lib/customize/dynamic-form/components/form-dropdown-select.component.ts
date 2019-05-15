@@ -21,6 +21,8 @@ import {Dropdown} from 'primeng/primeng';
           [(ngModel)]="config.value || config.values[0]"
         >
         </p-dropdown>
+        <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                              caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
       </div>
     </ng-container>`
 })

@@ -23,6 +23,8 @@ import { ValidationInput } from './validation-input';
           [options]="multiSelectValues(config.translatePrefix, config.values)"
           [(ngModel)]="config.value"
         ></p-multiSelect>
+        <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                              caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
       </div>
     </ng-container>`
 })
