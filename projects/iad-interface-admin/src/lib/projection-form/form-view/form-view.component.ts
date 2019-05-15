@@ -190,7 +190,8 @@ export class FormViewComponent implements AfterContentInit {
                     label: field.label,
                     visible: field.visible,
                     translate: field.translate,
-                    children: inputs
+                    children: inputs,
+                    properties: field.properties
                 });
             }
         } else {

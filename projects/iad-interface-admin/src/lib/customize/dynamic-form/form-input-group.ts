@@ -13,8 +13,10 @@ export class FormInputGroup {
     visible: boolean;
     translate: boolean;
     children: FormGroupChildColumn[];
+    collapsed = true;
 
-    constructor(options: { children: FormGroupChildColumn[]; key?: string; label?: string; column?: number; order?: number; visible?: boolean; translate?: boolean }) {
+    constructor(options: { children: FormGroupChildColumn[]; key?: string; label?: string; column?: number; order?: number;
+            visible?: boolean; translate?: boolean, properties?: any}) {
         this.key = options.key || '';
         this.label = options.label || '';
         this.children = options.children || [];
@@ -23,5 +25,8 @@ export class FormInputGroup {
         this.column = options.column || 0;
         this.visible = options.visible;
         this.translate = options.translate || false;
+        if (options.properties && options.properties.collapsed !== undefined) {
+          this.collapsed = options.properties.collapsed;
+        }
     }
 }

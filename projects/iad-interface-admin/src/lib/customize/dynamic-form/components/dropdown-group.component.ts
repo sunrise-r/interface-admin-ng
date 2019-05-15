@@ -9,7 +9,7 @@ import {ContextAware} from '../context-aware';
     selector: 'iad-dropdown-group',
     template: `
         <ng-container [formGroup]="group">
-            <p-panel #panel [collapsed]="true"
+            <p-panel #panel [collapsed]="config.collapsed"
                      (onBeforeToggle)="$event.collapsed ? panel.expand($event.event) : panel.collapse($event.event)">
                 <p-header>
                     <div class="block-title link" (click)="panel.toggle($event)">
