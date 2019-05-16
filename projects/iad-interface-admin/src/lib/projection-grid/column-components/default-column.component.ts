@@ -13,6 +13,7 @@ import {IadGridColumn} from '../model/iad-grid-column.model';
     template: `<ng-container [ngSwitch]="col.displayFormat">
         <span *ngSwitchCase="'ZonedDateTime'">{{rowData[col.field] | moment | date:'medium'}}</span>
         <span *ngSwitchCase="'TranslatePath'">{{rowData[col.field] | translate }}</span>
+        <span *ngSwitchCase="'html'" [innerHTML]="rowData[col.field]"></span>
         <span *ngSwitchCase="'TranslateColumn'">
           {{['partnerGatewayApp.partnerDocuments', col.field, rowData[col.field]].join('.') | translate }}
         </span>
