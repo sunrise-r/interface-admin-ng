@@ -29,6 +29,7 @@
         "firstField": "Первое поле",
         "secondField": "Второе поле",
         "booleanField": "Булево поле",
+        "htmlField": "Поле HTML",
         "dropdownField": "Выпадающий список"
       }
     },

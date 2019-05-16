@@ -12,11 +12,11 @@ import { ValidationInput } from './validation-input';
               {{config.translate ? (config.label | translate) : config.label}}
             </label>
             <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-              <p-checkbox binary="true"
-                          [formControlName]="config | formatInputName"
+              <p-checkbox [binary]="'true'"
+                          [formControlName]="config.key"
                           [id]="config.key"
                           [disabled]="config.readonly"
-                          [ngModel]="config.value || false"
+                          [value]="config.value || false"
               ></p-checkbox>
             </div>
         </ng-container>`

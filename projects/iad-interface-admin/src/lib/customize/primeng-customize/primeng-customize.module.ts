@@ -9,7 +9,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { DomHandler } from 'primeng/components/dom/domhandler';
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
-import {CheckboxModule, DropdownModule, MultiSelectModule, PanelModule} from 'primeng/primeng';
+import {CheckboxModule, DropdownModule, EditorModule, MultiSelectModule, PanelModule} from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -44,10 +44,17 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         CheckboxModule,
         MultiSelectModule,
         DropdownModule,
+        EditorModule,
         SharedModule,
         FontAwesomeModule
     ],
-    declarations: [TooltipDirective, PanelMenuComponent, PanelMenuSubComponent, CalendarComponent, DropdownComponent, DropdownItemComponent],
+    declarations: [
+        TooltipDirective,
+        PanelMenuComponent,
+        PanelMenuSubComponent,
+        CalendarComponent,
+        DropdownComponent,
+        DropdownItemComponent],
     providers: [DomHandler, ObjectUtils],
     exports: [
         TooltipModule,
@@ -66,6 +73,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         DropdownComponent,
         CheckboxModule,
         MultiSelectModule,
+        EditorModule,
         DropdownModule
     ]
 })

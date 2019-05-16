@@ -70,7 +70,17 @@ export class ProjectionReferenceResponse extends AbstractResponse {
           ],
           'translatePrefix': 'phoneBook.firstField.values'
         }
-      }
+      },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'Rich',
+        'name': 'htmlField',
+        'label': 'presentation.projection.main.htmlField',
+        'column': 0,
+        'hidden': false,
+        'visible': true,
+        'translate': true
+      },
     ];
     projection.properties = [];
     const response = {'presentationOne.additionalFields': projection};

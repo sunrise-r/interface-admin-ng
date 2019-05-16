@@ -9,6 +9,7 @@ export class PhoneBook {
     public firstField?: string[],
     public secondField?: string,
     public booleanField?: boolean,
-    public dropdownField?: string
+    public dropdownField?: string,
+    public htmlField?: string
   ) {}
 }

@@ -19,6 +19,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {FormBooleanComponent} from './components/form-boolean-component';
 import {FormMultiSelectComponent} from './components/form-multi-select.component';
 import {DropdownComponent} from './components/form-dropdown-select.component';
+import {FormRichEditorComponent} from './components/form-rich-editor.component';
 
 @NgModule({
     imports: [InputMaskModule, IadSharedModule, CustomizeModule, FontAwesomeModule],
@@ -35,7 +36,8 @@ import {DropdownComponent} from './components/form-dropdown-select.component';
         FormTextareaComponent,
         FormBooleanComponent,
         FormMultiSelectComponent,
-        DropdownComponent
+        DropdownComponent,
+        FormRichEditorComponent
     ],
     entryComponents: [
         FormDateComponent,
@@ -47,7 +49,8 @@ import {DropdownComponent} from './components/form-dropdown-select.component';
         FormTextareaComponent,
         FormBooleanComponent,
         FormMultiSelectComponent,
-        DropdownComponent
+        DropdownComponent,
+        FormRichEditorComponent
     ],
     exports: [DynamicFormComponent, FormatInputNamePipe, FontAwesomeModule]
 })

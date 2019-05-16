@@ -14,11 +14,11 @@ import {Dropdown} from 'primeng/primeng';
       <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
         <p-dropdown class="custom-form-control"
           [id]="config.key"
-          [disabled]="config.readonly"
+          [readonly]="config.readonly"
           [options]="dropdownValues(config.translatePrefix, config.values)"
           [required]="config.required"
           [formControlName]="config.key"
-          [(ngModel)]="config.value || config.values[0]"
+          [autoDisplayFirst]="true"
         >
         </p-dropdown>
         <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"

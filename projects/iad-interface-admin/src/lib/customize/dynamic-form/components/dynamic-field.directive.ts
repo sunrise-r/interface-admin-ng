@@ -13,6 +13,7 @@ import {ContextAware} from '../context-aware';
 import {FormBooleanComponent} from './form-boolean-component';
 import {FormMultiSelectComponent} from './form-multi-select.component';
 import {DropdownComponent} from './form-dropdown-select.component';
+import {FormRichEditorComponent} from './form-rich-editor.component';
 
 
 const components = {
@@ -24,6 +25,7 @@ const components = {
     hidden: FormInputComponent,
     datetime: FormDateTimeComponent,
     textarea: FormTextareaComponent,
+    rich: FormRichEditorComponent,
     boolean: FormBooleanComponent,
     multiSelect: FormMultiSelectComponent,
     dropdown: DropdownComponent

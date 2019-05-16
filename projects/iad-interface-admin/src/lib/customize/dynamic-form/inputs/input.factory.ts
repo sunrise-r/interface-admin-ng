@@ -10,12 +10,14 @@ import {FormInput} from './form-input.model';
 import {BooleanInput} from './boolean-input.model';
 import {MultiSelectInputModel} from './multi-select-input.model';
 import {DropdownInputModel} from './dropdown-input.model';
+import {RichEditorInput} from './rich-editor-input.model';
 
 const typeFactory = {
     BigDecimal: NumberInput,
     Boolean: BooleanInput,
     MultiSelect: MultiSelectInputModel,
     Dropdown: DropdownInputModel,
+    Rich: RichEditorInput,
     Integer: NumberInput,
     ZonedDateTime: DateInput,
     String: TextInput,
