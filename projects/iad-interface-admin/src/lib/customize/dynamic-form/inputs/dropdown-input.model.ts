@@ -14,5 +14,6 @@ export class DropdownInputModel extends FormInput<string[]> {
     this.maxSelectedLabels = options.maxSelectedLabels || 3;
     this.showHeader = options.showHeader === undefined ? true : options.showHeader;
     this.translatePrefix = options.translatePrefix;
+    this.value = options.value === undefined ? this.values[0] : options.value;
   }
 }
