@@ -15,8 +15,6 @@ import { ValidationInput } from './validation-input';
               <p-checkbox [binary]="'true'"
                           [formControlName]="config.key"
                           [id]="config.key"
-                          [disabled]="config.readonly"
-                          [value]="config.value || false"
               ></p-checkbox>
             </div>
         </ng-container>`
