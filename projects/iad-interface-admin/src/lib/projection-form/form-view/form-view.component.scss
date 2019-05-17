@@ -17,6 +17,10 @@
   z-index: 5;
 }
 
+iad-form-rich-editor .iad-tooltip-notifier {
+  margin-top: 5px;
+}
+
 iad-dynamic-form .input-group > .form-control,
 iad-dynamic-form .input-group > .custom-form-control {
   margin-top: auto;
@@ -24,6 +28,11 @@ iad-dynamic-form .input-group > .custom-form-control {
   height: 38px;
   width: 100%;
 }
+
+iad-dynamic-form iad-form-rich-editor .input-group > .custom-form-control  {
+  height: inherit;
+}
+
 
 .ui-calendar {
   width: 100%;

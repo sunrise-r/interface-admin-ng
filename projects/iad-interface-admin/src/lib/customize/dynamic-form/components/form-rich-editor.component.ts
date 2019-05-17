@@ -11,7 +11,7 @@ import { ValidationInput } from './validation-input';
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-        <p-editor
+        <p-editor class="custom-form-control"
           [formControlName]="config.key"
           [id]="config.key"
           [readonly]="config.readonly"></p-editor>
