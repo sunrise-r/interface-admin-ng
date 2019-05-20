@@ -1,5 +1,6 @@
 import { IDataTableColumn } from './data-table.model';
 import { Subject } from 'rxjs';
+import { CustomizeQuery } from '../../filter-builder/action/customize-query';
 
 export interface DataTableConfigProvider {
     /**
@@ -12,6 +13,7 @@ export interface DataTableConfigProvider {
 }
 
 export class DataTableConfigModel {
+    filter: CustomizeQuery;
     constructor(
         public columns: IDataTableColumn[] = [],
         public rightColumns: IDataTableColumn[] = [],

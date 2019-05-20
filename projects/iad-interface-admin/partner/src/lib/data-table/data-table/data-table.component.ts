@@ -417,7 +417,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
                 this.changeTableHeight.next(true);
                 this.refresh();
             },
-            refresh: this.refresh,
+            refresh: () => this.refresh,
             unselect: () => {
                 this.unSelectRow.next(value);
             }
@@ -522,6 +522,9 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * Устанавливает первую колонку слева как закреплённую (это колонка-селектор)
      */
     private initTableConfig(data: DataTableConfigModel): void {
+        if (data.filter) {
+            this.filter = data.filter;
+        }
         this.dt.frozenColumns = this.frozenCols = data.leftColumns;
         this.dt.frozenRightColumns = this.frozenRightCols = data.rightColumns;
         this.dt.columns = this.columns = data.columns;
