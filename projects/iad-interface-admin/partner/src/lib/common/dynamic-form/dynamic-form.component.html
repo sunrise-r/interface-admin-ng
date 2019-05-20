@@ -1,5 +1,5 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
-    <fieldset>
+<form (ngSubmit)="onSubmit()" [formGroup]="form" class="content-flex" autocomplete="off">
+    <fieldset class="content-flex">
         <ng-template ngFor let-child [ngForOf]="formInputGroup.children">
             <ng-container *ngIf="child.length === 1; then singleColumn; else multiColumn"></ng-container>
             <ng-template #singleColumn>
@@ -27,7 +27,7 @@
         </button>
     </ng-template>
     <ng-template #defaultFormFooter let-cancelBtnTpl="cancelBtnTpl" let-submitBtnTpl="submitBtnTpl">
-        <div>
+        <div class="content-flex-footer">
             <div class="float-right">
                 <ng-template [ngTemplateOutlet]="cancelBtnTpl"></ng-template>
                 <ng-template [ngTemplateOutlet]="submitBtnTpl"></ng-template>
