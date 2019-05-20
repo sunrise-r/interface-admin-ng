@@ -1,3 +1,7 @@
 # [InterfaceAdminNg](../README.md) / Usage
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
+## Install
+
+```
+yarn add iad-interface-admin@devel --registry=http://192.168.1.9:84/repository/sunrise-npm/
+```
