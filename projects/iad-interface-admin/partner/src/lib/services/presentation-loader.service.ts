@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import {IADPresentation} from '../model/projection.model';
 import {PRESENTATION_TYPE, PresentationService} from './presentation.service';
 
@@ -27,6 +27,11 @@ export class PresentationLoader {
                 }
                 this.presentations.set(storeKey, resp);
                 return this.presentations.get(storeKey);
+            }),
+            catchError(err => {
+                console.log('Error in PresentationLoader');
+                console.error(err);
+                return of(new IADPresentation());
             })
         );
     }
