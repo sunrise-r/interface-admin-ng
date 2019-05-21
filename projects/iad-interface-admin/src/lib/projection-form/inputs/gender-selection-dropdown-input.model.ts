@@ -1,4 +1,4 @@
-import {FormInput} from '../../customize/dynamic-form/inputs/form-input.model';
+import {FormInput} from '../../common/dynamic-form/inputs/form-input.model';
 
 export enum SEX {
     MALE = 'MALE',

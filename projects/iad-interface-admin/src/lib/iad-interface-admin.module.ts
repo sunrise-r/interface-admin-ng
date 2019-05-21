@@ -10,7 +10,7 @@ import {IadConfigService} from './config.service';
 import {DropdownModule, MultiSelectModule, PanelMenuModule} from 'primeng/primeng';
 import {IadSharedModule} from './shared/iad-shared.module';
 import {ProjectionGridModule} from './projection-grid/projection-grid.module';
-import {DynamicFormModule} from './customize/dynamic-form/dynamic-form.module';
+import {DynamicFormModule} from './common/dynamic-form/dynamic-form.module';
 import {ProjectionFormModule} from './projection-form/projection-form.module';
 import {IadRouterHistoryService} from './public-services/iad-router-history.service';
 

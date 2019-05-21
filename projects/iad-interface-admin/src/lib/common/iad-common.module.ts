@@ -27,4 +27,4 @@ import {IadSharedModule} from '../shared/iad-shared.module';
         CheckboxListComponent
     ]
 })
-export class CustomizeModule {}
+export class IadCommonModule {}
