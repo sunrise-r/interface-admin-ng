@@ -2,7 +2,7 @@ import {Component, OnInit, AfterViewInit, ElementRef, Renderer2, ViewChild} from
 import { TranslateService } from '@ngx-translate/core';
 
 import { ValidationInput } from './validation-input';
-import {Dropdown} from 'primeng/primeng';
+import {IadEventManager} from '../../../public-services/event-manager.service';
 
 @Component({
   selector: 'iad-form-dropdown',
@@ -19,6 +19,7 @@ import {Dropdown} from 'primeng/primeng';
           [required]="config.required"
           [formControlName]="config.key"
           [autoDisplayFirst]="true"
+          (onChange)="onChange($event)"
         >
         </p-dropdown>
         <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
@@ -29,7 +30,8 @@ import {Dropdown} from 'primeng/primeng';
 
 export class DropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
 
-  constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
+  constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2,
+              private eventManager: IadEventManager) {
     super(translateService, el, renderer);
   }
 
@@ -38,5 +40,9 @@ export class DropdownComponent extends ValidationInput implements OnInit, AfterV
       label: translatePrefix ? this.translateService.instant(translatePrefix + '.' + value) : value,
       value: value
     }));
+  }
+
+  onChange(value) {
+    this.eventManager.broadcast({ name: this.config.key + '#onChange', content: value });
   }
 }

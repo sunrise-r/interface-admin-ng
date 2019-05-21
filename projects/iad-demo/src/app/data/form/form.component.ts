@@ -1,9 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {IadPresentation, PROJECTION_TYPE, ProjectionsHelper} from 'iad-interface-admin';
+import {IadFormProjectionInterface, IadPresentation, PROJECTION_TYPE, ProjectionsHelper} from 'iad-interface-admin';
 import {Subject, Subscription} from 'rxjs';
-import {IadFormProjectionInterface} from 'iad-interface-admin';
-import {IFormProjectionField} from 'iad-interface-admin';
 import {ReferenceProjectionProviderService} from '../services/reference-projection-provider.service';
 
 @Component({
