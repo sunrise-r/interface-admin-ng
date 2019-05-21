@@ -83,8 +83,8 @@ export class GridConfigService {
         return columns
             .map((column, index) => {
                 const columnOrder = columnsOrder ? columnsOrder.find(_columnOrder => _columnOrder.field === column.field) : <ColumnOrder>{};
-                column.frozenOrder = !isNaN(columnOrder.frozenOrder) ? columnOrder.frozenOrder : 0;
-                column.order = !isNaN(columnOrder.order) ? columnOrder.order : index;
+                column.frozenOrder = columnOrder && !isNaN(columnOrder.frozenOrder) ? columnOrder.frozenOrder : 0;
+                column.order = columnOrder && !isNaN(columnOrder.order) ? columnOrder.order : index;
                 return column;
             })
             .sort((a: DataTableColumn, b: DataTableColumn) => {
