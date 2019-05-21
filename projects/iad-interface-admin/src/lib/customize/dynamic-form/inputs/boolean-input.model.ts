@@ -5,5 +5,6 @@ export class BooleanInput extends FormInput<boolean> {
 
   constructor(options: {} = {}) {
     super(options);
+    this.value = this.value === true;
   }
 }
