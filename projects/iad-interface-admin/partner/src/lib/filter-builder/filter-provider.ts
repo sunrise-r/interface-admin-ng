@@ -33,7 +33,7 @@ export class FilterProvider implements AddFilter, AddOption, BuildQuery, Customi
         option.field = field;
         option.action = action;
         option.delegate = delegate;
-        if (this.currentFilter) {
+        if (!field && this.currentFilter) {
             option.field = this.currentFilter.field;
         }
         this.options.push(option);
