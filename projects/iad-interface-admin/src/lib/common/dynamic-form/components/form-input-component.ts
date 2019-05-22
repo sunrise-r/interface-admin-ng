@@ -36,6 +36,7 @@ import { ValidationInput } from './validation-input';
                            [readonly]="config.readonly"
                            [minLength]="config.validators?.minLength"
                            [maxLength]="config.validators?.maxLength || 1000"
+                           [value]="inputValue()"
                            (blur)="onBlur()">
                 </ng-template>
                 <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
@@ -46,5 +47,9 @@ import { ValidationInput } from './validation-input';
 export class FormInputComponent extends ValidationInput implements OnInit, AfterViewInit {
     constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
         super(translateService, el, renderer);
+    }
+
+    inputValue() {
+        return this.config.translateValue ? this.translateService.instant(this.config.value) : this.config.value;
     }
 }
