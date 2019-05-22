@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import {ContextAware} from '../context-aware';
 import {FormBooleanComponent} from './form-boolean-component';
 import {FormMultiSelectComponent} from './form-multi-select.component';
-import {DropdownComponent} from './form-dropdown-select.component';
+import {FormSelectionDropdownComponent} from './form-selection-dropdown.component';
 import {FormRichEditorComponent} from './form-rich-editor.component';
 
 
@@ -28,7 +28,7 @@ const components = {
     rich: FormRichEditorComponent,
     boolean: FormBooleanComponent,
     multiSelect: FormMultiSelectComponent,
-    dropdown: DropdownComponent
+    dropdown: FormSelectionDropdownComponent
 };
 
 @Directive({

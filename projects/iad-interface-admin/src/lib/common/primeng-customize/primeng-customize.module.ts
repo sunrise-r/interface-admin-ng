@@ -21,7 +21,6 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
 import { PanelMenuComponent } from './panelmenu/panelmenu.component';
 import { PanelMenuSubComponent } from './panelmenu/panelmenu-sub.component';
 
-import { DropdownComponent } from './dropdown/dropdown.component';
 import { DropdownItemComponent } from './dropdown/dropdown-item.component';
 
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -51,7 +50,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         TooltipDirective,
         PanelMenuComponent,
         PanelMenuSubComponent,
-        DropdownComponent,
         DropdownItemComponent],
     providers: [DomHandler, ObjectUtils],
     exports: [
@@ -66,7 +64,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         AutoCompleteModule,
         TableModule,
         ScrollPanelModule,
-        DropdownComponent,
         CheckboxModule,
         MultiSelectModule,
         EditorModule,

@@ -5,7 +5,7 @@ import { ValidationInput } from './validation-input';
 import {IadEventManager} from '../../../public-services/event-manager.service';
 
 @Component({
-  selector: 'iad-form-dropdown',
+  selector: 'iad-form-selection-dropdown',
   template: `
     <ng-container [formGroup]="group">
       <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
@@ -28,7 +28,7 @@ import {IadEventManager} from '../../../public-services/event-manager.service';
     </ng-container>`
 })
 
-export class DropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
+export class FormSelectionDropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
 
   constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2,
               private eventManager: IadEventManager) {

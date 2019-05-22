@@ -19,7 +19,7 @@ import {IadPrimengModule} from '../../iad-primeng/iad-primeng.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {FormBooleanComponent} from './components/form-boolean-component';
 import {FormMultiSelectComponent} from './components/form-multi-select.component';
-import {DropdownComponent} from './components/form-dropdown-select.component';
+import {FormSelectionDropdownComponent} from './components/form-selection-dropdown.component';
 import {FormRichEditorComponent} from './components/form-rich-editor.component';
 
 @NgModule({
@@ -37,7 +37,7 @@ import {FormRichEditorComponent} from './components/form-rich-editor.component';
         FormTextareaComponent,
         FormBooleanComponent,
         FormMultiSelectComponent,
-        DropdownComponent,
+        FormSelectionDropdownComponent,
         FormRichEditorComponent
     ],
     entryComponents: [
@@ -50,7 +50,7 @@ import {FormRichEditorComponent} from './components/form-rich-editor.component';
         FormTextareaComponent,
         FormBooleanComponent,
         FormMultiSelectComponent,
-        DropdownComponent,
+        FormSelectionDropdownComponent,
         FormRichEditorComponent
     ],
     exports: [DynamicFormComponent, FormatInputNamePipe, FontAwesomeModule]
