@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { DomHandler } from 'primeng/components/dom/domhandler';
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
 import {CheckboxModule, DropdownModule, EditorModule, MultiSelectModule, PanelModule} from 'primeng/primeng';
-import { CalendarModule } from 'primeng/primeng';
+
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputTextModule } from 'primeng/inputtext';
@@ -20,7 +20,7 @@ import { SharedModule } from 'primeng/shared';
 import { TooltipDirective } from './tooltip/tooltip.directive';
 import { PanelMenuComponent } from './panelmenu/panelmenu.component';
 import { PanelMenuSubComponent } from './panelmenu/panelmenu-sub.component';
-import { CalendarComponent } from './calendar/calendar.component';
+
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { DropdownItemComponent } from './dropdown/dropdown-item.component';
 
@@ -37,7 +37,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         ButtonModule,
         TableModule,
         CommonModule,
-        CalendarModule,
         ScrollPanelModule,
         AutoCompleteModule,
         InputTextModule,
@@ -52,7 +51,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         TooltipDirective,
         PanelMenuComponent,
         PanelMenuSubComponent,
-        CalendarComponent,
         DropdownComponent,
         DropdownItemComponent],
     providers: [DomHandler, ObjectUtils],
@@ -67,9 +65,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         ButtonModule,
         AutoCompleteModule,
         TableModule,
-        CalendarModule,
         ScrollPanelModule,
-        CalendarComponent,
         DropdownComponent,
         CheckboxModule,
         MultiSelectModule,

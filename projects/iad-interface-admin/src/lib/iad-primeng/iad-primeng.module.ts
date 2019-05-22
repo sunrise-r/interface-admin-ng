@@ -9,8 +9,10 @@ import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from 'primeng/shared';
 import {ConfirmationService} from 'primeng/api';
+import { CalendarModule } from 'primeng/primeng';
 
-// Table
+// Customized
+import { CalendarComponent } from './calendar/calendar.component';
 import { IadScrollableViewComponent } from './table/iad-scrollable-view.component';
 import { IadTableBodyComponent } from './table/iad-table-body.component';
 import { IadTableComponent } from './table/iad-table.component';
@@ -26,10 +28,11 @@ import {ChipsModule, ConfirmDialogModule} from 'primeng/primeng';
         PaginatorModule,
         IadSharedModule,
         ConfirmDialogModule,
-        ChipsModule
+        ChipsModule,
+        CalendarModule
     ],
-    declarations: [IadScrollableViewComponent, IadTableBodyComponent, IadTableComponent, TableKeysDirective],
-    exports: [TableModule, ButtonModule, TableModule, IadTableComponent, ConfirmDialogModule, ChipsModule],
+    declarations: [IadScrollableViewComponent, IadTableBodyComponent, IadTableComponent, TableKeysDirective, CalendarComponent],
+    exports: [TableModule, ButtonModule, TableModule, IadTableComponent, ConfirmDialogModule, ChipsModule, CalendarModule],
     providers: [ConfirmationService]
 })
 export class IadPrimengModule {}

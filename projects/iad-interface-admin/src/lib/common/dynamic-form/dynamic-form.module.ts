@@ -15,6 +15,7 @@ import { FormDateTimeComponent } from './components/form-date-time-component';
 import { FormTextareaComponent } from './components/form-textarea-component';
 import {IadSharedModule} from '../../shared/iad-shared.module';
 import {IadCommonModule} from '../iad-common.module';
+import {IadPrimengModule} from '../../iad-primeng/iad-primeng.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {FormBooleanComponent} from './components/form-boolean-component';
 import {FormMultiSelectComponent} from './components/form-multi-select.component';
@@ -22,7 +23,7 @@ import {DropdownComponent} from './components/form-dropdown-select.component';
 import {FormRichEditorComponent} from './components/form-rich-editor.component';
 
 @NgModule({
-    imports: [InputMaskModule, IadSharedModule, IadCommonModule, FontAwesomeModule],
+    imports: [InputMaskModule, IadSharedModule, IadCommonModule, FontAwesomeModule, IadPrimengModule],
     declarations: [
         DynamicFormComponent,
         FormatInputNamePipe,
