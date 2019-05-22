@@ -4,9 +4,10 @@ import {TooltipNotifierComponent} from './tooltip-notifier/tooltip-notifier.comp
 import {FileUploadComponent} from './file-upload/file-upload.component';
 import {CommonModule} from '@angular/common';
 import {IadSharedModule} from '../shared/iad-shared.module';
+import {IadPrimengModule} from '../iad-primeng/iad-primeng.module';
 
 @NgModule({
-    imports: [CommonModule, IadSharedModule],
+    imports: [CommonModule, IadSharedModule, IadPrimengModule],
     declarations: [
         TooltipNotifierComponent,
         FileUploadComponent
