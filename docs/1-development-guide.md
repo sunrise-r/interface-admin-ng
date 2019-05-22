@@ -17,7 +17,7 @@
 3. Log in to the nexus server
 
     ```
-    user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm login --registry=http://192.168.1.9:84/repository/npm-sunrise/
+    user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm login --registry=http://37.1.83.184:84/repository/npm-sunrise/
     ```
 
 4. Publish (development version)
@@ -29,7 +29,7 @@
 5. Log out from the nexus server
 
     ```
-    user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm logout --registry=http://192.168.1.9:84/repository/npm-sunrise/
+    user@desktop:~/interface-admin-ng/dist/iad-interface-admin$ npm logout --registry=http://37.1.83.184:84/repository/npm-sunrise/
     ```
 
 6. Enjoy!
@@ -39,7 +39,7 @@
 1. Login to the nexus server using login and password of user that can download packages. This will create ~/.npmrc file with _authToken
 
     ```
-    user@desktop:~/your-project$ npm login --registry=http://192.168.1.9:84/repository/npm-group/
+    user@desktop:~/your-project$ npm login --registry=http://37.1.83.184:84/repository/npm-group/
     ```
 2. Open ~/.npmrc file for edit and copy _authToken=SOME_AUTH_TOKEN
 
@@ -48,14 +48,14 @@
 4. Paste _authToken and registry path as follows:
 
     ```
-       registry=http://192.168.1.9:84/repository/npm-group/
+       registry=http://37.1.83.184:84/repository/npm-group/
        _authToken=SOME_AUTH_TOKEN
        always-auth=true
     ```
 5. If you are using yarn create .yarnrc file in your project root with following content
 
     ```
-    registry "http://192.168.1.9:84/repository/npm-group/"
+    registry "http://37.1.83.184:84/repository/npm-group/"
     
     ```
 

@@ -3,5 +3,5 @@
 ## Install
 
 ```
-yarn add iad-interface-admin@devel --registry=http://192.168.1.9:84/repository/sunrise-npm/
+yarn add iad-interface-admin@devel --registry=http://37.1.83.184:84/repository/sunrise-npm/
 ```

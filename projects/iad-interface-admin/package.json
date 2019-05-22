@@ -1,7 +1,7 @@
 {
   "name": "iad-interface-admin",
   "publishConfig": {
-    "registry": "http://192.168.1.9:84/repository/npm-sunrise/"
+    "registry": "http://37.1.83.184:84/repository/npm-sunrise/"
   },
   "version": "0.0.1-devel.5",
   "peerDependencies": {
