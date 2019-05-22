@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Original
-import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -18,10 +17,6 @@ import { SharedModule } from 'primeng/shared';
 
 // Extension
 import { TooltipDirective } from './tooltip/tooltip.directive';
-import { PanelMenuComponent } from './panelmenu/panelmenu.component';
-import { PanelMenuSubComponent } from './panelmenu/panelmenu-sub.component';
-
-import { DropdownItemComponent } from './dropdown/dropdown-item.component';
 
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
@@ -30,7 +25,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         CommonModule,
         TooltipModule,
         PanelModule,
-        PanelMenuModule,
         MenuModule,
         TableModule,
         ButtonModule,
@@ -47,18 +41,13 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
         FontAwesomeModule
     ],
     declarations: [
-        TooltipDirective,
-        PanelMenuComponent,
-        PanelMenuSubComponent,
-        DropdownItemComponent],
+        TooltipDirective],
     providers: [DomHandler, ObjectUtils],
     exports: [
         TooltipModule,
         TooltipDirective,
-        PanelMenuModule,
         PanelModule,
         MenuModule,
-        PanelMenuComponent,
         TableModule,
         ButtonModule,
         AutoCompleteModule,
