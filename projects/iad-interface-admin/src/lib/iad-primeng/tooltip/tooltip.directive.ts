@@ -1,6 +1,6 @@
 import { Directive, ElementRef, AfterViewInit, NgZone, Input } from '@angular/core';
 import { Tooltip } from 'primeng/components/tooltip/tooltip';
-import {IadDomHandler} from '../../../iad-primeng/dom/iad-dom-handler';
+import {IadDomHandler} from '../dom/iad-dom-handler';
 @Directive({
   selector: '[iadPTooltip]'
 })
