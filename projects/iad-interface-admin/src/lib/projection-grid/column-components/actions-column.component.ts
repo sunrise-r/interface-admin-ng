@@ -42,7 +42,7 @@ export class ActionsColumnComponent implements TableTdContentInterface {
   showDeleteUserDialog() {
     this.confirmationService.confirm({
       message: null,
-      key: 'deleteTableRecord',
+      key: ('delete#' + this.col.properties['projectionCode']).substr(0, 40),
       accept: () => this.deleteUser()
     });
   }

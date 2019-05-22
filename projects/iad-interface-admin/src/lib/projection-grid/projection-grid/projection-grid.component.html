@@ -1,5 +1,6 @@
 <div *ngIf="hasToolbar">Toolbar</div>
-<p-confirmDialog key="deleteTableRecord"
+<p-confirmDialog *ngIf="projection"
+                 [key]="'delete#' + projection.code"
                  [header]="'grid.dialog.delete.header'|translate"
                  [message]="'grid.dialog.delete.message'|translate"
                  [acceptLabel]="'grid.dialog.delete.confirm'|translate"

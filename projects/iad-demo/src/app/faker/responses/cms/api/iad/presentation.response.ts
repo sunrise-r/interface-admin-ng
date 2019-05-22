@@ -204,7 +204,8 @@ export class PresentationResponse extends AbstractResponse {
             'displayFormat': 'edit|delete',
             'properties': {
               'editUrl': '/data/presentation-one/form-projection/edit',
-              'deleteUrl': '/partnerdocuments/api/phonebook/delete'
+              'deleteUrl': '/partnerdocuments/api/phonebook/delete',
+              'projectionCode': 'main'
             }
           }
         ],
