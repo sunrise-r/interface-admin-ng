@@ -16,12 +16,6 @@ export * from './lib/services/event-manager.service';
 // #utils
 export * from './lib/utils/iad.helper';
 
-// #primeng
-export * from './lib/iad-primeng/table/iad-scrollable-view.component';
-export * from './lib/iad-primeng/table/iad-table.component';
-export * from './lib/iad-primeng/models';
-export * from './lib/iad-primeng/iad-primeng.module';
-
 // #common (ex-customize)
 export * from './lib/common/tabbed-view/projection-tab.model';
 export * from './lib/common/dynamic-form/core/context-aware';

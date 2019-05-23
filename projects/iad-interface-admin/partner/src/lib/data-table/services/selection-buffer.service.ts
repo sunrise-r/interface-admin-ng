@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActualSelectionModel } from '../models/actual-selection.model';
 import { Subject } from 'rxjs';
 import {DataBufferService} from './data-buffer.service';
-import {StringHelper} from '../../shared/helpers/string.helper';
+import {StringHelper} from 'iad-interface-admin/core';
 
 @Injectable({
     providedIn: 'root'

@@ -2,11 +2,10 @@ import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChange
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
-import {FormErrorsStringifyService} from '../../shared/services/form-errors-stringify.service';
+import {FormErrorsStringifyService, FormHelperService} from 'iad-interface-admin/core';
 
 import { FormControlService } from './form-control.service';
 import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from './form-input-group';
-import {FormHelperService} from '../../shared/util/form-helper.service';
 
 @Component({
     selector: 'iad-dynamic-form',

@@ -5,10 +5,7 @@
 export * from './lib/model/iad-interfaces';
 export * from './lib/model/iad-model';
 
-// # Helpers:
-export * from './lib/shared/helpers/string.helper';
-export * from './lib/shared/helpers/projections.helper';
-
+export * from './lib/common/helpers/projections.helper';
 // # components:
 // projection-tree
 export * from './lib/projection-tree/projection-tree.model';

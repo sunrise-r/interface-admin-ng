@@ -9,7 +9,7 @@ import {
     DTColumnFrozenField,
     ColumnOrder
 } from './freeze-column.model';
-import {IadDomHandler} from '../../iad-primeng/dom/iad-dom-handler';
+import {IadDomHandler} from 'iad-interface-admin/core';
 import {IDataTableColumn} from './data-table.model';
 
 const SCROLLABLE_WRAPPER_CLASS = 'ui-table-scrollable-wrapper';

@@ -16,10 +16,9 @@ import {ReplaySubject, Subject} from 'rxjs';
 import {PrimeTemplate} from 'primeng/shared';
 import {IadProjectionGridService} from '../services/iad-projection-grid.service';
 import {ElasticSearchQueryBuilder} from '../../elastic/elastic-search-query.builder';
-import {LazyLoadData, ResizeEvent} from '../../iad-primeng/table/iad-table-models';
+import {LazyLoadData, ResizeEvent, IadTableComponent} from 'iad-interface-admin/core';
 import {FILTER_TYPE, IadGridConfigModel} from '../model/iad-grid-model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
-import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
 import {columnComponents} from '../column-components/column-components.factory';
 import {IadConfigService} from '../../config.service';
 

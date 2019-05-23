@@ -8,7 +8,7 @@ import {ProjectionTreeComponent} from './projection-tree/projection-tree.compone
 import {IadModuleConfig, IadModuleConfigInterface} from './config';
 import {IadConfigService} from './config.service';
 import {DropdownModule, MultiSelectModule, PanelMenuModule} from 'primeng/primeng';
-import {IadSharedModule} from './shared/iad-shared.module';
+import {IadSharedModule} from 'iad-interface-admin/core';
 import {ProjectionGridModule} from './projection-grid/projection-grid.module';
 import {DynamicFormModule} from './common/dynamic-form/dynamic-form.module';
 import {ProjectionFormModule} from './projection-form/projection-form.module';

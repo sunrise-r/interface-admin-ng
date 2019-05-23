@@ -5,7 +5,7 @@ import { IadSettingsTableModule } from '../iad-settings-table/iad-settings-table
 import { ProjectionTableComponent } from './projection-table.component';
 import { TableToolbarComponent } from './table-toolbar/table-toolbar.component';
 import { TableSearchPanelComponent } from './table-search-panel/table-search-panel.component';
-import {IadSharedModule} from '../shared/iad-shared.module';
+import {IadSharedModule} from 'iad-interface-admin/core';
 
 @NgModule({
     imports: [IadSharedModule, ToolbarModule, IadSettingsTableModule],

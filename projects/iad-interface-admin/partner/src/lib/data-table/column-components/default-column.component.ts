@@ -2,6 +2,31 @@ import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
 
 import { DataTableColumn, TableTdContentInterface } from '../data-table/data-table.model';
 
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'status'
+})
+export class StatusPipe implements PipeTransform {
+  transform(value: any, args?: any): any {
+    switch (value) {
+      case 'NEW': {
+        return 'Новый';
+      }
+      case 'ACCEPTED': {
+        return 'Действующий';
+      }
+      case 'REJECTED': {
+        return 'Аннулированный';
+      }
+      case 'REVIEW': {
+        return 'На согласовании';
+      }
+    }
+    return value;
+  }
+}
+
 @Component({
     selector: 'iad-default-column',
     template: `<ng-container [ngSwitch]="col.displayFormat">

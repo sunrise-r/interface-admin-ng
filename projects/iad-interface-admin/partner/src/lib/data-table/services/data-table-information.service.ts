@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {ActualSelectionModel} from '../models/actual-selection.model';
-import {RequestParamsBuilder} from '../../shared/util/request-params-builder';
+import {RequestParamsBuilder} from 'iad-interface-admin/core';
 import {DATA_DEPENDENCY_LEVEL} from '../../model/projection.model';
 
 type EntityArrayResponseType = HttpResponse<Array<any>>;

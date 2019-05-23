@@ -5,10 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { FROZEN_ACTION, FROZEN_POSITION, FrozenEvent } from '../data-table/freeze-column.model';
 import {IadEventManager} from '../../services/event-manager.service';
-import {IadDomHandler} from '../../iad-primeng/dom/iad-dom-handler';
+import {IadDomHandler, IadTableComponent} from 'iad-interface-admin/core';
 import {IDataTableColumn} from '../data-table/data-table.model';
 import {LastColumnChecked, onColumnHide, onLastColumnChecked} from '../../model/events.models';
-import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
 
 interface TableMenuItem {
     icon: string;

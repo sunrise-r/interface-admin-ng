@@ -7,10 +7,7 @@ import {TableColumnFilterComponent} from '../table-column-filter/table-column-fi
 import {TableSortIconComponent} from '../table-sort-icon/table-sort-icon.component';
 import {SelectableRow, SortableColumn} from 'primeng/table';
 import {DropdownModule, Paginator} from 'primeng/primeng';
-import {IadTableBodyComponent} from '../../iad-primeng/table/iad-table-body.component';
-import {IadSharedModule} from '../../shared/iad-shared.module';
-import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
-import {IadScrollableViewComponent} from '../../iad-primeng/table/iad-scrollable-view.component';
+import {IadTableBodyComponent, IadSharedModule, IadTableComponent, IadScrollableViewComponent} from 'iad-interface-admin/core';
 
 describe('ProjectionGridComponent', () => {
   let component: ProjectionGridComponent;

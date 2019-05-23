@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import {TooltipNotifierComponent} from './tooltip-notifier/tooltip-notifier.component';
 import {FileUploadComponent} from './file-upload/file-upload.component';
 import {CommonModule} from '@angular/common';
-import {IadSharedModule} from '../shared/iad-shared.module';
-import {IadPrimengModule} from '../iad-primeng/iad-primeng.module';
+import {IadSharedModule, IadPrimengModule} from 'iad-interface-admin/core';
 
 @NgModule({
     imports: [CommonModule, IadSharedModule, IadPrimengModule],

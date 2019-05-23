@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {StringHelper} from '../shared/helpers/string.helper';
+import {StringHelper} from 'iad-interface-admin/core';
 
 @Injectable()
 export class PresentationHelper {
