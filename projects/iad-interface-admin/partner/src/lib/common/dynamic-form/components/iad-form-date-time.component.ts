@@ -17,7 +17,6 @@ import { ValidationInput } from '../core/validation-input';
                 [monthNavigator]="true"
                 [yearNavigator]="true"
                 yearRange="1931:2040"
-                styleClass="jhi-calendar"
                 dateFormat="dd.mm.yy"
                 (onBlur)="onBlur()"></p-calendar>
         </div>
