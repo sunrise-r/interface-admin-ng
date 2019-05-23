@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {StringHelper} from 'iad-interface-admin';
+import {StringHelper} from 'iad-interface-admin/core';
 
 @Injectable({
   providedIn: 'root'

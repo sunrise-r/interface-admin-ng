@@ -19,7 +19,7 @@ import {IadObjectUtils} from '../utils/iad-object-utils';
 @Component({
     selector: 'iad-table',
     templateUrl: './iad-table.component.html',
-    providers: [TableService, { provide: Table, useExisting: IadTableComponent }]
+    providers: [TableService, PaginatorService, { provide: Table, useExisting: IadTableComponent }]
 })
 @Injectable()
 export class IadTableComponent extends Table implements OnInit, OnDestroy, AfterViewInit, AfterContentInit, BlockableUI, OnChanges {

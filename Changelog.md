@@ -5,6 +5,10 @@
 * Renamed IadTableComponent.askToRefresh to IadTableComponent.doRefresh
 * Added property enableInfiniteScroll default to false IadTableComponent exported from 'interface-admin-ng/core'
 
+####Breaking changes
+
+* StringHelper now available as part of 'interface-admin-ng/core' package
+
 #0.0.1.devel.5 
 
 * Removed fa4AngleDoubleDown from public_api

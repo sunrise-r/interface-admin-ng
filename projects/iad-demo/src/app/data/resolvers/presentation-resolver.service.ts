@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 
-import {IadPresentationInterface, StringHelper} from 'iad-interface-admin';
+import {IadPresentationInterface} from 'iad-interface-admin';
+import {StringHelper} from 'iad-interface-admin/core';
 import {PresentationLoadService} from '../services/presentation-load.service';
 
 @Injectable({
