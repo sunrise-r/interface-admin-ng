@@ -4,6 +4,7 @@
 * Added property "enableInfiniteScroll" default to false IadScrollableViewComponent exported from 'interface-admin-ng/core'
 * Renamed IadTableComponent.askToRefresh to IadTableComponent.doRefresh
 * Added property enableInfiniteScroll default to false IadTableComponent exported from 'interface-admin-ng/core'
+* Added export of IadCommonModule from 'interface-admin-ng'
 
 ####Breaking changes
 

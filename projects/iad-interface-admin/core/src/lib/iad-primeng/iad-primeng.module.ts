@@ -41,8 +41,31 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
       EditorModule,
       DropdownModule
     ],
-    declarations: [IadScrollableViewComponent, IadTableBodyComponent, IadTableComponent, TableKeysDirective, TooltipDirective, CalendarComponent],
-    exports: [TableModule, ButtonModule, TableModule, MenuModule, IadTableComponent, ConfirmDialogModule, PanelModule, CheckboxModule, ChipsModule, TooltipDirective, CalendarComponent, CalendarModule, MultiSelectModule, EditorModule, DropdownModule],
+    declarations: [
+      IadScrollableViewComponent,
+      IadTableBodyComponent,
+      IadTableComponent,
+      TableKeysDirective,
+      TooltipDirective,
+      CalendarComponent
+    ],
+    exports: [
+      TooltipModule,
+      ButtonModule,
+      TableModule,
+      MenuModule,
+      ConfirmDialogModule,
+      PanelModule,
+      CheckboxModule,
+      ChipsModule,
+      CalendarModule,
+      MultiSelectModule,
+      EditorModule,
+      DropdownModule,
+      IadTableComponent,
+      CalendarComponent,
+      TooltipDirective
+    ],
     providers: [ConfirmationService]
 })
 export class IadPrimengModule {}
