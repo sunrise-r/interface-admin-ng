@@ -116,7 +116,6 @@ export class CalendarComponent extends Calendar implements OnInit, OnDestroy, Co
 
     constructor(
         public el: ElementRef,
-        public domHandler: DomHandler,
         public renderer: Renderer2,
         public cd: ChangeDetectorRef,
         private translateService: TranslateService
