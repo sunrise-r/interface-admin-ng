@@ -58,6 +58,7 @@
          [scrollHeight]="scrollHeight"
     ></div>
     <div class="ui-table-scrollable-view ui-table-frozen-view frozen-right"
+         *ngIf="frozenRightColumns"
          [changeTableHeight]="changeTableHeight"
          [enableInfiniteScroll]="enableInfiniteScroll"
          [frozen]="true"

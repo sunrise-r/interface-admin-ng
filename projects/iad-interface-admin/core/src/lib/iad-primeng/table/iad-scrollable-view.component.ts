@@ -73,7 +73,7 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
 
     if (!this.frozen) {
       const frozenViews = IadDomHandler.find(scrollableWrapper, '.ui-table-frozen-view');
-      if (frozenViews) {
+      if (frozenViews && frozenViews.length) {
         IadDomHandler.addClass(this.el.nativeElement, 'ui-table-unfrozen-view');
         this.frozenSiblingsScrollableBodies = [];
         Array.from(frozenViews).forEach((frozenView: HTMLElement) => {
