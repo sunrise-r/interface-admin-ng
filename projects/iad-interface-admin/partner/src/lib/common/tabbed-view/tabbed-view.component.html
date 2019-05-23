@@ -1,0 +1,12 @@
+<ul class="nav nav-tabs">
+    <li *ngFor="let projectionTab of tabProjections"
+        class="nav-item"
+        [ngClass]="{'active': projectionTab.projection.active}">
+        <a class="nav-link"
+           [ngClass]="{'active': projectionTab.projection.active}"
+           (click)="onNavigateToProjection($event, projectionTab)">
+            <span class="uib-tab-heading">{{projectionTab.projection.label | translate}}</span>
+        </a>
+    </li>
+</ul>
+<ng-container *ngTemplateOutlet="gridTemplate; context:{items: currentItems, presentationCode: currentPresentationCode, projection: currentProjection}"></ng-container>

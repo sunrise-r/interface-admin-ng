@@ -1,0 +1,150 @@
+<!--[askToRefresh]="askToRefresh"-->
+<!--[changeTableHeight]="changeTableHeight"-->
+<!--[frozenRightColumns]="frozenRightCols"-->
+<!--[frozenRightWidth]="frozenRightWidth"-->
+<!--[noSortOnInit]="true"-->
+<!--[resize]="resize"-->
+<!--[staticFrozenColumns]="staticFrozenColumns"-->
+<!--[staticFrozenWidth]="staticFrozenWidth"-->
+<!--[staticFrozenRightColumns]="staticFrozenRightColumns"-->
+<!--[staticFrozenRightWidth]="staticFrozenRightWidth"-->
+<!--[unSelectRow]="unSelectRow"-->
+<!--[allowUnSelectRow]="allowUnSelectRow"-->
+<iad-table
+  #dt
+  columnResizeMode="expand"
+  dataKey="id"
+  selectionMode="single"
+  tableStyleClass="partner-table"
+
+  [columns]="columns"
+  [frozenColumns]="frozenCols"
+  [frozenWidth]="frozenWidth"
+  [lazy]="lazy"
+  [loading]="loading"
+  [paginator]="paginator"
+  [reorderableColumns]="true"
+  [resizableColumns]="true"
+  [rows]="size"
+  [(selection)]="selection"
+  [scrollable]="true"
+  [totalRecords]="totalRecords"
+  [value]="value"
+
+  (onFilterChanged)="onFilter($event)"
+  (onColResize)="onColResize($event)"
+  (onColReorder)="onColReorder($event)"
+  (onSort)="onSort($event)"
+  (onPage)="onNativePager($event)"
+  (page)="updateData($event)"
+  (selectionChange)="onSelectionChange($event)"
+>
+
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <col *ngIf="col.visible"
+             [iadTableColumnSize]="col.width"
+             [iadTableColumnSizeDisabled]="!(isColumnResizable(col))">
+      </ng-template>
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr class="ui-column-header-row" [ngClass]="{'ui-column-filter-shown': showFilter || showSearchPanel}">
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <th *ngIf="col.visible"
+            pResizableColumn
+            pReorderableColumn
+            [iadTableColumnSize]="col.width"
+            [pResizableColumnDisabled]="!(isColumnResizable(col))"
+            [pReorderableColumnDisabled]="!(isColumnReorderable(col))"
+            [iadTableColumnSizeDisabled]="!(isColumnResizable(col))"
+            [ngClass]="[col.style || '']">
+
+          <div class="ui-grid-header-label"
+               [pSortableColumn]="col.field"
+               [pSortableColumnDisabled]="!(isColumnSortable(col))"
+          >
+            <ng-container *ngIf="col.translate; then thTranslate; else thNoTranslate"></ng-container>
+            <ng-template #thTranslate>{{col.header | translate}}</ng-template>
+            <ng-template #thNoTranslate>{{col.header}}</ng-template>
+            <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
+          </div>
+          <!--We need to replace header menu to upper level-->
+          <!--<iad-table-header-menu-->
+            <!--*ngIf="hasColumnMenu(col)"-->
+            <!--[columns]="columns"-->
+            <!--[column]="col"-->
+            <!--[defaultSortField]="defaultSortField"-->
+            <!--[groupSettingsKey]="groupSettingsKey"-->
+            <!--(freeze)="onFrozenColumn($event)"></iad-table-header-menu>-->
+        </th>
+      </ng-template>
+    </tr>
+    <!--Maybe we need to add here disable option-->
+    <tr [hidden]="!showFilter" class="ui-column-filter-row">
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <th *ngIf="col.visible" [ngClass]="[col.style || '']">
+          <iad-table-column-filter
+            *ngIf="col.searching"
+            [field]="col.field"
+            [resetFilter]="resetFilter"
+            (filter)="onColFilter($event, col)"
+          ></iad-table-column-filter>
+        </th>
+      </ng-template>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <ng-template ngFor let-col [ngForOf]="columns">
+        <td *ngIf="col.visible"
+            [ngClass]="[isColumnResizable(col) ? 'ui-resizable-column' : '', (col.style || '')]">
+          <ng-container
+            iadGridTdHost
+            [rowData]="rowData"
+            [components]="columnComponents"
+            [col]="col"
+            [selected]="selection === rowData"
+            [doRefresh]="doRefresh"
+            (manageTable)="manageTable($event.code, $event.value)"></ng-container>
+        </td>
+      </ng-template>
+    </tr>
+  </ng-template>
+  <!-- add here middle-layer ngTemplateOutlet-->
+  <!--<ng-template pTemplate="interlayer" let-columns>-->
+    <!--<table [hidden]="!showSearchPanel" class="table-search-panel partner-table">-->
+      <!--<thead>-->
+      <!--<tr>-->
+        <!--<th>-->
+          <!--<iad-table-search-panel-->
+            <!--[resetFilter]="resetFilter"-->
+            <!--(search)="onSearch($event)"-->
+          <!--&gt;</iad-table-search-panel>-->
+        <!--</th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody></tbody>-->
+    <!--</table>-->
+  <!--</ng-template>-->
+  <!--<ng-template pTemplate="frozeninterlayer" let-columns>-->
+    <!--<table [hidden]="!showSearchPanel" class="table-search-panel partner-table">-->
+      <!--<colgroup>-->
+        <!--<ng-template ngFor let-col [ngForOf]="columns">-->
+          <!--<col *ngIf="col.visible" [iadTableColumnSize]="col.width">-->
+        <!--</ng-template>-->
+      <!--</colgroup>-->
+      <!--<thead>-->
+      <!--<tr>-->
+        <!--<ng-template ngFor let-col [ngForOf]="columns">-->
+          <!--<th *ngIf="col.visible">-->
+            <!--<div class="iad-table-search-panel-placeholder"></div>-->
+          <!--</th>-->
+        <!--</ng-template>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody></tbody>-->
+    <!--</table>-->
+  <!--</ng-template>-->
+</iad-table>

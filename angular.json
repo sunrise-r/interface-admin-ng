@@ -1,0 +1,185 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "iad-interface-admin": {
+      "root": "projects/iad-interface-admin",
+      "sourceRoot": "projects/iad-interface-admin/src",
+      "projectType": "library",
+      "prefix": "iad",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/iad-interface-admin/tsconfig.lib.json",
+            "project": "projects/iad-interface-admin/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/iad-interface-admin/src/test.ts",
+            "tsConfig": "projects/iad-interface-admin/tsconfig.spec.json",
+            "karmaConfig": "projects/iad-interface-admin/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/iad-interface-admin/tsconfig.lib.json",
+              "projects/iad-interface-admin/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "iad-demo": {
+      "root": "projects/iad-demo/",
+      "sourceRoot": "projects/iad-demo/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/iad-demo",
+            "index": "projects/iad-demo/src/index.html",
+            "main": "projects/iad-demo/src/main.ts",
+            "polyfills": "projects/iad-demo/src/polyfills.ts",
+            "tsConfig": "projects/iad-demo/tsconfig.app.json",
+            "assets": [
+              "projects/iad-demo/src/favicon.ico",
+              "projects/iad-demo/src/assets",
+              "projects/iad-demo/src/i18n"
+            ],
+            "styles": [
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/bootstrap/scss/bootstrap-grid.scss",
+              "projects/iad-demo/src/styles.scss",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css"
+            ],
+            "scripts": ["node_modules/quill/dist/quill.js"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/iad-demo/src/environments/environment.ts",
+                  "with": "projects/iad-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "iad-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "iad-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "iad-demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/iad-demo/src/test.ts",
+            "polyfills": "projects/iad-demo/src/polyfills.ts",
+            "tsConfig": "projects/iad-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/iad-demo/karma.conf.js",
+            "styles": [
+              "projects/iad-demo/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/iad-demo/src/favicon.ico",
+              "projects/iad-demo/src/assets",
+              "projects/iad-demo/src/i18n"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/iad-demo/tsconfig.app.json",
+              "projects/iad-demo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "iad-demo-e2e": {
+      "root": "projects/iad-demo-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/iad-demo-e2e/protractor.conf.js",
+            "devServerTarget": "iad-demo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "iad-demo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/iad-demo-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "iad-interface-admin"
+}

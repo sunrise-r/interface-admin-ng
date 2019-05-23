@@ -1,0 +1,19 @@
+<div *ngIf="hasToolbar">Toolbar</div>
+<p-confirmDialog *ngIf="projection"
+                 [key]="'delete#' + projection.code"
+                 [header]="'grid.dialog.delete.header'|translate"
+                 [message]="'grid.dialog.delete.message'|translate"
+                 [acceptLabel]="'grid.dialog.delete.confirm'|translate"
+                 [rejectLabel]="'grid.dialog.delete.reject'|translate">
+
+</p-confirmDialog>
+<iad-grid
+  [columns]="columns"
+  [value]="value"
+  [paginator]="paginator"
+  [refreshOnInit]="true"
+  [searchUrl]="searchUrl"
+  [showFilter]="showFilter"
+  [doRefresh]="doRefresh"
+  [lazy]="lazy"
+></iad-grid>
