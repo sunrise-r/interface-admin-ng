@@ -18,11 +18,7 @@ export * from './lib/utils/iad.helper';
 
 // #common (ex-customize)
 export * from './lib/common/tabbed-view/projection-tab.model';
-export * from './lib/common/dynamic-form/core/context-aware';
-export * from './lib/common/dynamic-form/core/validation-input';
-export * from './lib/common/dynamic-form/core/form-input.model';
 export * from './lib/common/tabbed-view/tabbed-view.component';
-export * from './lib/common/dynamic-form/dynamic-form.module';
 export * from './lib/common/iad-common.module';
 
 // #filter-builder (elastic replacement)

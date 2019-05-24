@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
-
 import { ReplaySubject, Subject } from 'rxjs';
+import { IadTableComponent, ResizeEvent } from 'iad-interface-admin/core';
 
 import { DataTableColumnsService } from './data-table-columns.service';
 import { DataTableConfigModel } from './data-table-config.model';
@@ -25,7 +25,6 @@ import { CustomizeQuery } from '../../filter-builder/action/customize-query';
 import {DataTableColumn, FILTER_TYPE, IDataTableColumn} from './data-table.model';
 import {DataTableInformationService} from '../services/data-table-information.service';
 import {CmsSetting} from '../services/settings-provider';
-import {IadTableComponent, ResizeEvent} from 'iad-interface-admin/core';
 
 @Component({
     selector: 'iad-data-table',

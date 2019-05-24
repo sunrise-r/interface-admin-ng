@@ -1,3 +1,4 @@
+// Shared utils, services and helpers
 export * from './lib/shared/services/form-errors-stringify.service';
 export * from './lib/shared/services/event-manager.service';
 export * from './lib/shared/util/form-helper.service';
@@ -5,6 +6,7 @@ export * from './lib/shared/util/request-params-builder';
 export * from './lib/shared/helpers/string.helper';
 export * from './lib/shared/iad-shared.module';
 
+// Primeng Extensions
 export * from './lib/iad-primeng/table/iad-table-models';
 export * from './lib/iad-primeng/table/iad-table.component';
 export * from './lib/iad-primeng/table/iad-table-body.component';

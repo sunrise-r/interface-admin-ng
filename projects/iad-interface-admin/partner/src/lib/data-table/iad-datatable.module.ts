@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'primeng/shared';
-
 import { IadPrimengModule, IadSharedModule } from 'iad-interface-admin/core';
 
 import { TableHeaderMenuComponent } from './table-header-menu/table-header-menu.component';
@@ -15,7 +13,7 @@ import { ToolbarModule } from '../toolbar/toolbar.module';
 import { DataTableTdHostDirective } from './data-table/data-table-td.directive.component';
 
 import { SelectionIndicatorColumnComponent } from './column-components/selection-indicator-column.component';
-import {DefaultColumnComponent, StatusPipe} from './column-components/default-column.component';
+import { DefaultColumnComponent, StatusPipe } from './column-components/default-column.component';
 import { SpecialColumnComponent } from './column-components/special-column.component';
 import { FilterBuilderModule } from '../filter-builder/filter-builder.module';
 import { IADCommonModule } from '../common/iad-common.module';

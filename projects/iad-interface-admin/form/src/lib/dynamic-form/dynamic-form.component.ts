@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
+import { PrimeTemplate } from 'primeng/shared';
 
 import { FormControlService } from './form-control.service';
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from './core/form-input-group';
-import { PrimeTemplate } from 'primeng/shared';
-import {FormErrorsStringifyService, FormHelperService} from 'iad-interface-admin/core';
+import { FormErrorsStringifyService, FormHelperService } from 'iad-interface-admin/core';
 
 @Component({
     selector: 'iad-dynamic-form',

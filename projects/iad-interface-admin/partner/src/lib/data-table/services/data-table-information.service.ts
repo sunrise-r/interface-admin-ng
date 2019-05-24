@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { RequestParamsBuilder } from 'iad-interface-admin/core';
 
-import {ActualSelectionModel} from '../models/actual-selection.model';
-import {RequestParamsBuilder} from 'iad-interface-admin/core';
-import {DATA_DEPENDENCY_LEVEL} from '../../model/projection.model';
+import { ActualSelectionModel } from '../models/actual-selection.model';
+import { DATA_DEPENDENCY_LEVEL } from '../../model/projection.model';
 
 type EntityArrayResponseType = HttpResponse<Array<any>>;
 

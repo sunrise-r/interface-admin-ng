@@ -16,6 +16,8 @@ import {ReplaySubject, Subject} from 'rxjs';
 import {PrimeTemplate} from 'primeng/shared';
 import {IadProjectionGridService} from '../services/iad-projection-grid.service';
 import {ElasticSearchQueryBuilder} from '../../elastic/elastic-search-query.builder';
+import {ElasticService} from '../../elastic/elastic-service';
+
 import {LazyLoadData, ResizeEvent, IadTableComponent} from 'iad-interface-admin/core';
 import {FILTER_TYPE, IadGridConfigModel} from '../model/iad-grid-model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
@@ -262,7 +264,8 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, O
   projectionFilter: string;
 
   constructor(private gridDataService: IadProjectionGridService,
-              private configService: IadConfigService
+              private configService: IadConfigService,
+              private elasticService: ElasticService
   ) {
     this.size = this.configService.getConfig().pageSize;
   }
@@ -494,7 +497,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, O
    */
 
   private buildQuery(event: any): string {
-    let queryBuilder = new ElasticSearchQueryBuilder();
+    let queryBuilder = this.elasticService.createFilter();
     if (event.globalFilter && event.globalFilter !== '') {
       return ElasticSearchQueryBuilder.buildFromString(event.globalFilter);
     }

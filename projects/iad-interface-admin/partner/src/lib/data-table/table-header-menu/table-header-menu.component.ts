@@ -2,10 +2,10 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, OnDestroy }
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { IadDomHandler, IadTableComponent } from 'iad-interface-admin/core';
 
 import { FROZEN_ACTION, FROZEN_POSITION, FrozenEvent } from '../data-table/freeze-column.model';
 import {IadEventManager} from '../../services/event-manager.service';
-import {IadDomHandler, IadTableComponent} from 'iad-interface-admin/core';
 import {IDataTableColumn} from '../data-table/data-table.model';
 import {LastColumnChecked, onColumnHide, onLastColumnChecked} from '../../model/events.models';
 

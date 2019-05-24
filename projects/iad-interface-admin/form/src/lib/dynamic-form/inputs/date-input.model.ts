@@ -1,10 +1,10 @@
-import { FormatValueInterface, FormInput } from '../core/form-input.model';
 import * as momentImported from 'moment'; const moment = momentImported;
+import { FormatValueInterface, FormInput } from '../core/form-input.model';
 
 const NOW = 'NOW';
 
-export class DateTimeInput extends FormInput<string> implements FormatValueInterface {
-    controlType = 'datetime';
+export class DateInput extends FormInput<string> implements FormatValueInterface {
+    controlType = 'date';
     validators: {
         required?: boolean;
     };
