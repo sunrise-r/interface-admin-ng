@@ -7,6 +7,7 @@ export class DropdownInputModel extends FormInput<string[]> {
   maxSelectedLabels: number;
   showHeader: boolean;
   translatePrefix: string;
+  valuesUrl: string;
 
   constructor(options: any = {}) {
     super(options);
@@ -14,6 +15,7 @@ export class DropdownInputModel extends FormInput<string[]> {
     this.maxSelectedLabels = options.maxSelectedLabels || 3;
     this.showHeader = options.showHeader === undefined ? true : options.showHeader;
     this.translatePrefix = options.translatePrefix;
-    this.value = options.value ? options.value : this.values[0];
+    this.valuesUrl = options.valuesUrl;
+    this.value = options.value;
   }
 }
