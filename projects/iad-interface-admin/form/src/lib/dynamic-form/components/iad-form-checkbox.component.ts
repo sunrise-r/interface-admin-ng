@@ -1,11 +1,10 @@
 import { Component, OnInit, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ValidationInput } from './validation-input';
+import { ValidationInput } from '../core/validation-input';
 
 @Component({
-  selector: 'iad-form-input',
-  styleUrls: ['form-boolean.component.scss'],
+  selector: 'iad-form-checkbox',
   template: `
         <ng-container [formGroup]="group">
             <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
@@ -17,9 +16,12 @@ import { ValidationInput } from './validation-input';
                           [id]="config.key"
               ></p-checkbox>
             </div>
-        </ng-container>`
+        </ng-container>`,
+  styles: [
+    'p-checkbox { margin-top: auto; margin-bottom: auto; }'
+  ]
 })
-export class FormBooleanComponent extends ValidationInput implements OnInit, AfterViewInit {
+export class IadFormCheckboxComponent extends ValidationInput implements OnInit, AfterViewInit {
   constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
     super(translateService, el, renderer);
   }

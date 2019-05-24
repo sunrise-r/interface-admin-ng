@@ -1,4 +1,4 @@
-import { FormInput } from './form-input.model';
+import { FormInput } from '../core/form-input.model';
 
 export class BooleanInput extends FormInput<boolean> {
   controlType = 'boolean';

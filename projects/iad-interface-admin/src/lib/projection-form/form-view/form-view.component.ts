@@ -1,13 +1,11 @@
 import {AfterContentInit, Component, Input, Output, ViewEncapsulation} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
-import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../common/dynamic-form/form-input-group';
+import {FormGroupChild, FormGroupChildColumn, FormInputGroup, FormInput, InputFactory} from 'iad-interface-admin/form';
 import {LookupInputModel} from '../inputs/lookup-input.model';
 import {MultipleLookupInputModel} from '../inputs/multiple-lookup-input.model';
 import {GenderSelectionDropdownInput} from '../inputs/gender-selection-dropdown-input.model';
 import {IadFormProjection, IadFormProjectionInterface} from '../model/projection-form.model';
 import {DISABLED, IFormProjectionField, READONLY} from '../model/form-projection-field.model';
-import {FormInput} from '../../common/dynamic-form/inputs/form-input.model';
-import {InputFactory} from '../../common/dynamic-form/inputs/input.factory';
 import {IadReferenceProjectionProviderService} from '../../public-services/iad-reference-projection-provider.service';
 import {IadDataOperationsService} from '../../public-services/iad-data-operations.service';
 import {IadRouterHistoryService} from '../../public-services/iad-router-history.service';

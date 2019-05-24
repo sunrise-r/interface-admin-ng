@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ValidationInput } from './validation-input';
+import { ValidationInput } from '../core/validation-input';
 
 @Component({
   selector: 'iad-form-multi-select',
@@ -11,7 +11,8 @@ import { ValidationInput } from './validation-input';
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-        <p-multiSelect class="custom-form-control"
+        <p-multiSelect
+          class="custom-form-control"
           [selectedItemsLabel]="config.translatePrefix + '.elementsSelected' | translate"
           [defaultLabel]="config.translatePrefix + '.label' | translate"
           [panelStyle]="{minWidth: '12em'}"
@@ -28,14 +29,14 @@ import { ValidationInput } from './validation-input';
     </ng-container>`
 })
 
-export class FormMultiSelectComponent extends ValidationInput implements OnInit, AfterViewInit {
-  constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
-    super(translateService, el, renderer);
+export class IadFormMultiSelectComponent extends ValidationInput implements OnInit, AfterViewInit {
+  constructor(private inputTranslateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
+    super(inputTranslateService, el, renderer);
   }
 
   multiSelectValues(translatePrefix: string, values: string[]) {
     return values.map(value => ({
-      label: translatePrefix ? this.translateService.instant(translatePrefix + '.' + value) : value,
+      label: translatePrefix ? this.inputTranslateService.instant(translatePrefix + '.' + value) : value,
       value: value
     }));
   }

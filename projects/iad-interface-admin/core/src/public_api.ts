@@ -13,3 +13,6 @@ export * from './lib/iad-primeng/table/iad-table-body.component';
 export * from './lib/iad-primeng/table/iad-scrollable-view.component';
 export * from './lib/iad-primeng/dom/iad-dom-handler';
 export * from './lib/iad-primeng/iad-primeng.module';
+
+// Env
+export * from './lib/env/iad-env.module';

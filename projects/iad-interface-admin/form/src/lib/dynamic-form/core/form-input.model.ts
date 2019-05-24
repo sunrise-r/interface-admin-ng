@@ -17,6 +17,8 @@ export class FormInput<T> {
     disabled: boolean;
     readonly: boolean;
     dependencies: string[];
+    visible: boolean;
+    translate: boolean;
 
     constructor(
         options: {
@@ -30,6 +32,8 @@ export class FormInput<T> {
             readonly?: boolean;
             column?: number;
             dependencies?: string[];
+            visible?: boolean;
+            translate?: boolean;
         } = {}
     ) {
         this.value = options.value;
@@ -42,5 +46,7 @@ export class FormInput<T> {
         this.readonly = options.readonly || false;
         this.column = options.column || 0;
         this.dependencies = options.dependencies || [];
+        this.visible = options.visible;
+        this.translate = options.translate || false;
     }
 }

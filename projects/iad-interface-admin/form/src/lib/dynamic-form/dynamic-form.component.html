@@ -16,23 +16,21 @@
         </ng-template>
     </fieldset>
 
-    <ng-template #submitBtn>
-        <button class="big-button" [disabled]="form.invalid || sending" type="submit">
+    <ng-template #submitBtn let-styleClass="styleClass">
+        <button [class]="styleClass || 'btn'" [disabled]="form.invalid || sending" type="submit">
             <span class="title save">Сохранить</span>
         </button>
     </ng-template>
-    <ng-template #cancelBtn>
-        <button class="big-button" type="button" (click)="cancel()" [disabled]="sending">
+    <ng-template #cancelBtn let-styleClass="styleClass">
+        <button [class]="styleClass || 'btn'" type="button" (click)="cancel()" [disabled]="sending">
             <span class="title clear">Отмена</span>
         </button>
     </ng-template>
     <ng-template #defaultFormFooter let-cancelBtnTpl="cancelBtnTpl" let-submitBtnTpl="submitBtnTpl">
-        <div class="content-flex-footer">
-            <div class="float-right">
-                <ng-template [ngTemplateOutlet]="cancelBtnTpl"></ng-template>
-                <ng-template [ngTemplateOutlet]="submitBtnTpl"></ng-template>
-            </div>
-        </div>
+      <div class="form-submit-buttons">
+        <ng-template [ngTemplateOutlet]="cancelBtnTpl" [ngTemplateOutletContext]="{styleClass: 'btn'}"></ng-template>
+        <ng-template [ngTemplateOutlet]="submitBtnTpl" [ngTemplateOutletContext]="{styleClass: 'btn btn-primary'}"></ng-template>
+      </div>
     </ng-template>
 
     <ng-template [ngTemplateOutlet]="formFooter || defaultFormFooter" [ngTemplateOutletContext]="{cancelBtnTpl: cancelBtn, submitBtnTpl: submitBtn, errors: errors}"></ng-template>

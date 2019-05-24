@@ -1,4 +1,4 @@
-import {FormInput} from '../../common/dynamic-form/inputs/form-input.model';
+import { FormInput } from 'iad-interface-admin/form'
 
 export enum SEX {
     MALE = 'MALE',

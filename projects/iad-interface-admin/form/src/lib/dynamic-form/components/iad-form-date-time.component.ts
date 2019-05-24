@@ -4,21 +4,28 @@ import { TranslateService } from '@ngx-translate/core';
 import { ValidationInput } from '../core/validation-input';
 
 @Component({
-    selector: 'iad-form-date',
+    selector: 'iad-form-date-time',
     template: `
     <ng-container [formGroup]="group">
-        <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">{{config.label}}: </label>
-        <div class="col-12 col-lg-{{formControlColumnSize}}">
-            <p-calendar class="custom-form-control"
-                [formControlName]="config | formatInputName"
-                [id]="config.key"
-                [readonlyInput]="config.readonly"
-                [showTime]="true"
-                [monthNavigator]="true"
-                [yearNavigator]="true"
-                yearRange="1931:2040"
-                dateFormat="dd.mm.yy"
-                (onBlur)="onBlur()"></p-calendar>
+        <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
+col-form-label">{{config.translate ? (config.label | translate) : config.label}}: </label>
+        <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
+          <iad-calendar
+            class="custom-form-control"
+            [formControlName]="config | formatInputName"
+            [id]="config.key"
+            [enableTranslations]="true"
+            [readonlyInput]="config.readonly"
+            [showTime]="true"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            inputStyleClass="form-control form-control-thin"
+            yearRange="1931:2040"
+            styleClass="iad-calendar"
+            dateFormat="dd.mm.yy"
+            (onBlur)="onBlur()"></iad-calendar>
+          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                                caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
         </div>
     </ng-container>`
 })

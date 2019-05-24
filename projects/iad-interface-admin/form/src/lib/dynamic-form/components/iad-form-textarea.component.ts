@@ -7,16 +7,21 @@ import { ValidationInput } from '../core/validation-input';
     selector: 'iad-form-textarea',
     template: `
     <ng-container [formGroup]="group">
-        <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">{{config.label}}: </label>
+        <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
+col-form-label">{{config.translate ? (config.label | translate) : config.label}}: </label>
         <div class="col-12 col-lg-{{formControlColumnSize}}">
-        <div class="input-group textarea-wrapper">
-            <textarea class="form-control"
-                   [formControlName]="config | formatInputName"
-                   [id]="config.key"
-                   [readonly]="config.readonly"
-                   [maxLength]="config.validators?.maxLength"
-                   (blur)="onBlur()"></textarea>
-        </div>
+          <div class="textarea-wrapper input-group">
+              <textarea
+                class="form-control form-control-thin"
+                [formControlName]="config | formatInputName"
+                [id]="config.key"
+                [readonly]="config.readonly"
+                [minLength]="config.validators?.minLength"
+                [maxLength]="config.validators?.maxLength || 1000"
+                (blur)="onBlur()"></textarea>
+            <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                                  caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+          </div>
         </div>
     </ng-container>`
 })

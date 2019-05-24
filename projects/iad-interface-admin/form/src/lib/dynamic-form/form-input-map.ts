@@ -6,6 +6,7 @@ import { DateTimeInput } from './inputs/date-time-input.model';
 import { HiddenInput } from './inputs/hidden-input.model';
 import { FileInput } from './inputs/file-input.model';
 import { TextareaInput } from './inputs/textarea-input.model';
+import { ChipsInputModel } from './inputs/chips-input.model';
 
 // components
 import { IadFormInputComponent } from './components/iad-form-input.component';
@@ -15,6 +16,16 @@ import { IadFormFileComponent } from './components/iad-form-file.component';
 import { IadDropdownGroupComponent } from './components/iad-dropdown-group.component';
 import { IadFormDateTimeComponent } from './components/iad-form-date-time.component';
 import { IadFormTextareaComponent } from './components/iad-form-textarea.component';
+import { IadFormRichEditorComponent} from './components/iad-form-rich-editor.component';
+import { IadFormCheckboxComponent } from './components/iad-form-checkbox.component';
+import { IadFormMultiSelectComponent } from './components/iad-form-multi-select.component';
+import { IadFormSelectionDropdownComponent } from './components/iad-form-selection-dropdown.component';
+import { BooleanInput } from './inputs/boolean-input.model';
+import { MultiSelectInputModel } from './inputs/multi-select-input.model';
+import { DropdownInputModel } from './inputs/dropdown-input.model';
+import { RichEditorInput } from './inputs/rich-editor-input.model';
+import { TextInputTranslated } from './inputs/text-input-translated.model';
+import { IadFormChipsComponent } from './components/iad-form-chips.component';
 
 export const components = {
     textbox: IadFormInputComponent,
@@ -24,15 +35,25 @@ export const components = {
     dropDownGroup: IadDropdownGroupComponent,
     hidden: IadFormInputComponent,
     datetime: IadFormDateTimeComponent,
-    textarea: IadFormTextareaComponent
+    textarea: IadFormTextareaComponent,
+    rich: IadFormRichEditorComponent,
+    boolean: IadFormCheckboxComponent,
+    multiSelect: IadFormMultiSelectComponent,
+    dropdown: IadFormSelectionDropdownComponent,
+    chips: IadFormChipsComponent
 };
 
 export const inputModels = {
     BigDecimal: NumberInput,
-    Boolean: TextInput, // Text until checkbox/radio
+    Boolean: BooleanInput,
+    MultiSelect: MultiSelectInputModel,
+    Dropdown: DropdownInputModel,
+    Rich: RichEditorInput,
     Integer: NumberInput,
     ZonedDateTime: DateInput,
+    Chips: ChipsInputModel,
     String: TextInput,
+    StringTranslated: TextInputTranslated,
     Hidden: HiddenInput,
     File: FileInput,
     SplittedDateTime: DateTimeInput,

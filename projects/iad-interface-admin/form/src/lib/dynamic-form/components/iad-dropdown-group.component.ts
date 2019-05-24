@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormInputGroup } from '../core/form-input-group';
@@ -8,11 +8,11 @@ import { ContextAware } from '../core/context-aware';
     selector: 'iad-dropdown-group',
     template: `
         <ng-container [formGroup]="group">
-            <p-panel #panel [collapsed]="true"
+            <p-panel #panel [collapsed]="config.collapsed"
                      (onBeforeToggle)="$event.collapsed ? panel.expand($event.event) : panel.collapse($event.event)">
                 <p-header>
                     <div class="block-title link" (click)="panel.toggle($event)">
-                        <fa-icon [icon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" class="text-left"></fa-icon>{{config.label}}
+                        <fa-icon [icon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" class="text-left"></fa-icon>{{config.translate ? (config.label | translate) : config.label}}
                     </div>
                 </p-header>
                 <div [formGroupName]="config.key" *ngIf="childGroup">
@@ -65,8 +65,6 @@ export class IadDropdownGroupComponent implements OnInit, ContextAware {
      * }
      */
     inputComponents: { [param: string]: any } = {};
-
-    constructor(private el: ElementRef, private renderer: Renderer2) {}
 
     ngOnInit(): void {
         this.childGroup = <FormGroup>this.group.controls[this.config.key];

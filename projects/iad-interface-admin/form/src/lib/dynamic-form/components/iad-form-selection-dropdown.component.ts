@@ -1,13 +1,12 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer2} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
+import {Component, OnInit, AfterViewInit, ElementRef, Renderer2} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
-import {ValidationInput} from './validation-input';
-import {IadEventManager} from '../../../public-services/event-manager.service';
-import {IadFieldValuesService} from '../../../projection-form/services/iad-field-values.service';
+import { ValidationInput } from '../core/validation-input';
+import { IadEventManager } from 'iad-interface-admin/core';
+// import {IadFieldValuesService} from '../../../projection-form/services/iad-field-values.service';
 
 @Component({
   selector: 'iad-form-selection-dropdown',
-  styleUrls: ['dropdown.component.scss'],
   template: `
     <ng-container [formGroup]="group">
       <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
@@ -21,22 +20,27 @@ import {IadFieldValuesService} from '../../../projection-form/services/iad-field
           [required]="config.required"
           [formControlName]="config.key"
           [placeholder]="' '"
-          (onChange)="onChange($event)"
-        >
+          (onChange)="onChange($event)">
         </p-dropdown>
         <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
                               caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
       </div>
-    </ng-container>`
+    </ng-container>`,
+  styles: ['p-dropdown > ::ng-deep .ui-dropdown { height: 100%; }']
 })
 
-export class FormSelectionDropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
+export class IadFormSelectionDropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
 
   valuesRequested: boolean;
 
-  constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2,
-              private eventManager: IadEventManager, private fieldValuesService: IadFieldValuesService) {
-    super(translateService, el, renderer);
+  constructor(
+    private inputTranslateService: TranslateService,
+    public el: ElementRef,
+    public renderer: Renderer2,
+    private eventManager: IadEventManager,
+    private fieldValuesService: IadFieldValuesService
+  ) {
+    super(inputTranslateService, el, renderer);
   }
 
   dropdownValues() {
@@ -45,7 +49,7 @@ export class FormSelectionDropdownComponent extends ValidationInput implements O
         return this.config.values;
       } else {
         return this.config.values.map(value => ({
-          label: this.config.translatePrefix ? this.translateService.instant(this.config.translatePrefix + '.' + value) : value,
+          label: this.config.translatePrefix ? this.inputTranslateService.instant(this.config.translatePrefix + '.' + value) : value,
           value: value
         }));
       }

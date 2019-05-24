@@ -1,3 +1,38 @@
+#0.0.1.devel.7
+
+####Features
+
+* DynamicForm: Dependencies input model property allow configuring of cascade inputs (i.e. address forms where street is dependent on city etc.); For now it works ONLY for lookups in "partner" project (recalculateDependencies method add id to field name), needs refactoring
+* DynamicForm: Nested formGroups (DropdownGroups) may use external components configured for form
+* DynamicForm: Added availability for dynamic form to add custom formFooter template. Default template is:
+
+```
+  <iad-dynamic-form ...props....>
+     <ng-template pTemplate="footer" let-cancelBtnTpl="cancelBtnTpl" let-submitBtnTpl="submitBtnTpl">
+	<div class="form-submit-buttons">
+	    <ng-template [ngTemplateOutlet]="cancelBtnTpl" [ngTemplateOutletContext]="{styleClass: 'btn'}></ng-template>
+	    <ng-template [ngTemplateOutlet]="submitBtnTpl" [ngTemplateOutletContext]="{styleClass: 'btn btn-primary'}></ng-template>
+        </div>
+    </ng-template>
+  </iad-dynamic-form>
+```
+* DynamicFormComponent.context property made keeping initial formGroup value.
+
+
+####Breaking changes:
+
+* Form class style "input-group" replaced to "div.input-wrapper" inside "col-{size}"
+* Added prefix iad- to selector of every form input component
+* FormBooleanComponent renamed to IAdFormCheckboxComponent
+* Removed <div [hidden]="!child[0].visible"> .... </div> code. Use "hidden" property in form projection's input config
+* removed default dynamic form footer configured for "partner" project
+
+####Known issues
+
+* Russian text inside templates
+* "partner" project related styles should be replaced to form options
+* Dependencies works ONLY for lookups, needs refactoring (recalculateDependencies method add id to field name)
+
 #0.0.1.devel.6
 
 * ProjectionsHelper replaced to lib/common/helpers (available from 'interface-admin-ng')
