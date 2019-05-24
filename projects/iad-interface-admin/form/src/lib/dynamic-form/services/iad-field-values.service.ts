@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-
-import {IadConfigService} from '../../config.service';
+import {IadConfigService} from 'iad-interface-admin/core';
 
 @Injectable({
   providedIn: 'root'

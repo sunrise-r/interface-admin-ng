@@ -2,10 +2,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule} from '@angular/co
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {DynamicFormModule} from 'iad-interface-admin/form';
-
-// Config
-import {IadModuleConfig, IadModuleConfigInterface} from './config';
-import {IadConfigService} from './config.service';
+import {IadConfigService, IadEnvModule, IadModuleConfig} from 'iad-interface-admin/core';
 
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
@@ -26,38 +23,17 @@ import {IadRouterHistoryService} from './public-services/iad-router-history.serv
     DropdownModule,
     PanelMenuModule,
     ProjectionGridModule,
-    DynamicFormModule,
+    DynamicFormModule.forRoot({
+      
+    }),
     ProjectionFormModule
   ],
   exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent, ProjectionFormModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class IadInterfaceAdminModule {
-  static forRoot(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
-    return {
-      ngModule: IadInterfaceAdminModule,
-      providers: [
-        { provide: IadModuleConfig, useValue: moduleConfig },
-        {
-          provide: IadConfigService,
-          useClass: IadConfigService,
-          deps: [IadModuleConfig]
-        }
-      ]
-    };
-  }
-  static forChild(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
-    return {
-      ngModule: IadInterfaceAdminModule,
-      providers: [{ provide: IadModuleConfig, useValue: moduleConfig }]
-    };
-  }
+export class IadInterfaceAdminModule extends IadEnvModule {
 
   constructor(translate: TranslateService, config: IadConfigService, iadRouterHistoryService: IadRouterHistoryService) {
-    // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang(config.getConfig().defaultI18nLang);
-
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use(config.getConfig().defaultI18nLang);
+    super(translate, config);
   }
 }

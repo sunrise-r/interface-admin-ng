@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { ValidationInput } from '../core/validation-input';
 import { IadEventManager } from 'iad-interface-admin/core';
-// import {IadFieldValuesService} from '../../../projection-form/services/iad-field-values.service';
+import {IadFieldValuesService} from '../services/iad-field-values.service';
 
 @Component({
   selector: 'iad-form-selection-dropdown',

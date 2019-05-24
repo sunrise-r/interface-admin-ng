@@ -3,7 +3,7 @@ import { AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 export class ClassStyledInput implements AfterViewInit {
     styleClass: string;
 
-    addStyleClass: string;
+    addStyleClass: boolean;
 
     constructor(public el: ElementRef, public renderer: Renderer2) {}
 
