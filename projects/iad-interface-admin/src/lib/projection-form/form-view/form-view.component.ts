@@ -186,7 +186,6 @@ export class FormViewComponent implements AfterContentInit {
                     column: field.column,
                     key: field.name,
                     label: field.label,
-                    visible: field.visible,
                     translate: field.translate,
                     children: inputs,
                     properties: field.properties
@@ -218,7 +217,6 @@ export class FormViewComponent implements AfterContentInit {
             inputMask: field.inputMask || null,
             valueField: field.valueField,
             dataSourcePath: field.dataSourcePath || null,
-            visible: field.visible,
             translate: field.translate || false
         };
         if (field.properties) {
