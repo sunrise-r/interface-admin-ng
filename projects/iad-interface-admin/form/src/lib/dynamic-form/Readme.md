@@ -135,4 +135,12 @@
         values?: string[];
         translatePrefix?: string;
 
-12. 
+12. IadFormChipsComponent
+
+    Description: PrimeNg chips component
+    
+    Selector: iad-form-chips
+    
+    Model: ChipsInputModel
+    
+        value?: string; // coma separated
