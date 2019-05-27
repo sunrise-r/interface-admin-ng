@@ -12,18 +12,20 @@ import {IadFieldValuesService} from '../services/iad-field-values.service';
       <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
-      <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-        <p-dropdown class="custom-form-control"
-          [id]="config.key"
-          [readonly]="config.readonly"
-          [options]="dropdownValues()"
-          [required]="config.required"
-          [formControlName]="config.key"
-          [placeholder]="' '"
-          (onChange)="onChange($event)">
-        </p-dropdown>
-        <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
-                              caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+      <div class="col-12 col-lg-{{formControlColumnSize}}">
+        <div class="input-wrapper input-group">
+          <p-dropdown class="custom-form-control"
+            [id]="config.key"
+            [readonly]="config.readonly"
+            [options]="dropdownValues()"
+            [required]="config.required"
+            [formControlName]="config.key"
+            [placeholder]="' '"
+            (onChange)="onChange($event)">
+          </p-dropdown>
+          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                                caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+        </div>
       </div>
     </ng-container>`,
   styles: ['p-dropdown > ::ng-deep .ui-dropdown { height: 100%; }']

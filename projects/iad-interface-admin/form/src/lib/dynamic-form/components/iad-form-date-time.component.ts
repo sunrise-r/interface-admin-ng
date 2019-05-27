@@ -9,23 +9,25 @@ import { ValidationInput } from '../core/validation-input';
     <ng-container [formGroup]="group">
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
 col-form-label">{{config.translate ? (config.label | translate) : config.label}}: </label>
-        <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-          <iad-calendar
-            class="custom-form-control"
-            [formControlName]="config | formatInputName"
-            [id]="config.key"
-            [enableTranslations]="true"
-            [readonlyInput]="config.readonly"
-            [showTime]="true"
-            [monthNavigator]="true"
-            [yearNavigator]="true"
-            inputStyleClass="form-control form-control-thin"
-            yearRange="1931:2040"
-            styleClass="iad-calendar"
-            dateFormat="dd.mm.yy"
-            (onBlur)="onBlur()"></iad-calendar>
-          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
-                                caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+        <div class="col-12 col-lg-{{formControlColumnSize}}">
+          <div class="input-wrapper input-group">
+            <iad-calendar
+              class="custom-form-control"
+              [formControlName]="config | formatInputName"
+              [id]="config.key"
+              [enableTranslations]="true"
+              [readonlyInput]="config.readonly"
+              [showTime]="true"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              inputStyleClass="form-control form-control-thin"
+              yearRange="1931:2040"
+              styleClass="iad-calendar"
+              dateFormat="dd.mm.yy"
+              (onBlur)="onBlur()"></iad-calendar>
+            <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                                  caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+          </div>
         </div>
     </ng-container>`
 })

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { IadSharedModule } from '../shared/iad-shared.module';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
+import { IadSharedModule } from '../shared/iad-shared.module';
 
 // Original
 import { TableModule } from 'primeng/table';

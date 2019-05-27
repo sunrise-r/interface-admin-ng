@@ -9,7 +9,8 @@ import { ValidationInput } from '../core/validation-input';
     <ng-container [formGroup]="group">
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
 col-form-label">{{config.translate ? (config.label | translate) : config.label}}: </label>
-        <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
+        <div class="col-12 col-lg-{{formControlColumnSize}}">
+          <div class="input-wrapper input-group">
             <input
               class="form-control form-control-thin"
               [formControlName]="config | formatInputName"
@@ -19,8 +20,9 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
               [readonly]="config.readonly"
               [step]="config.step"
               (blur)="onBlur()" />
-          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
-                                caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+            <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                                  caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+          </div>
         </div>
     </ng-container>`
 })

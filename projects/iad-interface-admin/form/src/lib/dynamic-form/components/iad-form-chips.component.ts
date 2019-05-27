@@ -11,13 +11,15 @@ import { ValidationInput } from '../core/validation-input';
       <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
-      <div class="col-12 col-lg-{{formControlColumnSize}} input-group">
-        <p-chips class="custom-form-control"
-          [formControlName]="config.key"
-          [id]="config.key"
-        ></p-chips>
-        <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
-                              caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+      <div class="col-12 col-lg-{{formControlColumnSize}}">
+        <div class="input-wrapper input-group">
+          <p-chips class="custom-form-control"
+                   [formControlName]="config.key"
+                   [id]="config.key"
+          ></p-chips>
+          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
+                                caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+        </div>
       </div>
     </ng-container>`
 })
