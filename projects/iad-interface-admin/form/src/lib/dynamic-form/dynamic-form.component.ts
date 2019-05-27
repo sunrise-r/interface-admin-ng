@@ -118,13 +118,15 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     }
 
     ngAfterContentInit(): void {
+      if(this.formTemplates) {
         this.formTemplates.forEach(item => {
-            switch (item.getType()) {
-                case 'footer':
-                    this.formFooter = item.template;
-                    break;
-            }
+          switch (item.getType()) {
+            case 'footer':
+              this.formFooter = item.template;
+              break;
+          }
         });
+      }
     }
 
     addFormErrors() {

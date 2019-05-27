@@ -12,12 +12,7 @@ export const phonebookShowConditionCallback = (request) => {
 export class PhonebookShowResponse extends AbstractResponse {
   getResponse(): Observable<HttpResponse<PhoneBook>> {
     const data = new PhoneBook(42, 'Иванов42', 'Иван', '1998-03-25T07:08:58Z', '(555) 555-55-55', 'ivanov@example.com',
-      ['One', 'Three'], '12345', true, 'Four', '<p><strong>Strong</strong> <i>Italic</i></p>', ['chipOne', 'chipTwo']);
+      ['One', 'Three'], '12345', true, 'Four', 'Seven','<p><strong>Strong</strong> <i>Italic</i></p>', ['chipOne', 'chipTwo']);
     return of(new HttpResponse({status: 200, body: data}));
   }
 }
-
-
-
-
-

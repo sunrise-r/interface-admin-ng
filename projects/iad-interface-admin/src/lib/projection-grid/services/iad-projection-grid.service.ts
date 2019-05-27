@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import {IadConfigService} from '../../config.service';
-import {RequestParamsBuilder} from 'iad-interface-admin/core';
+import {RequestParamsBuilder, IadConfigService} from 'iad-interface-admin/core';
 
 type EntityArrayResponseType = HttpResponse<Array<any>>;
 

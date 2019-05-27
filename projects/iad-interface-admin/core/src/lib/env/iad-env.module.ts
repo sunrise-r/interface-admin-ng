@@ -1,5 +1,4 @@
-import { ModuleWithProviders, Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Injectable } from '@angular/core';
 
 export interface IadModuleConfigInterface {
   i18nEnabled?: boolean;
@@ -33,34 +32,4 @@ export class IadModuleConfig {
   noi18nMessage = 'translation-not-found';
   pageSize = 20;
   rootUrl = '';
-}
-
-export class IadEnvModule {
-  static forRoot(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
-    return {
-      ngModule: IadEnvModule,
-      providers: [
-        { provide: IadModuleConfig, useValue: moduleConfig },
-        {
-          provide: IadConfigService,
-          useClass: IadConfigService,
-          deps: [IadModuleConfig]
-        }
-      ]
-    };
-  }
-  static forChild(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
-    return {
-      ngModule: IadEnvModule,
-      providers: [{ provide: IadModuleConfig, useValue: moduleConfig }]
-    };
-  }
-
-  constructor(translate: TranslateService, config: IadConfigService) {
-    // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang(config.getConfig().defaultI18nLang);
-
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use(config.getConfig().defaultI18nLang);
-  }
 }

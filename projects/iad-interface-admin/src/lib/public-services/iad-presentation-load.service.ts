@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-
+import {IadConfigService} from 'iad-interface-admin/core';
 import {IadPresentationInterface} from '../model/iad-interfaces';
-import {IadConfigService} from '../config.service';
 import {IadPresentation} from '../model/iad-model';
 
 @Injectable({

@@ -73,6 +73,20 @@ export class ProjectionReferenceResponse extends AbstractResponse {
       },
       {
         'validationTypes': {'email': false, 'required': false},
+        'type': 'Dropdown',
+        'name': 'dropdownFieldDynamic',
+        'label': 'presentation.projection.main.dropdownFieldDynamic',
+        'column': 0,
+        'hidden': false,
+        'visible': true,
+        'translate': true,
+        properties: {
+          'valuesUrl': 'partnerdocuments/api/dropdown-values',
+          'translatePrefix': 'phoneBook.firstField.values'
+        }
+      },
+      {
+        'validationTypes': {'email': false, 'required': false},
         'type': 'Rich',
         'name': 'htmlField',
         'label': 'presentation.projection.main.htmlField',

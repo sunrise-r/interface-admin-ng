@@ -7,6 +7,11 @@
         "Three": "Три",
         "Four": "Четыре",
         "Five": "Пять",
+        "Six": "Шесть",
+        "Seven": "Семь",
+        "Eight": "Восемь",
+        "Nine": "Девять",
+        "Ten": "Десять",
         "label": "Значения",
         "elementsSelected": "{0} выбрано"
       }
@@ -31,7 +36,8 @@
         "booleanField": "Булево поле",
         "dropdownField": "Выпадающий список",
         "htmlField": "Поле HTML",
-        "chipsField": "Поле chips"
+        "chipsField": "Поле chips",
+        "dropdownFieldDynamic": "Выпадающий список с загружаемыми значениями"
       }
     },
     "formProjection": {

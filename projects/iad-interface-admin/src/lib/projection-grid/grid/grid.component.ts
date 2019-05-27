@@ -18,11 +18,10 @@ import {IadProjectionGridService} from '../services/iad-projection-grid.service'
 import {ElasticSearchQueryBuilder} from '../../elastic/elastic-search-query.builder';
 import {ElasticService} from '../../elastic/elastic-service';
 
-import {LazyLoadData, ResizeEvent, IadTableComponent} from 'iad-interface-admin/core';
+import {LazyLoadData, ResizeEvent, IadTableComponent, IadConfigService} from 'iad-interface-admin/core';
 import {FILTER_TYPE, IadGridConfigModel} from '../model/iad-grid-model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
 import {columnComponents} from '../column-components/column-components.factory';
-import {IadConfigService} from '../../config.service';
 
 export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => ElasticSearchQueryBuilder;
 
