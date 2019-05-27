@@ -8,10 +8,10 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faEdit, faTrash, faCheckCircle, faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
+import {faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faCaretDown, faCaretUp, faEdit, faTrash, faCheckCircle, faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
 import {TooltipNotifierComponent} from './tooltip-notifier/tooltip-notifier.component';
 
-library.add(faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faEdit, faTrash, faCheckCircle, faExclamationCircle);
+library.add(faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faCaretDown, faCaretUp, faEdit, faTrash, faCheckCircle, faExclamationCircle);
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

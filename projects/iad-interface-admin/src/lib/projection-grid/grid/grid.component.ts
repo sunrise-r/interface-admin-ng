@@ -31,7 +31,8 @@ export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => Elastic
 @Component({
   selector: 'iad-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  styleUrls: ['./grid.component.scss'],
+  providers: [ElasticService]
 })
 export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
   /**
