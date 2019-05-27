@@ -10,6 +10,7 @@ export class PhoneBook {
     public secondField?: string,
     public booleanField?: boolean,
     public dropdownField?: string,
-    public htmlField?: string
+    public htmlField?: string,
+    public chipsField?: string[]
   ) {}
 }

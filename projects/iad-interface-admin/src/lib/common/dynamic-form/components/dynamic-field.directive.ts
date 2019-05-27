@@ -14,6 +14,7 @@ import {FormBooleanComponent} from './form-boolean-component';
 import {FormMultiSelectComponent} from './form-multi-select.component';
 import {FormSelectionDropdownComponent} from './form-selection-dropdown.component';
 import {FormRichEditorComponent} from './form-rich-editor.component';
+import {FormChipsComponent} from './form-chips.component';
 
 
 const components = {
@@ -28,7 +29,8 @@ const components = {
     rich: FormRichEditorComponent,
     boolean: FormBooleanComponent,
     multiSelect: FormMultiSelectComponent,
-    dropdown: FormSelectionDropdownComponent
+    dropdown: FormSelectionDropdownComponent,
+    chips: FormChipsComponent
 };
 
 @Directive({

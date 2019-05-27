@@ -81,6 +81,16 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'visible': true,
         'translate': true
       },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'Chips',
+        'name': 'chipsField',
+        'label': 'presentation.projection.main.chipsField',
+        'column': 0,
+        'hidden': false,
+        'visible': true,
+        'translate': true
+      },
     ];
     projection.properties = [];
     const response = {'presentationOne.additionalFields': projection};

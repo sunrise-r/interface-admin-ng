@@ -20,6 +20,7 @@ import {FormBooleanComponent} from './components/form-boolean-component';
 import {FormMultiSelectComponent} from './components/form-multi-select.component';
 import {FormSelectionDropdownComponent} from './components/form-selection-dropdown.component';
 import {FormRichEditorComponent} from './components/form-rich-editor.component';
+import {FormChipsComponent} from './components/form-chips.component';
 
 @NgModule({
     imports: [InputMaskModule, IadSharedModule, IadCommonModule, FontAwesomeModule, IadPrimengModule],
@@ -37,7 +38,8 @@ import {FormRichEditorComponent} from './components/form-rich-editor.component';
         FormBooleanComponent,
         FormMultiSelectComponent,
         FormSelectionDropdownComponent,
-        FormRichEditorComponent
+        FormRichEditorComponent,
+        FormChipsComponent
     ],
     entryComponents: [
         FormDateComponent,
@@ -50,7 +52,8 @@ import {FormRichEditorComponent} from './components/form-rich-editor.component';
         FormBooleanComponent,
         FormMultiSelectComponent,
         FormSelectionDropdownComponent,
-        FormRichEditorComponent
+        FormRichEditorComponent,
+        FormChipsComponent
     ],
     exports: [DynamicFormComponent, FormatInputNamePipe, FontAwesomeModule]
 })

@@ -824,7 +824,10 @@ export class PresentationResponse extends AbstractResponse {
             'hidden': false,
             'visible': true,
             'referenceProjectionCode': 'additionalFields',
-            'presentationCode': 'presentationOne'
+            'presentationCode': 'presentationOne',
+            'properties': {
+              'plainReference': true
+            }
           },
         ],
         'properties': null

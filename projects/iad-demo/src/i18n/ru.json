@@ -29,8 +29,9 @@
         "firstField": "Первое поле",
         "secondField": "Второе поле",
         "booleanField": "Булево поле",
+        "dropdownField": "Выпадающий список",
         "htmlField": "Поле HTML",
-        "dropdownField": "Выпадающий список"
+        "chipsField": "Поле chips"
       }
     },
     "formProjection": {

@@ -12,6 +12,7 @@ import {MultiSelectInputModel} from './multi-select-input.model';
 import {DropdownInputModel} from './dropdown-input.model';
 import {RichEditorInput} from './rich-editor-input.model';
 import {TextInputTranslated} from './text-input-translated.model';
+import {ChipsInputModel} from './chips-input.model';
 
 const typeFactory = {
     BigDecimal: NumberInput,
@@ -19,6 +20,7 @@ const typeFactory = {
     MultiSelect: MultiSelectInputModel,
     Dropdown: DropdownInputModel,
     Rich: RichEditorInput,
+    Chips: ChipsInputModel,
     Integer: NumberInput,
     ZonedDateTime: DateInput,
     String: TextInput,
