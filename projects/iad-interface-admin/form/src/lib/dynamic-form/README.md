@@ -8,7 +8,7 @@ Field name | Type | Description
 ---------- | ---- | -----------
 label | string | Перевод или переведённое название поля
 name | string | Имя поля формы
-type | string |  Тип отображаемого филда. (напр. DateTime, Date, String, Lookup, Entity, List и тд)
+type | string |  [Тип отображаемого филда](#input-types-with-models)
 column? | number |  Номер колонки дял показа в форме (в форме поля могут быть раскиданы по колонкам)
 fieldInputType? | string |  DISABLED/READONLY/Null
 defaultValue? | string |  Знкачение по умолчанию, заданное в проекции
@@ -47,164 +47,165 @@ properties? | object | key=>value с кастомными свойствами
 
 ## Input types with Models
 
-Input Code (for formProjection) | Input Model
------------- | -------------
-BigDecimal | NumberInput
-Boolean|BooleanInput
-MultiSelect | MultiSelectInputModel
-Dropdown | DropdownInputModel
-Rich | RichEditorInput
-Integer | NumberInput
-ZonedDateTime | DateInput
-Chips | ChipsInputModel
-String | TextInput
-StringTranslated | TextInputTranslated
-Hidden | HiddenInput
-File | FileInput
-SplittedDateTime | DateTimeInput
-Text | TextareaInput
+Input Code (for formProjection) | Input Model | Component
+------------------------------- | ----------- | ---------
+ProjectionReference | FormInputGroup | [Subform with collapse option](#1.-IadDropdownGroupComponent)
+ZonedDateTime | DateInput | [PrimeNg calendar component](#2.-IadFormDateComponent)
+SplittedDateTime | DateTimeInput | [PrimeNg calendar component with time enabled](#3.-IadFormDateTimeComponent)
+File | FileInput | [File upload input component](#4.-IadFormFileComponent)
+Hidden | HiddenInput | [HTML hidden input component](#5.-IadFormInputComponent)
+String | TextInput | [HTML text input component or PrimeNg maskInput component](#5.-IadFormInputComponent)
+StringTranslated | TextInputTranslated | [HTML text input component or PrimeNg maskInput component with translation enabled](#5.-IadFormInputComponent)
+BigDecimal | NumberInput | [Html number input component](#6.-IadFormNumberComponent)
+Integer | NumberInput | [Html number input component](#6.-IadFormNumberComponent)
+Text | TextareaInput | [Html textarea input component](#7.-IadFormTextareaComponent)
+Boolean | BooleanInput | [PrimeNg checkbox component](#8.-IadFormCheckboxComponent)
+MultiSelect | MultiSelectInputModel | [PrimeNg multiSelect component](#9.-IadFormMultiSelectComponent)
+Rich | RichEditorInput | [PrimeNg rich editor component (quill)](#10.-IadFormRichEditorComponent)
+Dropdown | DropdownInputModel | [PrimeNg selection dropdown component](#11.-IadFormSelectionDropdownComponent)
+Chips | ChipsInputModel | [PrimeNg chips component](#12.-IadFormChipsComponent)
 
 ## Default input components
 
-1. IadDropdownGroupComponent
+### 1. IadDropdownGroupComponent
   
-    Description: Subform with collapse option
+  Description: Subform with collapse option
+  
+  Selector: iad-dropdown-group
+  
+  Model: FormInputGroup
+  
+      column: number;
+      key: string;
+      label: string;
+      order: number;
+      dependencies: string[];
+      children: FormGroupChildColumn[];
+      visible: boolean;
+      translate: boolean;
+      collapsed = true;
     
-    Selector: iad-dropdown-group
-    
-    Model: FormInputGroup
-    
-        column: number;
-        key: string;
-        label: string;
-        order: number;
-        dependencies: string[];
-        children: FormGroupChildColumn[];
-        visible: boolean;
-        translate: boolean;
-        collapsed = true;
-    
-2. IadFormDateComponent
+### 2. IadFormDateComponent
 
-    Description: PrimeNg calendar component
+  Description: PrimeNg calendar component
+  
+  Selector: iad-form-date
+  
+  Model: DateInput
     
-    Selector: iad-form-date
-    
-    Model: DateInput
-    
-3. IadFormDateTimeComponent
+### 3. IadFormDateTimeComponent
 
-    Description: PrimeNg calendar component with time enabled
+  Description: PrimeNg calendar component with time enabled
+  
+  Selector: iad-form-date-time
+  
+  Model: DateTimeInput
     
-    Selector: iad-form-date-time
-    
-    Model: DateTimeInput
-    
-4. IadFormFileComponent
+### 4. IadFormFileComponent
 
-    Description: File upload input component. Note, if you want to send files to backend server you should send FormData object and not JSON. 
+  Description: File upload input component. Note, if you want to send files to backend server you should send FormData object and not JSON. 
+  
+  Selector: iad-form-file
+  
+  Model: FileInput
     
-    Selector: iad-form-file
-    
-    Model: FileInput
-    
-5. IadFormInputComponent
+### 5. IadFormInputComponent
 
-    Description: Relative to configuration either html text input component or PrimeNg maskInput component
+  Description: Relative to configuration either html text input component or PrimeNg maskInput component
+  
+  Selector: iad-form-input
+  
+  Model: TextInput
     
-    Selector: iad-form-input
-    
-    Model: TextInput
+      validators: {
+          minLength?: string;
+          maxLength?: string;
+          required?: boolean;
+          email?: boolean;
+      };
+      type: string;
+      inputMask: string;
       
-        validators: {
-            minLength?: string;
-            maxLength?: string;
-            required?: boolean;
-            email?: boolean;
-        };
-        type: string;
-        inputMask: string;
-        
-    Model: HiddenInput
+  Model: HiddenInput
+  
+  Model: TextInputTranslated 
     
-    Model: TextInputTranslated 
-    
-6. IadFormNumberComponent
+### 6. IadFormNumberComponent
 
-    Description: Html number input component
+  Description: Html number input component
+  
+  Selector: iad-form-number
+  
+  Model: NumberInput
+  
+      validators: {
+          min?: string;
+          max?: string;
+          required?: boolean;
+      };
+      type: string;
+      step: number;
     
-    Selector: iad-form-number
-    
-    Model: NumberInput
-    
-        validators: {
-            min?: string;
-            max?: string;
-            required?: boolean;
-        };
-        type: string;
-        step: number;
-    
-7. IadFormTextareaComponent
+### 7. IadFormTextareaComponent
 
-    Description: Html textarea input component
-    
-    Selector: iad-form-textarea
-    
-    Model: TextareaInput
-    
-        validators: {
-            minLength?: string;
-            maxLength?: string;
-            required?: boolean;
-        };
+  Description: Html textarea input component
+  
+  Selector: iad-form-textarea
+  
+  Model: TextareaInput
+  
+      validators: {
+          minLength?: string;
+          maxLength?: string;
+          required?: boolean;
+      };
 
-8. IadFormCheckboxComponent
+### 8. IadFormCheckboxComponent
 
-    Description: PrimeNg checkbox component
+  Description: PrimeNg checkbox component
+  
+  Selector: iad-form-checkbox
+  
+  Model: BooleanInput
     
-    Selector: iad-form-checkbox
-    
-    Model: BooleanInput
-    
-9. IadFormMultiSelectComponent
+### 9. IadFormMultiSelectComponent
 
-    Description: PrimeNg multiSelect component
-    
-    Selector: iad-form-multi-select
-    
-    Model: MultiSelectInputModel
-    
-        values: string[];
-        maxSelectedLabels = 3;
-        showHeader = true;
-        translatePrefix: string;
+  Description: PrimeNg multiSelect component
+  
+  Selector: iad-form-multi-select
+  
+  Model: MultiSelectInputModel
+  
+    values: string[];
+    maxSelectedLabels = 3;
+    showHeader = true;
+    translatePrefix: string;
 
-10. IadFormRichEditorComponent
+### 10. IadFormRichEditorComponent
 
-    Description: PrimeNg rich editor component (quill)
+  Description: PrimeNg rich editor component (quill)
+  
+  Selector: iad-form-rich-editor
+  
+  Model: RichEditorInput
     
-    Selector: iad-form-rich-editor
-    
-    Model: RichEditorInput
-    
-11. IadFormSelectionDropdownComponent
+### 11. IadFormSelectionDropdownComponent
 
-    Description: PrimeNg rich editor component (quill)
-    
-    Selector: iad-form-rich-editor
-    
-    Model: DropdownInputModel
-    
-        values?: string[];
-        translatePrefix?: string;
+  Description: PrimeNg selection dropdown component
+  
+  Selector: iad-form-rich-editor
+  
+  Model: DropdownInputModel
+  
+      values?: string[];
+      translatePrefix?: string;
 
-12. IadFormChipsComponent
+### 12. IadFormChipsComponent
 
-    Description: PrimeNg chips component
-    
-    Selector: iad-form-chips
-    
-    Model: ChipsInputModel
-    
-        value?: string; // coma separated
+  Description: PrimeNg chips component
+  
+  Selector: iad-form-chips
+  
+  Model: ChipsInputModel
+  
+      value?: string; // coma separated
