@@ -1,4 +1,6 @@
-#Form builder
+[InterfaceAdminNg](../../../../../../README.md) / [Usage](../../../../../../docs/2-usage-guide.md) / Form builder
+
+# Form builder
 
 ## FormProjection field model
 
@@ -17,12 +19,12 @@ referenceProjectionCode? | string | Код форм-проекции, котор
 translate? | boolean | Производится перевод по метке
 inputMask? | string | Маска ввода для плагинов ввода по маске
 validationTypes? | object | Типы валидации: 
-      | | | {
-      | | | email?: boolean;
-      | | | required?: boolean;
-      | | | minLength?: string;
-      | | | maxLength?: string;
-      | | | };
+. | . | {
+. | . | email?: boolean;
+. | . | required?: boolean;
+. | . | minLength?: string;
+. | . | maxLength?: string;
+. | . | };
 valueField? | string | Название поля, по которому следует определять значение этого поля. Было сделаано для Lookup, но может быть применено к другим полям
 dataSourcePath? | string | Путь к данным, разделённый точками для заполнения поля значениями по умолчанию. Было сделаано для Lookup, но может быть применено к другим полям
 properties? | object | key=>value с кастомными свойствами 
@@ -43,7 +45,7 @@ properties? | object | key=>value с кастомными свойствами
     ],...
     
 
-##Input types with Models
+## Input types with Models
 
 Input Code (for formProjection) | Input Model
 ------------ | -------------
@@ -62,7 +64,7 @@ File | FileInput
 SplittedDateTime | DateTimeInput
 Text | TextareaInput
 
-##Default input components
+## Default input components
 
 1. IadDropdownGroupComponent
   
