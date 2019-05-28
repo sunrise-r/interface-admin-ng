@@ -8,7 +8,7 @@ import { ValidationInput } from '../core/validation-input';
   styles: ['form-chips.component.scss'],
   template: `
     <ng-container [formGroup]="group">
-      <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
+      <label [attr.for]="config.key"class="col-12 col-lg-{{labelColumnSize}} col-form-label">
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}}">
