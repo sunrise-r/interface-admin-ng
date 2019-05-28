@@ -818,11 +818,11 @@ export class PresentationResponse extends AbstractResponse {
             }
           },
           {
-            'validationTypes': {'maxLength': '6', 'email': false, 'required': false},
+            'validationTypes': {'email': false, 'required': false},
             'type': 'Hidden',
             'name': 'hiddenStatus',
             'label': 'Скрытый статус',
-            'defaultValue': 'SuperHiddenStatus',
+            'defaultValue': 'ACTIVE',
             'column': 0,
             'translate': false,
             'properties': {}
