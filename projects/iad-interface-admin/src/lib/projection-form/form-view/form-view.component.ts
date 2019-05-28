@@ -111,7 +111,7 @@ export class FormViewComponent implements AfterContentInit {
                 .findProjectionsByName(requestParams)
                 .toPromise()
                 .then((data: {[param: string]: IadFormProjectionInterface}) => {
-                    const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+                    const fields = this.formProjection.fields;
                     const plainReferenceIndexes = fields
                       .map((field, index) => field.properties && field.properties['plainReference'] ? index : undefined)
                       .filter(field => field);
@@ -127,7 +127,7 @@ export class FormViewComponent implements AfterContentInit {
                     console.error(err);
                 });
         } else {
-            const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+            const fields = this.formProjection.fields;
             this.formInputGroup = new FormInputGroup({ children: this.initInputs(fields) });
         }
     }
