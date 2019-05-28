@@ -16,19 +16,9 @@ export * from './lib/services/event-manager.service';
 // #utils
 export * from './lib/utils/iad.helper';
 
-// #primeng
-export * from './lib/iad-primeng/table/iad-scrollable-view.component';
-export * from './lib/iad-primeng/table/iad-table.component';
-export * from './lib/iad-primeng/models';
-export * from './lib/iad-primeng/iad-primeng.module';
-
 // #common (ex-customize)
 export * from './lib/common/tabbed-view/projection-tab.model';
-export * from './lib/common/dynamic-form/core/context-aware';
-export * from './lib/common/dynamic-form/core/validation-input';
-export * from './lib/common/dynamic-form/core/form-input.model';
 export * from './lib/common/tabbed-view/tabbed-view.component';
-export * from './lib/common/dynamic-form/dynamic-form.module';
 export * from './lib/common/iad-common.module';
 
 // #filter-builder (elastic replacement)
@@ -41,7 +31,6 @@ export * from './lib/data-table/models/actual-selection.model';
 export * from './lib/data-table/services/data-table-information.service';
 export * from './lib/data-table/services/settings-provider';
 export * from './lib/data-table/data-table/data-table-columns.service';
-export * from './lib/data-table/services/actual-selection-chain.service';
 export * from './lib/data-table/services/selection-buffer.service';
 export * from './lib/data-table/data-table/data-table.component';
 export * from './lib/data-table/services/actual-selection-chain.service';

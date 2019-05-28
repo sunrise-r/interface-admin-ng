@@ -1,16 +1,14 @@
 import {CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
+import {DynamicFormModule} from 'iad-interface-admin/form';
+import {IadConfigService, IadModuleConfig, IadModuleConfigInterface, IadSharedModule} from 'iad-interface-admin/core';
 
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 import {ProjectionTreeComponent} from './projection-tree/projection-tree.component';
-import {IadModuleConfig, IadModuleConfigInterface} from './config';
-import {IadConfigService} from './config.service';
 import {DropdownModule, MultiSelectModule, PanelMenuModule} from 'primeng/primeng';
-import {IadSharedModule} from './shared/iad-shared.module';
 import {ProjectionGridModule} from './projection-grid/projection-grid.module';
-import {DynamicFormModule} from './common/dynamic-form/dynamic-form.module';
 import {ProjectionFormModule} from './projection-form/projection-form.module';
 import {IadRouterHistoryService} from './public-services/iad-router-history.service';
 

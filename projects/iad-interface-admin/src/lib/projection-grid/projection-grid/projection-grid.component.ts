@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
   QueryList,
   SimpleChanges,
   TemplateRef

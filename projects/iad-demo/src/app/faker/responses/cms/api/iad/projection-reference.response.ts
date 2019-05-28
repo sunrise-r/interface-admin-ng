@@ -17,13 +17,21 @@ export class ProjectionReferenceResponse extends AbstractResponse {
     projection.title = 'Ссылка';
     projection.fields = [
       {
+        'validationTypes': {'maxLength': '6', 'email': false, 'required': false},
+        'type': 'Hidden',
+        'name': 'hiddenStatus',
+        'label': 'Скрытый статус',
+        'defaultValue': 'SuperHiddenStatus',
+        'column': 0,
+        'translate': false,
+        'properties': {}
+      },
+      {
         'validationTypes': {'maxLength': '20', 'email': false, 'required': false},
         'type': 'MultiSelect',
         'name': 'firstField',
         'label': 'presentation.projection.main.firstField',
         'column': 0,
-        'hidden': false,
-        'visible': true,
         'translate': true,
         'properties': {
           'values': [
@@ -40,8 +48,6 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'name': 'secondField',
         'label': 'presentation.projection.main.secondField',
         'column': 0,
-        'hidden': false,
-        'visible': true,
         'translate': true,
         'inputMask': '99999999'
       },
@@ -61,8 +67,6 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'name': 'dropdownField',
         'label': 'presentation.projection.main.dropdownField',
         'column': 0,
-        'hidden': false,
-        'visible': true,
         'translate': true,
         properties: {
           'values': [
@@ -73,12 +77,30 @@ export class ProjectionReferenceResponse extends AbstractResponse {
       },
       {
         'validationTypes': {'email': false, 'required': false},
+        'type': 'Dropdown',
+        'name': 'dropdownFieldDynamic',
+        'label': 'presentation.projection.main.dropdownFieldDynamic',
+        'column': 0,
+        'translate': true,
+        properties: {
+          'valuesUrl': 'partnerdocuments/api/dropdown-values',
+          'translatePrefix': 'phoneBook.firstField.values'
+        }
+      },
+      {
+        'validationTypes': {'email': false, 'required': false},
         'type': 'Rich',
         'name': 'htmlField',
         'label': 'presentation.projection.main.htmlField',
         'column': 0,
-        'hidden': false,
-        'visible': true,
+        'translate': true
+      },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'Chips',
+        'name': 'chipsField',
+        'label': 'presentation.projection.main.chipsField',
+        'column': 0,
         'translate': true
       },
     ];

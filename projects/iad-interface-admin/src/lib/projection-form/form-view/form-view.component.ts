@@ -1,13 +1,11 @@
 import {AfterContentInit, Component, Input, Output, ViewEncapsulation} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
-import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../common/dynamic-form/form-input-group';
+import {FormGroupChild, FormGroupChildColumn, FormInputGroup, FormInput, InputFactory} from 'iad-interface-admin/form';
 import {LookupInputModel} from '../inputs/lookup-input.model';
 import {MultipleLookupInputModel} from '../inputs/multiple-lookup-input.model';
 import {GenderSelectionDropdownInput} from '../inputs/gender-selection-dropdown-input.model';
 import {IadFormProjection, IadFormProjectionInterface} from '../model/projection-form.model';
 import {DISABLED, IFormProjectionField, READONLY} from '../model/form-projection-field.model';
-import {FormInput} from '../../common/dynamic-form/inputs/form-input.model';
-import {InputFactory} from '../../common/dynamic-form/inputs/input.factory';
 import {IadReferenceProjectionProviderService} from '../../public-services/iad-reference-projection-provider.service';
 import {IadDataOperationsService} from '../../public-services/iad-data-operations.service';
 import {IadRouterHistoryService} from '../../public-services/iad-router-history.service';
@@ -113,7 +111,7 @@ export class FormViewComponent implements AfterContentInit {
                 .findProjectionsByName(requestParams)
                 .toPromise()
                 .then((data: {[param: string]: IadFormProjectionInterface}) => {
-                    const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+                    const fields = this.formProjection.fields;
                     const plainReferenceIndexes = fields
                       .map((field, index) => field.properties && field.properties['plainReference'] ? index : undefined)
                       .filter(field => field);
@@ -129,7 +127,7 @@ export class FormViewComponent implements AfterContentInit {
                     console.error(err);
                 });
         } else {
-            const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+            const fields = this.formProjection.fields;
             this.formInputGroup = new FormInputGroup({ children: this.initInputs(fields) });
         }
     }
@@ -188,7 +186,6 @@ export class FormViewComponent implements AfterContentInit {
                     column: field.column,
                     key: field.name,
                     label: field.label,
-                    visible: field.visible,
                     translate: field.translate,
                     children: inputs,
                     properties: field.properties
@@ -220,7 +217,6 @@ export class FormViewComponent implements AfterContentInit {
             inputMask: field.inputMask || null,
             valueField: field.valueField,
             dataSourcePath: field.dataSourcePath || null,
-            visible: field.visible,
             translate: field.translate || false
         };
         if (field.properties) {

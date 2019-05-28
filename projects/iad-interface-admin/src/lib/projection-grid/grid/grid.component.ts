@@ -16,12 +16,12 @@ import {ReplaySubject, Subject} from 'rxjs';
 import {PrimeTemplate} from 'primeng/shared';
 import {IadProjectionGridService} from '../services/iad-projection-grid.service';
 import {ElasticSearchQueryBuilder} from '../../elastic/elastic-search-query.builder';
-import {LazyLoadData, ResizeEvent} from '../../iad-primeng/table/iad-table-models';
+import {ElasticService} from '../../elastic/elastic-service';
+
+import {LazyLoadData, ResizeEvent, IadTableComponent, IadConfigService} from 'iad-interface-admin/core';
 import {FILTER_TYPE, IadGridConfigModel} from '../model/iad-grid-model';
 import {IadGridColumn} from '../model/iad-grid-column.model';
-import {IadTableComponent} from '../../iad-primeng/table/iad-table.component';
 import {columnComponents} from '../column-components/column-components.factory';
-import {IadConfigService} from '../../config.service';
 
 export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => ElasticSearchQueryBuilder;
 
@@ -31,7 +31,8 @@ export type QueryBuildCallback = (builder: ElasticSearchQueryBuilder) => Elastic
 @Component({
   selector: 'iad-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  styleUrls: ['./grid.component.scss'],
+  providers: [ElasticService]
 })
 export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
   /**
@@ -263,7 +264,8 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, O
   projectionFilter: string;
 
   constructor(private gridDataService: IadProjectionGridService,
-              private configService: IadConfigService
+              private configService: IadConfigService,
+              private elasticService: ElasticService
   ) {
     this.size = this.configService.getConfig().pageSize;
   }
@@ -495,7 +497,7 @@ export class GridComponent implements OnInit, AfterContentInit, AfterViewInit, O
    */
 
   private buildQuery(event: any): string {
-    let queryBuilder = new ElasticSearchQueryBuilder();
+    let queryBuilder = this.elasticService.createFilter();
     if (event.globalFilter && event.globalFilter !== '') {
       return ElasticSearchQueryBuilder.buildFromString(event.globalFilter);
     }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {IadDomHandler} from 'iad-interface-admin/core';
 
 import {
     FrozenStructure,
@@ -9,7 +10,6 @@ import {
     DTColumnFrozenField,
     ColumnOrder
 } from './freeze-column.model';
-import {IadDomHandler} from '../../iad-primeng/dom/iad-dom-handler';
 import {IDataTableColumn} from './data-table.model';
 
 const SCROLLABLE_WRAPPER_CLASS = 'ui-table-scrollable-wrapper';

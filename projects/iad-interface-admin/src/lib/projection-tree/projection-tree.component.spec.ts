@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ProjectionTreeComponent } from './projection-tree.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {of} from 'rxjs';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {IadConfigService} from 'iad-interface-admin/core';
+
+import { ProjectionTreeComponent } from './projection-tree.component';
 import {PresentationTreeModel} from './projection-tree.model';
 import {IadProjectionTreeService} from '../public-services/iad-projection-tree.service';
-import {IadConfigService} from '../config.service';
 import {IadModuleConfigInterface} from '../config';
 import { MenuItem } from 'primeng/api';
 

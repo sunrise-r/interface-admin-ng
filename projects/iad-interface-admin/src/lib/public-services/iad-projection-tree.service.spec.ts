@@ -1,9 +1,9 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {IadConfigService} from 'iad-interface-admin/core';
 
 import { IadProjectionTreeService } from './iad-projection-tree.service';
 import {PresentationTreeModel} from '../projection-tree/projection-tree.model';
-import {IadConfigService} from '../config.service';
 
 describe('ProjectionTreeService', () => {
   let injector: TestBed;

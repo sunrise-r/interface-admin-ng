@@ -5,15 +5,13 @@ export interface IFormProjectionField {
     label: string;
     name: string;
     type: string; // Тип отображаемого филда. (напр. DateTime, Date, String, Lookup, Entity, List и тд)
-    column: number; // Номер колонки дял показа в форме (в форме поля могут быть раскиданы по колонкам)
+    column?: number; // Номер колонки дял показа в форме (в форме поля могут быть раскиданы по колонкам)
     fieldInputType?: string; // DISABLED/READONLY/Null
     defaultValue?: string; // Знкачение по умолчанию, заданное в проекции
     presentationCode?: string; // Код представления для запроса мета-информации, содержащей проекции Lookup или Reference.
     lookupSourceProjectionCode?: string; // Код лист-проекции для отображения ресурсов Lookup (список, с предложениями для выбора в Lookup)
     lookupViewProjectionCode?: string; // Код лист-проекции для отображения данных в Lookup
     referenceProjectionCode?: string; // Код форм-проекции, которую нужно отобразить как вложенную группу полей данной формы
-    hidden: boolean; // Поле игнорируется при выводе html-input
-    visible: boolean; // Поле отображается при выводе или скрывается
     translate?: boolean; // Производится перевод по метке
     inputMask?: string; // Маска ввода для плагинов ввода по маске
     validationTypes?: {

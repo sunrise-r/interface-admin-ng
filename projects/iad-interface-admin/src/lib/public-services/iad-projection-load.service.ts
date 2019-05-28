@@ -1,7 +1,7 @@
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IadConfigService} from '../config.service';
+import {IadConfigService} from 'iad-interface-admin/core';
 import {IadFormProjection, IadFormProjectionInterface} from '../projection-form/model/projection-form.model';
 
 @Injectable({

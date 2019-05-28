@@ -1,0 +1,37 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" class="content-flex" autocomplete="off">
+    <fieldset class="content-flex">
+        <ng-template ngFor let-child [ngForOf]="formInputGroup.children">
+            <ng-container *ngIf="child.length === 1; then singleColumn; else multiColumn"></ng-container>
+            <ng-template #singleColumn>
+                <div [iadDynamicField]="child[0]" [context]="context" [inputComponents]="inputComponents" [group]="form" styleClass="form-row mb-2" (touched)="onTouched(child[0])"></div>
+            </ng-template>
+            <ng-template #multiColumn>
+                <div class="form-row mb-2">
+                    <div *ngFor="let grandChild of child; let i = index" class="col-12 col-lg-{{calculateColumns(child)}}">
+                        <ng-container [iadDynamicField]="grandChild"  [context]="context" [inputComponents]="inputComponents" [group]="form" styleClass="form-row mb-2" (touched)="onTouched(child[i])"></ng-container>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </ng-template>
+        </ng-template>
+    </fieldset>
+
+    <ng-template #submitBtn let-styleClass="styleClass">
+        <button [class]="styleClass || 'btn'" [disabled]="form.invalid || sending" type="submit">
+            <span class="title save">Сохранить</span>
+        </button>
+    </ng-template>
+    <ng-template #cancelBtn let-styleClass="styleClass">
+        <button [class]="styleClass || 'btn'" type="button" (click)="cancel()" [disabled]="sending">
+            <span class="title clear">Отмена</span>
+        </button>
+    </ng-template>
+    <ng-template #defaultFormFooter let-cancelBtnTpl="cancelBtnTpl" let-submitBtnTpl="submitBtnTpl">
+      <div class="form-submit-buttons">
+        <ng-template [ngTemplateOutlet]="cancelBtnTpl" [ngTemplateOutletContext]="{styleClass: 'btn'}"></ng-template>
+        <ng-template [ngTemplateOutlet]="submitBtnTpl" [ngTemplateOutletContext]="{styleClass: 'btn btn-primary'}"></ng-template>
+      </div>
+    </ng-template>
+
+    <ng-template [ngTemplateOutlet]="formFooter || defaultFormFooter" [ngTemplateOutletContext]="{cancelBtnTpl: cancelBtn, submitBtnTpl: submitBtn, errors: errors}"></ng-template>
+</form>

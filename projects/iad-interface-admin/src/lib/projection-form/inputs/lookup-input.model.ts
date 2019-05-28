@@ -1,4 +1,4 @@
-import {FormatNameInterface, FormatValueInterface, FormInput} from '../../common/dynamic-form/inputs/form-input.model';
+import {FormatNameInterface, FormatValueInterface, FormInput} from 'iad-interface-admin/form';
 
 export class LookupInputModel extends FormInput<any> implements FormatNameInterface, FormatValueInterface {
     presentationCode: string;

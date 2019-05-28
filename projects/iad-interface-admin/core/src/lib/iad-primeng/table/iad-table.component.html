@@ -1,0 +1,99 @@
+<div #container [ngStyle]="style" [class]="styleClass"
+     [ngClass]="{'ui-table ui-widget': true, 'ui-table-responsive': responsive, 'ui-table-resizable': resizableColumns,
+                'ui-table-resizable-fit': (resizableColumns && columnResizeMode === 'fit'),
+                'ui-table-hoverable-rows': (rowHover||selectionMode), 'ui-table-auto-layout': autoLayout}">
+  <div class="ui-table-loading ui-widget-overlay" *ngIf="loading"></div>
+  <div class="ui-table-loading-content" *ngIf="loading">
+    <i [class]="'ui-table-loading-icon pi-spin ' + loadingIcon"></i>
+  </div>
+  <div *ngIf="captionTemplate" class="ui-table-caption ui-widget-header">
+    <ng-container *ngTemplateOutlet="captionTemplate"></ng-container>
+  </div>
+  <p-paginator [rows]="rows" [first]="first" [totalRecords]="totalRecords" [pageLinkSize]="pageLinks"
+               styleClass="ui-paginator-top" [alwaysShow]="alwaysShowPaginator"
+               (onPageChange)="onPageChange($event)" [rowsPerPageOptions]="rowsPerPageOptions"
+               *ngIf="paginator && (paginatorPosition === 'top' || paginatorPosition =='both')"
+               [templateLeft]="paginatorLeftTemplate" [templateRight]="paginatorRightTemplate"
+               [dropdownAppendTo]="paginatorDropdownAppendTo"></p-paginator>
+
+  <div class="ui-table-wrapper" *ngIf="!scrollable">
+    <table #table [ngClass]="tableStyleClass" [ngStyle]="tableStyle">
+      <ng-container *ngTemplateOutlet="colGroupTemplate; context: {$implicit: columns}"></ng-container>
+      <thead class="ui-table-thead">
+      <ng-container *ngTemplateOutlet="headerTemplate; context: {$implicit: columns}"></ng-container>
+      </thead>
+      <tfoot class="ui-table-tfoot">
+      <ng-container *ngTemplateOutlet="footerTemplate; context: {$implicit: columns}"></ng-container>
+      </tfoot>
+      <tbody class="ui-table-tbody" [iadTableBody]="columns" [iadTableBodyTemplate]="bodyTemplate"></tbody>
+    </table>
+  </div>
+  <div class="ui-table-scrollable-wrapper" *ngIf="scrollable">
+    <div class="ui-table-scrollable-view ui-table-frozen-view frozen-left frozen-static"
+         *ngIf="staticFrozenColumns"
+         [changeTableHeight]="changeTableHeight"
+         [enableInfiniteScroll]="enableInfiniteScroll"
+         [frozen]="true"
+         [iadScrollableView]="staticFrozenColumns"
+         [isStatic]="true"
+         [ngStyle]="{width: staticFrozenWidth}"
+         [scrollHeight]="scrollHeight"
+    ></div>
+    <div class="ui-table-scrollable-view ui-table-frozen-view frozen-left"
+         *ngIf="frozenColumns||frozenBodyTemplate"
+         [changeTableHeight]="changeTableHeight"
+         [enableInfiniteScroll]="enableInfiniteScroll"
+         [frozen]="true"
+         [iadScrollableView]="frozenColumns"
+         [ngStyle]="{width: frozenWidth}"
+         [resize]="resize"
+         [scrollHeight]="scrollHeight"
+    ></div>
+    <div class="ui-table-scrollable-view"
+         [changeTableHeight]="changeTableHeight"
+         [enableInfiniteScroll]="enableInfiniteScroll"
+         [frozen]="false"
+         [iadScrollableView]="columns"
+         [resize]="resize"
+         [scrollHeight]="scrollHeight"
+    ></div>
+    <div class="ui-table-scrollable-view ui-table-frozen-view frozen-right"
+         *ngIf="frozenRightColumns"
+         [changeTableHeight]="changeTableHeight"
+         [enableInfiniteScroll]="enableInfiniteScroll"
+         [frozen]="true"
+         [iadScrollableView]="frozenRightColumns"
+         [ngStyle]="{width: frozenRightWidth}"
+         [resize]="resize"
+         [scrollHeight]="scrollHeight"
+    ></div>
+    <div class="ui-table-scrollable-view ui-table-frozen-view frozen-right frozen-static"
+         *ngIf="staticFrozenRightColumns"
+         [changeTableHeight]="changeTableHeight"
+         [enableInfiniteScroll]="enableInfiniteScroll"
+         [frozen]="true"
+         [iadScrollableView]="staticFrozenRightColumns"
+         [isStatic]="true"
+         [ngStyle]="{width: staticFrozenRightWidth}"
+         [scrollHeight]="scrollHeight"
+    ></div>
+  </div>
+
+  <p-paginator [rows]="rows" [first]="first" [totalRecords]="totalRecords" [pageLinkSize]="pageLinks"
+               styleClass="ui-paginator-bottom" [alwaysShow]="alwaysShowPaginator"
+               (onPageChange)="onPageChange($event)" [rowsPerPageOptions]="rowsPerPageOptions"
+               *ngIf="paginator && (paginatorPosition === 'bottom' || paginatorPosition =='both')"
+               [templateLeft]="paginatorLeftTemplate" [templateRight]="paginatorRightTemplate"
+               [dropdownAppendTo]="paginatorDropdownAppendTo"></p-paginator>
+  <div *ngIf="summaryTemplate" class="ui-table-summary ui-widget-header">
+    <ng-container *ngTemplateOutlet="summaryTemplate"></ng-container>
+  </div>
+  <div #resizeHelper class="ui-column-resizer-helper ui-state-highlight" style="display:none"
+       *ngIf="resizableColumns"></div>
+  <span #reorderIndicatorUp class="ui-table-reorder-indicator-up" style="display:none" *ngIf="reorderableColumns">
+        <fa-icon [icon]="'caret-down'"></fa-icon>
+    </span>
+  <span #reorderIndicatorDown class="ui-table-reorder-indicator-down" style="display:none" *ngIf="reorderableColumns">
+        <fa-icon [icon]="'caret-up'"></fa-icon>
+    </span>
+</div>

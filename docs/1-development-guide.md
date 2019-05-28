@@ -1,4 +1,4 @@
-# [InterfaceAdminNg](../README.md) / Development
+[InterfaceAdminNg](../README.md) / Development
 
 ## Publish library to the local Nexus server
 

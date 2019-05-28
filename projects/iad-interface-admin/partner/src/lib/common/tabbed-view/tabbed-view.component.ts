@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { StringHelper } from 'iad-interface-admin/core';
 
 import { DocumentListProjection } from '../../model/projection.model';
 import { Subject, Subscription } from 'rxjs';
-import {ProjectionTab} from './projection-tab.model';
-import {StringHelper} from '../../shared/helpers/string.helper';
+import { ProjectionTab } from './projection-tab.model';
 
 @Component({
     selector: 'iad-tabbed-view',

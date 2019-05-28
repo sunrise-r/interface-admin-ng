@@ -23,6 +23,7 @@ import {IadSharedModule} from './shared';
       i18nEnabled: true,
       defaultI18nLang: 'ru',
       noi18nMessage: 'translation-not-found'
+      // rootUrl: '/myAwesomeRoot'
     }),
     DataModule
   ],

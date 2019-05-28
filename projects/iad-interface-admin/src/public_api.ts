@@ -1,14 +1,18 @@
 /*
  * Public API Surface of iad-interface-admin
  */
-// # Models:
+// #Models:
 export * from './lib/model/iad-interfaces';
 export * from './lib/model/iad-model';
 
-// # Helpers:
-export * from './lib/shared/helpers/string.helper';
-export * from './lib/shared/helpers/projections.helper';
+// #Service
 
+// #Utils
+
+// #Common
+export * from './lib/common/iad-common.module';
+
+export * from './lib/common/helpers/projections.helper';
 // # components:
 // projection-tree
 export * from './lib/projection-tree/projection-tree.model';
