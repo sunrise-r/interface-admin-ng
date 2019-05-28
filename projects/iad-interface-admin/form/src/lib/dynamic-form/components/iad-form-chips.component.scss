@@ -1,0 +1,26 @@
+p-chips {
+  ul.ui-inputtext {
+    width: 100%;
+    padding-right: 50px;
+    min-height: 38px;
+    display: block;
+  }
+  .ui-chips {
+    .ui-chips-input-token {
+      width: 5px;
+    }
+    li.ui-chips-token {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+  }
+
+  &.custom-form-control {
+    height: inherit;
+    min-height: 38px;
+  }
+}
+
+iad-form-chips iad-tooltip-notifier {
+  margin-top: 5px;
+}
