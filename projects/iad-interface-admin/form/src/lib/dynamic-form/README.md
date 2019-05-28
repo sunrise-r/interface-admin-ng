@@ -84,6 +84,10 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
       visible: boolean;
       translate: boolean;
       collapsed = true;
+      
+  Projection field config properties:
+      
+      'plainReference': boolean; Allows to print subform inputs without dropdown in the same level as all other inputs  
     
 ### 2. IadFormDateComponent
 

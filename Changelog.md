@@ -1,3 +1,15 @@
+#0.0.2-devel.11
+
+####Bugs fixed:
+
+* Styled InputComponents are now able to be styled again
+* Problems with chips styling fixed 
+
+####Breaking changes:
+
+* Colons were removed form Input Component's labels
+ 
+
 #0.0.2
 
 ####Features
