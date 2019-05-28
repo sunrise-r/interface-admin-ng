@@ -24,8 +24,25 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
               styleClass="iad-calendar"
               dateFormat="dd.mm.yy"
               (blur)="onBlur()"></iad-calendar>
-            <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
-                                  caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+            <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid" caption="Ошибка!" [text]="error">
+              <ng-template let-content="content" let-position="position"
+                           let-tooltipStyleClass="tooltipStyleClass" let-escape="escape">
+                <fa-icon
+                  [icon]="'exclamation-circle'" [size]="'2x'" [ngStyle]="{color: 'red'}"
+                  [iadPTooltip]="content" [tooltipPosition]="position" [tooltipStyleClass]="tooltipStyleClass" [escape]="false"
+                ></fa-icon>
+              </ng-template>
+            </iad-tooltip-notifier>
+            <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && !isInvalid" caption="Поле валидно!"
+                                  text="Валидация прошла успешно">
+              <ng-template let-content="content" let-position="position"
+                           let-tooltipStyleClass="tooltipStyleClass" let-escape="escape">
+                <fa-icon
+                  [icon]="'check-circle'" [size]="'2x'" [ngStyle]="{color: 'green'}"
+                  [iadPTooltip]="content" [tooltipPosition]="position" [tooltipStyleClass]="tooltipStyleClass" [escape]="false"
+                ></fa-icon>
+              </ng-template>
+            </iad-tooltip-notifier>
           </div>
         </div>
     </ng-container>`

@@ -46,7 +46,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy {
         }
         this.component.instance.config = this.config;
         this.component.instance.group = this.group;
-        this.component.instance.styleClass = this.styleClass;
+        this.component.instance.iconStyleClass = this.styleClass;
         // for dropdownGroup
         if (this.component.instance['inputComponents']) {
             this.component.instance['inputComponents'] = this.inputComponents;

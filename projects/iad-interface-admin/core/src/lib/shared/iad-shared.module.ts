@@ -10,6 +10,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faCaretDown, faCaretUp, faEdit, faTrash, faCheckCircle, faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
 import {TooltipNotifierComponent} from './tooltip-notifier/tooltip-notifier.component';
+import {IadPrimengModule} from '../iad-primeng/iad-primeng.module';
 
 library.add(faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faCaretDown, faCaretUp, faEdit, faTrash, faCheckCircle, faExclamationCircle);
 
@@ -22,6 +23,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [MomentPipe, BooleanPipe, TooltipNotifierComponent],
   imports: [
     CommonModule,
+    IadPrimengModule,
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,

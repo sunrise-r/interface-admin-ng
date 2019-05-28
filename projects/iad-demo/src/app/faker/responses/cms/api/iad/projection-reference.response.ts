@@ -57,8 +57,6 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'name': 'booleanField',
         'label': 'presentation.projection.main.booleanField',
         'column': 0,
-        'hidden': false,
-        'visible': true,
         'translate': true
       },
       {
