@@ -23,6 +23,9 @@ const typeFactory = {
 const inputComponents = {
 };
 
+/**
+ * Важное отличие от projection-form проекта partner в том, что все вложенные формы делаются plain. Нужно сделать такую настройку
+ */
 @Component({
     selector: 'iad-form-view',
     templateUrl: './form-view.component.html',
