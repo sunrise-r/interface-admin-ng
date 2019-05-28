@@ -16,8 +16,18 @@ import { ValidationInput } from '../core/validation-input';
             [formControlName]="config.key"
             [id]="config.key"
             [readonly]="config.readonly"></p-editor>
-          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled)" [hasErrors]="isInvalid"
-                                caption="Ошибка!" [text]="error"></iad-tooltip-notifier>
+          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
+                                caption="Ошибка!" [text]="error" [activated]="true">
+            <ng-template>
+              <fa-icon [icon]="'exclamation-circle'" [size]="'2x'" [ngStyle]="{color: 'red'}"></fa-icon>
+            </ng-template>
+          </iad-tooltip-notifier>
+          <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && !isInvalid"
+                                caption="Поле валидно!" text="Валидация прошла успешно" [activated]="true">
+            <ng-template>
+              <fa-icon [icon]="'check-circle'" [size]="'2x'" [ngStyle]="{color: 'green'}" ></fa-icon>
+            </ng-template>
+          </iad-tooltip-notifier>
         </div>
       </div>
     </ng-container>`

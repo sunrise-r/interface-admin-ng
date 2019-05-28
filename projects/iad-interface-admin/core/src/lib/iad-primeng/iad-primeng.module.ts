@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
-import { IadSharedModule } from '../shared/iad-shared.module';
+// import { IadSharedModule } from '../shared/iad-shared.module';
 
 // Original
 import { TableModule } from 'primeng/table';
@@ -13,6 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from 'primeng/shared';
 import { ConfirmationService } from 'primeng/api';
 import { CalendarModule, CheckboxModule, MultiSelectModule, EditorModule, DropdownModule, ChipsModule, ConfirmDialogModule, PanelModule, MenuModule } from 'primeng/primeng';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Customized
 import { CalendarComponent } from './calendar/calendar.component';
@@ -24,6 +26,7 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
 
 @NgModule({
     imports: [
+      CommonModule,
       InfiniteScrollModule,
       SharedModule,
       PanelModule,
@@ -32,7 +35,6 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
       ButtonModule,
       InputTextModule,
       PaginatorModule,
-      IadSharedModule,
       ConfirmDialogModule,
       CheckboxModule,
       ChipsModule,
@@ -40,7 +42,8 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
       MultiSelectModule,
       MenuModule,
       EditorModule,
-      DropdownModule
+      DropdownModule,
+      FontAwesomeModule
     ],
     declarations: [
       IadScrollableViewComponent,
@@ -67,6 +70,7 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
       CalendarComponent,
       TooltipDirective
     ],
-    providers: [ConfirmationService]
+    providers: [ConfirmationService],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadPrimengModule {}

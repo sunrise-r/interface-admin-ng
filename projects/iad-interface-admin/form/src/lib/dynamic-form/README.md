@@ -49,21 +49,21 @@ properties? | object | key=>value с кастомными свойствами
 
 Input Code (for formProjection) | Input Model | Component
 ------------------------------- | ----------- | ---------
-ProjectionReference | FormInputGroup | [Subform with collapse option](#1.-IadDropdownGroupComponent)
-ZonedDateTime | DateInput | [PrimeNg calendar component](#2.-IadFormDateComponent)
-SplittedDateTime | DateTimeInput | [PrimeNg calendar component with time enabled](#3.-IadFormDateTimeComponent)
-File | FileInput | [File upload input component](#4.-IadFormFileComponent)
-Hidden | HiddenInput | [HTML hidden input component](#5.-IadFormInputComponent)
-String | TextInput | [HTML text input component or PrimeNg maskInput component](#5.-IadFormInputComponent)
-StringTranslated | TextInputTranslated | [HTML text input component or PrimeNg maskInput component with translation enabled](#5.-IadFormInputComponent)
-BigDecimal | NumberInput | [Html number input component](#6.-IadFormNumberComponent)
-Integer | NumberInput | [Html number input component](#6.-IadFormNumberComponent)
-Text | TextareaInput | [Html textarea input component](#7.-IadFormTextareaComponent)
-Boolean | BooleanInput | [PrimeNg checkbox component](#8.-IadFormCheckboxComponent)
-MultiSelect | MultiSelectInputModel | [PrimeNg multiSelect component](#9.-IadFormMultiSelectComponent)
-Rich | RichEditorInput | [PrimeNg rich editor component (quill)](#10.-IadFormRichEditorComponent)
-Dropdown | DropdownInputModel | [PrimeNg selection dropdown component](#11.-IadFormSelectionDropdownComponent)
-Chips | ChipsInputModel | [PrimeNg chips component](#12.-IadFormChipsComponent)
+ProjectionReference | FormInputGroup | [Subform with collapse option](#1-iaddropdowngroupcomponent)
+ZonedDateTime | DateInput | [PrimeNg calendar component](#2-iadformdatecomponent)
+SplittedDateTime | DateTimeInput | [PrimeNg calendar component with time enabled](#3-iadformdatetimecomponent)
+File | FileInput | [File upload input component](#4-iadformfilecomponent)
+Hidden | HiddenInput | [HTML hidden input component](#5-iadforminputcomponent)
+String | TextInput | [HTML text input component or PrimeNg maskInput component](#5-iadforminputcomponent)
+StringTranslated | TextInputTranslated | [HTML text input component or PrimeNg maskInput component with translation enabled](#5-iadforminputcomponent)
+BigDecimal | NumberInput | [Html number input component](#6-iadformnumbercomponent)
+Integer | NumberInput | [Html number input component](#6-iadformnumbercomponent)
+Text | TextareaInput | [Html textarea input component](#7-iadformtextareacomponent)
+Boolean | BooleanInput | [PrimeNg checkbox component](#8-iadformcheckboxcomponent)
+MultiSelect | MultiSelectInputModel | [PrimeNg multiSelect component](#9-iadformmultiselectcomponent)
+Rich | RichEditorInput | [PrimeNg rich editor component (quill)](#10-iadformricheditorcomponent)
+Dropdown | DropdownInputModel | [PrimeNg selection dropdown component](#11-iadformselectiondropdowncomponent)
+Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
 
 ## Default input components
 

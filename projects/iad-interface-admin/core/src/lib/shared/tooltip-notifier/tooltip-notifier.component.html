@@ -1,5 +1,10 @@
-<div class="error-tooltip">
-  <fa-icon *ngIf="!hasErrors" [icon]="'check-circle'" [size]="'2x'" style="color: green"></fa-icon>
-  <fa-icon *ngIf="hasErrors" [icon]="'exclamation-circle'" [size]="'2x'" style="color: red"
-           [iadPTooltip]="content" [tooltipPosition]="position" tooltipStyleClass="qtip" [escape]="false"></fa-icon>
+<div
+    #iadPTooltip
+    class="tooltip-notifier"
+    [iadPTooltip]="content"
+    [tooltipPosition]="position"
+    [tooltipStyleClass]="tooltipStyleClass"
+    [ngClass]="{'activated': activated}"
+    [escape]="false">
+    <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{activated: activated}"></ng-template>
 </div>

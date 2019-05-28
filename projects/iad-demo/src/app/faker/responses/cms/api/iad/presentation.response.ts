@@ -768,9 +768,7 @@ export class PresentationResponse extends AbstractResponse {
             'name': 'nameField',
             'label': 'presentation.projection.main.nameField',
             'translate': true,
-            'column': 0,
-            'hidden': false,
-            'visible': true
+            'column': 0
           },
           {
             'validationTypes': {'email': false, 'required': true},
@@ -778,9 +776,7 @@ export class PresentationResponse extends AbstractResponse {
             'name': 'surnameField',
             'label': 'presentation.projection.main.surnameField',
             'translate': true,
-            'column': 0,
-            'hidden': false,
-            'visible': true
+            'column': 0
           },
           {
             'validationTypes': {'email': false, 'required': true},
@@ -789,9 +785,7 @@ export class PresentationResponse extends AbstractResponse {
             'label': 'presentation.projection.main.birthDate',
             'translate': true,
             'defaultValue': 'NOW',
-            'column': 0,
-            'hidden': false,
-            'visible': true
+            'column': 0
           },
           {
             'validationTypes': {'maxLength': '15', 'email': false, 'required': false},
@@ -800,8 +794,6 @@ export class PresentationResponse extends AbstractResponse {
             'label': 'presentation.projection.main.phone',
             'translate': true,
             'column': 0,
-            'hidden': false,
-            'visible': true,
             'inputMask': '(999) 999-99-99'
           },
           {
@@ -810,9 +802,7 @@ export class PresentationResponse extends AbstractResponse {
             'name': 'email',
             'label': 'presentation.projection.main.email',
             'translate': true,
-            'column': 0,
-            'hidden': false,
-            'visible': true
+            'column': 0
           },
           {
             'validationTypes': {'email': false, 'required': false},
@@ -821,13 +811,21 @@ export class PresentationResponse extends AbstractResponse {
             'label': 'presentation.projection.main.additionalFields',
             'translate': true,
             'column': 0,
-            'hidden': false,
-            'visible': true,
             'referenceProjectionCode': 'additionalFields',
             'presentationCode': 'presentationOne',
             'properties': {
               'plainReference': true
             }
+          },
+          {
+            'validationTypes': {'email': false, 'required': false},
+            'type': 'Hidden',
+            'name': 'hiddenStatus',
+            'label': 'Скрытый статус',
+            'defaultValue': 'ACTIVE',
+            'column': 0,
+            'translate': false,
+            'properties': {}
           },
         ],
         'properties': null

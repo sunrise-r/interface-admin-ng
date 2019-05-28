@@ -6,7 +6,7 @@
   width: fit-content;
 }
 
-.iad-tooltip-notifier {
+iad-tooltip-notifier {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -17,7 +17,7 @@
   z-index: 5;
 }
 
-iad-form-rich-editor .iad-tooltip-notifier {
+iad-form-rich-editor iad-tooltip-notifier {
   margin-top: 5px;
 }
 
