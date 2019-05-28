@@ -1,3 +1,21 @@
+#0.0.2
+
+####Features
+
+* iad-tooltip-notifier accept contentChild template for displaying of tooltip icon as:
+
+```
+  <ng-template>
+    <fa-icon [icon]="'exclamation-circle'" [size]="'2x'" [ngStyle]="{color: 'red'}"></fa-icon>
+  </ng-template>
+```
+
+####Breaking changes:
+
+* iad-tooltip-notifier has no "tooltip-error" css class by default
+* iad-tooltip-notifier has no "iad-tooltip-notifier" css class by default
+* tooltip is shown even for valid form inputs (may be removed by setting [active]="false")
+
 #0.0.1.devel.7
 
 ####Features

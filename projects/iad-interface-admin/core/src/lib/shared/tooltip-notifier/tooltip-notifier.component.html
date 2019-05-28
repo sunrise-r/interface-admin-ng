@@ -1,18 +1,10 @@
-<ng-template [ngTemplateOutlet]="template || defaultTemplate" [ngTemplateOutletContext]="{
-activated: activated,
-content: content,
-position: position,
-tooltipStyleClass: tooltipStyleClass,
-escape: false
-}"></ng-template>
-<ng-template #defaultTemplate let-activated="activated" let-content="content" let-position="position" let-tooltipStyleClass="tooltipStyleClass" let-escape="escape">
-  <div
+<div
     #iadPTooltip
     class="tooltip-notifier"
     [iadPTooltip]="content"
     [tooltipPosition]="position"
     [tooltipStyleClass]="tooltipStyleClass"
     [ngClass]="{'activated': activated}"
-    [escape]="escape"
-  ></div>
-</ng-template>
+    [escape]="false">
+    <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{activated: activated}"></ng-template>
+</div>
