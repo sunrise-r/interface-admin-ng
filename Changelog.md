@@ -3,6 +3,7 @@
 ####Bugs fixed:
 
 * Fixed checkbox "false" value
+* Added onBlur to every dynamic-form component except reachEditor
 
 ####Features
 
