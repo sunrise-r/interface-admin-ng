@@ -176,6 +176,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
 
         this.settingUpdateSbt = this.settingsUpdater.subscribe(event => {
             if (event.name === 'columns') {
+                console.log('settingUpdateSbt is working...');
                 this.onUpdateColumnsVisibility(event.content.columns, event.content.prevEvent);
             }
         });
