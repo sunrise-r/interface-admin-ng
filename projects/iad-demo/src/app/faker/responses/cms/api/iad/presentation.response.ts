@@ -149,11 +149,13 @@ export class PresentationResponse extends AbstractResponse {
             'translate': true,
             'visible': true,
             'formatter': 'actions',
-            'displayFormat': 'edit|delete',
+            'displayFormat': 'edit|delete|button',
             'properties': {
               'editUrl': '/data/presentation-one/form-projection/edit',
               'deleteUrl': '/partnerdocuments/api/phonebook/delete',
-              'projectionCode': 'main'
+              'projectionCode': 'main',
+              'translatedButtonName': 'presentation.projection.main.actionButton',
+              'eventName': 'actionsButtonClick'
             }
           }
         ],

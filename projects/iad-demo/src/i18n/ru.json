@@ -30,6 +30,7 @@
         "phone": "Телефон",
         "email": "Email",
         "actions": "Действия",
+        "actionButton": "Кнопка",
         "additionalFields": "Дополнительные поля",
         "firstField": "Первое поле",
         "secondField": "Второе поле",

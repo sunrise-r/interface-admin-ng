@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {IadEventManager} from 'iad-interface-admin';
 
 @Component({
   selector: 'iad-data',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DataComponent implements OnInit {
 
-  constructor() { }
+  constructor(private eventManager: IadEventManager) { }
 
   ngOnInit() {
+    this.eventManager.subscribe('actionsButtonClick', event => {
+      alert('Actions button clicked with id: ' + event.content);
+    });
   }
 
 }
