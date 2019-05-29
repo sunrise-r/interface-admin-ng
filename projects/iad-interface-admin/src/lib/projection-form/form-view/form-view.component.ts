@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, Input, Output, ViewEncapsulation} from '@angular/core';
+import {AfterContentInit, Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormGroupChild, FormGroupChildColumn, FormInputGroup, FormInput, InputFactory} from 'iad-interface-admin/form';
 import {LookupInputModel} from '../inputs/lookup-input.model';
@@ -32,11 +32,23 @@ const inputComponents = {
     styleUrls: ['./form-view.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class FormViewComponent implements AfterContentInit {
+export class FormViewComponent implements OnInit, OnChanges {
+
     /**
-     * Код нажатой в тулбаре кнопки
+     * Проекция по которой строится форма
      */
-    actionCode: string;
+    @Input('projection') formProjection: IadFormProjection;
+
+    @Input() formProjectionSubject: Subject<{[param: string]: any}>;
+
+    @Input() projectionService: IadReferenceProjectionProviderService;
+
+    @Input() postDataUrl: string;
+
+    /**
+     * Raw data to fill the form
+     */
+    @Input() rawFormData: any;
 
     /**
      * Инпуты формы для передачи в компонент генератора формы
@@ -44,35 +56,9 @@ export class FormViewComponent implements AfterContentInit {
     formInputGroup: FormInputGroup;
 
     /**
-     * Проекция по которой строится форма
-     */
-    @Input('projection')
-    formProjection: IadFormProjection;
-
-    @Input()
-    formProjectionSubject: Subject<{[param: string]: any}>;
-
-    @Input()
-    projectionService: IadReferenceProjectionProviderService;
-
-    /**
      * Компоненты инпутов для передачи в модуль форм-билдера
      */
     inputComponents = inputComponents;
-
-    /**
-     * Предустановленные значения для полей формы
-     */
-    predefinedValues: any;
-
-    @Input()
-    postDataUrl: string;
-
-    /**
-     * Raw data to fill the form
-     */
-    @Input()
-    rawFormData: any;
 
     /**
      * Ошибка сервера, если отправка данных прошла не успешно
@@ -85,54 +71,78 @@ export class FormViewComponent implements AfterContentInit {
         private router: Router
     ) {}
 
-    ngAfterContentInit() {
-        if (this.formProjectionSubject && !this.formProjectionSubject.isStopped) {
-            this.formProjectionSubject.subscribe((data) => {
-              this.formProjection = data['projection'];
-              this.rawFormData = data['rawFormData'];
-              this.initForm();
-            });
-        } else {
-            this.initForm();
-        }
+    ngOnInit() {
+
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+      if ('formProjectionSubject' in changes) {
+        this.formProjectionSubject.subscribe((data) => {
+          this.formProjection = data['projection'];
+          this.rawFormData = data['rawFormData'];
+          this.initForm();
+        });
+      }
+      if (('formProjection' in changes) || ('rawFormData' in changes && this.formProjection)) {
+        this.initForm();
+      }
     }
 
     /**
      * Инициализирует форму с группами ProjectionReference и колонками column
      */
     initForm() {
-        const referenceFields = this.formProjection.fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
+        const fields = this.formProjection.fields;
+        const referenceFields = this.findReferenceFields(fields);
         if (referenceFields.length > 0) {
-            const requestParams: any = {};
-            referenceFields.forEach(referenceField => {
-                if (!requestParams[referenceField.presentationCode]) {
-                    requestParams[referenceField.presentationCode] = [];
-                }
-                requestParams[referenceField.presentationCode].push(referenceField.referenceProjectionCode);
+          this.initSubForms(fields, referenceFields)
+            .then((formInputGroup) => {
+              this.formInputGroup = formInputGroup;
+            })
+            .catch(err => {
+              console.error(err);
             });
-            this.projectionService
-                .findProjectionsByName(requestParams)
-                .toPromise()
-                .then((data: {[param: string]: IadFormProjectionInterface}) => {
-                    const fields = this.formProjection.fields;
-                    const plainReferenceIndexes = fields
-                      .map((field, index) => field.properties && field.properties['plainReference'] ? index : undefined)
-                      .filter(field => field);
-                    plainReferenceIndexes.forEach(index => {
-                      const field = fields[index];
-                      fields.splice(index, 1, ...data[field.presentationCode + '.' + field.referenceProjectionCode].fields);
-                    });
-                    this.formInputGroup = new FormInputGroup({
-                      children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
-                    });
-                })
-                .catch(err => {
-                    console.error(err);
-                });
         } else {
-            const fields = this.formProjection.fields;
             this.formInputGroup = new FormInputGroup({ children: this.initInputs(fields) });
         }
+    }
+
+    /**
+     * filters Reference fields
+     */
+    findReferenceFields(fields: IFormProjectionField[]): IFormProjectionField[] {
+      return fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
+    }
+
+    /**
+     * Initialize reference form projections.
+     * If a field, referring on form projection is marked as plainReference, it's referred projection fields will be flatten
+     * @param fields
+     * @param referenceFields
+     */
+    initSubForms(fields: IFormProjectionField[], referenceFields: IFormProjectionField[]): Promise<FormInputGroup> {
+      // collect reference form projection codes
+      const requestParams = referenceFields.reduce((acu, field) => {
+        if (!acu[field.presentationCode]) {
+          acu[field.presentationCode] = [];
+        }
+        acu[field.presentationCode].push(field.referenceProjectionCode);
+        return acu;
+      }, {});
+
+      // Request reference form projections
+      return this.projectionService
+        .findProjectionsByName(requestParams)
+        .toPromise()
+        .then((data: {[param: string]: IadFormProjectionInterface}) => {
+          // flatten plainReference's
+          fields = fields.reduce((acu, field) => acu.concat(field.properties && field.properties['plainReference']
+              ? data[field.presentationCode + '.' + field.referenceProjectionCode].fields
+              : [field]), []);
+          return new FormInputGroup({
+            children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
+          });
+        });
     }
 
     /**
@@ -248,13 +258,6 @@ export class FormViewComponent implements AfterContentInit {
      * @param groupName
      */
     private modifyOptions(options, field: IFormProjectionField, groupName?: string): { [param: string]: any } {
-        if (this.predefinedValues) {
-            const predefinedValues =
-                groupName && this.predefinedValues[groupName] ? this.predefinedValues[groupName] : this.predefinedValues;
-            if (options.key in predefinedValues) {
-                options.value = predefinedValues[options.key];
-            }
-        }
         if (!options.value && this.rawFormData) {
             options.value = this.rawFormData ? this.rawFormData[field.name] : null;
         }

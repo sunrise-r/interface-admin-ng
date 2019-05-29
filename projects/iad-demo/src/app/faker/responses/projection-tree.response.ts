@@ -17,17 +17,22 @@ export class ProjectionTreeResponse extends AbstractResponse {
           <ProjectionTreeModel>{
             routerLink: ['/data/presentation-one/show-projection-one'],
             code: 'projectionOne',
-            label: 'presentation.projection.label'
+            label: 'presentation.projection.listProjectionOne'
           },
           <ProjectionTreeModel>{
             routerLink: ['/data/presentation-one/show-projection-two'],
             code: 'projectionTwo',
-            label: 'presentation.projection.label2'
+            label: 'presentation.projection.listProjectionTwo'
           },
           <ProjectionTreeModel>{
               routerLink: ['/data/presentation-one/form-projection/edit/42'],
               code: 'formProjectionTwo',
-              label: 'presentation.formProjection.label1'
+              label: 'presentation.formProjection.filledForm'
+          },
+          <ProjectionTreeModel>{
+            routerLink: ['/data/presentation-one/form-projection/edit/123'],
+            code: 'formProjectionTwo',
+            label: 'presentation.formProjection.emptyForm'
           }
         ]
       },

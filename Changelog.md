@@ -1,3 +1,14 @@
+#0.0.2-devel.12
+
+####Bugs fixed:
+
+* Fixed checkbox "false" value
+
+####Features
+
+* Added ability to replace form data in dynamic form by setting formInputGroup 
+* Changed form-view initialization behavior. Form initialization had been performed in  ngAfterContentInit, that is not correct, because we shall not wait for all form components initialization to view the form with data; In order to avoid problems with initialization (when form tries to initialize before data or projection is set) I added ngOnChange hook that performs form init only when data is changed   
+
 #0.0.2-devel.11
 
 ####Bugs fixed:

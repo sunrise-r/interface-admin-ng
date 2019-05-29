@@ -1,14 +1,14 @@
 import {
-    AfterContentInit,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    QueryList,
-    SimpleChanges,
-    TemplateRef
+  AfterContentInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges, OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  TemplateRef
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
@@ -17,13 +17,14 @@ import { PrimeTemplate } from 'primeng/shared';
 import { FormControlService } from './form-control.service';
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from './core/form-input-group';
 import { FormErrorsStringifyService, FormHelperService } from 'iad-interface-admin/core';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'iad-dynamic-form',
     templateUrl: './dynamic-form.component.html',
     providers: [FormControlService, FormErrorsStringifyService]
 })
-export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit {
+export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit, OnDestroy {
     /**
      * Инпуты формы (заполняются извне компонента)
      */
@@ -84,6 +85,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
      */
     errors: string;
 
+    private formValueChangesSbt: Subscription;
+
     constructor(
         private fcs: FormControlService,
         private formErrorsStringify: FormErrorsStringifyService,
@@ -91,17 +94,6 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     ) {}
 
     ngOnInit() {
-        if (this.formInputGroup) {
-            this.form = this.fcs.toFormGroup(this.formInputGroup);
-            this.form.valueChanges.subscribe(() => {
-                if (this.context === undefined) {
-                    this.context = {};
-                }
-                Object.keys(this.form.value).forEach(k => (this.context[k] = this.form.value[k]));
-                this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
-                this.addFormErrors();
-            });
-        }
         this.formErrorsStringify.errors.subscribe(errors => {
             this.errors = errors;
         });
@@ -115,6 +107,20 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
             });
             this.sending = false;
         }
+        if ('formInputGroup' in changes) {
+            if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
+              this.formValueChangesSbt.unsubscribe();
+            }
+            this.form = this.fcs.toFormGroup(this.formInputGroup);
+            this.formValueChangesSbt = this.form.valueChanges.subscribe(() => {
+              if (!this.context) {
+                this.context = {};
+              }
+              Object.keys(this.form.value).forEach(k => (this.context[k] = this.form.value[k]));
+              this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
+              this.addFormErrors();
+            });
+        }
     }
 
     ngAfterContentInit(): void {
@@ -126,6 +132,12 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
               break;
           }
         });
+      }
+    }
+
+    ngOnDestroy(): void {
+      if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
+        this.formValueChangesSbt.unsubscribe();
       }
     }
 

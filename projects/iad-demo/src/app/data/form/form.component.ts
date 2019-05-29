@@ -35,8 +35,6 @@ export class FormComponent implements OnInit {
         this.projection = <IadFormProjectionInterface>ProjectionsHelper
           .filterFormProjections(presentation, PROJECTION_TYPE.FORM)
           .find(_projection => _projection.code === data.projectionCode);
-        this.formProjectionSubject.next();
-        this.formProjectionSubject.complete();
       });
   }
 
