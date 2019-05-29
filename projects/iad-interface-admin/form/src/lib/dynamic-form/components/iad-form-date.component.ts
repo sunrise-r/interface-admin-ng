@@ -23,7 +23,7 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
               inputStyleClass="form-control form-control-thin"
               styleClass="iad-calendar"
               dateFormat="dd.mm.yy"
-              (blur)="onBlur()"></iad-calendar>
+              (onBlur)="onBlur()"></iad-calendar>
             <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                   caption="Ошибка!" [text]="error" [activated]="true">
               <ng-template>

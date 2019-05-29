@@ -16,6 +16,7 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
                 [inputId]="config.key"
                 [inputReadonly]="config.readonly"
                 styleClass="form-control-thin"
+                (onBlur)="onBlur()"
             ></iad-file-upload>
         </div>
     </ng-container>`

@@ -15,6 +15,7 @@ import { ValidationInput } from '../core/validation-input';
         <div class="input-wrapper input-group">
           <p-chips [formControlName]="config.key"
                    [id]="config.key"
+                   (onBlur)="onBlur()"
           ></p-chips>
           <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                 caption="Ошибка!" [text]="error" [activated]="true">

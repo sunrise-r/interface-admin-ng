@@ -60,7 +60,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'translate': true
       },
       {
-        'validationTypes': {'email': false, 'required': false},
+        'validationTypes': {'email': false, 'required': true},
         'type': 'Dropdown',
         'name': 'dropdownField',
         'label': 'presentation.projection.main.dropdownField',
