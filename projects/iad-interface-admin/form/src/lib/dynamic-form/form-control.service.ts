@@ -18,7 +18,7 @@ export class FormControlService {
                         group[child.key] = this.toFormGroup(<FormInputGroup>child);
                     } else {
                         const params = {
-                            value: DynamicFormHelper.formatInputValue(<FormInput<any>>child) || null,
+                            value: DynamicFormHelper.formatInputValue(<FormInput<any>>child),
                             disabled: (<FormInput<any>>child).disabled
                         };
                         group[DynamicFormHelper.formatInputName(<FormInput<any>>child)] = new FormControl(
