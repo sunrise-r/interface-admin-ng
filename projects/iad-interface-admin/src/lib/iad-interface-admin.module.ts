@@ -1,7 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
-import {DynamicFormModule, ProjectionFormModule} from 'iad-interface-admin/form';
 import {IadConfigService, IadModuleConfig, IadModuleConfigInterface, IadSharedModule} from 'iad-interface-admin/core';
 
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
@@ -19,11 +18,9 @@ import {ProjectionGridModule} from './projection-grid/projection-grid.module';
     MultiSelectModule,
     DropdownModule,
     PanelMenuModule,
-    ProjectionGridModule,
-    DynamicFormModule,
-    ProjectionFormModule
+    ProjectionGridModule
   ],
-  exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent, ProjectionFormModule],
+  exports: [TranslateModule, ProjectionGridModule, ProjectionTreeComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadInterfaceAdminModule {

@@ -9,25 +9,21 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IadHelper } from 'iad-interface-admin/core';
 
-import { LookupInputModel } from '../inputs/lookup-input.model';
-import { MultipleLookupInputModel } from '../inputs/multiple-lookup-input.model';
-import { GenderSelectionDropdownInput } from '../inputs/gender-selection-dropdown-input.model';
+import { DISABLED, IFormProjectionField, READONLY } from './model/form-projection-field.model';
 
-import { DISABLED, IFormProjectionField, READONLY } from '../model/form-projection-field.model';
+import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
+import { IadDataOperationsService } from './public-services/iad-data-operations.service';
+import { IadRouterHistoryService } from './public-services/iad-router-history.service';
 
-import { IadReferenceProjectionProviderService } from '../public-services/iad-reference-projection-provider.service';
-import { IadDataOperationsService } from '../public-services/iad-data-operations.service';
-import { IadRouterHistoryService } from '../public-services/iad-router-history.service';
-
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { FormInput } from '../../dynamic-form/core/form-input.model';
-import { InputFactory } from '../../dynamic-form/core/input.factory';
-import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../../dynamic-form/core/form-input-group';
-import { IadFormProjection, IadFormProjectionInterface } from '../model/iad-form-projection.model';
+import { FormInput } from '../dynamic-form/core/form-input.model';
+import { InputFactory } from '../dynamic-form/core/input.factory';
+import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
+import { IadFormProjection, IadFormProjectionInterface } from './model/iad-form-projection.model';
 import { PrimeTemplate } from 'primeng/shared';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
@@ -41,7 +37,7 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
     styleUrls: ['./form-view.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class FormViewComponent implements OnInit, OnChanges {
+export class ProjectionFormComponent implements OnInit, OnChanges {
     /**
      * // @todo Using of "data" is not welcome
      * Предустановленные значения для полей формы
@@ -78,28 +74,29 @@ export class FormViewComponent implements OnInit, OnChanges {
     @Input() rawFormData: any;
 
     /**
+     * Ошибка сервера, если отправка данных прошла не успешно
+     */
+    @Input() serverError: HttpErrorResponse;
+
+    /**
+     * Subject to force form initialization
+     */
+    @Input() formProjectionSubject: Subject<{ [param: string]: any }>;
+
+    /**
+     * Service to use for form projection upload.
+     * @Todo replace this property and prefer moduleWithProviders to use your own service impl
+     */
+    @Input() projectionService: IadReferenceProjectionProviderService;
+
+    /**
      * // @todo please avoid using this mode
      * Enables Compatibility mode
      */
     @Input() compatibilityMode = true;
 
     /**
-     * Ошибка сервера, если отправка данных прошла не успешно
-     */
-    @Input() serverError: HttpErrorResponse;
-
-    /**
-     * @todo Check out this string
-     */
-    @Input() formProjectionSubject: Subject<{ [param: string]: any }>;
-
-    /**
-     * @todo Check out this string
-     */
-    @Input() projectionService: IadReferenceProjectionProviderService;
-
-    /**
-     * @todo Check out this string
+     * @todo PostDataUrl to use redirects in compatibility mode
      */
     @Input() postDataUrl: string;
 

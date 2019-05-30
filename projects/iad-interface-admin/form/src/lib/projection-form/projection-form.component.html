@@ -1,10 +1,11 @@
-<div *ngIf="formInputGroup">
-  <iad-dynamic-form
+<iad-dynamic-form
+    *ngIf="formInputGroup"
+    [class]="styleClass"
     [context]="rawFormData"
     [formInputGroup]="formInputGroup"
+    [formTemplates]="formTemplates"
     [inputComponents]="inputComponents"
     [serverError]="serverError"
     (formSubmit)="onFormSubmit($event)"
     (formCancel)="onFormCancel()"
-  ></iad-dynamic-form>
-</div>
+></iad-dynamic-form>

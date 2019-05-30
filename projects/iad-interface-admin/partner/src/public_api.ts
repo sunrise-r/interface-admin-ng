@@ -1,5 +1,4 @@
 // #model
-export * from './lib/model/form-projection-field.model';
 export * from './lib/model/projection.model';
 export * from './lib/model/events.models';
 export * from './lib/model/iad.models';
@@ -13,9 +12,6 @@ export * from './lib/services/presentation-helper';
 export * from './lib/services/data-chain.service';
 export * from './lib/services/document-info-buffer.service';
 export * from './lib/services/document-operations.service';
-
-// #utils
-export * from './lib/utils/iad.helper';
 
 // #common (ex-customize)
 export * from './lib/common/tabbed-view/projection-tab.model';

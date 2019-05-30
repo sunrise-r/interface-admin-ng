@@ -1,6 +1,17 @@
-#0.0.2-devel.16
+#0.0.3-devel.16
 
 #Projection form
+
+##Features
+
+* Added support of file inputs
+* Added support of dataSourcePaths For every field in form projection. You can set dataSourcePath in field properties inside form projection as dot separated string. the value for such field will be taken from rawFormData JSON using this path.
+* inputComponents made as @Input(). Now you can set your own input components to form
+* inputModels made as @Input(). Now you can set your own input component models to form
+* serverError made as @Input(). Now you can pass form error to show it inside of dynamic form
+* onFormSubmit passes the form submit event to upper level. Now you can handle form submitting on your own
+* onFormCancel passes the form cancel event to upper level. Now you can handle form cancelling on your own
+* added styleClass @Input(). Now you can set custom styles for iad-dynamic-form when using form-view
 
 ##Breaking changes
 
@@ -12,11 +23,28 @@
 * ProjectionFormModule renamed to ProjectionFormPartnerModule
 * ProjectionFormComponent, FormGroupChildCallback are no more accessable from 'iad-interface-admin/partner'. use 'iad-interface-admin/form' instead
 * ProjectionFormPartnerModule is no more accessable from 'iad-interface-admin/partner'. Use 'iad-interface-admin/form' instead
+* default styleClass "content-flex form-wrapper flex-center" removed. You must set it in your form-view
+* ProjectionForm.data is now deprecated. Please use only ProjectionForm.rawFormData
+* added necessity to implement IadReferenceProjectionProviderService
 
-###For all projects
+###For main project
+
+* FormViewComponent is replaced with ProjectionFormComponent
+* IadReferenceProjectionProviderService is replaced with IadReferenceProjectionProviderInterface
+* added compatibilityMode default to true
+* onFormSubmit saves form data only in compatibilityMode
+* onFormCancel redirects only in compatibility mode
+* removed iad-dynamic-form div wrapper (may cause some problems in markup)
 * IadFormProjectionInterface, IadFormProjection  * are no more accessable from 'iad-interface-admin'. Use 'iad-interface-admin/form' instead
 * IFormProjectionField is no more accessable from 'iad-interface-admin'. Use 'iad-interface-admin/form' instead
 * IadReferenceProjectionProviderService is no more accessable from 'iad-interface-admin'. Use 'iad-interface-admin/form' instead
+* added necessity to implement IadReferenceProjectionProviderService
+
+## IMPORTANT @TODO's
+
+* using of ProjectionsApiService  is replaced with external IadReferenceProjectionProviderService. We must use modulewithProviders in both projects!!!
+* remove compatibilityMode as soon as possible
+* using of "data" field is not welcome. Please use rawFormData instead
 
 #0.0.2-devel.15
 
