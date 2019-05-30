@@ -268,7 +268,7 @@ export class FormViewComponent implements OnInit, OnChanges {
      * При успешной отправке данных редиректисм пользователя к списку
      */
     private redirect() {
-      this.router.navigate([this.iadRouterHistoryService.previousUrl]);
+      this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
     }
 
     /**
