@@ -1,33 +1,36 @@
-import {Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
+import {
+    Component,
+    ContentChildren,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output, QueryList,
+    SimpleChanges,
+    ViewEncapsulation
+} from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IadHelper } from 'iad-interface-admin/core';
 
-import {LookupInputModel} from '../inputs/lookup-input.model';
-import {MultipleLookupInputModel} from '../inputs/multiple-lookup-input.model';
-import {GenderSelectionDropdownInput} from '../inputs/gender-selection-dropdown-input.model';
+import { LookupInputModel } from '../inputs/lookup-input.model';
+import { MultipleLookupInputModel } from '../inputs/multiple-lookup-input.model';
+import { GenderSelectionDropdownInput } from '../inputs/gender-selection-dropdown-input.model';
 
-import {DISABLED, IFormProjectionField, READONLY} from '../model/form-projection-field.model';
+import { DISABLED, IFormProjectionField, READONLY } from '../model/form-projection-field.model';
 
-import {IadReferenceProjectionProviderService} from '../public-services/iad-reference-projection-provider.service';
-import {IadDataOperationsService} from '../public-services/iad-data-operations.service';
-import {IadRouterHistoryService} from '../public-services/iad-router-history.service';
+import { IadReferenceProjectionProviderService } from '../public-services/iad-reference-projection-provider.service';
+import { IadDataOperationsService } from '../public-services/iad-data-operations.service';
+import { IadRouterHistoryService } from '../public-services/iad-router-history.service';
 
-import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
-import {FormInput} from '../../dynamic-form/core/form-input.model';
-import {InputFactory} from '../../dynamic-form/core/input.factory';
-import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../dynamic-form/core/form-input-group';
-import {IadFormProjection, IadFormProjectionInterface} from '../model/iad-form-projection.model';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { FormInput } from '../../dynamic-form/core/form-input.model';
+import { InputFactory } from '../../dynamic-form/core/input.factory';
+import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../../dynamic-form/core/form-input-group';
+import { IadFormProjection, IadFormProjectionInterface } from '../model/iad-form-projection.model';
+import { PrimeTemplate } from 'primeng/shared';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
-
-const typeFactory = {
-    List: MultipleLookupInputModel,
-    Entity: LookupInputModel,
-    GenderSelectionDropdown: GenderSelectionDropdownInput
-};
-
-const inputComponents = {
-};
 
 /**
  * Важное отличие от projection-form проекта partner в том, что все вложенные формы делаются plain. Нужно сделать такую настройку
@@ -39,6 +42,10 @@ const inputComponents = {
     encapsulation: ViewEncapsulation.None
 })
 export class FormViewComponent implements OnInit, OnChanges {
+    /**
+     * Предустановленные значения для полей формы
+     */
+    @Input() data: any;
 
     /**
      * Проекция по которой строится форма
@@ -46,16 +53,23 @@ export class FormViewComponent implements OnInit, OnChanges {
      */
     @Input()
     set projection(formProjection: IadFormProjection) {
-      this.formProjection = formProjection;
+        this.formProjection = formProjection;
     }
 
+    /**
+     * Проекция по которой строится форма
+     */
     @Input() formProjection: IadFormProjection;
 
-    @Input() formProjectionSubject: Subject<{[param: string]: any}>;
+    /**
+     * Компоненты инпутов для передачи в модуль форм-билдера
+     */
+    @Input() inputComponents;
 
-    @Input() projectionService: IadReferenceProjectionProviderService;
-
-    @Input() postDataUrl: string;
+    /**
+     * Модели конфигов для инпутов
+     */
+    @Input() inputModels;
 
     /**
      * Raw data to fill the form
@@ -63,41 +77,67 @@ export class FormViewComponent implements OnInit, OnChanges {
     @Input() rawFormData: any;
 
     /**
+     * Ошибка сервера, если отправка данных прошла не успешно
+     */
+    @Input() serverError: HttpErrorResponse;
+
+    /**
+     * @todo Check out this string
+     */
+    @Input() formProjectionSubject: Subject<{ [param: string]: any }>;
+
+    /**
+     * @todo Check out this string
+     */
+    @Input() projectionService: IadReferenceProjectionProviderService;
+
+    /**
+     * @todo Check out this string
+     */
+    @Input() postDataUrl: string;
+
+    /**
+     * Output EventEmitter to handle form submit event externally
+     */
+    @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
+
+    /**
+     * Output EventEmitter to handle form cancel event externally
+     */
+    @Output() formCancel: EventEmitter<any> = new EventEmitter<any>();
+
+    /**
+     * Templates to pass to dynamic form
+     */
+    @ContentChildren(PrimeTemplate) formTemplates: QueryList<PrimeTemplate>;
+
+    /**
      * Инпуты формы для передачи в компонент генератора формы
      */
     formInputGroup: FormInputGroup;
-
-    /**
-     * Компоненты инпутов для передачи в модуль форм-билдера
-     */
-    inputComponents = inputComponents;
-
-    /**
-     * Ошибка сервера, если отправка данных прошла не успешно
-     */
-    serverError: HttpErrorResponse;
 
     constructor(
         private iadDataOperationsService: IadDataOperationsService,
         private iadRouterHistoryService: IadRouterHistoryService,
         private router: Router
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
 
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-      if ('formProjectionSubject' in changes) {
-        this.formProjectionSubject.subscribe((data) => {
-          this.formProjection = data['projection'];
-          this.rawFormData = data['rawFormData'];
-          this.initForm();
-        });
-      }
-      if (('formProjection' in changes) || ('projection' in changes) || ('rawFormData' in changes && this.formProjection)) {
-        this.initForm();
-      }
+        if ('formProjectionSubject' in changes) {
+            this.formProjectionSubject.subscribe((data) => {
+                this.formProjection = data['projection'];
+                this.rawFormData = data['rawFormData'];
+                this.initForm();
+            });
+        }
+        if (('formProjection' in changes) || ('projection' in changes) || ('rawFormData' in changes && this.formProjection)) {
+            this.initForm();
+        }
     }
 
     /**
@@ -107,15 +147,15 @@ export class FormViewComponent implements OnInit, OnChanges {
         const fields = this.formProjection.fields;
         const referenceFields = this.findReferenceFields(fields);
         if (referenceFields.length > 0) {
-          this.initSubForms(fields, referenceFields)
-            .then((formInputGroup) => {
-              this.formInputGroup = formInputGroup;
-            })
-            .catch(err => {
-              console.error(err);
-            });
+            this.initSubForms(fields, referenceFields)
+                .then((formInputGroup) => {
+                    this.formInputGroup = formInputGroup;
+                })
+                .catch(err => {
+                    console.error(err);
+                });
         } else {
-            this.formInputGroup = new FormInputGroup({ children: this.initInputs(fields) });
+            this.formInputGroup = new FormInputGroup({children: this.initInputs(fields)});
         }
     }
 
@@ -123,7 +163,7 @@ export class FormViewComponent implements OnInit, OnChanges {
      * filters Reference fields
      */
     findReferenceFields(fields: IFormProjectionField[]): IFormProjectionField[] {
-      return fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
+        return fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
     }
 
     /**
@@ -133,28 +173,28 @@ export class FormViewComponent implements OnInit, OnChanges {
      * @param referenceFields
      */
     initSubForms(fields: IFormProjectionField[], referenceFields: IFormProjectionField[]): Promise<FormInputGroup> {
-      // collect reference form projection codes
-      const requestParams = referenceFields.reduce((acu, field) => {
-        if (!acu[field.presentationCode]) {
-          acu[field.presentationCode] = [];
-        }
-        acu[field.presentationCode].push(field.referenceProjectionCode);
-        return acu;
-      }, {});
+        // collect reference form projection codes
+        const requestParams = referenceFields.reduce((acu, field) => {
+            if (!acu[field.presentationCode]) {
+                acu[field.presentationCode] = [];
+            }
+            acu[field.presentationCode].push(field.referenceProjectionCode);
+            return acu;
+        }, {});
 
-      // Request reference form projections
-      return this.projectionService
-        .findProjectionsByName(requestParams)
-        .toPromise()
-        .then((data: {[param: string]: IadFormProjectionInterface}) => {
-          // flatten plainReference's
-          fields = fields.reduce((acu, field) => acu.concat(field.properties && field.properties['plainReference']
-              ? data[field.presentationCode + '.' + field.referenceProjectionCode].fields
-              : [field]), []);
-          return new FormInputGroup({
-            children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
-          });
-        });
+        // Request reference form projections
+        return this.projectionService
+            .findProjectionsByName(requestParams)
+            .toPromise()
+            .then((data: { [param: string]: IadFormProjectionInterface }) => {
+                // flatten plainReference's
+                fields = fields.reduce((acu, field) => acu.concat(IadHelper.runPropertyCondition('plainReference', field,
+                    () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
+                    () => [field])), []);
+                return new FormInputGroup({
+                    children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
+                });
+            });
     }
 
     /**
@@ -202,7 +242,7 @@ export class FormViewComponent implements OnInit, OnChanges {
      * @param field
      * @param groups
      */
-    initInputAndGroup(field: IFormProjectionField, groups: {[param: string]: IadFormProjectionInterface} ): FormGroupChild {
+    initInputAndGroup(field: IFormProjectionField, groups: {[param: string]: IadFormProjectionInterface}): FormGroupChild {
         if (field.type === 'ProjectionReference') {
             const dataKey = field.presentationCode + '.' + field.referenceProjectionCode;
             if (groups[dataKey]) {
@@ -241,19 +281,24 @@ export class FormViewComponent implements OnInit, OnChanges {
             referenceProjectionCode: field.referenceProjectionCode || null,
             inputMask: field.inputMask || null,
             valueField: field.valueField,
-            dataSourcePath: field.dataSourcePath || null,
+            datasourcePath: field.datasourcePath || field.dataSourcePath || null,
             translate: field.translate || false
         };
         if (field.properties) {
             Object.assign(options, field.properties);
         }
-        return new InputFactory().initTypeFactory(typeFactory).createInput(field.type, this.modifyOptions(options, field, groupName));
+        return new InputFactory().initTypeFactory(this.inputModels).createInput(field.type, this.modifyOptions(options, field, groupName));
     }
 
     onFormSubmit(value: any) {
-      this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
-        (response: any) => this.redirect(),
-        (err: any) => this.onError(err));
+        const fileInputKeys = this.findFileInputsRecursive(this.formInputGroup);
+        this.formSubmit.emit({
+            formData: value,
+            fileInputKeys
+        });
+        // this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
+        //     (response: any) => this.redirect(),
+        //     (err: any) => this.onError(err));
     }
 
     /**
@@ -280,7 +325,7 @@ export class FormViewComponent implements OnInit, OnChanges {
      * При успешной отправке данных редиректисм пользователя к списку
      */
     private redirect() {
-      this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
+        this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
     }
 
     /**

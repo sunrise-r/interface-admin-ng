@@ -1,3 +1,23 @@
+#0.0.2-devel.16
+
+#Projection form
+
+##Breaking changes
+
+###for partner project
+
+* IadFormProjection used in favor of DocumentFormProjection
+* DocumentFormProjectionGroup removed as unused
+* DocumentInfoBufferService clear removed from ngOnDestroy in ProjectionFormComponent <-- it may cause new bug when someone close forms
+* ProjectionFormModule renamed to ProjectionFormPartnerModule
+* ProjectionFormComponent, FormGroupChildCallback are no more accessable from 'iad-interface-admin/partner'. use 'iad-interface-admin/form' instead
+* ProjectionFormPartnerModule is no more accessable from 'iad-interface-admin/partner'. Use 'iad-interface-admin/form' instead
+
+###For all projects
+* IadFormProjectionInterface, IadFormProjection  * are no more accessable from 'iad-interface-admin'. Use 'iad-interface-admin/form' instead
+* IFormProjectionField is no more accessable from 'iad-interface-admin'. Use 'iad-interface-admin/form' instead
+* IadReferenceProjectionProviderService is no more accessable from 'iad-interface-admin'. Use 'iad-interface-admin/form' instead
+
 #0.0.2-devel.15
 
 ####Bugs fixed:

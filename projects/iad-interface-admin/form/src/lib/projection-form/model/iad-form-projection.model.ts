@@ -12,7 +12,7 @@ export class IadFormProjection implements IadFormProjectionInterface {
   code: string;
   title: string;
   fields: IFormProjectionField[];
-  label?: string; // @deprecated in favour of title
+  label?: string; // @deprecated in favor of title
   className?: string;
   properties?: any;
 }

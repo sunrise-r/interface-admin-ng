@@ -4,6 +4,7 @@ export * from './lib/shared/services/event-manager.service';
 export * from './lib/shared/util/form-helper.service';
 export * from './lib/shared/util/request-params-builder';
 export * from './lib/shared/helpers/string.helper';
+export * from './lib/shared/helpers/iad.helper';
 export * from './lib/shared/iad-shared.module';
 
 // Primeng Extensions

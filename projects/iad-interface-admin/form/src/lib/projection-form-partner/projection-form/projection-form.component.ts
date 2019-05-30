@@ -70,31 +70,7 @@ export class ProjectionFormComponent implements OnInit {
      * Инициализирует форму с группами ProjectionReference и колонками column
      */
     initForm() {
-        const referenceFields = this.formProjection.fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
-        if (referenceFields.length > 0) {
-            const requestParams: any = {};
-            referenceFields.forEach(referenceField => {
-                if (!requestParams[referenceField.presentationCode]) {
-                    requestParams[referenceField.presentationCode] = [];
-                }
-                requestParams[referenceField.presentationCode].push(referenceField.referenceProjectionCode);
-            });
-            this.projectionService
-                .findProjectionsByName(requestParams)
-                .toPromise()
-                .then((data: {[param: string]: IadFormProjectionInterface}) => {
-                    const fields = this.formProjection.fields;
-                    this.formInputGroup = new FormInputGroup({
-                        children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
-                    });
-                })
-                .catch(err => {
-                    console.error(err);
-                });
-        } else {
-            const fields = this.formProjection.fields;
-            this.formInputGroup = new FormInputGroup({ children: this.initInputs(fields) });
-        }
+
     }
 
     /**
