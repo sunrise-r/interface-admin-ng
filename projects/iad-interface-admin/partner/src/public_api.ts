@@ -11,7 +11,6 @@ export * from './lib/services/presentation-loader.service';
 export * from './lib/services/projections-api.service';
 export * from './lib/services/presentation-helper';
 export * from './lib/services/data-chain.service';
-export * from './lib/services/event-manager.service';
 
 // #utils
 export * from './lib/utils/iad.helper';
