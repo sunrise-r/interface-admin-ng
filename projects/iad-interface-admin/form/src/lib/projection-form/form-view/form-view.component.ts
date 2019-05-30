@@ -43,6 +43,7 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 })
 export class FormViewComponent implements OnInit, OnChanges {
     /**
+     * // @todo Using of "data" is not welcome
      * Предустановленные значения для полей формы
      */
     @Input() data: any;
@@ -75,6 +76,12 @@ export class FormViewComponent implements OnInit, OnChanges {
      * Raw data to fill the form
      */
     @Input() rawFormData: any;
+
+    /**
+     * // @todo please avoid using this mode
+     * Enables Compatibility mode
+     */
+    @Input() compatibilityMode = true;
 
     /**
      * Ошибка сервера, если отправка данных прошла не успешно
@@ -296,16 +303,47 @@ export class FormViewComponent implements OnInit, OnChanges {
             formData: value,
             fileInputKeys
         });
-        // this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
-        //     (response: any) => this.redirect(),
-        //     (err: any) => this.onError(err));
+        // @todo please avoid using this mode
+        if (this.compatibilityMode) {
+            this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
+                (response: any) => {
+                    this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
+                },
+                (err: any) => {
+                    this.serverError = err;
+                });
+        }
     }
 
     /**
      * при отказе от заполнения формы просто редиректим к списку
      */
     onFormCancel() {
-        this.redirect();
+        this.formCancel.emit();
+        // @todo please avoid using this mode
+        if (this.compatibilityMode) {
+            this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
+        }
+    }
+
+    /**
+     * Рекурсивный поиск ключей инпутов типа file..
+     * @param group FormInputGroup
+     * @param parentInput string
+     */
+    private findFileInputsRecursive(group: FormGroupChild, parentInput = ''): string[] {
+        let fileInputs: string[] = [];
+        (<FormInputGroup>group).children.forEach((childColumn: FormGroupChildColumn) => {
+            childColumn.forEach((child: FormGroupChild) => {
+                const childKey = (parentInput ? parentInput + '.' : '') + child.key;
+                if ((<FormInputGroup>child).children) {
+                    fileInputs = fileInputs.concat(this.findFileInputsRecursive(child, childKey));
+                } else if (child.controlType === 'file') {
+                    fileInputs.push(childKey);
+                }
+            });
+        });
+        return fileInputs;
     }
 
     /**
@@ -315,24 +353,25 @@ export class FormViewComponent implements OnInit, OnChanges {
      * @param groupName
      */
     private modifyOptions(options, field: IFormProjectionField, groupName?: string): { [param: string]: any } {
+        // @todo Using of "data" is not welcome
+        if (this.data) {
+            const data = groupName && this.data[groupName] ? this.data[groupName] : this.data;
+            if (options.key in data) {
+                options.value = data[options.key];
+            }
+        }
         if (!options.value && this.rawFormData) {
-            options.value = this.rawFormData ? this.rawFormData[field.name] : null;
+            options.value = field.datasourcePath
+                ? this.resolveItemsPath(field.datasourcePath, this.rawFormData)
+                : this.rawFormData.properties ? this.rawFormData.properties[field.name] : null;
         }
         return options;
     }
 
     /**
-     * При успешной отправке данных редиректисм пользователя к списку
+     * Resolve source items for lookupViewProjections
      */
-    private redirect() {
-        this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
-    }
-
-    /**
-     * При ошибке сервера нужно показать информацию пользователю
-     * @param err
-     */
-    private onError(err: HttpErrorResponse) {
-        this.serverError = err;
+    private resolveItemsPath(path: string, selection: any): any {
+        return selection ? path.split('.').reduce((o, i) => (o ? o[i] : undefined), selection) : selection;
     }
 }
