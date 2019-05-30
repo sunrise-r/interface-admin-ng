@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IadEventManager} from 'iad-interface-admin';
+import {IadEventManager} from 'iad-interface-admin/core';
 
 @Component({
   selector: 'iad-data',

@@ -1,3 +1,13 @@
+#0.0.2-devel.15
+
+####Bugs fixed:
+
+* Removed multiple event managers
+
+####Breaking changes:
+ 
+* Event manager is no more available from 'iad-interface-admin' and shoul be imported from 'iad-interface-admin/core' 
+
 #0.0.2-devel.12
 
 ####Bugs fixed:
