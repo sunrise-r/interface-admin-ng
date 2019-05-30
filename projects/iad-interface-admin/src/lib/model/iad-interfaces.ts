@@ -1,5 +1,5 @@
 import {IadListProjectionInterrface} from '../projection-grid/model/projection-grid.model';
-import {IadFormProjectionInterface} from '../projection-form/model/projection-form.model';
+import {IadFormProjectionInterface} from 'iad-interface-admin/form';
 
 export interface IadProjectionInterface {
   code: string;

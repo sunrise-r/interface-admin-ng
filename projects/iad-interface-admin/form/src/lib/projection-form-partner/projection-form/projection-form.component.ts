@@ -1,12 +1,14 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input, ContentChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ContentChildren, QueryList } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormGroupChild, FormGroupChildColumn, FormInputGroup, InputFactory, FormInput } from 'iad-interface-admin/form';
 
-import { DocumentInfoBufferService } from '../services/document-info-buffer.service';
 import { PrimeTemplate } from 'primeng/shared';
-import { DocumentFormProjection, DocumentFormProjectionGroup } from '../../model/projection.model';
-import { ProjectionsApiService } from '../../services/projections-api.service';
-import { DISABLED, IFormProjectionField, READONLY } from '../../model/form-projection-field.model';
+
+import {IadFormProjection, IadFormProjectionInterface} from '../../projection-form/model/iad-form-projection.model';
+import {ProjectionsApiService} from '../services/projections-api.service';
+import {READONLY, DISABLED, IFormProjectionField} from '../../projection-form/model/form-projection-field.model';
+import {FormInput} from '../../dynamic-form/core/form-input.model';
+import {InputFactory} from '../../dynamic-form/core/input.factory';
+import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../dynamic-form/core/form-input-group';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -15,7 +17,7 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
     templateUrl: './projection-form.component.html',
     styles: []
 })
-export class ProjectionFormComponent implements OnInit, OnDestroy {
+export class ProjectionFormComponent implements OnInit {
     /**
      * Предустановленные значения для полей формы
      */
@@ -24,7 +26,7 @@ export class ProjectionFormComponent implements OnInit, OnDestroy {
     /**
      * Проекция по которой строится форма
      */
-    @Input() formProjection: DocumentFormProjection;
+    @Input() formProjection: IadFormProjection;
 
     /**
      * Компоненты инпутов для передачи в модуль форм-билдера
@@ -59,16 +61,11 @@ export class ProjectionFormComponent implements OnInit, OnDestroy {
      */
     formInputGroup: FormInputGroup;
 
-    constructor(private projectionService: ProjectionsApiService, private infoBufferService: DocumentInfoBufferService) {}
+    constructor(private projectionService: ProjectionsApiService) {}
 
     ngOnInit() {
         this.initForm();
     }
-
-    ngOnDestroy(): void {
-        this.infoBufferService.clear();
-    }
-
     /**
      * Инициализирует форму с группами ProjectionReference и колонками column
      */
@@ -85,8 +82,8 @@ export class ProjectionFormComponent implements OnInit, OnDestroy {
             this.projectionService
                 .findProjectionsByName(requestParams)
                 .toPromise()
-                .then((data: DocumentFormProjectionGroup) => {
-                    const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+                .then((data: {[param: string]: IadFormProjectionInterface}) => {
+                    const fields = this.formProjection.fields;
                     this.formInputGroup = new FormInputGroup({
                         children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
                     });
@@ -95,7 +92,7 @@ export class ProjectionFormComponent implements OnInit, OnDestroy {
                     console.error(err);
                 });
         } else {
-            const fields = this.formProjection.fields.filter((field: IFormProjectionField) => !field.hidden);
+            const fields = this.formProjection.fields;
             this.formInputGroup = new FormInputGroup({ children: this.initInputs(fields) });
         }
     }
@@ -145,7 +142,7 @@ export class ProjectionFormComponent implements OnInit, OnDestroy {
      * @param field
      * @param groups
      */
-    initInputAndGroup(field: IFormProjectionField, groups: DocumentFormProjectionGroup): FormGroupChild {
+    initInputAndGroup(field: IFormProjectionField, groups: {[param: string]: IadFormProjectionInterface}): FormGroupChild {
         if (field.type === 'ProjectionReference') {
             const dataKey = field.presentationCode + '.' + field.referenceProjectionCode;
             if (groups[dataKey]) {
@@ -182,7 +179,7 @@ export class ProjectionFormComponent implements OnInit, OnDestroy {
             referenceProjectionCode: field.referenceProjectionCode || null,
             inputMask: field.inputMask || null,
             valueField: field.valueField,
-            datasourcePath: field.datasourcePath || null
+            datasourcePath: field.datasourcePath || field.dataSourcePath || null
         };
         if (field.properties) {
             Object.assign(options, field.properties);

@@ -1,16 +1,22 @@
-import {AfterContentInit, Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
-import {FormGroupChild, FormGroupChildColumn, FormInputGroup, FormInput, InputFactory} from 'iad-interface-admin/form';
+
 import {LookupInputModel} from '../inputs/lookup-input.model';
 import {MultipleLookupInputModel} from '../inputs/multiple-lookup-input.model';
 import {GenderSelectionDropdownInput} from '../inputs/gender-selection-dropdown-input.model';
-import {IadFormProjection, IadFormProjectionInterface} from '../model/projection-form.model';
+
 import {DISABLED, IFormProjectionField, READONLY} from '../model/form-projection-field.model';
-import {IadReferenceProjectionProviderService} from '../../public-services/iad-reference-projection-provider.service';
-import {IadDataOperationsService} from '../../public-services/iad-data-operations.service';
-import {IadRouterHistoryService} from '../../public-services/iad-router-history.service';
+
+import {IadReferenceProjectionProviderService} from '../public-services/iad-reference-projection-provider.service';
+import {IadDataOperationsService} from '../public-services/iad-data-operations.service';
+import {IadRouterHistoryService} from '../public-services/iad-router-history.service';
+
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
+import {FormInput} from '../../dynamic-form/core/form-input.model';
+import {InputFactory} from '../../dynamic-form/core/input.factory';
+import {FormGroupChild, FormGroupChildColumn, FormInputGroup} from '../../dynamic-form/core/form-input-group';
+import {IadFormProjection, IadFormProjectionInterface} from '../model/iad-form-projection.model';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -36,8 +42,14 @@ export class FormViewComponent implements OnInit, OnChanges {
 
     /**
      * Проекция по которой строится форма
+     * @deprecated use formProjection directly
      */
-    @Input('projection') formProjection: IadFormProjection;
+    @Input()
+    set projection(formProjection: IadFormProjection) {
+      this.formProjection = formProjection;
+    }
+
+    @Input() formProjection: IadFormProjection;
 
     @Input() formProjectionSubject: Subject<{[param: string]: any}>;
 
@@ -83,7 +95,7 @@ export class FormViewComponent implements OnInit, OnChanges {
           this.initForm();
         });
       }
-      if (('formProjection' in changes) || ('rawFormData' in changes && this.formProjection)) {
+      if (('formProjection' in changes) || ('projection' in changes) || ('rawFormData' in changes && this.formProjection)) {
         this.initForm();
       }
     }

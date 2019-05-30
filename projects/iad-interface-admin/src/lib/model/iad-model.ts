@@ -1,5 +1,5 @@
 import {IadProjectionInterface} from './iad-interfaces';
-import {IadFormProjectionInterface} from '../projection-form/model/projection-form.model';
+import {IadFormProjectionInterface} from 'iad-interface-admin/form';
 import {IadListProjectionInterrface} from '../projection-grid/model/projection-grid.model';
 
 /**

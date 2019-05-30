@@ -1,7 +1,7 @@
 import {CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
-import {DynamicFormModule} from 'iad-interface-admin/form';
+import {DynamicFormModule, ProjectionFormModule} from 'iad-interface-admin/form';
 import {IadConfigService, IadModuleConfig, IadModuleConfigInterface, IadSharedModule} from 'iad-interface-admin/core';
 
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
@@ -9,8 +9,6 @@ import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {ProjectionTreeComponent} from './projection-tree/projection-tree.component';
 import {DropdownModule, MultiSelectModule, PanelMenuModule} from 'primeng/primeng';
 import {ProjectionGridModule} from './projection-grid/projection-grid.module';
-import {ProjectionFormModule} from './projection-form/projection-form.module';
-import {IadRouterHistoryService} from './public-services/iad-router-history.service';
 
 @NgModule({
   declarations: [ProjectionTreeComponent],
@@ -49,7 +47,7 @@ export class IadInterfaceAdminModule {
     };
   }
 
-  constructor(translate: TranslateService, config: IadConfigService, iadRouterHistoryService: IadRouterHistoryService) {
+  constructor(translate: TranslateService, config: IadConfigService) {
     // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang(config.getConfig().defaultI18nLang);
 

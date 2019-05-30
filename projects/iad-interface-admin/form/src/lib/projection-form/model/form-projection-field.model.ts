@@ -22,5 +22,6 @@ export interface IFormProjectionField {
     };
     valueField?: string; // Название поля, по которому следует определять значение этого поля. Было сделаано для Lookup, но может быть применено к другим полям
     dataSourcePath?: string; // Путь к данным, разделённый точками для заполнения поля значениями по умолчанию. Было сделаано для Lookup, но может быть применено к другим полям
-    properties?: any; // key=>value с кастомными свойствами
+    datasourcePath?: string; // @invalid!
+    properties?: any; // key=>value с кастомными свойствами,
 }

@@ -11,6 +11,8 @@ export * from './lib/services/presentation-loader.service';
 export * from './lib/services/projections-api.service';
 export * from './lib/services/presentation-helper';
 export * from './lib/services/data-chain.service';
+export * from './lib/services/document-info-buffer.service';
+export * from './lib/services/document-operations.service';
 
 // #utils
 export * from './lib/utils/iad.helper';
@@ -50,12 +52,6 @@ export * from './lib/projection-table/projection-table.module';
 // #settings-table
 export * from './lib/iad-settings-table/iad-settings-table.component';
 export * from './lib/iad-settings-table/iad-settings-table.module';
-
-// #projection-form
-export * from './lib/projection-form/services/document-info-buffer.service';
-export * from './lib/projection-form/services/document-operations.service';
-export * from './lib/projection-form/projection-form/projection-form.component';
-export * from './lib/projection-form/projection-form.module';
 
 export * from './lib/iad-framework.module';
 

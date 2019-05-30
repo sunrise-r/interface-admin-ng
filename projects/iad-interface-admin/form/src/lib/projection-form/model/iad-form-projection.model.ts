@@ -4,7 +4,7 @@ export interface IadFormProjectionInterface {
   code: string;
   title: string;
   fields: IFormProjectionField[];
-  className?: string; // is not necessary to have compatibility with old-style projections where classname was only in properties
+  className?: string;
   properties?: any;
 }
 
@@ -12,6 +12,7 @@ export class IadFormProjection implements IadFormProjectionInterface {
   code: string;
   title: string;
   fields: IFormProjectionField[];
+  label?: string; // @deprecated in favour of title
   className?: string;
   properties?: any;
 }

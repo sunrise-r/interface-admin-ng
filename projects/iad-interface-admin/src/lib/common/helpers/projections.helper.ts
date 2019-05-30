@@ -1,6 +1,6 @@
 import {IadPresentation} from '../../model/iad-model';
 import {IadProjectionInterface} from '../../model/iad-interfaces';
-import {IadFormProjectionInterface} from '../../projection-form/model/projection-form.model';
+import {IadFormProjectionInterface} from 'iad-interface-admin/form';
 
 export enum PROJECTION_TYPE {
   LIST = 'list',

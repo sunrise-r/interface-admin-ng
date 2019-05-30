@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DocumentOperationsService } from './document-operations.service';
-import {DATA_DEPENDENCY_LEVEL} from '../../model/projection.model';
-import {DataTableInformationService} from '../../data-table/services/data-table-information.service';
+
+import {DataTableInformationService} from '../data-table/services/data-table-information.service';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +24,7 @@ export class DocumentInfoBufferService {
         return this.$stream;
     }
 
-    getCreateInfo(documentId: number, type: DATA_DEPENDENCY_LEVEL) {
+    getCreateInfo(documentId: number, type: string) {
         if (documentId !== this.infoId || !this.$stream) {
             this.$stream = this.informationService.find(documentId, type).pipe(share());
             this.infoId = documentId;

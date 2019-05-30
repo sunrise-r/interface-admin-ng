@@ -1,13 +1,13 @@
-import {FormatValueInterface, FormInput} from 'iad-interface-admin/form';
+import {FormatNameInterface, FormatValueInterface, FormInput} from '../../dynamic-form/core/form-input.model';
 
-export class MultipleLookupInputModel extends FormInput<any> implements FormatValueInterface {
+export class LookupInputModel extends FormInput<any> implements FormatNameInterface, FormatValueInterface {
     presentationCode: string;
     lookupSourceProjectionCode: string;
     lookupViewProjectionCode: string;
     items: any[];
     sourceItems: any[];
     controlType = 'lookup';
-    multiple = true;
+    multiple = false;
     validators: {
         required?: boolean;
     };
@@ -24,14 +24,16 @@ export class MultipleLookupInputModel extends FormInput<any> implements FormatVa
         this.presentationCode = options['presentationCode'] || null;
         this.lookupSourceProjectionCode = options['lookupSourceProjectionCode'] || null;
         this.lookupViewProjectionCode = options['lookupViewProjectionCode'] || null;
-        if (options['disableDropdown']) {
-            this.disableDropdown = parseInt(options['disableDropdown'], 10) === 1;
-        } else {
-            this.disableDropdown = false;
-        }
+        this.disableDropdown = options['disableDropdown'] ? parseInt(options['disableDropdown'], 10) === 1 : false;
         this.sourceItems = options['sourceItems'] || [];
         this.valueField = options['valueField'] ? options['valueField'] : 'id';
         this.showFilter = options['showFilter'];
+    }
+
+    // @todo Считаю необходимым изменить в PartnerCMS для всех полей Lookup (List) поле key на key + Id, стоит учесть, что также необходимо везде указать presentationCode;
+    // @todo Нежелательно использовать модификаоры имени поля
+    formatName() {
+        return this.valueField !== 'id' ? this.valueField : this.key + 'Id';
     }
 
     formatValue() {
@@ -39,7 +41,7 @@ export class MultipleLookupInputModel extends FormInput<any> implements FormatVa
             this.items = [];
             return;
         }
-        this.items = [...this.value];
-        return this.value.map(item => item[this.valueField]);
+        this.items = [this.value];
+        return this.value.id;
     }
 }
