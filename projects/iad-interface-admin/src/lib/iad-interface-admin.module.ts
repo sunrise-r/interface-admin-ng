@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule } from '@angular/
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { IadConfigService, IadModuleConfig, IadModuleConfigInterface, IadSharedModule } from 'iad-interface-admin/core';
-import { IadProjectionFormModule, IadReferenceProjectionProviderService } from 'iad-interface-admin/form';
+import { IadProjectionFormModule, DynamicFormModule, IadReferenceProjectionProviderService } from 'iad-interface-admin/form';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -20,9 +20,10 @@ import { ProjectionGridModule } from './projection-grid/projection-grid.module';
         DropdownModule,
         PanelMenuModule,
         ProjectionGridModule,
+        DynamicFormModule,
         IadProjectionFormModule
     ],
-    exports: [TranslateModule, ProjectionGridModule, IadProjectionFormModule, ProjectionTreeComponent],
+    exports: [TranslateModule, ProjectionGridModule, DynamicFormModule, IadProjectionFormModule, ProjectionTreeComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadInterfaceAdminModule {

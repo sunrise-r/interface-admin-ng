@@ -1,4 +1,5 @@
-import {IDataTableColumn} from '../data-table/data-table/data-table.model';
+import { IadFormProjectionInterface, IadFormProjection } from 'iad-interface-admin/form';
+import { IDataTableColumn } from '../data-table/data-table/data-table.model';
 
 export enum DATA_DEPENDENCY_LEVEL {
     DOCUMENT = 'document',
@@ -14,16 +15,17 @@ export interface IProjectionDefaultFilter {
 }
 
 export class ProjectionDefaultFilter implements IProjectionDefaultFilter {
-  field: string;
-  values: string[];
-  statementType: any;
-  operator: any;
-  constructor(field: string, values: string[], statementType?: any, operator?: any) {
-    this.field = field;
-    this.values = values;
-    this.statementType = statementType || 'eq';
-    this.operator = operator ||  'or';
-  }
+    field: string;
+    values: string[];
+    statementType: any;
+    operator: any;
+
+    constructor(field: string, values: string[], statementType?: any, operator?: any) {
+        this.field = field;
+        this.values = values;
+        this.statementType = statementType || 'eq';
+        this.operator = operator || 'or';
+    }
 }
 
 export interface IIADProjection {
@@ -37,12 +39,8 @@ export interface IIADPresentation {
     label?: string;
     name?: string;
     projections?: Array<IIADProjection>;
-    formProjections?: Array<IIADProjection>;
+    formProjections?: Array<IadFormProjectionInterface>;
     dataProjections?: Array<IIADProjection>;
-}
-
-export interface DocumentFormProjectionGroup {
-    [param: string]: DocumentFormProjection;
 }
 
 export class DocumentDataProjection implements IIADProjection {
@@ -51,16 +49,6 @@ export class DocumentDataProjection implements IIADProjection {
     fields: any[];
     documentPhoto?: string;
     properties?: any;
-}
-
-export class DocumentFormProjection implements IIADProjection {
-    label: string;
-    code: string;
-    title: string;
-    fields: any[];
-    documentPhoto?: string; // Is it used anywhere?
-    properties?: any;
-    className?: string;
 }
 
 export class IadFormField {
@@ -85,9 +73,10 @@ export class IADPresentation implements IIADPresentation {
     label?: string;
     name?: string;
     projections?: Array<DocumentListProjection>;
-    formProjections?: Array<DocumentFormProjection>;
+    formProjections?: Array<IadFormProjectionInterface>;
     dataProjections?: Array<DocumentDataProjection>;
 }
+
 export class DocumentListProjection implements IIADProjection {
     actions: any[][]; // TODO it should be ToolbarAction[][], but project does not build correctly if it is (dependency problem)
     label: string;
