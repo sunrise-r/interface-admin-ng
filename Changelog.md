@@ -12,6 +12,7 @@
 * onFormSubmit passes the form submit event to upper level. Now you can handle form submitting on your own
 * onFormCancel passes the form cancel event to upper level. Now you can handle form cancelling on your own
 * added styleClass @Input(). Now you can set custom styles for iad-dynamic-form when using form-view
+* added defaultSourcePath input. Now you can configure default source path to fill the form from rawFormData
 
 ##Breaking changes
 
@@ -25,6 +26,7 @@
 * default styleClass "content-flex form-wrapper flex-center" removed. You must set it in your form-view
 * ProjectionForm.data is now deprecated. Please use only ProjectionForm.rawFormData
 * added necessity to implement IadReferenceProjectionProviderService
+* added defaultSourcePath input. Now you can configure default source path to fill the form from rawFormData
 
 ###For main project
 
@@ -101,7 +103,7 @@
         
     You should specify projectionService in  IadInterfaceAdminModule config like following:
     
-        IadInterfaceAdminModule.forChild({
+        IadInterfaceAdminModule.forRoot({
             i18nEnabled: true,
             defaultI18nLang: 'ru',
             noi18nMessage: 'translation-not-found',

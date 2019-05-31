@@ -44,6 +44,7 @@ properties? | object | key=>value с кастомными свойствами
       }
     ],...
     
+Note! 'datasourcePath' is named incorrect and should be renamed to dataSourcePath in IAD backend... But we have backward compatibility 
 
 ## Input types with Models
 

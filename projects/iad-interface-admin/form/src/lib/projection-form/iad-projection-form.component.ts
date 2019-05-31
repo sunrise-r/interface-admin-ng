@@ -10,21 +10,23 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { PrimeTemplate } from 'primeng/shared';
 import { IadHelper } from 'iad-interface-admin/core';
 
 import { DISABLED, IFormProjectionField, READONLY } from './model/form-projection-field.model';
-
-import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
-import { IadDataOperationsService } from './public-services/iad-data-operations.service';
-import { IadRouterHistoryService } from './public-services/iad-router-history.service';
 
 import { FormInput } from '../dynamic-form/core/form-input.model';
 import { InputFactory } from '../dynamic-form/core/input.factory';
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
 import { IadFormProjection, IadFormProjectionInterface } from './model/iad-form-projection.model';
-import { PrimeTemplate } from 'primeng/shared';
+
+import { IadReferenceProjectionProviderInterface } from './iad-reference-projection-provider.interface';
+import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
+
+import { IadDataOperationsService } from './public-services/iad-data-operations.service';
+import { IadRouterHistoryService } from './public-services/iad-router-history.service';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -37,7 +39,7 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
     styleUrls: ['./iad-projection-form.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class IadProjectionFormComponent implements OnInit, OnChanges {
+export class IadProjectionFormComponent implements OnChanges {
     /**
      * // @todo Using of "data" is not welcome
      * Предустановленные значения для полей формы
@@ -74,6 +76,11 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
     @Input() rawFormData: any;
 
     /**
+     * Default Data source path to fill the form
+     */
+    @Input() defaultSourcePath: string;
+
+    /**
      * Ошибка сервера, если отправка данных прошла не успешно
      */
     @Input() serverError: HttpErrorResponse;
@@ -87,7 +94,7 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
      * Service to use for form projection upload.
      * @Todo replace this property and prefer moduleWithProviders to use your own service impl
      */
-    @Input() projectionService: IadReferenceProjectionProviderService;
+    @Input() projectionService: IadReferenceProjectionProviderInterface;
 
     /**
      * // @todo please avoid using this mode
@@ -128,13 +135,9 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
     constructor(
         private iadDataOperationsService: IadDataOperationsService,
         private iadRouterHistoryService: IadRouterHistoryService,
+        private referenceProjectionService: IadReferenceProjectionProviderService,
         private router: Router
-    ) {
-    }
-
-    ngOnInit() {
-
-    }
+    ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if ('formProjectionSubject' in changes) {
@@ -192,14 +195,14 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
         }, {});
 
         // Request reference form projections
-        return this.projectionService
+        return this.resolveProjectionService()
             .findProjectionsByName(requestParams)
             .toPromise()
             .then((data: { [param: string]: IadFormProjectionInterface }) => {
                 // flatten plainReference's
-                fields = fields.reduce((acu, field) => acu.concat(IadHelper.runPropertyCondition('plainReference', field,
-                    () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
-                    () => [field])), []);
+                fields = fields.reduce((acu, field) => acu.concat(IadHelper.runPropertyCondition('plainReference', field.properties,
+                        () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
+                        () => [field])), []);
                 return new FormInputGroup({
                     children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
                 });
@@ -290,7 +293,7 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
             referenceProjectionCode: field.referenceProjectionCode || null,
             inputMask: field.inputMask || null,
             valueField: field.valueField,
-            datasourcePath: field.datasourcePath || field.dataSourcePath || null,
+            dataSourcePath: field.datasourcePath || field.dataSourcePath || null,
             translate: field.translate || false
         };
         if (field.properties) {
@@ -349,6 +352,13 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
     }
 
     /**
+     * Compatibility mode
+     */
+    private resolveProjectionService(): IadReferenceProjectionProviderInterface {
+        return this.projectionService ? this.projectionService : this.referenceProjectionService;
+    }
+
+    /**
      * Модифицирует опции перед передачей их в dynamic-form.component
      * @param options
      * @param field
@@ -363,9 +373,9 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
             }
         }
         if (!options.value && this.rawFormData) {
-            options.value = field.datasourcePath
-                ? this.resolveItemsPath(field.datasourcePath, this.rawFormData)
-                : this.rawFormData.properties ? this.rawFormData.properties[field.name] : null;
+            options.value = field.dataSourcePath
+                ? this.resolveItemsPath(field.dataSourcePath, this.rawFormData)
+                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + field.name, this.rawFormData)
         }
         return options;
     }
@@ -373,7 +383,7 @@ export class IadProjectionFormComponent implements OnInit, OnChanges {
     /**
      * Resolve source items for lookupViewProjections
      */
-    private resolveItemsPath(path: string, selection: any): any {
-        return selection ? path.split('.').reduce((o, i) => (o ? o[i] : undefined), selection) : selection;
+    private resolveItemsPath(path: string, dataSource: any): any {
+        return dataSource ? path.split('.').reduce((o, i) => (o ? o[i] : undefined), dataSource) : dataSource;
     }
 }
