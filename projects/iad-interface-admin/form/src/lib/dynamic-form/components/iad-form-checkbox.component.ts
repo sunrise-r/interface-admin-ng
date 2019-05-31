@@ -14,6 +14,7 @@ import { ValidationInput } from '../core/validation-input';
               <p-checkbox [binary]="'true'"
                           [formControlName]="config.key"
                           [id]="config.key"
+                          (onBlur)="onBlur()"
               ></p-checkbox>
             </div>
         </ng-container>`,

@@ -2,7 +2,7 @@
 
 ## Publish library to the local Nexus server
 
-1. To build library open the project root directory and type: 
+1. First you must build library. To do it open the project root directory and type: 
 
     ```
     user@desktop:~/interface-admin-ng$ yarn run build:lib

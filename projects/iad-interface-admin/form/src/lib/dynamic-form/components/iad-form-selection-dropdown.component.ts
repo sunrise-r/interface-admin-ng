@@ -21,7 +21,8 @@ import {IadFieldValuesService} from '../services/iad-field-values.service';
                       [required]="config.required"
                       [formControlName]="config.key"
                       [placeholder]="' '"
-                      (onChange)="onChange($event)">
+                      (onChange)="onChange($event)"
+                      (onBlur)="onBlur()">
           </p-dropdown>
           <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                 caption="Ошибка!" [text]="error" [activated]="true">

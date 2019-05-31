@@ -14,8 +14,8 @@ type EntityArrayResponseType = HttpResponse<Array<any>>;
 export class DataTableInformationService {
     constructor(private http: HttpClient) {}
 
-    find(id: number, type: DATA_DEPENDENCY_LEVEL): Observable<ActualSelectionModel> {
-        return type === DATA_DEPENDENCY_LEVEL.OPERATION
+    find(id: number, type: string): Observable<ActualSelectionModel> {
+        return type === `${DATA_DEPENDENCY_LEVEL.OPERATION}`
             ? this.http.get<ActualSelectionModel>(this.getFullUrl(`partnerdocuments/api/operations/info/${id}`), { observe: 'body' })
             : this.http.get<ActualSelectionModel>(this.getFullUrl(`partnerdocuments/api/document/actual/${id}`), { observe: 'body' });
     }

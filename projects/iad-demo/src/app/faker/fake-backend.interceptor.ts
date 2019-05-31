@@ -50,6 +50,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     return of(null).pipe(mergeMap(() => {
       const fakerRegistry = registry.find(fR => fR.condition(request));
       if (fakerRegistry) {
+        console.log('Intercepting URL: ' + request.url);
         return <Observable<HttpEvent<any>>>(fakerRegistry.getFaker(request).getResponse());
       }
       // pass through any requests not handled above

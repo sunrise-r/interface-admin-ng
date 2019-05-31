@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, Input, ElementRef, Renderer2, ViewChild, HostListener } from '@angular/core';
+import {Component, OnInit, forwardRef, Input, ElementRef, Renderer2, ViewChild, HostListener, Output, EventEmitter} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 export const FILE_VALUE_ACCESSOR: any = {
@@ -15,6 +15,7 @@ export const FILE_VALUE_ACCESSOR: any = {
         [id]="inputId"
         [readonly]="inputReadonly"
         (change)="handleFileInput($event.target.files)"
+        (blur)="onInputBlur($event)"
         type="file">
         <span>{{fileName}}</span>
         <div class="upload-button">
@@ -28,6 +29,8 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
     @Input() inputReadonly: string;
 
     @Input() styleClass: string;
+
+    @Output() onBlur: EventEmitter<any> = new EventEmitter();
 
     @ViewChild('file') file: ElementRef;
 
@@ -73,5 +76,10 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
     @HostListener('click', ['$event'])
     onClick(event: Event) {
         this.file.nativeElement.click();
+    }
+
+    onInputBlur(event) {
+      this.onTouched();
+      this.onBlur.emit(event);
     }
 }

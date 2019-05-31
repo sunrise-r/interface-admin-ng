@@ -23,6 +23,7 @@ import { ValidationInput } from '../core/validation-input';
             [id]="config.key"
             [readonly]="config.readonly"
             [options]="multiSelectValues(config.translatePrefix, config.values)"
+            (onBlur)="onBlur()"
           ></p-multiSelect>
           <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                 caption="Ошибка!" [text]="error" [activated]="true">

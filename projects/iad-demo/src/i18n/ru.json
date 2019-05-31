@@ -21,8 +21,8 @@
     "label": "Представление 1",
     "label2": "Представление 2",
     "projection": {
-      "label": "Проекция 1",
-      "label2": "Проекция 2",
+      "listProjectionOne": "Проекция списка 1",
+      "listProjectionTwo": "Проекция списка 2",
       "main": {
         "nameField": "Имя",
         "surnameField": "Фамилия",
@@ -30,6 +30,7 @@
         "phone": "Телефон",
         "email": "Email",
         "actions": "Действия",
+        "actionButton": "Кнопка",
         "additionalFields": "Дополнительные поля",
         "firstField": "Первое поле",
         "secondField": "Второе поле",
@@ -41,7 +42,8 @@
       }
     },
     "formProjection": {
-      "label1": "Проекция формы 1"
+      "filledForm": "Проекция заполненной формы",
+      "emptyForm": "Проекция пустой формы"
     }
   },
   "grid": {

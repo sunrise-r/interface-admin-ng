@@ -77,7 +77,14 @@ export class DynamicFormModule {
   static forChild(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
     return {
       ngModule: DynamicFormModule,
-      providers: [{ provide: IadModuleConfig, useValue: moduleConfig }]
+      providers: [
+        { provide: IadModuleConfig, useValue: moduleConfig },
+        {
+          provide: IadConfigService,
+          useClass: IadConfigService,
+          deps: [IadModuleConfig]
+        }
+      ]
     };
   }
 

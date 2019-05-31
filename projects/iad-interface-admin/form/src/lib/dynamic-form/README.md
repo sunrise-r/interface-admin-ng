@@ -44,6 +44,7 @@ properties? | object | key=>value с кастомными свойствами
       }
     ],...
     
+Note! 'datasourcePath' is named incorrect and should be renamed to dataSourcePath in IAD backend... But we have backward compatibility 
 
 ## Input types with Models
 
@@ -84,6 +85,10 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
       visible: boolean;
       translate: boolean;
       collapsed = true;
+      
+  Projection field config properties:
+      
+      'plainReference': boolean; Allows to print subform inputs without dropdown in the same level as all other inputs  
     
 ### 2. IadFormDateComponent
 

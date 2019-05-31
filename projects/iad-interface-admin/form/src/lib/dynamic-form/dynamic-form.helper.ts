@@ -14,7 +14,11 @@ export class DynamicFormHelper {
      * @param input
      */
     static formatInputValue(input: FormInput<any>): any {
-        return 'formatValue' in input ? (<FormatValueInterface>input).formatValue() : input.value;
+        let value = 'formatValue' in input ? (<FormatValueInterface>input).formatValue() : input.value;
+        if (value === undefined) {
+          value = null;
+        }
+        return value;
     }
 
     /**

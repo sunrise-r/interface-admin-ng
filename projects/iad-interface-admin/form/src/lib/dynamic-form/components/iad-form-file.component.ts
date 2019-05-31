@@ -8,7 +8,7 @@ import { ValidationInput } from '../core/validation-input';
     template: `
     <ng-container [formGroup]="group">
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
-col-form-label">{{config.translate ? (config.label | translate) : config.label}}: </label>
+col-form-label">{{config.translate ? (config.label | translate) : config.label}} </label>
         <div class="col-12 col-lg-{{formControlColumnSize}}">
             <iad-file-upload
                 class="custom-form-control"
@@ -16,6 +16,7 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
                 [inputId]="config.key"
                 [inputReadonly]="config.readonly"
                 styleClass="form-control-thin"
+                (onBlur)="onBlur()"
             ></iad-file-upload>
         </div>
     </ng-container>`

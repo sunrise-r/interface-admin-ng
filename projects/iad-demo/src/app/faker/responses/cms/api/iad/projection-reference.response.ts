@@ -2,7 +2,7 @@ import {Observable, of} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';
 
 import {AbstractResponse} from '../../../abstract.response';
-import {IadFormProjection} from 'iad-interface-admin';
+import {IadFormProjection} from 'iad-interface-admin/form';
 
 export const projectionReferenceConditionCallback = (request) => {
   return request.url.match(/partnercms\/api\/iad\/form-projection\/[a-zA-Z0-9]+$/) && request.method === 'GET';
@@ -60,7 +60,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'translate': true
       },
       {
-        'validationTypes': {'email': false, 'required': false},
+        'validationTypes': {'email': false, 'required': true},
         'type': 'Dropdown',
         'name': 'dropdownField',
         'label': 'presentation.projection.main.dropdownField',

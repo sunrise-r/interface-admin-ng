@@ -8,7 +8,7 @@ import { ValidationInput } from '../core/validation-input';
     template: `
     <ng-container [formGroup]="group">
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
-col-form-label">{{config.translate ? (config.label | translate) : config.label}}: </label>
+col-form-label">{{config.translate ? (config.label | translate) : config.label}} </label>
         <div class="col-12 col-lg-{{formControlColumnSize}}">
           <div class="input-wrapper input-group">
             <iad-calendar
@@ -23,7 +23,7 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
               inputStyleClass="form-control form-control-thin"
               styleClass="iad-calendar"
               dateFormat="dd.mm.yy"
-              (blur)="onBlur()"></iad-calendar>
+              (onBlur)="onBlur()"></iad-calendar>
             <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                   caption="Ошибка!" [text]="error" [activated]="true">
               <ng-template>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { IadEventManager } from 'iad-interface-admin/core';
 
 import { DataTableConfigProvider, DataTableConfigModel } from '../data-table/data-table/data-table-config.model';
 import { FILTER_TYPE, IDataTableColumn } from '../data-table/data-table/data-table.model';
@@ -7,7 +8,6 @@ import { CmsSetting } from '../data-table/services/settings-provider';
 
 import { GridConfigService } from './grid-config.service';
 import { CustomizeQuery } from '../filter-builder/action/customize-query';
-import {IadEventManager} from '../services/event-manager.service';
 import {CmsUserSettingsLoaderService, EntityResponseType} from './iad-user-settings-loader.service';
 
 @Component({

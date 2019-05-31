@@ -36,10 +36,9 @@ iad-dynamic-form iad-form-rich-editor .input-group > .custom-form-control  {
 
 .ui-calendar {
   width: 100%;
-}
-
-.ui-calendar .ui-datepicker {
-  min-width: 50%;
+  .ui-datepicker {
+    min-width: 50%;
+  }
 }
 
 body .ui-widget {
