@@ -20,7 +20,6 @@
 * IadFormProjection used in favor of DocumentFormProjection
 * DocumentFormProjectionGroup removed as unused
 * DocumentInfoBufferService clear removed from ngOnDestroy in ProjectionFormComponent <-- it may cause new bug when someone close forms
-* ProjectionFormModule renamed to ProjectionFormPartnerModule
 * ProjectionFormComponent, FormGroupChildCallback are no more accessable from 'iad-interface-admin/partner'. use 'iad-interface-admin/form' instead
 * ProjectionFormPartnerModule is no more accessable from 'iad-interface-admin/partner'. Use 'iad-interface-admin/form' instead
 * default styleClass "content-flex form-wrapper flex-center" removed. You must set it in your form-view
@@ -29,7 +28,8 @@
 
 ###For main project
 
-* FormViewComponent is replaced with ProjectionFormComponent
+* FormViewComponent is replaced with IadProjectionFormComponent
+* iad-form-view selector repalced with iad-projection-form
 * IadReferenceProjectionProviderService is replaced with IadReferenceProjectionProviderInterface
 * added compatibilityMode default to true
 * onFormSubmit saves form data only in compatibilityMode
@@ -46,6 +46,73 @@
 * remove compatibilityMode as soon as possible
 * using of "data" field is not welcome. Please use rawFormData instead
 
+## Migration
+
+1. IadFormProjectionInterface
+
+    before: `import {IadFormProjectionInterface} from 'iad-interface-admin';`
+    
+    after: `import {IadFormProjectionInterface} from 'iad-interface-admin/form';`
+    
+2. IadReferenceProjectionProviderService
+
+    before: `import {IadReferenceProjectionProviderService} from 'iad-interface-admin';`
+    
+    after: `import {IadReferenceProjectionProviderInterface} from 'iad-interface-admin/form';`
+    
+3. IadFormProjection
+
+    before: `import {IadFormProjection} from 'iad-interface-admin';`
+    
+    after: `import {IadFormProjection} from 'iad-interface-admin/form';`
+    
+4. iad-form-view
+
+    before: 
+    
+        <iad-form-view
+          [projection]="projection"
+          [formProjectionSubject]="formProjectionSubject"
+          [postDataUrl]="postDataUrl"
+          [rawFormData]="rawFormData"
+        ></iad-form-view>
+        
+    after either: 
+        
+        <iad-projection-form
+            [formProjection]="projection"
+            [formProjectionSubject]="formProjectionSubject"
+            [postDataUrl]="postDataUrl"
+            [rawFormData]="rawFormData"
+            [compatibilityMode]="true"
+            [projectionService]="projectionService"
+        ></iad-projection-form>
+        
+    or, if you don't want to use compatibilityMode:
+
+        <iad-projection-form
+            [formProjection]="projection"
+            [formProjectionSubject]="formProjectionSubject"
+            [rawFormData]="rawFormData"
+            [serverError]="serverError"
+            (formSubmit)="onFormSubmit($event)"
+            (formCancel)="onFormCancel($event)"
+        ></iad-projection-form>
+        
+    You should specify projectionService in  IadInterfaceAdminModule config like following:
+    
+        IadInterfaceAdminModule.forChild({
+            i18nEnabled: true,
+            defaultI18nLang: 'ru',
+            noi18nMessage: 'translation-not-found',
+            referenceProjectionProvider: { provide: IadReferenceProjectionProviderService, useClass: ReferenceProjectionProviderService }
+        })
+     
+    Also you should implement onSubmit and onCancel event handlers, 
+    
+    Feel free to implement IadDataOperationsService and IadRouterHistoryService in your project
+    
+    
 #0.0.2-devel.15
 
 ####Bugs fixed:

@@ -33,11 +33,11 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
  */
 @Component({
     selector: 'iad-projection-form',
-    templateUrl: './projection-form.component.html',
-    styleUrls: ['./projection-form.component.scss'],
+    templateUrl: './iad-projection-form.component.html',
+    styleUrls: ['./iad-projection-form.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ProjectionFormComponent implements OnInit, OnChanges {
+export class IadProjectionFormComponent implements OnInit, OnChanges {
     /**
      * // @todo Using of "data" is not welcome
      * Предустановленные значения для полей формы
@@ -93,7 +93,7 @@ export class ProjectionFormComponent implements OnInit, OnChanges {
      * // @todo please avoid using this mode
      * Enables Compatibility mode
      */
-    @Input() compatibilityMode = true;
+    @Input() compatibilityMode = false;
 
     /**
      * @todo PostDataUrl to use redirects in compatibility mode

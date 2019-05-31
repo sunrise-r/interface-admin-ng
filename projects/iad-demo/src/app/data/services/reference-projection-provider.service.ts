@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IadFormProjectionInterface} from 'iad-interface-admin';
+import {IadFormProjectionInterface, IadReferenceProjectionProviderInterface} from 'iad-interface-admin/form';
 import {IadProjectionLoadService} from 'iad-interface-admin';
-import {IadReferenceProjectionProviderService} from 'iad-interface-admin';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReferenceProjectionProviderService implements IadReferenceProjectionProviderService {
+export class ReferenceProjectionProviderService implements IadReferenceProjectionProviderInterface {
 
   constructor(private iadProjectionLoadService: IadProjectionLoadService) { }
 

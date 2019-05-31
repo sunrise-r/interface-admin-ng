@@ -3,7 +3,7 @@ import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { IadSharedModule, IadModuleConfigInterface, IadModuleConfig, IadConfigService } from 'iad-interface-admin/core';
 import { IadRouterHistoryService } from './public-services/iad-router-history.service';
 import { DynamicFormModule } from '../dynamic-form/dynamic-form.module';
-import { ProjectionFormComponent } from './projection-form.component';
+import { IadProjectionFormComponent } from './iad-projection-form.component';
 import { TranslateService } from '@ngx-translate/core';
 import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
 
@@ -16,10 +16,10 @@ export interface ProjectionFormConfigInterface extends IadModuleConfigInterface 
         DynamicFormModule,
         IadSharedModule
     ],
-    declarations: [ProjectionFormComponent],
-    exports: [ProjectionFormComponent]
+    declarations: [IadProjectionFormComponent],
+    exports: [IadProjectionFormComponent]
 })
-export class ProjectionFormModule {
+export class IadProjectionFormModule {
     static forRoot(moduleConfig: ProjectionFormConfigInterface): ModuleWithProviders {
         return {
             ngModule: DynamicFormModule,

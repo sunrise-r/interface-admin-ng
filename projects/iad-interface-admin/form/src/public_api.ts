@@ -10,5 +10,6 @@ export * from './lib/dynamic-form/dynamic-form.module';
 export * from './lib/projection-form/model/iad-form-projection.model';
 export * from './lib/projection-form/model/form-projection-field.model';
 export * from './lib/projection-form/iad-reference-projection-provider.interface';
-export * from './lib/projection-form/projection-form.component';
-export * from './lib/projection-form/projection-form.module';
+export * from './lib/projection-form/public-services/iad-reference-projection-provider.service';
+export * from './lib/projection-form/iad-projection-form.component';
+export * from './lib/projection-form/iad-projection-form.module';

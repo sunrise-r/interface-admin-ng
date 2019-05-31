@@ -1,7 +1,8 @@
 <iad-projection-form
-  [projection]="projection"
+  [formProjection]="projection"
   [formProjectionSubject]="formProjectionSubject"
-  [postDataUrl]="postDataUrl"
   [rawFormData]="rawFormData"
-  [projectionService]="projectionService"
+  [serverError]="serverError"
+  (formSubmit)="onFormSubmit($event)"
+  (formCancel)="onFormCancel($event)"
 ></iad-projection-form>
