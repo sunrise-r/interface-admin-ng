@@ -32,9 +32,9 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
  * Важное отличие от projection-form проекта partner в том, что все вложенные формы делаются plain. Нужно сделать такую настройку
  */
 @Component({
-    selector: 'iad-form-view',
-    templateUrl: './form-view.component.html',
-    styleUrls: ['./form-view.component.scss'],
+    selector: 'iad-projection-form',
+    templateUrl: './projection-form.component.html',
+    styleUrls: ['./projection-form.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class ProjectionFormComponent implements OnInit, OnChanges {
@@ -99,6 +99,11 @@ export class ProjectionFormComponent implements OnInit, OnChanges {
      * @todo PostDataUrl to use redirects in compatibility mode
      */
     @Input() postDataUrl: string;
+
+    /**
+     * Style CSS class string
+     */
+    @Input() styleClass: string;
 
     /**
      * Output EventEmitter to handle form submit event externally
