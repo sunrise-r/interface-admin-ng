@@ -1,3 +1,8 @@
+#0.0.3-devel.47
+
+* Removed iad-interface-admin/partner/common in favor of iad-interface-admin/common
+* Since this devel versions would change by the number of issue 
+
 #0.0.3-devel.16
 
 #Projection form
