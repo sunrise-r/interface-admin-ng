@@ -8,7 +8,7 @@ export interface FilterInterface {
   operator?: any;
 }
 
-export interface IadListProjectionInterrface {
+export interface IadListProjectionInterface {
   actions: ToolbarAction[][];
   label: string;
   code: string;
@@ -22,7 +22,7 @@ export interface IadListProjectionInterrface {
   resourceSearchUrl?: string; // Not used yet
 }
 
-export class DocumentListProjection implements IadListProjectionInterrface {
+export class DocumentListProjection implements IadListProjectionInterface {
   actions: ToolbarAction[][];
   label: string;
   code: string;

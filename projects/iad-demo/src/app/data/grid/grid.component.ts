@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   IadGridColumn,
-  IadListProjectionInterrface,
+  IadListProjectionInterface,
   IadPresentation,
   PROJECTION_TYPE,
   ProjectionsHelper
@@ -18,7 +18,7 @@ export class GridComponent implements OnInit {
 
   columns: IadGridColumn[];
 
-  projection: IadListProjectionInterrface;
+  projection: IadListProjectionInterface;
 
   presentationCode: string;
 
@@ -39,7 +39,7 @@ export class GridComponent implements OnInit {
         this.presentationCode = data.presentation.code;
         // Actually we have only one list projection to show and it's name is 'main';
         // And we don't need projectionCode for this case
-        this.projection = <IadListProjectionInterrface>ProjectionsHelper
+        this.projection = <IadListProjectionInterface>ProjectionsHelper
           .filterProjections(presentation, PROJECTION_TYPE.LIST)
           .find(_projection => _projection.code === 'main');
 

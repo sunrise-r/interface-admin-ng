@@ -366,7 +366,7 @@ export class IadProjectionFormComponent implements OnChanges {
         if (!options.value && this.rawFormData) {
             options.value = field.dataSourcePath
                 ? this.resolveItemsPath(field.dataSourcePath, this.rawFormData)
-                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + field.name, this.rawFormData)
+                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + field.name, this.rawFormData);
         }
         return options;
     }

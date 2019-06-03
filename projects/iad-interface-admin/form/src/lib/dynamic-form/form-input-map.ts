@@ -26,6 +26,7 @@ import { DropdownInputModel } from './inputs/dropdown-input.model';
 import { RichEditorInput } from './inputs/rich-editor-input.model';
 import { TextInputTranslated } from './inputs/text-input-translated.model';
 import { IadFormChipsComponent } from './components/iad-form-chips.component';
+import { IadFormTranslateInputComponent } from './components/iad-form-translate-input.component';
 
 export const components = {
     textbox: IadFormInputComponent,
@@ -40,7 +41,8 @@ export const components = {
     boolean: IadFormCheckboxComponent,
     multiSelect: IadFormMultiSelectComponent,
     dropdown: IadFormSelectionDropdownComponent,
-    chips: IadFormChipsComponent
+    chips: IadFormChipsComponent,
+    translateValue: IadFormTranslateInputComponent
 };
 
 export const inputModels = {

@@ -53,19 +53,11 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
         [readonly]="config.readonly"
         [minLength]="config.validators?.minLength"
         [maxLength]="config.validators?.maxLength || 1000"
-        [value]="inputValue()"
         (blur)="onBlur()"></ng-template>
     </ng-container>`
 })
 export class IadFormInputComponent extends ValidationInput implements OnInit, AfterViewInit {
   constructor(private inputTranslateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
     super(inputTranslateService, el, renderer);
-  }
-
-  /**
-   * @Todo Incorrect usage!
-   */
-  inputValue() {
-    return this.config.translateValue ? this.inputTranslateService.instant(this.config.value) : this.config.value;
   }
 }

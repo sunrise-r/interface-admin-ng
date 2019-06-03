@@ -1,4 +1,4 @@
-import { IadListProjectionInterrface } from '../projection-grid/model/projection-grid.model';
+import { IadListProjectionInterface } from '../projection-grid/model/projection-grid.model';
 import { IadFormProjectionInterface } from 'iad-interface-admin/form';
 
 export interface IadProjectionInterface {
@@ -15,7 +15,7 @@ export interface IadPresentationInterface {
     code: string;
     label?: string;
     name?: string;
-    projections?: IadListProjectionInterrface[];
+    projections?: IadListProjectionInterface[];
     formProjections?: IadFormProjectionInterface[];
     dataProjections?: IadProjectionInterface[];
 }
