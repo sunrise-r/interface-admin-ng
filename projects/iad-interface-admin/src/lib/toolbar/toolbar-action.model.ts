@@ -2,7 +2,7 @@ export class ToolbarAction {
     code: string;
     toggle: boolean;
     style: string;
-    active: boolean;
+    active?: boolean;
     value?: any;
     disabled?: boolean;
     visible?: boolean;
