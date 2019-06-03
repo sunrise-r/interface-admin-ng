@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { StringHelper } from 'iad-interface-admin/core';
 
-import { DocumentListProjection } from '../../model/projection.model';
 import { Subject, Subscription } from 'rxjs';
 import { ProjectionTab } from './projection-tab.model';
+import { IadProjectionInterface } from '../../model/iad-interfaces';
 
 @Component({
     selector: 'iad-tabbed-view',
@@ -19,7 +19,7 @@ export class TabbedViewComponent implements OnChanges, OnDestroy {
     /**
      * Проекция текущей таблицы данных
      */
-    currentProjection: DocumentListProjection = null;
+    currentProjection: IadProjectionInterface = null;
 
     /**
      * Список операций по текущему документу
@@ -95,7 +95,7 @@ export class TabbedViewComponent implements OnChanges, OnDestroy {
      * Устанавливает текущую проекцию
      * @param projection
      */
-    private setActiveProjection(projection: DocumentListProjection) {
+    private setActiveProjection(projection: IadProjectionInterface) {
         this.currentProjection = projection;
         this.currentProjection.active = true;
     }

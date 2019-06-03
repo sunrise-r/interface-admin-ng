@@ -16,10 +16,9 @@ import { SelectionIndicatorColumnComponent } from './column-components/selection
 import { DefaultColumnComponent, StatusPipe } from './column-components/default-column.component';
 import { SpecialColumnComponent } from './column-components/special-column.component';
 import { FilterBuilderModule } from '../filter-builder/filter-builder.module';
-import { IADCommonModule } from '../common/iad-common.module';
 
 @NgModule({
-    imports: [IadSharedModule, SharedModule, IADCommonModule, IadPrimengModule, ToolbarModule, FilterBuilderModule],
+    imports: [IadSharedModule, SharedModule, IadPrimengModule, ToolbarModule, FilterBuilderModule],
     declarations: [
         SelectionIndicatorColumnComponent,
         TableHeaderMenuComponent,

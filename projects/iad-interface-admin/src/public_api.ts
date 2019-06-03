@@ -11,6 +11,8 @@ export * from './lib/public-services/iad-projection-load.service';
 // #Utils
 
 // #Common
+export * from './lib/common/tabbed-view/projection-tab.model';
+export * from './lib/common/tabbed-view/tabbed-view.component';
 export * from './lib/common/iad-common.module';
 
 export * from './lib/common/helpers/projections.helper';

@@ -13,11 +13,6 @@ export * from './lib/services/data-chain.service';
 export * from './lib/services/document-info-buffer.service';
 export * from './lib/services/document-operations.service';
 
-// #common (ex-customize)
-export * from './lib/common/tabbed-view/projection-tab.model';
-export * from './lib/common/tabbed-view/tabbed-view.component';
-export * from './lib/common/iad-common.module';
-
 // #filter-builder (elastic replacement)
 export * from './lib/filter-builder/action/customize-query';
 export * from './lib/filter-builder/filter-builder.service';
