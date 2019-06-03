@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, TemplateRef } from '@angular/core';
-import { ToolbarAction } from '../../toolbar/models/toolbar-action.model';
 import { Subject } from 'rxjs';
+import { ToolbarAction } from 'iad-interface-admin';
 
 @Component({
     selector: 'iad-table-toolbar',

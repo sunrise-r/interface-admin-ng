@@ -9,7 +9,7 @@ import { TableColumnFilterComponent } from './table-column-filter/table-column-f
 import { TableColumnSizeDirective } from './table-column-size/table-column-size.directive';
 import { DataTableComponent } from './data-table/data-table.component';
 
-import { ToolbarModule } from '../toolbar/toolbar.module';
+import { ToolbarModule } from 'iad-interface-admin';
 import { DataTableTdHostDirective } from './data-table/data-table-td.directive.component';
 
 import { SelectionIndicatorColumnComponent } from './column-components/selection-indicator-column.component';

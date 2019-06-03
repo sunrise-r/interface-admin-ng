@@ -1,6 +1,6 @@
 import {Operator} from '../../elastic/models/operator.model';
 import {statementTypes} from '../../elastic/operations/statement.factory';
-import {ToolbarAction} from '../../toolbar/models/toolbar-action.model';
+import {ToolbarAction} from '../../toolbar/toolbar-action.model';
 import {IadGridColumn} from './iad-grid-column.model';
 
 export interface FilterInterface {

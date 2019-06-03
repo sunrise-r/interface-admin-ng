@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import {IadSharedModule} from 'iad-interface-admin/core';
+import { ToolbarModule } from 'iad-interface-admin';
+import { IadSharedModule } from 'iad-interface-admin/core';
 
-import { ToolbarModule } from '../toolbar/toolbar.module';
 import { IadSettingsTableModule } from '../iad-settings-table/iad-settings-table.module';
 
 import { ProjectionTableComponent } from './projection-table.component';

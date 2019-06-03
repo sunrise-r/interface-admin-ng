@@ -28,12 +28,6 @@ export * from './lib/data-table/data-table/data-table.component';
 export * from './lib/data-table/services/actual-selection-chain.service';
 export * from './lib/data-table/iad-datatable.module';
 
-// #table toolbar
-export * from './lib/toolbar/toolbar-actions/toolbar-action.directive';
-export * from './lib/toolbar/toolbar-actions/toolbar-actions.component';
-export * from './lib/toolbar/models/toolbar-action.model';
-export * from './lib/toolbar/toolbar.module';
-
 // #projection-table
 export * from './lib/projection-table/toolbar-actions-toggle.service';
 export * from './lib/projection-table/projection-table.component';

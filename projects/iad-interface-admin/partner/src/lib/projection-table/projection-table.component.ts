@@ -13,6 +13,7 @@ import {
 import { of, Subject } from 'rxjs';
 
 import * as _ from 'lodash';
+import { ToolbarAction } from 'iad-interface-admin';
 import { IadEventManager, IadHelper } from 'iad-interface-admin/core';
 
 import { DATA_DEPENDENCY_LEVEL, DocumentListProjection } from '../model/projection.model';
@@ -20,7 +21,6 @@ import { SELECT_ACTION, ActualSelectionEvent, ActualSelectionModel } from '../da
 import { DataTableColumn, FILTER_TYPE, IDataTableColumn } from '../data-table/data-table/data-table.model';
 import { DataTableInformationService } from '../data-table/services/data-table-information.service';
 import { ActualSelectionChainService } from '../data-table/services/actual-selection-chain.service';
-import { ToolbarAction } from '../toolbar/models/toolbar-action.model';
 import { PresentationHelper } from '../services/presentation-helper';
 
 import { ToolbarActionsToggleService } from './toolbar-actions-toggle.service';

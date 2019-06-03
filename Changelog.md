@@ -1,7 +1,20 @@
+#0.0.3-devel.48
+
+* Removed iad-interface-admin/partner/toolbar in favor of iad-interface-admin/toolbar
+
+##Breaking changes for partner project
+
+* ToolbarActionDirective is no more accessible from 'iad-interface-admin/partner' 
+* ToolbarActionsComponent is no more accessible from 'iad-interface-admin/partner' 
+
 #0.0.3-devel.47
 
 * Removed iad-interface-admin/partner/common in favor of iad-interface-admin/common
-* Since this devel versions would change by the number of issue 
+* Since this devel versions would change by the number of issue
+
+##Breaking changes for partner project
+
+* TabbedViewComponent is no more accessible from 'iad-interface-admin/partner'
 
 #0.0.3-devel.16
 

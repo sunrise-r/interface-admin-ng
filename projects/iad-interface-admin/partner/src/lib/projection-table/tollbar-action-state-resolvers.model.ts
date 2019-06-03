@@ -1,5 +1,5 @@
+import { ToolbarAction } from 'iad-interface-admin';
 import { DocumentState, DocumentUpdater, OperationState, OperationUpdater } from '../services/document-actions-service';
-import { ToolbarAction } from '../toolbar/models/toolbar-action.model';
 import { documentStatusesMap } from '../model/russian-to-english.constants';
 import { ActualSelectionModel } from '../data-table/models/actual-selection.model';
 

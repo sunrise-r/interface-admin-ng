@@ -28,5 +28,11 @@ export * from './lib/projection-grid/projection-grid.module';
 export * from './lib/public-services/iad-projection-tree.service';
 export * from './lib/public-services/iad-presentation-load.service';
 
+// #table toolbar
+export * from './lib/toolbar/toolbar-action.directive';
+export * from './lib/toolbar/toolbar-actions.component';
+export * from './lib/toolbar/toolbar-action.model';
+export * from './lib/toolbar/toolbar.module';
+
 // # main lib module:-
 export * from './lib/iad-interface-admin.module';
