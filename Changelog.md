@@ -1,3 +1,12 @@
+#0.0.3-devel.19
+
+* Replaced iad-interface-admin/partner/filter-builder and iad-interface-admin/elastic to separate lib section iad-interface-admin/filter
+
+##Breaking changes
+
+* CustomizeQuery, FilterBuilderService, FilterBuilderFactory are now available only from 'iad-interface-admin/filter'
+* ElasticSearchQueryBuilder, ElasticService, ElasticFactory are now available only from 'iad-interface-admin/filter'
+
 #0.0.3-devel.18
 
 * Removed iad-interface-admin/partner/toolbar in favor of iad-interface-admin/toolbar
