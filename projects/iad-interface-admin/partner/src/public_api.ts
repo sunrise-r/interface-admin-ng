@@ -13,10 +13,6 @@ export * from './lib/services/data-chain.service';
 export * from './lib/services/document-info-buffer.service';
 export * from './lib/services/document-operations.service';
 
-// #filter-builder (elastic replacement)
-export * from './lib/filter-builder/action/customize-query';
-export * from './lib/filter-builder/filter-builder.service';
-
 // #data-table (data-grid)
 export * from './lib/data-table/data-table/data-table.model';
 export * from './lib/data-table/models/actual-selection.model';

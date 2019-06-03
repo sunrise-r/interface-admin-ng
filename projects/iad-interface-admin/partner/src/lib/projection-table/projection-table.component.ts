@@ -15,6 +15,7 @@ import { of, Subject } from 'rxjs';
 import * as _ from 'lodash';
 import { ToolbarAction } from 'iad-interface-admin';
 import { IadEventManager, IadHelper } from 'iad-interface-admin/core';
+import { CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { DATA_DEPENDENCY_LEVEL, DocumentListProjection } from '../model/projection.model';
 import { SELECT_ACTION, ActualSelectionEvent, ActualSelectionModel } from '../data-table/models/actual-selection.model';
@@ -26,7 +27,6 @@ import { PresentationHelper } from '../services/presentation-helper';
 import { ToolbarActionsToggleService } from './toolbar-actions-toggle.service';
 import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
-import { CustomizeQuery } from '../filter-builder/action/customize-query';
 
 // TODO Может, разделить для операций и для таблиц данных?
 @Component({

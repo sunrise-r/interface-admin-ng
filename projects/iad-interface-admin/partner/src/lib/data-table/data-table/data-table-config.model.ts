@@ -1,6 +1,6 @@
 import { IDataTableColumn } from './data-table.model';
 import { Subject } from 'rxjs';
-import { CustomizeQuery } from '../../filter-builder/action/customize-query';
+import { CustomizeQuery } from 'iad-interface-admin/filter';
 
 export interface DataTableConfigProvider {
     /**

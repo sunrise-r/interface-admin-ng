@@ -1,13 +1,11 @@
-import {Operator} from '../../elastic/models/operator.model';
-import {statementTypes} from '../../elastic/operations/statement.factory';
 import {ToolbarAction} from '../../toolbar/toolbar-action.model';
 import {IadGridColumn} from './iad-grid-column.model';
 
 export interface FilterInterface {
   field: string;
   values: string[];
-  statementType: statementTypes;
-  operator?: Operator;
+  statementType: any;
+  operator?: any;
 }
 
 export interface IadListProjectionInterrface {
