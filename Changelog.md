@@ -1,3 +1,12 @@
+#0.0.3-devel.20
+
+## Fixed bugs
+
+* fixed form dropdowns
+* fixed translated form inputs
+* fixed "active" toolbar action model property
+
+
 #0.0.3-devel.19
 
 * Replaced iad-interface-admin/partner/filter-builder and iad-interface-admin/elastic to separate lib section iad-interface-admin/filter

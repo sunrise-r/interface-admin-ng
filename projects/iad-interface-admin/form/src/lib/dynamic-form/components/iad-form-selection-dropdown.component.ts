@@ -5,6 +5,11 @@ import { ValidationInput } from '../core/validation-input';
 import { IadEventManager } from 'iad-interface-admin/core';
 import { IadFieldValuesService } from '../services/iad-field-values.service';
 
+export interface SelectionDropdownValuesInterface {
+    label: string;
+    value: string;
+}
+
 @Component({
     selector: 'iad-form-selection-dropdown',
     template: `
@@ -17,7 +22,7 @@ import { IadFieldValuesService } from '../services/iad-field-values.service';
                     <p-dropdown class="custom-form-control"
                                 [id]="config.key"
                                 [readonly]="config.readonly"
-                                [options]="dropdownValues()"
+                                [options]="values"
                                 [required]="config.required"
                                 [formControlName]="config.key"
                                 [placeholder]="' '"
@@ -44,7 +49,7 @@ import { IadFieldValuesService } from '../services/iad-field-values.service';
 
 export class IadFormSelectionDropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
 
-    valuesRequested: boolean;
+    values: SelectionDropdownValuesInterface[];
 
     constructor(
         private inputTranslateService: TranslateService,
@@ -56,28 +61,47 @@ export class IadFormSelectionDropdownComponent extends ValidationInput implement
         super(inputTranslateService, el, renderer);
     }
 
-    dropdownValues() {
-        if (this.config.values) {
-            if (this.config.valuesUrl) {
-                return this.config.values;
-            } else {
-                return this.config.values.map(value => ({
-                    label: this.config.translatePrefix ? this.inputTranslateService.instant(this.config.translatePrefix + '.' + value) : value,
-                    value: value
-                }));
-            }
-        } else if (this.config.valuesUrl && !this.valuesRequested) {
-            this.fieldValuesService.retrieveFieldMap(this.config.valuesUrl).subscribe(valuesMap => {
-                this.config.values = valuesMap;
-            }, () => {
-                this.config.values = [];
-            });
-            this.valuesRequested = true;
-        }
-        return this.config.values = [];
+    ngOnInit() {
+        super.ngOnInit();
+        this.dropdownValues().then(values => {
+            this.values = values;
+        });
     }
 
     onChange(value) {
         this.eventManager.broadcast({name: this.config.key + '#onChange', content: value});
+    }
+
+    private dropdownValues(): Promise<SelectionDropdownValuesInterface[]> {
+        const values = this.config.values;
+        if (values) {
+            if (this.config.valuesUrl) {
+                return Promise.resolve(values);
+
+            } else if (this.config.translatePrefix) {
+                return this.translateValues(values);
+
+            } else {
+                return Promise.resolve(values.map(value => ({
+                    label: value,
+                    value: value
+                })));
+            }
+        }
+        if (this.config.valuesUrl) {
+            return this.fieldValuesService.retrieveFieldMap(this.config.valuesUrl).toPromise();
+        }
+        return Promise.resolve(values);
+    }
+
+    private translateValues(values: string[]): Promise<SelectionDropdownValuesInterface[]> {
+        const translationPaths = values.reduce((acu, v) => Object.assign(acu, {[this.config.translatePrefix + '.' + v]: v}), {});
+        return this.inputTranslateService.get(Object.keys(translationPaths)).toPromise()
+            .then(translations => {
+                return Object.keys(translationPaths).map(path => ({
+                    label: translations[path],
+                    value: translationPaths[path]
+                }));
+            });
     }
 }
