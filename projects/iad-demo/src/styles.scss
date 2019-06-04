@@ -6,3 +6,12 @@
 .navbar-holder {
   height: 56px;
 }
+
+iad-dynamic-form .input-group > .form-control,
+iad-dynamic-form .input-group > .custom-form-control {
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 38px;
+    width: 100%;
+}
+

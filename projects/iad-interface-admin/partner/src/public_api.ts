@@ -13,15 +13,6 @@ export * from './lib/services/data-chain.service';
 export * from './lib/services/document-info-buffer.service';
 export * from './lib/services/document-operations.service';
 
-// #common (ex-customize)
-export * from './lib/common/tabbed-view/projection-tab.model';
-export * from './lib/common/tabbed-view/tabbed-view.component';
-export * from './lib/common/iad-common.module';
-
-// #filter-builder (elastic replacement)
-export * from './lib/filter-builder/action/customize-query';
-export * from './lib/filter-builder/filter-builder.service';
-
 // #data-table (data-grid)
 export * from './lib/data-table/data-table/data-table.model';
 export * from './lib/data-table/models/actual-selection.model';
@@ -32,12 +23,6 @@ export * from './lib/data-table/services/selection-buffer.service';
 export * from './lib/data-table/data-table/data-table.component';
 export * from './lib/data-table/services/actual-selection-chain.service';
 export * from './lib/data-table/iad-datatable.module';
-
-// #table toolbar
-export * from './lib/toolbar/toolbar-actions/toolbar-action.directive';
-export * from './lib/toolbar/toolbar-actions/toolbar-actions.component';
-export * from './lib/toolbar/models/toolbar-action.model';
-export * from './lib/toolbar/toolbar.module';
 
 // #projection-table
 export * from './lib/projection-table/toolbar-actions-toggle.service';

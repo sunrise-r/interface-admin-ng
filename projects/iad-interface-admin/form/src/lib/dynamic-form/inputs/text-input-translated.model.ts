@@ -1,9 +1,10 @@
-import {TextInput} from './text-input.model';
+import { TextInput } from './text-input.model';
 
 export class TextInputTranslated extends TextInput {
-  translateValue = true;
+    controlType = 'translateValue';
+    translateValue = true;
 
-  constructor(options: {} = {}) {
-    super(options);
-  }
+    constructor(options: {} = {}) {
+        super(options);
+    }
 }

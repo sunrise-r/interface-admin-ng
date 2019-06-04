@@ -1,3 +1,38 @@
+#0.0.3-devel.20
+
+## Fixed bugs
+
+* fixed form dropdowns
+* fixed translated form inputs
+* fixed "active" toolbar action model property
+
+
+#0.0.3-devel.19
+
+* Replaced iad-interface-admin/partner/filter-builder and iad-interface-admin/elastic to separate lib section iad-interface-admin/filter
+
+##Breaking changes
+
+* CustomizeQuery, FilterBuilderService, FilterBuilderFactory are now available only from 'iad-interface-admin/filter'
+* ElasticSearchQueryBuilder, ElasticService, ElasticFactory are now available only from 'iad-interface-admin/filter'
+
+#0.0.3-devel.18
+
+* Removed iad-interface-admin/partner/toolbar in favor of iad-interface-admin/toolbar
+
+##Breaking changes for partner project
+
+* ToolbarActionDirective is no more accessible from 'iad-interface-admin/partner' 
+* ToolbarActionsComponent is no more accessible from 'iad-interface-admin/partner' 
+
+#0.0.3-devel.17
+
+* Removed iad-interface-admin/partner/common in favor of iad-interface-admin/common
+
+##Breaking changes for partner project
+
+* TabbedViewComponent is no more accessible from 'iad-interface-admin/partner'
+
 #0.0.3-devel.16
 
 #Projection form

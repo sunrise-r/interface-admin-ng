@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToolbarAction } from '../toolbar/models/toolbar-action.model';
+import { ToolbarAction } from 'iad-interface-admin';
 import { DocumentActionsService } from '../services/document-actions-service';
 import { ActualSelectionModel } from '../data-table/models/actual-selection.model';
 import {

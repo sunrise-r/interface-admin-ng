@@ -1,16 +1,14 @@
-import {Operator} from '../../elastic/models/operator.model';
-import {statementTypes} from '../../elastic/operations/statement.factory';
-import {ToolbarAction} from '../../toolbar/models/toolbar-action.model';
+import {ToolbarAction} from '../../toolbar/toolbar-action.model';
 import {IadGridColumn} from './iad-grid-column.model';
 
 export interface FilterInterface {
   field: string;
   values: string[];
-  statementType: statementTypes;
-  operator?: Operator;
+  statementType: any;
+  operator?: any;
 }
 
-export interface IadListProjectionInterrface {
+export interface IadListProjectionInterface {
   actions: ToolbarAction[][];
   label: string;
   code: string;
@@ -24,7 +22,7 @@ export interface IadListProjectionInterrface {
   resourceSearchUrl?: string; // Not used yet
 }
 
-export class DocumentListProjection implements IadListProjectionInterrface {
+export class DocumentListProjection implements IadListProjectionInterface {
   actions: ToolbarAction[][];
   label: string;
   code: string;

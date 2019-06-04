@@ -1,24 +1,26 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChildren, QueryList } from '@angular/core';
-import { ToolbarAction } from '../models/toolbar-action.model';
 import { Subject } from 'rxjs';
-import {ToolbarActionDirective} from './toolbar-action.directive';
+
+import { ToolbarActionDirective } from './toolbar-action.directive';
+import { ToolbarAction } from './toolbar-action.model';
 
 @Component({
     selector: 'iad-toolbar-actions',
-    template: `<div class="toolbar-action-group" *ngFor="let group of actions">
-        <ng-template ngFor let-action [ngForOf]="group">
-            <button
-                *ngIf="action.visible !== false"
-                title="{{translationPrefix + action.code | translate}}"
-                [class]="styleClass"
-                type="button"
-                [iadToolbarAction]="action"
-                [active]="!!action.active"
-                [disabled]="action.disabled"
-                (invoke)="actionInvoke.emit($event)"
-            ></button>
-        </ng-template>
-  </div>`
+    template: `
+        <div class="toolbar-action-group" *ngFor="let group of actions">
+            <ng-template ngFor let-action [ngForOf]="group">
+                <button
+                    *ngIf="action.visible !== false"
+                    title="{{translationPrefix + action.code | translate}}"
+                    [class]="styleClass"
+                    type="button"
+                    [iadToolbarAction]="action"
+                    [active]="!!action.active"
+                    [disabled]="action.disabled"
+                    (invoke)="actionInvoke.emit($event)"
+                ></button>
+            </ng-template>
+        </div>`
 })
 export class ToolbarActionsComponent implements OnChanges {
     /**

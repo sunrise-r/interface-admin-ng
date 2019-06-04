@@ -11,7 +11,7 @@ import {
     SimpleChanges
 } from '@angular/core';
 
-import { ToolbarAction } from '../models/toolbar-action.model';
+import { ToolbarAction } from './toolbar-action.model';
 
 @Directive({
     selector: '[iadToolbarAction]'
@@ -31,11 +31,6 @@ export class ToolbarActionDirective implements OnInit, OnChanges {
      * Action invocation event
      */
     @Output() invoke = new EventEmitter<{ nativeEvent: Event; action: ToolbarAction }>();
-
-    /**
-     * Данные выбранной строки
-     */
-    selectedItem: any;
 
     constructor(private renderer: Renderer2, private el: ElementRef) {}
 

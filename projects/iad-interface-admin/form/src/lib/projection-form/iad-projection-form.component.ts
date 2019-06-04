@@ -48,15 +48,6 @@ export class IadProjectionFormComponent implements OnChanges {
 
     /**
      * Проекция по которой строится форма
-     * @deprecated use formProjection directly
-     */
-    @Input()
-    set projection(formProjection: IadFormProjection) {
-        this.formProjection = formProjection;
-    }
-
-    /**
-     * Проекция по которой строится форма
      */
     @Input() formProjection: IadFormProjection;
 
@@ -147,7 +138,7 @@ export class IadProjectionFormComponent implements OnChanges {
                 this.initForm();
             });
         }
-        if (('formProjection' in changes) || ('projection' in changes) || ('rawFormData' in changes && this.formProjection)) {
+        if (('formProjection' in changes || 'rawFormData' in changes) && this.formProjection) {
             this.initForm();
         }
     }
@@ -375,7 +366,7 @@ export class IadProjectionFormComponent implements OnChanges {
         if (!options.value && this.rawFormData) {
             options.value = field.dataSourcePath
                 ? this.resolveItemsPath(field.dataSourcePath, this.rawFormData)
-                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + field.name, this.rawFormData)
+                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + field.name, this.rawFormData);
         }
         return options;
     }
