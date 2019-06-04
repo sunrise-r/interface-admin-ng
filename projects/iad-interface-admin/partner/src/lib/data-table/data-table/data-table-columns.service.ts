@@ -240,7 +240,7 @@ export class DataTableColumnsService {
         const wrapper = IadDomHandler.findParentByClassName(element, SCROLLABLE_WRAPPER_CLASS);
         let containers: HTMLElement[] = [];
         if (wrapper !== undefined) {
-            containers = <HTMLElement[]>Array.from(wrapper.querySelectorAll(':not(.' + FROZEN_STATIC_CONTAINER_CLASS + ')'));
+            containers = <HTMLElement[]>Array.from(wrapper.querySelectorAll(':scope > :not(.' + FROZEN_STATIC_CONTAINER_CLASS + ')'));
         }
         return containers;
     }
