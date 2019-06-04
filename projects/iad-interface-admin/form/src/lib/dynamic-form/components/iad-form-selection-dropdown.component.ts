@@ -26,6 +26,7 @@ export interface SelectionDropdownValuesInterface {
                                 [required]="config.required"
                                 [formControlName]="config.key"
                                 [placeholder]="' '"
+                                [showClear]="config.showClear"
                                 (onChange)="onChange($event)"
                                 (onBlur)="onBlur()">
                     </p-dropdown>

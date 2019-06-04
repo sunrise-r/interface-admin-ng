@@ -70,7 +70,8 @@ export class ProjectionReferenceResponse extends AbstractResponse {
           'values': [
             'One', 'Two', 'Three', 'Four', 'Five'
           ],
-          'translatePrefix': 'phoneBook.firstField.values'
+          'translatePrefix': 'phoneBook.firstField.values',
+          'showClear': true
         }
       },
       {
