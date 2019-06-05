@@ -1,6 +1,6 @@
-import { IDataTableColumn } from './data-table.model';
 import { Subject } from 'rxjs';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
+import { IadGridColumn } from '../model/iad-grid-column.model';
 
 export interface DataTableConfigProvider {
     /**
@@ -9,15 +9,15 @@ export interface DataTableConfigProvider {
      * Это позволяет исключить установку сортировки до обработки запроса на обновление данных без
      * необходимости устанавливать таймауты
      */
-    refreshConfig: Subject<DataTableConfigModel>;
+    refreshConfig: Subject<BaseGridConfigModel>;
 }
 
-export class DataTableConfigModel {
+export class BaseGridConfigModel {
     filter: CustomizeQuery;
     constructor(
-        public columns: IDataTableColumn[] = [],
-        public rightColumns: IDataTableColumn[] = [],
-        public leftColumns: IDataTableColumn[] = [],
+        public columns: IadGridColumn[] = [],
+        public rightColumns: IadGridColumn[] = [],
+        public leftColumns: IadGridColumn[] = [],
         public sortField: string = null,
         public sortOrder = 1,
         public defaultSortField = 'creationDate',

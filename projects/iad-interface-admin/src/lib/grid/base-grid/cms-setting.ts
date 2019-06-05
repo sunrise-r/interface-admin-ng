@@ -7,9 +7,3 @@ export class CmsSetting {
         this.value = value;
     }
 }
-
-export type SettingsCallback = (element: HTMLElement) => CmsSetting;
-
-export interface SettingsProvider {
-    getSettings(element: HTMLElement): CmsSetting;
-}

@@ -1,148 +1,165 @@
 import {
-    AfterContentInit,
-    AfterViewInit,
+    AfterContentInit, AfterViewInit,
     Component,
     ContentChildren,
-    ElementRef,
     EventEmitter,
-    Input,
+    Input, OnChanges, OnDestroy,
     OnInit,
     Output,
-    QueryList,
+    QueryList, SimpleChanges,
     TemplateRef,
     ViewChild
 } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject } from 'rxjs';
-import { IadTableComponent, ResizeEvent } from 'iad-interface-admin/core';
-import { FilterBuilderService, CustomizeQuery } from 'iad-interface-admin/filter';
+import { ElasticSearchQueryBuilder, ElasticService } from 'iad-interface-admin/filter';
 
-import { DataTableColumnsService } from './data-table-columns.service';
-import { DataTableConfigModel } from './data-table-config.model';
-import { DTColumnFrozen, FrozenEvent, FrozenStructure } from './freeze-column.model';
-import { DataTableColumn, FILTER_TYPE, IDataTableColumn } from './data-table.model';
-import { DataTableInformationService } from '../services/data-table-information.service';
-import { CmsSetting } from '../services/settings-provider';
+import { PrimeTemplate } from 'primeng/shared';
+import { IadProjectionGridService } from '../services/iad-projection-grid.service';
+
+import { LazyLoadData, ResizeEvent, IadTableComponent, IadConfigService } from 'iad-interface-admin/core';
+import { FILTER_TYPE, IadGridConfigModel } from '../model/iad-grid-model';
+import { IadGridColumn } from '../model/iad-grid-column.model';
+import { columnComponents } from '../column-components/column-components.factory';
+import { CmsSetting } from './cms-setting';
+import { BaseGridConfigModel } from './base-grid-config.model';
+import { BaseGridColumnsService } from './base-grid-columns.service';
+import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from './base-grid-freeze-column.model';
 
 @Component({
-    selector: 'iad-data-table',
-    templateUrl: './data-table.component.html',
+    selector: 'iad-base-grid',
+    templateUrl: './base-grid.component.html',
     providers: [DataTableColumnsService]
 })
-export class DataTableComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
     /**
-     * Возможность снятия выделения строки таблицы
+     * Flag to toggle possibility to remove row selection
      */
     @Input() allowUnSelectRow: boolean;
 
     /**
-     * #1226 Subject to notify table about height change
+     * External notify table about height change
      */
     @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * Видимые колонки таблицы
+     * Columns
      */
-    @Input() columns: IDataTableColumn[];
+    @Input() columns: IadGridColumn[];
 
     /**
-     * Поле для сортировки по умолчанию
+     * Field to sort the table by default
      */
     @Input() defaultSortField = 'id';
 
     /**
-     * Входящее событие перезагрузки данных таблицы
+     * External refresh the table
      */
-    @Input() doRefresh: Subject<DataTableConfigModel>;
+    @Input() doRefresh: Subject<IadGridConfigModel>;
 
     /**
-     * Входящее событие выполнения внешнего действия с таблицей
+     * External table action
      */
     @Input() doTableAction: Subject<{ code: string; value: any }>;
 
     /**
-     * Название группы настроек. Будет использованная при сохранении настроек на стороне сервера.
+     * Unique ID to identify current table on the page
      */
-    @Input() groupSettingsKey: string;
+    @Input() gridId: string;
 
     /**
-     * Айтемы для отображения в таблице
+     * Flag to set infinite scroll
      */
-    @Input() items: any[] = [];
+    @Input() enableInfiniteScroll: boolean;
 
     /**
-     * Включает Lazy Loading если есть URL ресурса
+     * Data to display in the table
      */
-    @Input() lazyLoadingEnabled: boolean;
+    @Input() value: any[] = [];
 
     /**
-     * Дополнительный фильтр
+     * Flag to toggle Primeng table lazy loading
+     */
+    @Input() lazy: boolean;
+
+    /**
+     * Query builder callback. Allows to set additional query builder params
      */
     @Input() filter: CustomizeQuery;
 
     /**
-     * Посылает событие сброса фильтра
+     * #4 Add paginator to the table
+     */
+    @Input() paginator: boolean;
+
+    /**
+     * Flag to set if table should request data on initialization;
+     */
+    @Input() refreshOnInit: boolean;
+
+    /**
+     * Internal reset filters subject
      */
     @Input() resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
 
     /**
-     * Ссылка на ресурс - источник данных
+     * Grid data Source
      */
     @Input() searchUrl: string;
 
     /**
-     * Flag to check if grid filter should be showed
+     * Flag to check if grid header filter should be shown
      */
     @Input() showFilter: boolean;
 
     /**
-     * Поле для сортировки
+     * Sort field
      */
     @Input() sortField: string;
 
     /**
-     * Порядок сортировки
+     * Sort order
      */
     @Input() sortOrder: number;
 
     /**
-     * Список "статически замороженных колонок"
+     * List of columns statically frozen lefts
      */
-    @Input() staticFrozenColumns: IDataTableColumn[] = [];
+    @Input() staticFrozenColumns: IadGridColumn[] = [];
 
     /**
-     * Список "статически замороженных справа колонок"
+     * List of columns statically frozen rights
      */
-    @Input() staticFrozenRightColumns: IDataTableColumn[] = [];
+    @Input() staticFrozenRightColumns: IadGridColumn[] = [];
 
     /**
-     * Размер области "статически замороженных справа колонок
+     * Width of statically frozen rights columns area
      */
     @Input() staticFrozenRightWidth = '0';
 
     /**
-     * Размер области "статически замороженных колонок"
+     * Width of statically frozen lefts columns area
      */
     @Input() staticFrozenWidth = '0';
 
     /**
-     * Изменение размеров таблицы
+     * Update columns visibility
      */
-    @Input() updateVisibility: Subject<IDataTableColumn> = new Subject<IDataTableColumn>();
+    @Input() updateVisibility: Subject<IadGridColumn> = new Subject<IadGridColumn>();
 
     /**
-     * сабжект снятия выделения
+     * External unselect row action
      */
     @Input() unSelectRow: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * Событие смены настроек
+     * Internal settings changed event
      */
     @Output() onSettingChanged: EventEmitter<CmsSetting> = new EventEmitter<CmsSetting>();
 
     /**
-     * Событие того, что выбран row в таблице
+     * Internal row selection event
      */
     @Output() selectionChange = new EventEmitter<any>();
 
@@ -152,17 +169,22 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     @ViewChild(IadTableComponent) dt: IadTableComponent;
 
     /**
-     * PrimeNg Table templates
+     * Templates set as content of iad-grid component (i.e. interlayers)
      */
     @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
 
     /**
-     * Запрос обновления данных таблицы
+     * INTERNAL REQUEST TO UPDATE GRID DATA
      */
     askToRefresh: ReplaySubject<string> = new ReplaySubject<string>();
 
     /**
-     * Шаблоны в виде key=>value
+     * Column components to pass them to column td host
+     */
+    columnComponents = columnComponents;
+
+    /**
+     * INTERNAL COL TEMPLATES set as content of iad-grid component
      */
     colTemplates: { [param: string]: TemplateRef<any> } = {};
 
@@ -174,68 +196,73 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     enableLoad = false;
 
     /**
-     * Список "замороженных колонок"
+     * List of dynamically added lefts frozen columns
      */
-    frozenCols: IDataTableColumn[] = [];
+    frozenCols: IadGridColumn[];
 
     /**
-     * Список "замороженных колонок" справа
+     * List of dynamically added rights frozen columns
      */
-    frozenRightCols: IDataTableColumn[] = [];
+    frozenRightCols: IadGridColumn[] = [];
 
     /**
-     * Размер области "замороженных колонок" справа
+     * Width of dynamically added rights frozen columns area
      */
     frozenRightWidth = '0';
 
     /**
-     * Размер области "замороженных колонок"
+     * Width of dynamically added lefts frozen columns area
      */
     frozenWidth = '0';
 
     /**
-     * Флаг, активирующий спинер
+     * Flag to activate loading indicator
      */
     loading: boolean;
 
     /**
-     * Изменение размеров таблицы
+     * Internal resize subject
      */
     resize: Subject<ResizeEvent> = new Subject<ResizeEvent>();
 
     /**
-     * Текущее выделение в таблице
+     * Current primeng table selection
      */
     selection: any;
 
     /**
-     * Размер каждой страницы по айтемам
+     * Count of data items per page
      */
     size: number;
 
     /**
-     * Количество записей, доступных для загрузки
+     * Count of total data items
      */
-    totalItems: number;
+    totalRecords: number;
 
-    constructor(
-        private dataSearchService: DataTableInformationService,
-        private columnsService: DataTableColumnsService,
-        private filterBuilderService: FilterBuilderService,
-        private el: ElementRef
+    constructor(private gridDataService: IadProjectionGridService,
+                private configService: IadConfigService,
+                private elasticService: ElasticService,
+                private columnsService: BaseGridColumnsService
     ) {
-        this.size = 60; //  <-------@TODO MUST BE INPUT
+        this.size = this.configService.getConfig().pageSize;
         this.enableLoad = false;
     }
 
     ngOnInit() {
+        // Taken from partner project >>
         // Подписка на клик по экшну в тулбаре
         if (this.doTableAction) {
             this.doTableAction.subscribe(action => this.manageTable(action.code, action.value));
         }
+        // << Taken from partner project
+        if (this.refreshOnInit) {
+            this.refresh();
+        }
+        // Taken from partner project >>
         // Подписка на запрос обновления таблицы
         if (this.doRefresh) {
-            this.doRefresh.subscribe((data: DataTableConfigModel) => {
+            this.doRefresh.subscribe((data: BaseGridConfigModel) => {
                 this.initTableConfig(data);
                 this.refresh();
             });
@@ -244,11 +271,23 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
         if (this.updateVisibility) {
             this.updateVisibility.subscribe(column => this.onColToggle(column));
         }
+        // << Taken from partner project
+    }
+
+    ngOnDestroy(): void {
+        this.doRefresh.unsubscribe();
     }
 
     ngAfterViewInit(): void {
-        // issue #779
-        if (this.lazyLoadingEnabled && this.searchUrl) {
+        /**
+         * What is happpen here:
+         * When current component is loaded it cannot correctly subscribe to refresh because it calls this.dt methods and props
+         * Then we need to create refresh ReplaySubject
+         * wait for Sort Event (fired when sortField or sortOrder is set)
+         * and finally call that refresh ReplaySubject to update data
+         * @todo think if you can do it better
+         */
+        if (this.lazy && this.searchUrl) {
             this.askToRefresh.subscribe(() => {
                 this.dt.paginatorService.resetFirst();
                 this.updateData(this.dt.createLazyLoadMetadata(true));
@@ -262,11 +301,17 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
         });
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['searchUrl']) {
+            this.refresh();
+        }
+    }
+
     /**
      * Handler to toggle columns
      * @param column
      */
-    onColToggle(column: IDataTableColumn) {
+    onColToggle(column: IadGridColumn) {
         let frozenStructure = this.getFrozenStructure();
         frozenStructure = this.columnsService.updateContainerSizes(column, frozenStructure, this.el.nativeElement);
         this.updateDataTable(frozenStructure);
@@ -274,7 +319,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     }
 
     /**
-     * Ручное изменение размера колонки
+     * Manual resize of column
      * event.element: Resized column header
      * event.delta: Change of width in number of pixels
      */
@@ -288,7 +333,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     /**
      * Обработка события заморозки/разморозки колонки из меню колонки
      */
-    onFrozenColumn(event: FrozenEvent) {
+    onFrozenColumn(event: IadGridFrozenEvent) {
         let frozenStructure = this.getFrozenStructure();
         frozenStructure = this.columnsService.freeze(event, frozenStructure);
         this.updateDataTable(frozenStructure);
@@ -307,7 +352,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     }
 
     /**
-     * Смена мест колонок
+     * Manual column order (position) change
      * event.dragIndex: Index of the dragged column
      * event.dropIndex: Index of the dropped column
      * event.columns: Columns array after reorder
@@ -320,7 +365,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     }
 
     /**
-     * Обработчик фильтра
+     * Handler to be called when column filter is fullfilled
      * @param event
      * @param col
      */
@@ -350,6 +395,14 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     }
 
     /**
+     * @param event
+     */
+    onNativePager(event: { first: number, rows: number }) {
+        // this.updateData(this.dt.createLazyLoadMetadata(true));
+        this.refresh();
+    }
+
+    /**
      * Перезагрузка данных таблицы
      */
     refresh() {
@@ -367,30 +420,52 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * Добавление данных в таблицу
      * @param event
      */
-    updateData(event) {
+    updateData(event: LazyLoadData): void {
+        // from partner project >>>
+        // // #631 we do not need refresh if no searchUrl set and items are set externally
+        // if (!this.searchUrl) {
+        //     // #1808
+        //     if (this.lazyLoadingEnabled) {
+        //         this.reset();
+        //     }
+        //     return;
+        // }
+        // this.dataSearchService
+        //     .search(
+        //         this.searchUrl,
+        //         {
+        //             sort: [this.buildSort(event.sortField, event.sortOrder)],
+        //             size: event.rows,
+        //             page: event.first / event.rows
+        //         },
+        //         this.buildQuery(event)
+        //     )
+        //     .subscribe(
+        //         (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
+        //         () => {
+        //             if (event.clearData) {
+        //                 this.reset();
+        //             }
+        //         }
+        //     );
+        // <<< from partner project
+
         // #631 we do not need refresh if no searchUrl set and items are set externally
         if (!this.searchUrl) {
-            // #1808
-            if (this.lazyLoadingEnabled) {
-                this.reset();
-            }
             return;
         }
-        this.dataSearchService
-            .search(
-                this.searchUrl,
-                {
-                    sort: [this.buildSort(event.sortField, event.sortOrder)],
-                    size: event.rows,
-                    page: event.first / event.rows
-                },
-                this.buildQuery(event)
-            )
+        this.gridDataService
+            .search(this.searchUrl, {
+                query: this.buildQuery(event),
+                sort: [this.buildSort(event.sortField, event.sortOrder)],
+                size: event.rows,
+                page: event.first / event.rows
+            })
             .subscribe(
                 (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
                 () => {
                     if (event.clearData) {
-                        this.reset();
+                        this.value = [];
                     }
                 }
             );
@@ -432,82 +507,93 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
         this.onSettingChanged.next(settings);
     }
 
-    /**
-     * Calculate colspan for all non frozen columns
-     */
-    calculateNonFrozenColspan(): number {
-        if (!this.columns) {
-            return 0;
-        }
-        return this.columns.filter(col => col.visible && !col.frozen).length;
-    }
-
-    isColumnResizable(col: DataTableColumn) {
+    isColumnResizable(col: IadGridColumn) {
         return col.properties && col.properties.resizable !== undefined && col.properties.resizable !== null
             ? col.properties.resizable
             : true;
     }
 
-    isColumnReorderable(col: DataTableColumn) {
+    isColumnReorderable(col: IadGridColumn) {
         return col.properties && col.properties.reorderable !== undefined && col.properties.reorderable !== null
             ? col.properties.reorderable
             : true;
     }
 
-    isColumnSortable(col: DataTableColumn) {
+    isColumnSortable(col: IadGridColumn) {
         return col.sorting !== undefined ? col.sorting : true;
     }
 
-    hasColumnMenu(col: DataTableColumn) {
+    hasColumnMenu(col: IadGridColumn) {
         return col.properties && col.properties.hasColumnMenu !== undefined && col.properties.hasColumnMenu !== null
             ? col.properties.hasColumnMenu
             : true;
     }
 
     /**
-     * Фильтр по колонке
+     * Grid column and common filter query builder
      * @param event
      * event.filter Объект с фильтрами по полям
      * event.globalFilter строка с фильтром
      */
 
-    private buildQuery(event: any): String {
-        const filterBuilder = this.filterBuilderService.createFilter();
-        if (this.filter) {
-            filterBuilder.merge(this.filter.raw());
-        }
+    private buildQuery(event: any): string {
+        // from partner project >>>
+        // const filterBuilder = this.filterBuilderService.createFilter();
+        // if (this.filter) {
+        //     filterBuilder.merge(this.filter.raw());
+        // }
+        // if (event.globalFilter && event.globalFilter !== '') {
+        //     filterBuilder.addFilter('all', event.globalFilter, false).addOption('allMatchDelegate');
+        // } else if (event.filters) {
+        //     Object.keys(event.filters)
+        //         .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
+        //         .forEach((field: string) => {
+        //             const value = event.filters[field].value;
+        //             filterBuilder.addFilter(field, value, this.columnHasWildCard(field));
+        //         });
+        // }
+        // if (event.sortField && event.sortField === 'onResolution') {
+        //     filterBuilder.addOption('resolutionSortingDelegate', 'sort', 'onResolution');
+        // }
+        // if (event.sortField && event.sortField === 'onOperation') {
+        //     filterBuilder.addOption('operationSortingDelegate', 'sort', 'onOperation');
+        // }
+        // return filterBuilder.build();
+        // <<< from partner project
+
+        let queryBuilder = this.elasticService.createFilter();
         if (event.globalFilter && event.globalFilter !== '') {
-            filterBuilder.addFilter('all', event.globalFilter, false).addOption('allMatchDelegate');
-        } else if (event.filters) {
-            Object.keys(event.filters)
-                .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
-                .forEach((field: string) => {
+            return ElasticSearchQueryBuilder.buildFromString(event.globalFilter);
+        }
+        if (event.filters) {
+            Object.keys(event.filters).forEach((field: string) => {
+                if (event.filters[field].value !== null && event.filters[field].value !== '') {
                     const value = event.filters[field].value;
-                    filterBuilder.addFilter(field, value, this.columnHasWildCard(field));
-                });
+                    queryBuilder.addColumn(field).addStatement(value, true);
+                }
+            });
+            if (this.onBuildQuery) {
+                queryBuilder = this.onBuildQuery(queryBuilder);
+            }
         }
-        if (event.sortField && event.sortField === 'onResolution') {
-            filterBuilder.addOption('resolutionSortingDelegate', 'sort', 'onResolution');
-        }
-        if (event.sortField && event.sortField === 'onOperation') {
-            filterBuilder.addOption('operationSortingDelegate', 'sort', 'onOperation');
-        }
-        return filterBuilder.build();
+        return queryBuilder.build();
     }
 
     /**
      * Обновляет данные для пейджера и устанавливает список данных
+     * @Todo we need to move all the logic inside component-provided services
      * @param data
      * @param headers
      * @param clearData
      */
-    private addItems(data: Array<any>, headers: HttpHeaders, clearData?: boolean) {
+    private addItems(data: Array<any>, headers: HttpHeaders, clearData?: boolean): void {
         if (clearData) {
             this.reset();
         }
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        data.forEach(el => this.items.push(el));
+        this.totalRecords = parseInt(headers.get('X-Total-Count'), 10);
+        this.value = this.value.concat(data);
         this.dt.tableService.onValueChange(data);
+        // force current selection reset
         if (this.selection) {
             this.selection = data.find(item => item.id === this.selection.id);
             this.selectionChange.emit(this.selection);
@@ -518,7 +604,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * Инициализирует колонки
      * Устанавливает первую колонку слева как закреплённую (это колонка-селектор)
      */
-    private initTableConfig(data: DataTableConfigModel): void {
+    private initTableConfig(data: IadGridConfigModel): void {
         if (data.filter) {
             this.filter = data.filter;
         }
@@ -536,12 +622,12 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     }
 
     /**
-     * Формирует массив сортировок
+     * Returns string to send sort
      * event.sortField = Field name to sort with
      * event.sortOrder = Sort order as number, 1 for asc and -1 for dec
      * @returns {string[]}
      */
-    private buildSort(sortField?: string, sortOrder = 1) {
+    private buildSort(sortField?: string, sortOrder = 1): string {
         if (!sortField) {
             sortField = this.defaultSortField;
         }
@@ -551,8 +637,8 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
     /**
      * Получаем актуальную для PrimengTable информацию о замороженных колонках
      */
-    private getFrozenStructure(): FrozenStructure {
-        const frozenStructure = new FrozenStructure();
+    private getFrozenStructure(): IadGridFrozenStructure {
+        const frozenStructure = new IadGridFrozenStructure();
         frozenStructure.left = this.dt.frozenColumns;
         frozenStructure.right = this.dt.frozenRightColumns;
         frozenStructure.center = this.dt.columns;
@@ -565,7 +651,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * updates frozen sides information and saves settings
      * @param data
      */
-    private updateFrozenSidesInfo(data: DTColumnFrozen): void {
+    private updateFrozenSidesInfo(data: IadGridColumnFrozen): void {
         this.dt.frozenWidth = data.leftWidth;
         this.dt.frozenRightWidth = data.rightWidth;
         this.resize.next(<ResizeEvent>{
@@ -579,7 +665,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, AfterContentIn
      * Updates current table structure
      * @param data
      */
-    private updateDataTable(data: FrozenStructure): void {
+    private updateDataTable(data: IadGridFrozenStructure): void {
         this.columns = data.center;
         this.frozenCols = data.left;
         this.frozenRightCols = data.right;

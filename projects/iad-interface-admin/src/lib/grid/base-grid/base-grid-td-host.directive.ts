@@ -18,7 +18,7 @@ import {AffectTableInterface, TableTdContentInterface} from '../column-component
 @Directive({
     selector: '[iadGridTdHost]'
 })
-export class GridTdHostDirective implements OnInit, OnDestroy, OnChanges {
+export class BaseGridTdHostDirective implements OnInit, OnDestroy, OnChanges {
     @Input() col: IadGridColumn;
     @Input() selected: any;
     @Input() rowData: any;

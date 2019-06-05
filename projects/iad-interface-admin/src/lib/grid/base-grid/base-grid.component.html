@@ -1,35 +1,34 @@
-<!--[askToRefresh]="askToRefresh"-->
-<!--[changeTableHeight]="changeTableHeight"-->
-<!--[frozenRightColumns]="frozenRightCols"-->
-<!--[frozenRightWidth]="frozenRightWidth"-->
-<!--[noSortOnInit]="true"-->
-<!--[resize]="resize"-->
-<!--[staticFrozenColumns]="staticFrozenColumns"-->
-<!--[staticFrozenWidth]="staticFrozenWidth"-->
-<!--[staticFrozenRightColumns]="staticFrozenRightColumns"-->
-<!--[staticFrozenRightWidth]="staticFrozenRightWidth"-->
-<!--[unSelectRow]="unSelectRow"-->
-<!--[allowUnSelectRow]="allowUnSelectRow"-->
 <iad-table
   #dt
   columnResizeMode="expand"
   dataKey="id"
   selectionMode="single"
   tableStyleClass="partner-table"
-
+  [allowUnSelectRow]="allowUnSelectRow"
+  [changeTableHeight]="changeTableHeight"
   [columns]="columns"
   [doRefresh]="askToRefresh"
+  [enableInfiniteScroll]="true"
   [frozenColumns]="frozenCols"
   [frozenWidth]="frozenWidth"
+  [frozenRightColumns]="frozenRightCols"
+  [frozenRightWidth]="frozenRightWidth"
   [lazy]="lazy"
   [loading]="loading"
+  [noSortOnInit]="true"
   [paginator]="paginator"
   [reorderableColumns]="true"
   [resizableColumns]="true"
+  [resize]="resize"
   [rows]="size"
   [(selection)]="selection"
   [scrollable]="true"
+  [staticFrozenColumns]="staticFrozenColumns"
+  [staticFrozenWidth]="staticFrozenWidth"
+  [staticFrozenRightColumns]="staticFrozenRightColumns"
+  [staticFrozenRightWidth]="staticFrozenRightWidth"
   [totalRecords]="totalRecords"
+  [unSelectRow]="unSelectRow"
   [value]="value"
 
   (onFilterChanged)="onFilter($event)"
@@ -51,7 +50,7 @@
     </colgroup>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
-    <tr class="ui-column-header-row" [ngClass]="{'ui-column-filter-shown': showFilter || showSearchPanel}">
+    <tr class="ui-column-header-row" [ngClass]="{'ui-column-filter-shown': showFilter}">
       <ng-template ngFor let-col [ngForOf]="columns">
         <th *ngIf="col.visible"
             pResizableColumn
@@ -71,14 +70,13 @@
             <ng-template #thNoTranslate>{{col.header}}</ng-template>
             <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
           </div>
-          <!--We need to replace header menu to upper level-->
-          <!--<iad-table-header-menu-->
-            <!--*ngIf="hasColumnMenu(col)"-->
-            <!--[columns]="columns"-->
-            <!--[column]="col"-->
-            <!--[defaultSortField]="defaultSortField"-->
-            <!--[groupSettingsKey]="groupSettingsKey"-->
-            <!--(freeze)="onFrozenColumn($event)"></iad-table-header-menu>-->
+            <iad-table-header-menu
+                *ngIf="hasColumnMenu(col)"
+                [columns]="columns"
+                [column]="col"
+                [defaultSortField]="defaultSortField"
+                [groupSettingsKey]="groupSettingsKey"
+                (freeze)="onFrozenColumn($event)"></iad-table-header-menu>
         </th>
       </ng-template>
     </tr>
@@ -113,39 +111,4 @@
       </ng-template>
     </tr>
   </ng-template>
-  <!-- add here middle-layer ngTemplateOutlet-->
-  <!--<ng-template pTemplate="interlayer" let-columns>-->
-    <!--<table [hidden]="!showSearchPanel" class="table-search-panel partner-table">-->
-      <!--<thead>-->
-      <!--<tr>-->
-        <!--<th>-->
-          <!--<iad-table-search-panel-->
-            <!--[resetFilter]="resetFilter"-->
-            <!--(search)="onSearch($event)"-->
-          <!--&gt;</iad-table-search-panel>-->
-        <!--</th>-->
-      <!--</tr>-->
-      <!--</thead>-->
-      <!--<tbody></tbody>-->
-    <!--</table>-->
-  <!--</ng-template>-->
-  <!--<ng-template pTemplate="frozeninterlayer" let-columns>-->
-    <!--<table [hidden]="!showSearchPanel" class="table-search-panel partner-table">-->
-      <!--<colgroup>-->
-        <!--<ng-template ngFor let-col [ngForOf]="columns">-->
-          <!--<col *ngIf="col.visible" [iadTableColumnSize]="col.width">-->
-        <!--</ng-template>-->
-      <!--</colgroup>-->
-      <!--<thead>-->
-      <!--<tr>-->
-        <!--<ng-template ngFor let-col [ngForOf]="columns">-->
-          <!--<th *ngIf="col.visible">-->
-            <!--<div class="iad-table-search-panel-placeholder"></div>-->
-          <!--</th>-->
-        <!--</ng-template>-->
-      <!--</tr>-->
-      <!--</thead>-->
-      <!--<tbody></tbody>-->
-    <!--</table>-->
-  <!--</ng-template>-->
 </iad-table>

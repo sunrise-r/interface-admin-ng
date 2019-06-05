@@ -1,11 +1,8 @@
-import { Subject } from 'rxjs';
-
-export interface IDataTableColumn {
+export interface IadGridColumnInterface {
     field: string;
     header: string;
     visible: boolean;
     formatter?: string;
-    displayFormat?: string;
     style?: string;
     translate?: boolean;
     frozen?: boolean;
@@ -14,26 +11,27 @@ export interface IDataTableColumn {
     frozenOrder?: number;
     width?: any;
     searching?: boolean;
+    displayFormat?: string;
     sorting?: boolean;
-    properties?: { [param: string]: string | boolean | number };
+    properties?: { [param: string]: any };
 }
 
-export class DataTableColumn implements IDataTableColumn {
+export class IadGridColumn implements IadGridColumnInterface {
     field: string;
     header: string;
     visible: boolean;
     formatter?: string;
-    displayFormat?: string;
     style?: string;
-    width?: string | number;
+    width?: number;
     translate?: boolean;
     frozen?: boolean;
     order?: number;
     frozenOrder?: number;
     position?: string;
     searching?: boolean;
+    displayFormat?: string;
     sorting?: boolean;
-    properties?: { [param: string]: string | boolean | number };
+    properties?: { [param: string]: any };
     constructor(field: string, header: string, displayFormat?: string, style?: string, translate?: boolean) {
         this.field = field;
         this.header = header;
@@ -48,23 +46,4 @@ export class DataTableColumn implements IDataTableColumn {
         this.searching = false;
         this.sorting = false;
     }
-}
-
-export enum FILTER_TYPE {
-    PARTICULAR = 0,
-    GLOBAL = 1,
-    BOTH = 2
-}
-
-export interface AffectTableInterface {
-    /**
-     * Наблюдатель управления таблицей
-     */
-    manageTable: Subject<{ code: string; value: any }>;
-}
-
-export interface TableTdContentInterface {
-    selected: boolean;
-    rowData: any;
-    col: DataTableColumn;
 }

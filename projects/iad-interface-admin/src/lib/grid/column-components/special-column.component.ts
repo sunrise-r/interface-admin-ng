@@ -1,14 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { DataTableColumn, TableTdContentInterface } from '../data-table/data-table.model';
-import { documentStatusesMap } from '../../model/russian-to-english.constants';
 import { TranslateService } from '@ngx-translate/core';
+import { TableTdContentInterface } from './column-components.model';
+import { IadGridColumn } from '../model/iad-grid-column.model';
+
+export const documentStatusesMap = {
+    Аннулирован: 'discard',
+    Действующий: 'accepted',
+    Действует: 'accepted',
+    Новый: 'new',
+    'На согласовании': 'review'
+};
 
 @Component({
     selector: 'iad-special-column',
-    template: `<div *ngIf="display" class="icon {{iconClass}}" [title]="tooltip"></div>`
+    template: `
+        <div *ngIf="display" class="icon {{iconClass}}" [title]="tooltip"></div>`
 })
 export class SpecialColumnComponent implements OnInit, TableTdContentInterface {
-    col: DataTableColumn;
+    col: IadGridColumn;
     rowData: any;
     selected: boolean;
     iconClass: string;
@@ -19,7 +28,8 @@ export class SpecialColumnComponent implements OnInit, TableTdContentInterface {
         return this.rowData[this.col.field] !== undefined ? this.rowData[this.col.field] : false;
     }
 
-    constructor(private translationService: TranslateService) {}
+    constructor(private translationService: TranslateService) {
+    }
 
     ngOnInit() {
         if (this.col.displayFormat === 'status') {
