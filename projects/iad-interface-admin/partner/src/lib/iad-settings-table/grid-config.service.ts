@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { DataTableConfigModel } from '../data-table/data-table/data-table-config.model';
-import { DataTableColumn, IDataTableColumn } from '../data-table/data-table/data-table.model';
-import { ColumnOrder, DTColumnFrozenField, FROZEN_POSITION, IDTColumnFrozen } from '../data-table/data-table/freeze-column.model';
+
+import {
+    IadGridConfigModel,
+    IadGridColumn,
+    IAD_FROZEN_POSITION,
+    IadGridColumnFrozen,
+    IadGridColumnFrozenField,
+    IadGridColumnOrder
+} from 'iad-interface-admin';
 
 @Injectable()
 export class GridConfigService {
@@ -10,18 +16,18 @@ export class GridConfigService {
      * @param columns
      * @param prefs
      */
-    populate(columns: IDataTableColumn[], prefs: Map<string, string>): DataTableConfigModel {
-        const model = new DataTableConfigModel();
+    populate(columns: IadGridColumn[], prefs: Map<string, string>): IadGridConfigModel {
+        const model = new IadGridConfigModel();
         let sortField: string,
             sortOrder: string,
             dgColumnWidth: { [param: string]: string },
-            dgFrozenInfo: DTColumnFrozenField[],
-            dgSidesInfo: IDTColumnFrozen,
-            dgOrderInfo: ColumnOrder[],
+            dgFrozenInfo: IadGridColumnFrozenField[],
+            dgSidesInfo: IadGridColumnFrozen,
+            dgOrderInfo: IadGridColumnOrder[],
             dgColumnVisibility: { [param: string]: boolean };
         if (prefs.has('sort')) {
             [sortField, sortOrder] = prefs.get('sort').split(',');
-            const convertSorting = (sort: string) => (sort === 'asc' ? 1 : sort === 'desc' ? -1 : false);
+            const convertSorting = (sort: string) => (sort === 'asc' ? 1 : sort === 'desc' ? -1 : 0);
             model.sortField = sortField;
             model.sortOrder = convertSorting(sortOrder) || parseInt(sortOrder, 10);
             if (Number.isNaN(model.sortOrder)) {
@@ -37,7 +43,7 @@ export class GridConfigService {
             dgColumnWidth = JSON.parse(prefs.get('dgColumnWidth'));
             columns.forEach(column => {
                 if (dgColumnWidth[column.field]) {
-                    column.width = dgColumnWidth[column.field];
+                    column.width = parseInt(dgColumnWidth[column.field], 10);
                 }
             });
         }
@@ -60,14 +66,14 @@ export class GridConfigService {
         }
         model.columns = this.reorderColumns(columns.filter(_column => !_column.frozen), dgOrderInfo);
         model.rightColumns = this.reorderColumns(
-            columns.filter(_column => _column.position === FROZEN_POSITION.RIGHT),
+            columns.filter(_column => _column.position === IAD_FROZEN_POSITION.RIGHT),
             dgOrderInfo,
-            FROZEN_POSITION.RIGHT
+            IAD_FROZEN_POSITION.RIGHT
         );
         model.leftColumns = this.reorderColumns(
-            columns.filter(_column => _column.position === FROZEN_POSITION.LEFT),
+            columns.filter(_column => _column.position === IAD_FROZEN_POSITION.LEFT),
             dgOrderInfo,
-            FROZEN_POSITION.LEFT
+            IAD_FROZEN_POSITION.LEFT
         );
         return model;
     }
@@ -78,16 +84,16 @@ export class GridConfigService {
      * @param columnsOrder
      * @param frozenArea
      */
-    private reorderColumns(columns: DataTableColumn[], columnsOrder: ColumnOrder[], frozenArea?: FROZEN_POSITION): DataTableColumn[] {
+    private reorderColumns(columns: IadGridColumn[], columnsOrder: IadGridColumnOrder[], frozenArea?: IAD_FROZEN_POSITION): IadGridColumn[] {
         const sortProperty = frozenArea ? 'frozenOrder' : 'order';
         return columns
             .map((column, index) => {
-                const columnOrder = columnsOrder ? columnsOrder.find(_columnOrder => _columnOrder.field === column.field) : <ColumnOrder>{};
+                const columnOrder = columnsOrder ? columnsOrder.find(_columnOrder => _columnOrder.field === column.field) : <IadGridColumnOrder>{};
                 column.frozenOrder = columnOrder && !isNaN(columnOrder.frozenOrder) ? columnOrder.frozenOrder : 0;
                 column.order = columnOrder && !isNaN(columnOrder.order) ? columnOrder.order : index;
                 return column;
             })
-            .sort((a: DataTableColumn, b: DataTableColumn) => {
+            .sort((a: IadGridColumn, b: IadGridColumn) => {
                 return a[sortProperty] > b[sortProperty] ? 1 : a[sortProperty] < b[sortProperty] ? -1 : 0;
             });
     }

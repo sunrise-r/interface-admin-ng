@@ -16,12 +16,23 @@ export * from './lib/common/tabbed-view/tabbed-view.component';
 export * from './lib/common/iad-common.module';
 
 export * from './lib/common/helpers/projections.helper';
-// # components:
+
+// # base grid:
+export * from './lib/base-grid/model/iad-grid-row-selection.model';
+export * from './lib/base-grid/model/iad-grid-column.model';
+export * from './lib/base-grid/model/iad-grid-model';
+export * from './lib/base-grid/base-grid/cms-setting';
+export * from './lib/base-grid/base-grid/base-grid-columns.service';
+export * from './lib/base-grid/base-grid/base-grid.component';
+export * from './lib/base-grid/base-grid/base-grid-freeze-column.model';
+export * from './lib/base-grid/base-grid/base-grid-config.model';
+export * from './lib/base-grid/iad-base-grid.module';
+export * from './lib/base-grid/column-components/special-column.component';
+
 // projection-tree
 export * from './lib/projection-tree/projection-tree.model';
 // projection-grid
 export * from './lib/projection-grid/model/projection-grid.model';
-export * from './lib/projection-grid/model/iad-grid-column.model';
 export * from './lib/projection-grid/projection-grid.module';
 
 // # public-services

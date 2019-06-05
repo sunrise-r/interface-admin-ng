@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DocumentOperationsService } from './document-operations.service';
-
-import {DataTableInformationService} from '../data-table/services/data-table-information.service';
+import { DataTableInformationService } from './data-table-information.service';
 
 @Injectable({
     providedIn: 'root'

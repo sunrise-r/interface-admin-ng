@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { IadSharedModule } from 'iad-interface-admin/core';
+import { IadBaseGridModule } from 'iad-interface-admin';
 
-import { IADDataTableModule } from './data-table/iad-datatable.module';
 import { ToolbarModule } from 'iad-interface-admin';
 
 @NgModule({
-    imports: [IadSharedModule, ToolbarModule, IADDataTableModule]
+    imports: [IadSharedModule, ToolbarModule, IadBaseGridModule]
 })
 export class IADFrameworkModule {}

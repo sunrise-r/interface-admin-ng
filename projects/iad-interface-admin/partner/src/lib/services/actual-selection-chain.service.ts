@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import {ActualSelectionModel} from '../models/actual-selection.model';
-import {DATA_DEPENDENCY_LEVEL} from '../../model/projection.model';
+import { DATA_DEPENDENCY_LEVEL } from '../model/projection.model';
 
 class ActualSelectionData {
-    constructor(public name: string, public model: ActualSelectionModel = null) {}
+    constructor(public name: string, public model: any = null) {
+    }
 }
 
 @Injectable({
@@ -15,19 +15,19 @@ export class ActualSelectionChainService {
 
     data: ActualSelectionData[];
 
-    dataIsChanged: Subject<ActualSelectionModel | null> = new Subject<ActualSelectionModel | null>();
+    dataIsChanged: Subject<any | null> = new Subject<any>();
 
     constructor() {
         this.data = this.initSelectionData();
         this.previousDataState = this.initSelectionData();
     }
 
-    setData(data: ActualSelectionModel) {
+    setData(data: any) {
         this.setSelectionData(<DATA_DEPENDENCY_LEVEL>data.type, data);
         this.dataIsChanged.next(data);
     }
 
-    unsetData(data?: ActualSelectionModel) {
+    unsetData(data?: any) {
         if (!data) {
             this.resetBuffer();
             return;
@@ -61,7 +61,7 @@ export class ActualSelectionChainService {
      * @param type
      * @param value
      */
-    setSelectionData(type: DATA_DEPENDENCY_LEVEL, value: ActualSelectionModel) {
+    setSelectionData(type: DATA_DEPENDENCY_LEVEL, value: any) {
         const index = this.findIndexByType(this.data, type);
         this.previousDataState.forEach((model: ActualSelectionData, _index: number) => {
             this.previousDataState[_index].model = this.data[_index].model;

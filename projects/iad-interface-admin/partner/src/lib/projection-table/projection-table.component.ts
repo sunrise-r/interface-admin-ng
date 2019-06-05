@@ -13,15 +13,14 @@ import {
 import { of, Subject } from 'rxjs';
 
 import * as _ from 'lodash';
-import { ToolbarAction } from 'iad-interface-admin';
+import { ToolbarAction, IadGridColumn, FILTER_TYPE, IIadGridColumn, IadGridRowSelection, SELECT_ACTION } from 'iad-interface-admin';
 import { IadEventManager, IadHelper } from 'iad-interface-admin/core';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { DATA_DEPENDENCY_LEVEL, DocumentListProjection } from '../model/projection.model';
-import { SELECT_ACTION, ActualSelectionEvent, ActualSelectionModel } from '../data-table/models/actual-selection.model';
-import { DataTableColumn, FILTER_TYPE, IDataTableColumn } from '../data-table/data-table/data-table.model';
-import { DataTableInformationService } from '../data-table/services/data-table-information.service';
-import { ActualSelectionChainService } from '../data-table/services/actual-selection-chain.service';
+
+import { DataTableInformationService } from '../services/data-table-information.service';
+import { ActualSelectionChainService } from '../services/actual-selection-chain.service';
 import { PresentationHelper } from '../services/presentation-helper';
 
 import { ToolbarActionsToggleService } from './toolbar-actions-toggle.service';
@@ -130,12 +129,12 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * Список "статически замороженных колонок"
      */
-    @Input() staticFrozenColumns: IDataTableColumn[] = [];
+    @Input() staticFrozenColumns: IIadGridColumn[] = [];
 
     /**
      * Список "статически замороженных справа колонок"
      */
-    @Input() staticFrozenRightColumns: IDataTableColumn[] = [];
+    @Input() staticFrozenRightColumns: IIadGridColumn[] = [];
 
     /**
      * Размер области "статически замороженных справа колонок
@@ -179,7 +178,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * В таблице была выбрна строка
      */
-    @Output() selectedItem: EventEmitter<ActualSelectionModel> = new EventEmitter<ActualSelectionModel>();
+    @Output() selectedItem: EventEmitter<any> = new EventEmitter<any>();
 
     /**
      * В таблице было снято выделение строки
@@ -204,7 +203,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * Все колонки таблицы
      */
-    columns: IDataTableColumn[] = [];
+    columns: IIadGridColumn[] = [];
 
     /**
      * код группы настроек таблицы
@@ -229,7 +228,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * Текущая выделенная запись
      */
-    private actualSelection: ActualSelectionModel;
+    private actualSelection: any;
 
     private static resolveUrl(searchUrl: string, context: any) {
         if (context === null || searchUrl === null) {
@@ -349,7 +348,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
         this.removeSelectedDataFromPreview(this.actualSelection);
         this.actualSelection = undefined;
         this.unSelectedItem.emit();
-        const event = new ActualSelectionEvent({ action: SELECT_ACTION.UNSELECT, type: this.type });
+        const event = new IadGridRowSelection({ action: SELECT_ACTION.UNSELECT, type: this.type });
         this.eventManager.broadcast(event);
     }
 
@@ -370,7 +369,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
                 return this.informationService.find(event[this.selectionRequestField], this.type);
             },
             event: () => {
-                return of(<ActualSelectionModel>{
+                return of(<any>{
                     documentIndex: {},
                     documentDTO: {},
                     properties: {
@@ -379,7 +378,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
                 });
             }
         };
-        strategy[strategyName]().subscribe((response: ActualSelectionModel) => {
+        strategy[strategyName]().subscribe((response: any) => {
             if (response.documentDTO || response.documentIndex) {
                 response.action = SELECT_ACTION.SELECT;
                 response.selection = event;
@@ -391,7 +390,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
                 // this.dataChainService.add(this.type, this.actualSelection);
                 this.sendSelectionToDataPreview(this.actualSelection);
                 this.selectedItem.emit(this.actualSelection);
-                this.eventManager.broadcast(new ActualSelectionEvent(this.actualSelection));
+                this.eventManager.broadcast(new IadGridRowSelection(this.actualSelection));
             }
         });
     }
@@ -409,9 +408,9 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
 
         // Статично закреплённая колонка с указателем выделенной строки
         this.staticFrozenWidth = '15px';
-        const selectionColumn = new DataTableColumn('rowPointer', '', 'ui-select-button', 'ui-select-button ui-column-gray');
+        const selectionColumn = new IadGridColumn('rowPointer', '', 'ui-select-button', 'ui-select-button ui-column-gray');
         selectionColumn.formatter = 'SelectionIndicatorColumnComponent';
-        selectionColumn.width = '15px';
+        selectionColumn.width = 15;
         selectionColumn.properties = {
             resizable: false,
             reorderable: false,
@@ -427,10 +426,10 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
             }
             if (column.position === 'const-froz-right') {
                 this.staticFrozenRightColumns.push(column);
-                this.staticFrozenRightWidth = (parseInt(this.staticFrozenRightWidth, 10) + parseInt(column.width, 10)).toString() + 'px';
+                this.staticFrozenRightWidth = (parseInt(this.staticFrozenRightWidth, 10) + column.width).toString() + 'px';
             } else if (column.position === 'const-froz-left') {
                 this.staticFrozenColumns.push(column);
-                this.staticFrozenWidth = (parseInt(this.staticFrozenWidth, 10) + parseInt(column.width, 10)).toString() + 'px';
+                this.staticFrozenWidth = (parseInt(this.staticFrozenWidth, 10) + column.width).toString() + 'px';
             } else {
                 this.columns.push(column);
             }
@@ -447,9 +446,9 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
 
     /**
      * Определяем доступность экшнов в тулбаре текущей проекции
-     * @param body ActualSelectionModel
+     * @param body any
      */
-    private resolveActions(body: ActualSelectionModel): ToolbarAction[][] {
+    private resolveActions(body: any): ToolbarAction[][] {
         if (body && body.documentDTO) {
             return this.toolbarActionsToggleService.resolveActionsByStatus(this.projection.actions, body);
         }
@@ -460,7 +459,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
      * Отправляем событие, которое передаёт данные в компонент "Окно данные"
      * @param body
      */
-    private sendSelectionToDataPreview(body: ActualSelectionModel): void {
+    private sendSelectionToDataPreview(body: any): void {
         this.dataPreviewChainService.setData(body);
     }
 
@@ -468,7 +467,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
      * Отправляем событие, которое убирает данные из компонента "Окно данные"
      * @param body
      */
-    private removeSelectedDataFromPreview(body: ActualSelectionModel) {
+    private removeSelectedDataFromPreview(body: any) {
         this.dataPreviewChainService.unsetData(body);
     }
 

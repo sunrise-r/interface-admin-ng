@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { Subject, Subscription } from 'rxjs';
-import { FILTER_TYPE } from '../../data-table/data-table/data-table.model';
+import { FILTER_TYPE } from 'iad-interface-admin';
 
 // [jhiFocus]="tableSearchDropdown.openChange"
 @Component({

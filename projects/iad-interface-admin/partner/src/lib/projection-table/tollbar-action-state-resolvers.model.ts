@@ -1,14 +1,12 @@
-import { ToolbarAction } from 'iad-interface-admin';
+import { ToolbarAction, documentStatusesMap } from 'iad-interface-admin';
 import { DocumentState, DocumentUpdater, OperationState, OperationUpdater } from '../services/document-actions-service';
-import { documentStatusesMap } from '../model/russian-to-english.constants';
-import { ActualSelectionModel } from '../data-table/models/actual-selection.model';
 
 export class DocumentActionState implements DocumentState {
     public readonly archive = this.actualSelectionModel.selection.archive;
     public readonly documentStatus = documentStatusesMap[this.actualSelectionModel.documentIndex.status];
     public readonly needResolution = this.actualSelectionModel.selection.onResolution;
     public readonly needOperation = this.actualSelectionModel.selection.onOperation;
-    constructor(private actualSelectionModel: ActualSelectionModel) {}
+    constructor(private actualSelectionModel: any) {}
 }
 
 export class DocumentActionUpdater implements DocumentUpdater {
@@ -52,5 +50,5 @@ export class OperationActionState implements OperationState {
     public readonly operationStatus = this.body.selection.operationStatus;
     readonly needResolution = 'REJECTED' !== this.body.selection.operationStatus && 'ACCEPTED' !== this.body.selection.operationStatus;
 
-    constructor(private body: ActualSelectionModel) {}
+    constructor(private body: any) {}
 }

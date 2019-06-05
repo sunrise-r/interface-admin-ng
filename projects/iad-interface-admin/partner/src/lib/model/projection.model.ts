@@ -1,5 +1,5 @@
-import { IadFormProjectionInterface, IadFormProjection } from 'iad-interface-admin/form';
-import { IDataTableColumn } from '../data-table/data-table/data-table.model';
+import { IadFormProjectionInterface } from 'iad-interface-admin/form';
+import { IadGridColumn } from 'iad-interface-admin';
 
 export enum DATA_DEPENDENCY_LEVEL {
     DOCUMENT = 'document',
@@ -83,7 +83,7 @@ export class DocumentListProjection implements IIADProjection {
     code: string;
     active?: boolean;
     searchUrl?: string;
-    columns?: IDataTableColumn[];
+    columns?: IadGridColumn[];
     filters?: IProjectionDefaultFilter[];
     settingsGroupName?: string; // Is it used anywhere?
     resourceSearchUrl?: string; // Is it used anywhere?

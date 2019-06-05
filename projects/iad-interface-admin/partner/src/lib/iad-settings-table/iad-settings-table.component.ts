@@ -3,9 +3,13 @@ import { Subject, Subscription } from 'rxjs';
 import { IadEventManager } from 'iad-interface-admin/core';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 
-import { DataTableConfigProvider, DataTableConfigModel } from '../data-table/data-table/data-table-config.model';
-import { FILTER_TYPE, IDataTableColumn } from '../data-table/data-table/data-table.model';
-import { CmsSetting } from '../data-table/services/settings-provider';
+import {
+    IadGridColumn,
+    FILTER_TYPE,
+    IadGridConfigModel,
+    CmsSetting,
+    DataTableConfigProvider
+} from 'iad-interface-admin';
 
 import { GridConfigService } from './grid-config.service';
 import {CmsUserSettingsLoaderService, EntityResponseType} from './iad-user-settings-loader.service';
@@ -30,7 +34,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
      * Видимые колонки таблицы
      */
     @Input()
-    set columns(columns: IDataTableColumn[]) {
+    set columns(columns: IadGridColumn[]) {
         if (columns) {
             this.config.columns = columns;
         }
@@ -84,7 +88,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     /**
      * Список "статически замороженных колонок"
      */
-    @Input() staticFrozenColumns: IDataTableColumn[] = [];
+    @Input() staticFrozenColumns: IadGridColumn[] = [];
 
     /**
      * #1226 Subject to notify table about height change
@@ -104,7 +108,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     /**
      * Список "статически замороженных справа колонок"
      */
-    @Input() staticFrozenRightColumns: IDataTableColumn[] = [];
+    @Input() staticFrozenRightColumns: IadGridColumn[] = [];
 
     /**
      * Размер области "статически замороженных справа колонок
@@ -129,7 +133,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
     /**
      * Модель конйфига для таблицы
      */
-    config: DataTableConfigModel = new DataTableConfigModel();
+    config: IadGridConfigModel = new IadGridConfigModel();
 
     /**
      * Предыдущее значение сортировки
@@ -138,16 +142,16 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
 
     /**
      * Данные таблицы были изменены
-     * Передаёт в data-table.component информацию обо всех текущих настройках в виде единого DatatableConfigModel файла
+     * Передаёт в data-table.component информацию обо всех текущих настройках в виде единого IadGridConfigModel файла
      * Это позволяет исключить установку сортировки до обработки запроса на обновление данных без
      * необходимости устанавливать таймауты
      */
-    refreshConfig: Subject<DataTableConfigModel> = new Subject<DataTableConfigModel>();
+    refreshConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
 
     /**
      * Изменение размеров таблицы
      */
-    updateVisibility: Subject<IDataTableColumn> = new Subject<IDataTableColumn>();
+    updateVisibility: Subject<IadGridColumn> = new Subject<IadGridColumn>();
 
     /**
      * Currently selected item
@@ -254,9 +258,9 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
      * @param columns
      * @param actedColumn
      */
-    onUpdateColumnsVisibility(columns: IDataTableColumn[], actedColumn: IDataTableColumn) {
+    onUpdateColumnsVisibility(columns: IadGridColumn[], actedColumn: IadGridColumn) {
         const visibility: { [prop: string]: boolean } = {};
-        columns.forEach((column: IDataTableColumn) => {
+        columns.forEach((column: IadGridColumn) => {
             visibility[column.field] = column.visible;
         });
         this.updateVisibility.next(actedColumn);

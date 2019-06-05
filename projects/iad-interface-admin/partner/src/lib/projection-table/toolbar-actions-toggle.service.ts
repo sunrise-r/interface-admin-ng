@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToolbarAction } from 'iad-interface-admin';
 import { DocumentActionsService } from '../services/document-actions-service';
-import { ActualSelectionModel } from '../data-table/models/actual-selection.model';
 import {
     DocumentActionState,
     DocumentActionUpdater,
@@ -65,7 +64,7 @@ export class ToolbarActionsToggleService {
      * @param actions Список Actions которые содержаться в текущем  projection
      * @param body selected document info
      */
-    resolveActionsByStatus(actions: ToolbarAction[][], body: ActualSelectionModel): ToolbarAction[][] {
+    resolveActionsByStatus(actions: ToolbarAction[][], body: any): ToolbarAction[][] {
         if (body.type === 'document') {
             this.iterateActions(actions, action => {
                 action.disabled = this.isDisabledByStatusCondition(action, body.documentDTO.status);
@@ -99,7 +98,7 @@ export class ToolbarActionsToggleService {
         return status === undefined;
     }
 
-    private updateActionsState(actionGroups: ToolbarAction[][], body: ActualSelectionModel): void {
+    private updateActionsState(actionGroups: ToolbarAction[][], body: any): void {
         const actionsHeap = actionGroups.reduce((accu, group) => accu.concat(group), []).map(action => {
             action.disabled = false;
             return action;
