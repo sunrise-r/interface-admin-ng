@@ -1,7 +1,7 @@
 import {
     AfterContentInit, AfterViewInit,
     Component,
-    ContentChildren,
+    ContentChildren, ElementRef,
     EventEmitter,
     Input, OnChanges, OnDestroy,
     OnInit,
@@ -15,7 +15,6 @@ import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject } from 'rxjs';
 import { ElasticSearchQueryBuilder, ElasticService } from 'iad-interface-admin/filter';
 
-import { PrimeTemplate } from 'primeng/shared';
 import { IadProjectionGridService } from '../services/iad-projection-grid.service';
 
 import { LazyLoadData, ResizeEvent, IadTableComponent, IadConfigService } from 'iad-interface-admin/core';
@@ -30,7 +29,7 @@ import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from 
 @Component({
     selector: 'iad-base-grid',
     templateUrl: './base-grid.component.html',
-    providers: [DataTableColumnsService]
+    providers: [BaseGridColumnsService]
 })
 export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
     /**
@@ -243,7 +242,8 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     constructor(private gridDataService: IadProjectionGridService,
                 private configService: IadConfigService,
                 private elasticService: ElasticService,
-                private columnsService: BaseGridColumnsService
+                private columnsService: BaseGridColumnsService,
+                private el: ElementRef
     ) {
         this.size = this.configService.getConfig().pageSize;
         this.enableLoad = false;
@@ -413,7 +413,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      * Method to reset items
      */
     reset() {
-        this.items = [];
+        this.value = [];
     }
 
     /**
