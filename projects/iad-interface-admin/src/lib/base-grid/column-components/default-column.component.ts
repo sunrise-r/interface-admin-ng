@@ -3,6 +3,9 @@ import { Component, OnInit, Renderer2, ElementRef, Pipe, PipeTransform } from '@
 import { TableTdContentInterface } from './column-components.model';
 import { IadGridColumn } from '../model/iad-grid-column.model';
 
+/**
+ * PART OF PARTNER PROJECT (settings-table). REMOVE IT FROM HERE!
+ */
 @Pipe({
     name: 'status'
 })

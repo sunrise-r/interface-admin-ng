@@ -1,131 +1,133 @@
 import {
-  AfterContentInit,
-  Component,
-  ContentChildren,
-  Input,
-  OnChanges,
-  OnInit,
-  QueryList,
-  SimpleChanges,
-  TemplateRef
+    AfterContentInit,
+    Component,
+    ContentChildren,
+    Input,
+    OnChanges,
+    OnInit,
+    QueryList,
+    SimpleChanges,
+    TemplateRef
 } from '@angular/core';
-import {PrimeTemplate} from 'primeng/shared';
-import {Subject} from 'rxjs';
+import { PrimeTemplate } from 'primeng/shared';
+import { Subject } from 'rxjs';
 
-import {DocumentListProjection} from '../model/projection-grid.model';
-import {IadGridColumn} from '../model/iad-grid-column.model';
-import {IadGridConfigModel} from '../model/iad-grid-model';
+import { DocumentListProjection } from '../model/projection-grid.model';
+import { IadGridColumn } from '../../base-grid/model/iad-grid-column.model';
+import { IadGridConfigModel } from '../../base-grid/model/iad-grid-model';
 
 @Component({
-  selector: 'iad-projection-grid',
-  templateUrl: './projection-grid.component.html',
-  styleUrls: ['./projection-grid.component.scss']
+    selector: 'iad-projection-grid',
+    templateUrl: './projection-grid.component.html'
 })
 export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges {
 
-  /**
-   * #4 Add paginator to the table
-   */
-  @Input() paginator: boolean;
+    /**
+     * #4 Add paginator to the table
+     */
+    @Input() paginator: boolean;
 
-  /**
-   * Projection table columns
-   */
-  @Input() columns: IadGridColumn[];
+    /**
+     * Projection table columns
+     */
+    @Input() columns: IadGridColumn[];
 
-  /**
-   * Table has toolbar right above the header
-   */
-  @Input() hasToolbar: boolean;
+    /**
+     * Table has toolbar right above the header
+     */
+    @Input() hasToolbar: boolean;
 
-  /**
-   * unique code to identify current presentation
-   */
-  @Input() presentationCode: string;
+    /**
+     * unique code to identify current presentation
+     */
+    @Input() presentationCode: string;
 
-  @Input() lazy: boolean;
+    @Input() lazy: boolean;
 
-  doRefresh: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
+    doRefresh: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
 
-  /**
-   * current projection
-   */
-  private _projection: DocumentListProjection;
+    /**
+     * current projection
+     */
+    private _projection: DocumentListProjection;
 
-  @Input()
-  get projection(): DocumentListProjection {
-    return this._projection;
-  }
-  set projection(projection: DocumentListProjection) {
-    this._projection = projection;
-  }
+    @Input()
+    get projection(): DocumentListProjection {
+        return this._projection;
+    }
 
-  /**
-   * @todo check if we need it
-   * Flag to add 'responsive' css class
-   */
-  @Input() responsive: boolean;
+    set projection(projection: DocumentListProjection) {
+        this._projection = projection;
+    }
 
-  /**
-   * Flag to check if grid filter should be shown
-   */
-  @Input() showFilter: boolean;
+    /**
+     * @todo check if we need it
+     * Flag to add 'responsive' css class
+     */
+    @Input() responsive: boolean;
 
-  /**
-   * Projection table values
-   */
-  @Input() value: any[] = [];
+    /**
+     * Flag to check if grid filter should be shown
+     */
+    @Input() showFilter: boolean;
 
-  /**
-   * PrimeNg Table templates
-   */
-  @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
+    /**
+     * Projection table values
+     */
+    @Input() value: any[] = [];
 
-  /**
-   * Templates for every column type in format {key: value}
-   */
-  colTemplates: { [param: string]: TemplateRef<any> } = {};
+    /**
+     * PrimeNg Table templates
+     */
+    @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
 
-  /**
-   * @todo check if we need it
-   * Throws filter reset event
-   */
-  resetFilter: Subject<boolean> = new Subject<boolean>();
+    /**
+     * Templates for every column type in format {key: value}
+     */
+    colTemplates: { [param: string]: TemplateRef<any> } = {};
 
-  /**
-   * Search url for grid-component
-   */
-  searchUrl: string;
+    /**
+     * @todo check if we need it
+     * Throws filter reset event
+     */
+    resetFilter: Subject<boolean> = new Subject<boolean>();
 
-  constructor() {}
+    /**
+     * Search url for grid-component
+     */
+    searchUrl: string;
 
-  ngOnInit() {}
+    constructor() {
+    }
 
-  ngAfterContentInit(): void {
-    this.templates.forEach(item => {
-      this.colTemplates[item.getType()] = item.template;
-    });
-  }
+    ngOnInit() {
+    }
 
-  ngOnChanges(changes: SimpleChanges): void {
-      if ((changes['projection'] || (changes['presentationCode'] && this.presentationCode)) && this.projection) {
-        // this.queryCallback = this.initQueryCallback.bind(this);
-        // this.initColumns();
-        // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
-        // this.loadActualInfo = this.initLoadActualInformationFlag();
-        // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
-        // this.unSelectRow.next(true);
-        this.searchUrl = this.projection.searchUrl;
-      }
-  }
+    ngAfterContentInit(): void {
+        this.templates.forEach(item => {
+            this.colTemplates[item.getType()] = item.template;
+        });
+    }
 
-  /**
-   * Filter event handler
-   */
-  onFilter(event: any, col: any) {
-    // this.dt.filters = {};
-    // this.dt.filter(event.value, col.field, col.filterMatchMode);
-    // this.refresh();
-  }
+    ngOnChanges(changes: SimpleChanges): void {
+        if ((changes['projection'] || (changes['presentationCode'] && this.presentationCode)) && this.projection) {
+            // this.queryCallback = this.initQueryCallback.bind(this);
+            // this.initColumns();
+            // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
+            // this.loadActualInfo = this.initLoadActualInformationFlag();
+            // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
+            // this.unSelectRow.next(true);
+            this.searchUrl = this.projection.searchUrl;
+        }
+    }
+
+    /**
+     * Filter event handler
+     */
+    onFilter(event: any, col: any) {
+        // this.dt.filters = {};
+        // this.dt.filter(event.value, col.field, col.filterMatchMode);
+        // this.refresh();
+    }
 
 }

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TableTdContentInterface } from './column-components.model';
 import { IadGridColumn } from '../model/iad-grid-column.model';
-
+/**
+ * PART OF PARTNER PROJECT (settings-table). REMOVE IT FROM HERE!
+ */
 export const documentStatusesMap = {
     Аннулирован: 'discard',
     Действующий: 'accepted',
@@ -10,7 +12,9 @@ export const documentStatusesMap = {
     Новый: 'new',
     'На согласовании': 'review'
 };
-
+/**
+ * PART OF PARTNER PROJECT (settings-table). REMOVE IT FROM HERE!
+ */
 @Component({
     selector: 'iad-special-column',
     template: `
