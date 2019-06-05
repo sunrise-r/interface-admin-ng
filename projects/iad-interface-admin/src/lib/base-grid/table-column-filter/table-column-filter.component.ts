@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { Subject, Subscription } from 'rxjs';
 
 import { TableColumnFilter } from './table-column-filter.model';
-import { FILTER_TYPE } from '../data-table/data-table.model';
+import { FILTER_TYPE } from '../model/iad-grid-model';
 
 @Component({
     selector: 'iad-table-column-filter',

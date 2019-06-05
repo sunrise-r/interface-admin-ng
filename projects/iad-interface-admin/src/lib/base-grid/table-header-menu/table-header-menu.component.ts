@@ -4,11 +4,22 @@ import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { IadDomHandler, IadTableComponent, IadEventManager } from 'iad-interface-admin/core';
 
-import { FROZEN_ACTION, FROZEN_POSITION, FrozenEvent } from '../data-table/freeze-column.model';
-import {IDataTableColumn} from '../data-table/data-table.model';
-import {LastColumnChecked, onColumnHide, onLastColumnChecked} from '../../model/events.models';
+import { IAD_FROZEN_ACTION, IAD_FROZEN_POSITION, IadGridFrozenEvent } from '../base-grid/base-grid-freeze-column.model';
 
-interface TableMenuItem {
+import { IadGridColumnInterface } from '../model/iad-grid-column.model';
+
+export const onColumnHide = 'onColumnHide';
+export const onLastColumnChecked = 'onLastColumnChecked';
+
+export interface LastColumnChecked {
+    name: string;
+    content: {
+        columnName: string;
+        disabled: boolean;
+    };
+}
+
+export interface TableMenuItem {
     icon: string;
     code: string;
 }
@@ -72,8 +83,8 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      */
     @Input() groupSettingsKey: string;
 
-    @Input() column: IDataTableColumn; // Текущая колонка
-    @Input() columns: IDataTableColumn[]; // Все колонки
+    @Input() column: IadGridColumnInterface; // Текущая колонка
+    @Input() columns: IadGridColumnInterface[]; // Все колонки
     @Input() defaultSortField = 'id'; // Поле для сортировки по умолчанию
 
     @Output() sort = new EventEmitter<boolean | string>();
@@ -82,7 +93,7 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
     /**
      * Событие, возникающее при заморозке или разморозке колонок
      */
-    @Output() freeze = new EventEmitter<FrozenEvent>();
+    @Output() freeze = new EventEmitter<IadGridFrozenEvent>();
 
     constructor(
         private iadTableComponent: IadTableComponent,
@@ -157,16 +168,16 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
     updateFrozenState() {
         if (
             this.iadTableComponent.frozenColumns &&
-            this.iadTableComponent.frozenColumns.findIndex((column: IDataTableColumn) => column.field === this.column.field) !== -1
+            this.iadTableComponent.frozenColumns.findIndex((column: IadGridColumnInterface) => column.field === this.column.field) !== -1
         ) {
             this.frozen = true;
-            this.side = FROZEN_POSITION.LEFT;
+            this.side = IAD_FROZEN_POSITION.LEFT;
         } else if (
             this.iadTableComponent.frozenRightColumns &&
-            this.iadTableComponent.frozenRightColumns.findIndex((column: IDataTableColumn) => column.field === this.column.field) !== -1
+            this.iadTableComponent.frozenRightColumns.findIndex((column: IadGridColumnInterface) => column.field === this.column.field) !== -1
         ) {
             this.frozen = true;
-            this.side = FROZEN_POSITION.RIGHT;
+            this.side = IAD_FROZEN_POSITION.RIGHT;
         } else {
             this.frozen = false;
             this.side = undefined;
@@ -230,12 +241,12 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      * @param event
      */
     pinLeft(event) {
-        this.setFrozen(true, FROZEN_POSITION.LEFT);
-        this.freeze.emit(<FrozenEvent>{
+        this.setFrozen(true, IAD_FROZEN_POSITION.LEFT);
+        this.freeze.emit(<IadGridFrozenEvent>{
             field: this.column.field,
             column: this.el.nativeElement.parentNode,
-            position: FROZEN_POSITION.LEFT,
-            action: FROZEN_ACTION.FREEZE
+            position: IAD_FROZEN_POSITION.LEFT,
+            action: IAD_FROZEN_ACTION.FREEZE
         });
     }
 
@@ -246,12 +257,12 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      * @param event
      */
     pinRight(event) {
-        this.setFrozen(true, FROZEN_POSITION.RIGHT);
-        this.freeze.emit(<FrozenEvent>{
+        this.setFrozen(true, IAD_FROZEN_POSITION.RIGHT);
+        this.freeze.emit(<IadGridFrozenEvent>{
             field: this.column.field,
             column: this.el.nativeElement.parentNode,
-            position: FROZEN_POSITION.RIGHT,
-            action: FROZEN_ACTION.FREEZE
+            position: IAD_FROZEN_POSITION.RIGHT,
+            action: IAD_FROZEN_ACTION.FREEZE
         });
     }
 
@@ -262,11 +273,11 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      */
     resetPinLeft(event) {
         this.setFrozen(false, null);
-        this.freeze.emit(<FrozenEvent>{
+        this.freeze.emit(<IadGridFrozenEvent>{
             field: this.column.field,
             column: this.el.nativeElement.parentNode,
-            position: FROZEN_POSITION.LEFT,
-            action: FROZEN_ACTION.UNFREEZE
+            position: IAD_FROZEN_POSITION.LEFT,
+            action: IAD_FROZEN_ACTION.UNFREEZE
         });
     }
 
@@ -277,11 +288,11 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      */
     resetPinRight(event) {
         this.setFrozen(false, null);
-        this.freeze.emit(<FrozenEvent>{
+        this.freeze.emit(<IadGridFrozenEvent>{
             field: this.column.field,
             column: this.el.nativeElement.parentNode,
-            position: FROZEN_POSITION.RIGHT,
-            action: FROZEN_ACTION.UNFREEZE
+            position: IAD_FROZEN_POSITION.RIGHT,
+            action: IAD_FROZEN_ACTION.UNFREEZE
         });
     }
 
@@ -314,7 +325,7 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      * @returns {boolean}
      */
     resetPinLeftCondition(): boolean {
-        return this.frozen && this.side === FROZEN_POSITION.LEFT;
+        return this.frozen && this.side === IAD_FROZEN_POSITION.LEFT;
     }
 
     /**
@@ -322,7 +333,7 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      * @returns {boolean}
      */
     resetPinRightCondition() {
-        return this.frozen && this.side === FROZEN_POSITION.RIGHT;
+        return this.frozen && this.side === IAD_FROZEN_POSITION.RIGHT;
     }
 
     /**
@@ -347,7 +358,7 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      * @param frozen
      * @param side
      */
-    private setFrozen(frozen: boolean, side: FROZEN_POSITION | null) {
+    private setFrozen(frozen: boolean, side: IAD_FROZEN_POSITION | null) {
         this.frozen = frozen;
         this.side = side;
         this.initMenuItems();

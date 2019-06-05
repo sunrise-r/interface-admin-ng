@@ -17,6 +17,9 @@ import { SelectionIndicatorColumnComponent } from './column-components/selection
 import { DefaultColumnComponent, StatusPipe } from './column-components/default-column.component';
 import { SpecialColumnComponent } from './column-components/special-column.component';
 
+import { ActionsColumnComponent } from './column-components/actions-column.component';
+import { ChipsColumnComponent } from './column-components/chips-column.component';
+
 @NgModule({
     imports: [IadSharedModule, SharedModule, IadPrimengModule, ToolbarModule, FilterBuilderModule],
     declarations: [
@@ -30,30 +33,16 @@ import { SpecialColumnComponent } from './column-components/special-column.compo
         StatusPipe,
         DefaultColumnComponent,
         SpecialColumnComponent,
-        GridComponent,
-        GridTdHostDirective,
-        SelectionIndicatorColumnComponent,
-        DefaultColumnComponent,
-        SpecialColumnComponent,
         ActionsColumnComponent,
         ChipsColumnComponent
     ],
     entryComponents: [
-        DefaultColumnComponent, SelectionIndicatorColumnComponent, SpecialColumnComponent,
-        SelectionIndicatorColumnComponent,
         DefaultColumnComponent,
         SpecialColumnComponent,
+        SelectionIndicatorColumnComponent,
         ActionsColumnComponent,
         ChipsColumnComponent
     ],
-    exports: [TableColumnFilterComponent, BaseGridComponent, SelectionIndicatorColumnComponent]
+    exports: [TableColumnFilterComponent, BaseGridComponent, SelectionIndicatorColumnComponent, TableColumnSizeDirective, TableSortIconComponent]
 })
 export class IadBaseGridModule {}
-
-import { GridComponent } from './grid/grid.component';
-import { GridTdHostDirective } from './grid/grid-td-host.directive';
-import { SelectionIndicatorColumnComponent } from './column-components/selection-indicator-column.component';
-import { DefaultColumnComponent } from './column-components/default-column.component';
-import { SpecialColumnComponent } from './column-components/special-column.component';
-import { ActionsColumnComponent } from './column-components/actions-column.component';
-import { ChipsColumnComponent } from './column-components/chips-column.component';

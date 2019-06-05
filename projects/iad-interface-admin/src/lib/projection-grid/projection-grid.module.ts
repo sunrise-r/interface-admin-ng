@@ -1,23 +1,19 @@
 import { NgModule } from '@angular/core';
 import { ProjectionGridComponent } from './projection-grid/projection-grid.component';
 import { IadSharedModule, IadPrimengModule } from 'iad-interface-admin/core';
-import { TableColumnSizeDirective } from './table-column-size/table-column-size.directive';
-import { TableSortIconComponent } from './table-sort-icon/table-sort-icon.component';
-import { TableColumnFilterComponent } from './table-column-filter/table-column-filter.component';
+import { IadBaseGridModule } from '../base-grid/iad-base-grid.module';
 
 @NgModule({
     declarations: [
-        ProjectionGridComponent,
-        TableColumnSizeDirective,
-        TableSortIconComponent,
-        TableColumnFilterComponent
+        ProjectionGridComponent
     ],
     imports: [
         IadPrimengModule,
         IadSharedModule,
+        IadBaseGridModule
     ],
     entryComponents: [],
-    exports: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent]
+    exports: [ProjectionGridComponent]
 })
 export class ProjectionGridModule {
 }
