@@ -102,6 +102,14 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'column': 0,
         'translate': true
       },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'File',
+        'name': 'fileField',
+        'label': 'presentation.projection.main.fileField',
+        'column': 0,
+        'translate': true
+      }
     ];
     projection.properties = [];
     const response = {'presentationOne.additionalFields': projection};

@@ -38,6 +38,7 @@
         "dropdownField": "Выпадающий список",
         "htmlField": "Поле HTML",
         "chipsField": "Поле chips",
+        "fileField": "Файл",
         "dropdownFieldDynamic": "Выпадающий список с загружаемыми значениями"
       }
     },
@@ -45,6 +46,10 @@
       "filledForm": "Проекция заполненной формы",
       "emptyForm": "Проекция пустой формы"
     }
+  },
+  "fileInput": {
+    "selectFile": "Выберите файл",
+    "fileNotSelected": "Файл не выбран"
   },
   "grid": {
     "dialog": {
