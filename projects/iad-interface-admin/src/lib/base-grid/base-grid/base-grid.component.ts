@@ -13,7 +13,7 @@ import {
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject } from 'rxjs';
-import { ElasticSearchQueryBuilder, ElasticService } from 'iad-interface-admin/filter';
+import { FilterBuilderService } from 'iad-interface-admin/filter';
 
 import { IadProjectionGridService } from '../services/iad-projection-grid.service';
 
@@ -25,6 +25,11 @@ import { CmsSetting } from './cms-setting';
 import { BaseGridConfigModel } from './base-grid-config.model';
 import { BaseGridColumnsService } from './base-grid-columns.service';
 import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from './base-grid-freeze-column.model';
+import { SEARCH_FILTER_TYPE } from '../../../../filter/src/lib/filter-builder.service';
+
+export interface FilterHasRawMethod {
+    raw(): any;
+}
 
 @Component({
     selector: 'iad-base-grid',
@@ -83,9 +88,9 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     @Input() lazy: boolean;
 
     /**
-     * Query builder callback. Allows to set additional query builder params
+     * Query builder. Allows to set additional query builder params
      */
-    @Input() filter: CustomizeQuery;
+    @Input() filter: FilterHasRawMethod;
 
     /**
      * #4 Add paginator to the table
@@ -241,7 +246,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
 
     constructor(private gridDataService: IadProjectionGridService,
                 private configService: IadConfigService,
-                private elasticService: ElasticService,
+                private searchEngine: FilterBuilderService,
                 private columnsService: BaseGridColumnsService,
                 private el: ElementRef
     ) {
@@ -421,41 +426,25 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      * @param event
      */
     updateData(event: LazyLoadData): void {
-        // from partner project >>>
-        // // #631 we do not need refresh if no searchUrl set and items are set externally
-        // if (!this.searchUrl) {
-        //     // #1808
-        //     if (this.lazyLoadingEnabled) {
-        //         this.reset();
-        //     }
-        //     return;
-        // }
-        // this.dataSearchService
-        //     .search(
-        //         this.searchUrl,
+        // #631 we do not need refresh if no searchUrl set and items are set externally
+        if (!this.searchUrl) {
+             // #1808
+             if (this.lazy) {
+                 this.reset();
+             }
+             return;
+        }
+        // @todo we Need to add necessarity to use CUSTOM SERVICE for getting data
         //         {
         //             sort: [this.buildSort(event.sortField, event.sortOrder)],
         //             size: event.rows,
         //             page: event.first / event.rows
         //         },
         //         this.buildQuery(event)
-        //     )
-        //     .subscribe(
-        //         (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
-        //         () => {
-        //             if (event.clearData) {
-        //                 this.reset();
-        //             }
-        //         }
-        //     );
         // <<< from partner project
-
-        // #631 we do not need refresh if no searchUrl set and items are set externally
-        if (!this.searchUrl) {
-            return;
-        }
-        this.gridDataService
-            .search(this.searchUrl, {
+        this.gridDataService.search(
+            this.searchUrl,
+            {
                 query: this.buildQuery(event),
                 sort: [this.buildSort(event.sortField, event.sortOrder)],
                 size: event.rows,
@@ -465,7 +454,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
                 (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
                 () => {
                     if (event.clearData) {
-                        this.value = [];
+                        this.reset();
                     }
                 }
             );
@@ -538,7 +527,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
 
     private buildQuery(event: any): string {
         // from partner project >>>
-        // const filterBuilder = this.filterBuilderService.createFilter();
+        // const filterBuilder = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.FILTER_BUILDER);
         // if (this.filter) {
         //     filterBuilder.merge(this.filter.raw());
         // }
@@ -561,22 +550,21 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         // return filterBuilder.build();
         // <<< from partner project
 
-        let queryBuilder = this.elasticService.createFilter();
+        const filterBuilder = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.QSQ);
         if (event.globalFilter && event.globalFilter !== '') {
-            return ElasticSearchQueryBuilder.buildFromString(event.globalFilter);
-        }
-        if (event.filters) {
-            Object.keys(event.filters).forEach((field: string) => {
-                if (event.filters[field].value !== null && event.filters[field].value !== '') {
-                    const value = event.filters[field].value;
-                    queryBuilder.addColumn(field).addStatement(value, true);
-                }
-            });
-            if (this.onBuildQuery) {
-                queryBuilder = this.onBuildQuery(queryBuilder);
+            filterBuilder.addOption('buildFromString', event.globalFilter).build();
+        } else if (event.filters) {
+            if (this.filter) {
+                filterBuilder.merge(this.filter.raw());
             }
+            Object.keys(event.filters)
+                .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
+                .forEach((field: string) => {
+                    const value = event.filters[field].value;
+                    filterBuilder.addFilter(field, value, true);
+            });
         }
-        return queryBuilder.build();
+        return filterBuilder.build();
     }
 
     /**

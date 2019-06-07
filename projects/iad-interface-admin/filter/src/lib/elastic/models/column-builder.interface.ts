@@ -31,5 +31,8 @@ export interface IQueryStatementBuilder {
     toString(): string;
 
     addStatement(value: string, partialMatch?: boolean, operator?: Operator): IQueryStatementBuilder;
+
+    addStatements(value: string[]): IQueryStatementBuilder;
+
     toString(): string;
 }

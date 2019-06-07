@@ -4,73 +4,6 @@
 
 Filter is separated in two modules: [elastic query-string-query](#query-string-query-builder) builder and [Filter builder](#filter-builder), made specially for one of our projects.
 
-## Query string query builder 
-
-As it was already written on official Elastic Search forum, raw query-string-query gets you into a funky local minima of work where you keep thinking "just one more regex and they won't be able to crash it". And eventually you end up with two dozen regexes that make query_string "safe" to expose. But that isn't a pleasant avenue to walk.
-
-### Syntax
-
-```typescript
-const operatior = Operator.AND
-const partialMatch = true;
-const filter = (new ElasticFactory()).createFilter()
-                .addColumn('name')
-                .addStatement('Charles', partialMatch, operatior)
-                .addColumn('surname')
-                .addStatement('Lindbergh', partialMatch, operatior)
-                .build();
-```
-
-will generate string `name:Charles* AND surname:Lindbergh*`;
-
-Setting partialMatch to false will remove wildcard.
-
-### Statement types
-
-You can configure statement types:
-
-* StatementTypes.notIn for 'NOT IN',
-* StatementTypes.eq for '='
-
-```typescript
-const filter = (new ElasticFactory()).createFilter()
-                .setStatementType(StatementTypes.notIn)
-                .addColumn('name')
-                .addStatement('Charles')
-                .addColumn('surname')
-                .addStatement('Lindbergh')
-                .build();
-```
-
-will generate string `NOT(name:Charles AND surname:Lindbergh)`;
-
-### Convert string to query string  
-
-```typescript
-const filter = (new ElasticFactory()).createFilter()
-                .buildFromString('some fulltext search string')
-```
-
-will generate string with wildcards `some* fulltext* search* string*`;
-
-### Angular service
-
-You can use ElasticService to add service using Angular dependency injection:
-
-```typescript
-@Component()
-export class Youcomponent {
-    constructor(searchEngine: ElasticService) {}
-    
-    protected query(params) {
-        ...
-        const filter = this.searchEngine.createFilter()
-                        .addColumn('name')
-                        .addStatement('Charles')
-                        .buildFromString('some fulltext search string'); // <- always concats with AND operator
-    }
-}
-```
 
 ## Filter builder
 
@@ -120,7 +53,7 @@ export class YourComponent {
     
     protected query(params) {
         ...
-        let filter = this.searchEngine.createFilter()
+        let filter = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.FILTER_BUILDER)
                         .addFilter('fio', 'ivan vse pochinit', useWildcard)
                         .addOption('customSort', 'sort');
         
@@ -130,3 +63,77 @@ export class YourComponent {
         return filter.build();
     }
 }
+```
+
+
+## Query string query builder 
+
+As it was already written on official Elastic Search forum, raw query-string-query gets you into a funky local minima of work where you keep thinking "just one more regex and they won't be able to crash it". And eventually you end up with two dozen regexes that make query_string "safe" to expose. But that isn't a pleasant avenue to walk.
+
+### Syntax
+
+```typescript
+const operatior = Operator.AND
+const partialMatch = true;
+const filter = (new ElasticSearchQueryBuilder())
+                .addColumn('name')
+                .addStatement('Charles', partialMatch, operatior)
+                .addColumn('surname')
+                .addStatement('Lindbergh', partialMatch, operatior)
+                .build();
+```
+
+will generate string `name:Charles* AND surname:Lindbergh*`;
+
+Setting partialMatch to false will remove wildcard.
+
+### Statement types
+
+You can configure statement types:
+
+* StatementTypes.notIn for 'NOT IN',
+* StatementTypes.eq for '='
+
+```typescript
+const filter = (new ElasticSearchQueryBuilder())
+                .addColumn('surname')
+                .addStatement('Lindbergh')
+                .addColumn('name')
+                .setStatementType(StatementTypes.notIn)
+                .addStatements(['Charles', 'John', 'Carl', 'Igor'])
+                .build();
+```
+
+will generate string `NOT(name:Charles AND surname:Lindbergh)`;
+
+### Convert string to query string  
+
+```typescript
+const filter = (new ElasticSearchQueryBuilder())
+                .addFromString('some fulltext search string')
+                .build();
+```
+
+will generate string with wildcards `some* fulltext* search* string*`;
+
+### Angular service
+
+You can use FilterBuilderService to add service using Angular dependency injection. Note, that syntax is the same as FilterBuilder. To set operator to concat statements add operator to the name, using 'dot' symbol. Available operators are OR and AND:
+
+```typescript
+@Component()
+export class Youcomponent {
+    constructor(searchEngine: FilterBuilderService) {}
+    
+    protected query(params) {
+        ...
+        const useWildcard = true;
+        const filter = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.QSQ)
+                        .addFilter('AND.name', 'Charles', useWildcard)
+                        .addOption('setStatementType', StatementTypes.eq)
+                        .addOption('addFromString', 'some fulltext search string')
+                        .build(); // <- always concats with AND operator
+    }
+}
+```
+

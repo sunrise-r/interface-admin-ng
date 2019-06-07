@@ -19,6 +19,7 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
     }
 
     constructor() {
+        console.log('Direct usage of "query string query" builder may be unsafe');
         this.columns = [];
     }
 
@@ -61,6 +62,22 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
         const result = query.substr(0, query.length - (2 + this.columns[this.columns.length - 1].operator.toLocaleString().length));
         this.columns = [];
         return result;
+    }
+
+    /**
+     * Raw data to merge
+     */
+    raw(): ColumnData[] {
+        return this.columns;
+    }
+
+    /**
+     * merge multiple filter instances
+     * @param columns
+     */
+    merge(columns: ColumnData[]): ElasticSearchQueryBuilder {
+        this.columns = this.columns.concat(columns);
+        return this;
     }
 
     /**
