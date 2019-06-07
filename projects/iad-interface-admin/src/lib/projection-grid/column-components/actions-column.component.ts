@@ -69,6 +69,6 @@ export class ActionsColumnComponent implements TableTdContentInterface {
   }
 
   broadcastButtonEvent() {
-    this.eventManager.broadcast({ name: this.col.properties['eventName'], content: this.rowData['id'] });
+    this.eventManager.broadcast({ name: this.col.properties['eventName'], content: this.rowData });
   }
 }
