@@ -1,21 +1,51 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { FilterProvider } from './filter-builder/filter-provider';
 import { QueryStringQueryWrapper } from './elastic/query-string-query-wrapper';
 import { CustomizeQuery } from './filter-builder/action/customize-query';
 
-export enum SEARCH_FILTER_TYPE {
-    QSQ = 0,
-    FILTER_BUILDER = 1
+export const searchFilterFactory = {
+    QUERY_STRING_QUERY: QueryStringQueryWrapper,
+    FILTER_BUILDER: FilterProvider
+};
+
+export interface BuildOptions {
+    globalFilter?: string;
+    filters?: {[p: string]: {value: string, useWildcard?: boolean}};
 }
 
-export const searchFilterFactory = [
-    QueryStringQueryWrapper,
-    FilterProvider
-];
+export interface FilterBuilderInterface {
+    createFilter(type?: string): CustomizeQuery;
+    merge(builder: CustomizeQuery): FilterBuilderInterface;
+    build(options: BuildOptions): string;
+}
 
 @Injectable()
-export class FilterBuilderService {
-    public createFilter(type: SEARCH_FILTER_TYPE): CustomizeQuery {
-        return new searchFilterFactory[type]();
+export class FilterBuilderService implements FilterBuilderInterface {
+    builder: CustomizeQuery;
+
+    createFilter(type?: string): CustomizeQuery {
+        if (!type) {
+            type = 'QUERY_STRING_QUERY';
+        }
+        this.builder = new searchFilterFactory[type]();
+        return this.builder;
+    }
+
+    merge(builder: CustomizeQuery): FilterBuilderInterface {
+        this.builder.merge(builder.raw());
+        return this;
+    }
+
+    build(options: BuildOptions): string {
+        if (options.globalFilter && options.globalFilter !== '') {
+            this.builder.addFilter('all', options.globalFilter, false).addOption('allMatchDelegate');
+        } else if (options.filters) {
+            Object.keys(options.filters)
+                .forEach((field: string) => {
+                    const value = options.filters[field].value;
+                    this.builder.addFilter(field, value, options.filters[field].useWildcard);
+                });
+        }
+        return this.builder.build();
     }
 }

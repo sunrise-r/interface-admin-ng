@@ -26,11 +26,13 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
      */
     addFilter(name: String, value: any, useWildCard?: boolean): AddOption {
         const nameArray = name.split('.');
-        if (!this.queryStatement) {
-            this.queryStatement = this.elasticQSQBuilder.addColumn(nameArray[1] ? nameArray[1] : nameArray[0]);
-        } else {
-            this.applyValues();
-            this.queryStatement = this.queryStatement.addColumn(nameArray[1] ? nameArray[1] : nameArray[0]);
+        if (name !== 'all') {
+            if (!this.queryStatement) {
+                this.queryStatement = this.elasticQSQBuilder.addColumn(nameArray[1] ? nameArray[1] : nameArray[0]);
+            } else {
+                this.applyValues();
+                this.queryStatement = this.queryStatement.addColumn(nameArray[1] ? nameArray[1] : nameArray[0]);
+            }
         }
         this.currentValue = value;
         this.useWildCard = useWildCard;
@@ -45,11 +47,8 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
         if (delegate === 'setStatementType') {
             this.queryStatement.setStatementType(<statementTypes>action);
             this.applyValues();
-        } else if (delegate === 'addFromString') {
-            if (!action) {
-                action = this.currentValue;
-            }
-            this.builtString = (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).addFromString(action);
+        } else if (delegate === 'allMatchDelegate') {
+            this.builtString = (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).addFromString(this.currentValue);
             this.clearTemp();
         }
         return this;

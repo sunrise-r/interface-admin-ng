@@ -13,7 +13,7 @@ import {
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject } from 'rxjs';
-import { FilterBuilderService } from 'iad-interface-admin/filter';
+import { FilterBuilderService, SEARCH_FILTER_TYPE, CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { IadProjectionGridService } from '../services/iad-projection-grid.service';
 
@@ -25,11 +25,6 @@ import { CmsSetting } from './cms-setting';
 import { BaseGridConfigModel } from './base-grid-config.model';
 import { BaseGridColumnsService } from './base-grid-columns.service';
 import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from './base-grid-freeze-column.model';
-import { SEARCH_FILTER_TYPE } from '../../../../filter/src/lib/filter-builder.service';
-
-export interface FilterHasRawMethod {
-    raw(): any;
-}
 
 @Component({
     selector: 'iad-base-grid',
@@ -90,7 +85,12 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     /**
      * Query builder. Allows to set additional query builder params
      */
-    @Input() filter: FilterHasRawMethod;
+    @Input() filter: CustomizeQuery;
+
+    /**
+     * String filter builder type.
+     */
+    @Input() filterType: string;
 
     /**
      * #4 Add paginator to the table
@@ -524,47 +524,26 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      * event.filter Объект с фильтрами по полям
      * event.globalFilter строка с фильтром
      */
-
     private buildQuery(event: any): string {
-        // from partner project >>>
-        // const filterBuilder = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.FILTER_BUILDER);
-        // if (this.filter) {
-        //     filterBuilder.merge(this.filter.raw());
-        // }
-        // if (event.globalFilter && event.globalFilter !== '') {
-        //     filterBuilder.addFilter('all', event.globalFilter, false).addOption('allMatchDelegate');
-        // } else if (event.filters) {
-        //     Object.keys(event.filters)
-        //         .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
-        //         .forEach((field: string) => {
-        //             const value = event.filters[field].value;
-        //             filterBuilder.addFilter(field, value, this.columnHasWildCard(field));
-        //         });
-        // }
+        this.searchEngine.createFilter(this.filterType);
         // if (event.sortField && event.sortField === 'onResolution') {
         //     filterBuilder.addOption('resolutionSortingDelegate', 'sort', 'onResolution');
         // }
         // if (event.sortField && event.sortField === 'onOperation') {
         //     filterBuilder.addOption('operationSortingDelegate', 'sort', 'onOperation');
         // }
-        // return filterBuilder.build();
-        // <<< from partner project
-
-        const filterBuilder = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.QSQ);
-        if (event.globalFilter && event.globalFilter !== '') {
-            filterBuilder.addOption('buildFromString', event.globalFilter).build();
-        } else if (event.filters) {
-            if (this.filter) {
-                filterBuilder.merge(this.filter.raw());
-            }
-            Object.keys(event.filters)
-                .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
-                .forEach((field: string) => {
-                    const value = event.filters[field].value;
-                    filterBuilder.addFilter(field, value, true);
-            });
+        if (this.filter) {
+            this.searchEngine.merge(this.filter);
         }
-        return filterBuilder.build();
+        return this.searchEngine.build({
+            globalFilter: event.globalFilter,
+            filters: Object.keys(event.filters)
+                .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
+                .reduce((acu, field) => ({
+                    value: event.filters[field].value,
+                    useWildcard: this.columnHasWildCard(field)
+                }), {})
+        });
     }
 
     /**
