@@ -53,7 +53,7 @@ export class YourComponent {
     
     protected query(params) {
         ...
-        let filter = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.FILTER_BUILDER)
+        let filter = this.searchEngine.createFilter('FILTER_BUILDER')
                         .addFilter('fio', 'ivan vse pochinit', useWildcard)
                         .addOption('customSort', 'sort');
         
@@ -128,7 +128,7 @@ export class Youcomponent {
     protected query(params) {
         ...
         const useWildcard = true;
-        const filter = this.searchEngine.createFilter(SEARCH_FILTER_TYPE.QSQ)
+        const filter = this.searchEngine.createFilter('QUERY_STRING_QUERY')
                         .addFilter('AND.name', 'Charles', useWildcard)
                         .addOption('setStatementType', StatementTypes.eq)
                         .addOption('addFromString', 'some fulltext search string')

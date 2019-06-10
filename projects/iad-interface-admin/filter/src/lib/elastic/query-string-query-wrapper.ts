@@ -48,7 +48,7 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
             this.queryStatement.setStatementType(<statementTypes>action);
             this.applyValues();
         } else if (delegate === 'allMatchDelegate') {
-            this.builtString = (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).addFromString(this.currentValue);
+            this.builtString = (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).addFromString(this.currentValue).toString();
             this.clearTemp();
         }
         return this;

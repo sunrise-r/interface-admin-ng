@@ -1,5 +1,5 @@
 import { ToolbarAction } from '../../toolbar/toolbar-action.model';
-import { IadGridColumn } from '../../base-grid/model/iad-grid-column.model';
+import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
 
 export interface FilterInterface {
     field: string;

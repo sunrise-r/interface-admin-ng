@@ -1,13 +1,13 @@
-<iad-data-table
+<iad-base-grid
     [allowUnSelectRow]="allowUnSelectRow"
     [changeTableHeight]="changeTableHeight"
     [defaultSortField]="defaultSortField"
     [doTableAction]="doTableAction"
     [doRefresh]="refreshConfig"
     [filter]="filter"
-    [groupSettingsKey]="groupSettingsKey"
-    [items]="items"
-    [lazyLoadingEnabled]="lazyLoadingEnabled"
+    [gridId]="groupSettingsKey"
+    [value]="items"
+    [lazy]="lazyLoadingEnabled"
     [resetFilter]="resetFilter"
     [searchUrl]="searchUrl"
     [showFilter]="showFilter"
@@ -20,4 +20,4 @@
     (onSettingChanged)="onSettingChanged($event)"
     (selectionChange)="onSelectionChange($event)"
 >
-</iad-data-table>
+</iad-base-grid>

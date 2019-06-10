@@ -13,8 +13,8 @@ import { PrimeTemplate } from 'primeng/shared';
 import { Subject } from 'rxjs';
 
 import { DocumentListProjection } from '../model/projection-grid.model';
-import { IadGridColumn } from '../../base-grid/model/iad-grid-column.model';
-import { IadGridConfigModel } from '../../base-grid/model/iad-grid-model';
+import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
+import { IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
 
 @Component({
     selector: 'iad-projection-grid',

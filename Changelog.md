@@ -1,3 +1,153 @@
+#0.0.4@devel.22
+
+##Breaking changes
+
+### For main project
+
+* QueryBuildCallback is removed
+* ElasticService made provided in root
+* GridComponent.onBuildQuery:QueryBuildCallback replaced with GridComponent.filter: CustomizeQuery
+
+### For partner project
+
+* IDataTableColumn removed in favor of IadGridColumn
+* DataTableConfigModel removed in favor of IadGridConfigModel
+* DataTablecomponent.groupSettingsKey replaced with GridComponent.gridId
+* added GridComponent.enableInfiniteScroll default to false
+* DataTablecomponent.items replaced with GridComponent.value
+* GridComponent.pageSize must be set in module config! (Before it was 60)
+* DataTablecomponent.lazyLoadingEnabled replaced with GridComponent.lazy
+* removed ActualSelectionModel. Implement it outsiside!
+	export class ActualSelectionModel {
+	    action: SELECT_ACTION;
+	    documentDTO?: any;
+	    documentIndex?: any;
+	    properties?: any;
+	    referenceDocuments?: any;
+	    type?: string;
+	    selection?: any;
+	}
+* removed SelectionBufferService
+	@Injectable({
+	    providedIn: 'root'
+	})
+	export class SelectionBufferService {
+	    dataUpdated: Subject<ActualSelectionModel> = new Subject<ActualSelectionModel>();
+
+	    constructor(private dataBuffer: DataBufferService) {}
+
+	    init(event) {
+		this.dataBuffer.setData('selection', event);
+		this.dataUpdated.next(this.getSelection());
+	    }
+
+	    getSelection(): ActualSelectionModel {
+		return <ActualSelectionModel>this.dataBuffer.getData('selection');
+	    }
+
+	    getSelectionIndex() {
+		return this.getSelection().selection;
+	    }
+
+	    getDTO() {
+		return this.getSelection().documentDTO;
+	    }
+
+	    getProperties() {
+		return this.getSelection() ? this.getSelection().properties : null;
+	    }
+
+	    getProperty(name: string) {
+		return this.getProperties() ? this.getProperties()[name] : null;
+	    }
+
+	    getIndex() {
+		return this.getSelection().documentIndex;
+	    }
+
+	    concat() {
+		return Object.assign({}, this.getDTO(), this.getSelectionIndex(), this.getIndex(), this.getProperties());
+	    }
+
+	    getClassName(): string {
+		const className: string = this.getProperties() ? this.getProperties().className : null;
+		return className ? StringHelper.parseDotPathLastSection(className) : null;
+	    }
+
+	    clean() {
+		this.dataBuffer.cleanData('selection');
+	    }
+	}
+* removed DataBufferService
+	@Injectable({
+	    providedIn: 'root'
+	})
+	export class DataBufferService {
+	    private dataSource: Map<string, any> = new Map<string, any>();
+
+	    dataUpdated: Subject<DataBufferService> = new Subject<DataBufferService>();
+
+	    /**
+	     * Сохраняет данные в буффер
+	     * @param key
+	     * @param data
+	     */
+	    setData(key: string, data: any) {
+		this.dataSource.set(key, data);
+		this.dataUpdated.next(this);
+	    }
+
+	    /**
+	     * Возвращает данные из буффера
+	     * @param key
+	     */
+	    getData(key: string): any {
+		return this.dataSource.get(key);
+	    }
+
+	    /**
+	     * Возвращает true если данные по ключу чуществуют и равны данным из второго параметра
+	     * @param key
+	     * @param data
+	     */
+	    areEquals(key: string, data: any): boolean {
+		return (
+		    this.dataSource.has(key) &&
+		    (typeof this.dataSource.get(key) === 'string' ? this.dataSource.get(key) : JSON.stringify(this.dataSource.get(key))) ===
+		        (typeof data === 'string' ? data : JSON.stringify(data))
+		);
+	    }
+
+	    /**
+	     * Возвращает данные и удаляет из буфера
+	     * @param key
+	     */
+	    getCleanData(key: string): any {
+		const data = this.getData(key);
+		this.cleanData(key);
+		return data;
+	    }
+
+	    /**
+	     * Удаляет данные из буфера
+	     * @param key
+	     */
+	    cleanData(key: string) {
+		this.dataSource.delete(key);
+	    }
+	}
+* ENTITY_TYPE removed from partner lib section
+	export enum ENTITY_TYPE {
+	    DOCUMENT = 'document',
+	    OPERATION = 'operation',
+	    RESOLUTION = 'resolution'
+	}
+
+
+### For main project
+
+
+
 #0.0.3-devel.20
 
 ## Fixed bugs

@@ -196,7 +196,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableCo
         // issue #1792 Перенёс это из data-table.component:
         // issue #1745 поправил работу фильтра по проекциям
         if ('filter' in changes) {
-            this.config.builder = this.filter;
+            this.config.filter = this.filter;
             this.refreshConfig.next(this.config);
         }
     }

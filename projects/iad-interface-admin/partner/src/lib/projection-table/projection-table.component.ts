@@ -13,7 +13,7 @@ import {
 import { of, Subject } from 'rxjs';
 
 import * as _ from 'lodash';
-import { ToolbarAction, IadGridColumn, FILTER_TYPE, IIadGridColumn, IadGridRowSelection, SELECT_ACTION } from 'iad-interface-admin';
+import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridRowSelection, SELECT_ACTION } from 'iad-interface-admin';
 import { IadEventManager, IadHelper } from 'iad-interface-admin/core';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 
@@ -129,12 +129,12 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * Список "статически замороженных колонок"
      */
-    @Input() staticFrozenColumns: IIadGridColumn[] = [];
+    @Input() staticFrozenColumns: IadGridColumnInterface[] = [];
 
     /**
      * Список "статически замороженных справа колонок"
      */
-    @Input() staticFrozenRightColumns: IIadGridColumn[] = [];
+    @Input() staticFrozenRightColumns: IadGridColumnInterface[] = [];
 
     /**
      * Размер области "статически замороженных справа колонок
@@ -203,7 +203,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * Все колонки таблицы
      */
-    columns: IIadGridColumn[] = [];
+    columns: IadGridColumnInterface[] = [];
 
     /**
      * код группы настроек таблицы

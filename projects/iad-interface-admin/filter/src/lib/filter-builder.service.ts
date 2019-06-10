@@ -50,7 +50,7 @@ export class FilterBuilderService implements FilterBuilderInterface {
             }
         }
         this.afterBuildHook();
-        return this.builder.build();
+        return this.builder.build().toString();
     }
 
     /**

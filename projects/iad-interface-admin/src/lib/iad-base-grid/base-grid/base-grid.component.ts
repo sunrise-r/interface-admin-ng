@@ -13,7 +13,7 @@ import {
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject } from 'rxjs';
-import { FilterBuilderService, FILTER_BUILDER, SEARCH_FILTER_TYPE, CustomizeQuery } from 'iad-interface-admin/filter';
+import { FilterBuilderService, FILTER_BUILDER, CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { IadProjectionGridService } from '../services/iad-projection-grid.service';
 
