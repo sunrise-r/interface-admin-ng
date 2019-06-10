@@ -63,7 +63,7 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
             this.builtString = null;
             return result;
         }
-        return this.queryStatement.build();
+        return (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).build();
     }
 
     /**
