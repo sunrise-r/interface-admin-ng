@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { IadConfigService, IadModuleConfig, IadModuleConfigInterface, IadSharedModule } from 'iad-interface-admin/core';
 import { IadProjectionFormModule, DynamicFormModule, IadReferenceProjectionProviderService } from 'iad-interface-admin/form';
+import { FILTER_BUILDER, FilterBuilderService } from 'iad-interface-admin/filter';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -37,7 +38,8 @@ export class IadInterfaceAdminModule {
                     useClass: IadConfigService,
                     deps: [IadModuleConfig]
                 },
-                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService }
+                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService },
+                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService }
             ]
         };
     }
@@ -47,7 +49,8 @@ export class IadInterfaceAdminModule {
             ngModule: IadInterfaceAdminModule,
             providers: [
                 {provide: IadModuleConfig, useValue: moduleConfig},
-                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService }
+                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService },
+                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService }
             ]
         };
     }

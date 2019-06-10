@@ -2,7 +2,7 @@ import {
     AfterContentInit, AfterViewInit,
     Component,
     ContentChildren, ElementRef,
-    EventEmitter,
+    EventEmitter, Inject,
     Input, OnChanges, OnDestroy,
     OnInit,
     Output,
@@ -13,7 +13,7 @@ import {
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject } from 'rxjs';
-import { FilterBuilderService, SEARCH_FILTER_TYPE, CustomizeQuery } from 'iad-interface-admin/filter';
+import { FilterBuilderService, FILTER_BUILDER, SEARCH_FILTER_TYPE, CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { IadProjectionGridService } from '../services/iad-projection-grid.service';
 
@@ -246,7 +246,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
 
     constructor(private gridDataService: IadProjectionGridService,
                 private configService: IadConfigService,
-                private searchEngine: FilterBuilderService,
+                @Inject(FILTER_BUILDER) private searchEngine: FilterBuilderService,
                 private columnsService: BaseGridColumnsService,
                 private el: ElementRef
     ) {
