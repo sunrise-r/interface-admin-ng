@@ -1,5 +1,78 @@
 #0.0.4@devel.22
 
+## For all projects
+
+* You are able to implement FilterBuilderInterface like this:
+
+```typescript
+export class MyQueryBuilder implements CustomizeQuery {
+    /**
+         * @param name; Usage with operator: OR.name
+         * @param value
+         * @param useWildCard
+         */
+        addFilter(name: String, value: any, useWildCard?: boolean): AddOption {
+            return this;
+        }
+    
+        addOption(delegate: string, action: string, field: string): CustomizeQuery;
+        addOption(delegate: string, action: string): CustomizeQuery;
+        addOption(delegate: string): CustomizeQuery;
+        addOption(delegate: string, action?: string, field?: string): CustomizeQuery {
+            return this;
+        }
+    
+        build(): String {
+            return '';
+        }
+    
+        merge(raw: BuilderRaw): CustomizeQuery {
+            return this;
+        }
+    
+        raw(): BuilderRaw {
+            return new BuilderRaw({
+                filters: Filter[] = [],
+                options: Option[] = []
+            });
+        }
+}
+
+export class MyFilterBuilderService implements FilterBuilderInterface() {
+    filter: CustomizeQuery;
+    
+    createFilter(type?: string): CustomizeQuery {
+        this.filter = new MyQueryBuilder();
+        return this.filter;
+    };
+    merge(builder: CustomizeQuery): FilterBuilderInterface {
+        return this;
+    };
+    build(options: BuildOptions): string {
+        let result = ''; 
+        if (this.beforeBuildHook(options)) {
+            result += this.filter.build();
+        }
+        this.afterBuildHook();
+        return result;
+    };
+    beforeBuildHook(options: BuildOptions): boolean {
+        return true;
+    };
+    afterBuildHook() {
+        console.log('do something');
+    };
+}
+
+
+IadInterfaceAdminModule.forRoot({
+    i18nEnabled: true,
+    defaultI18nLang: 'ru',
+    noi18nMessage: 'translation-not-found',
+    filterBuilderProvider: { provide: FILTER_BUILDER, useClass: MyFilterBuilderService }
+})
+```
+
 ##Breaking changes
 
 ### For main project
@@ -142,9 +215,6 @@
 	    OPERATION = 'operation',
 	    RESOLUTION = 'resolution'
 	}
-
-
-### For main project
 
 
 
