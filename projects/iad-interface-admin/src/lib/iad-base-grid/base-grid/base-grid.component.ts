@@ -422,6 +422,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     }
 
     /**
+     * @Todo It would be better to use native angular HttpParams
      * Добавление данных в таблицу
      * @param event
      */
@@ -434,18 +435,10 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
              }
              return;
         }
-        // @todo we Need to add necessarity to use CUSTOM SERVICE for getting data
-        //         {
-        //             sort: [this.buildSort(event.sortField, event.sortOrder)],
-        //             size: event.rows,
-        //             page: event.first / event.rows
-        //         },
-        //         this.buildQuery(event)
-        // <<< from partner project
         this.gridDataService.search(
             this.searchUrl,
+            this.buildQuery(event),
             {
-                query: this.buildQuery(event),
                 sort: [this.buildSort(event.sortField, event.sortOrder)],
                 size: event.rows,
                 page: event.first / event.rows

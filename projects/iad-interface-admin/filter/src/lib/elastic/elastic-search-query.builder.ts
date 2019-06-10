@@ -61,7 +61,7 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
         }
         const result = query.substr(0, query.length - (2 + this.columns[this.columns.length - 1].operator.toLocaleString().length));
         this.columns = [];
-        return result;
+        return 'query=' + result;
     }
 
     /**

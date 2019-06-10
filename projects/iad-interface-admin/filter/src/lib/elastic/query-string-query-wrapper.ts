@@ -54,6 +54,9 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
         return this;
     }
 
+    /**
+     * @Todo It would be better to use native angular HttpParams
+     */
     build(): String {
         if (this.builtString) {
             const result = this.builtString;
@@ -63,6 +66,9 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
         return this.queryStatement.build();
     }
 
+    /**
+     * @Todo It would be better to use native angular HttpParams
+     */
     merge(raw: BuilderRaw): CustomizeQuery {
         const filters = raw.filters.map(filter => {
             const nameArray = filter.field.split('.');
@@ -74,6 +80,9 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
         return this;
     }
 
+    /**
+     * @Todo It would be better to use native angular HttpParams
+     */
     raw(): BuilderRaw {
         return new BuilderRaw(this.elasticQSQBuilder.raw().map(data => new Filter(`${data.operator}.${data.name}`, data.statement)));
     }
