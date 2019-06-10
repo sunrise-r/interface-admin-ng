@@ -15,12 +15,12 @@ export class ProjectionTreeResponse extends AbstractResponse {
         label: 'presentation.label',
         projections: [
           <ProjectionTreeModel>{
-            routerLink: ['/data/presentation-one/show-projection-one'],
+            routerLink: ['/data/presentation-one/main'],
             code: 'projectionOne',
             label: 'presentation.projection.listProjectionOne'
           },
           <ProjectionTreeModel>{
-            routerLink: ['/data/presentation-one/show-projection-two'],
+            routerLink: ['/data/presentation-one/other'],
             code: 'projectionTwo',
             label: 'presentation.projection.listProjectionTwo'
           },
