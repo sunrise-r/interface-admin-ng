@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { PrimeTemplate } from 'primeng/shared';
 import { Subject } from 'rxjs';
+import { CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { DocumentListProjection } from '../model/projection-grid.model';
 import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
@@ -21,6 +22,10 @@ import { IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
     templateUrl: './projection-grid.component.html'
 })
 export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges {
+    /**
+     * Коллбэк в ктором можено указать дополнительные параметры для построения query
+     */
+    @Input() filter: CustomizeQuery;
 
     /**
      * String filter builder type.
@@ -123,6 +128,9 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
             // this.unSelectRow.next(true);
             this.searchUrl = this.projection.searchUrl;
+            this.doRefresh.next();
+        }
+        if ('filter' in changes) {
             this.doRefresh.next(this.populateGridConfig());
         }
     }
@@ -132,6 +140,9 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
         conf.columns = this.columns;
         conf.searchUrl = this.searchUrl;
         conf.reset = true;
+        if (this.filter) {
+            conf.filter = this.filter;
+        }
         return conf;
     }
 
