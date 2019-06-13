@@ -30,7 +30,7 @@
   </div>
   <div class="ui-table-scrollable-wrapper" *ngIf="scrollable">
     <div class="ui-table-scrollable-view ui-table-frozen-view frozen-left frozen-static"
-         *ngIf="staticFrozenColumns"
+         *ngIf="staticFrozenColumns && staticFrozenColumns.length > 0"
          [changeTableHeight]="changeTableHeight"
          [enableInfiniteScroll]="enableInfiniteScroll"
          [frozen]="true"
@@ -40,7 +40,7 @@
          [scrollHeight]="scrollHeight"
     ></div>
     <div class="ui-table-scrollable-view ui-table-frozen-view frozen-left"
-         *ngIf="frozenColumns||frozenBodyTemplate"
+         *ngIf="(frozenColumns||frozenBodyTemplate) && frozenColumns.length > 0"
          [changeTableHeight]="changeTableHeight"
          [enableInfiniteScroll]="enableInfiniteScroll"
          [frozen]="true"
@@ -58,7 +58,7 @@
          [scrollHeight]="scrollHeight"
     ></div>
     <div class="ui-table-scrollable-view ui-table-frozen-view frozen-right"
-         *ngIf="frozenRightColumns"
+         *ngIf="frozenRightColumns && frozenRightColumns.length > 0"
          [changeTableHeight]="changeTableHeight"
          [enableInfiniteScroll]="enableInfiniteScroll"
          [frozen]="true"
@@ -68,7 +68,7 @@
          [scrollHeight]="scrollHeight"
     ></div>
     <div class="ui-table-scrollable-view ui-table-frozen-view frozen-right frozen-static"
-         *ngIf="staticFrozenRightColumns"
+         *ngIf="staticFrozenRightColumns && staticFrozenRightColumns.length > 0"
          [changeTableHeight]="changeTableHeight"
          [enableInfiniteScroll]="enableInfiniteScroll"
          [frozen]="true"

@@ -202,7 +202,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     /**
      * List of dynamically added lefts frozen columns
      */
-    frozenCols: IadGridColumn[];
+    frozenCols: IadGridColumn[] = [];
 
     /**
      * List of dynamically added rights frozen columns
