@@ -23,6 +23,11 @@ import { IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
 export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges {
 
     /**
+     * String filter builder type.
+     */
+    @Input() filterType: string;
+
+    /**
      * #4 Add paginator to the table
      */
     @Input() paginator: boolean;
