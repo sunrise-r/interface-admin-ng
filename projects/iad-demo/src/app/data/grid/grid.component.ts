@@ -54,8 +54,8 @@ export class GridComponent implements OnInit {
     setDefaultFilter() {
         const filter = this.searchEngine.createFilter('QUERY_STRING_QUERY');
         filter
-            .addFilter('active', true, false)
-            .addFilter('all', 'Иван')
+            .addFilter('active', 'true', false)
+            .addFilter('all', 'Иван', true)
             .addOption('allMatchDelegate');
         this.filter = filter;
     }
