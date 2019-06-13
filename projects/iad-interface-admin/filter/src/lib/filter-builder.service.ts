@@ -16,9 +16,9 @@ export interface BuildOptions {
 export interface FilterBuilderInterface {
     createFilter(type?: string): CustomizeQuery;
     merge(builder: CustomizeQuery): FilterBuilderInterface;
-    build(options: BuildOptions): string;
+    build(options: BuildOptions, prevEvent: any): string;
     beforeBuildHook(options: BuildOptions): boolean;
-    afterBuildHook();
+    afterBuildHook(prevEvent: any);
 }
 
 export const FILTER_BUILDER = new InjectionToken<FilterBuilderInterface>('Filter builder');
@@ -39,7 +39,7 @@ export class FilterBuilderService implements FilterBuilderInterface {
         return this;
     }
 
-    build(options: BuildOptions): string {
+    build(options: BuildOptions, prevEvent: any): string {
         if (this.beforeBuildHook(options)) {
             if (options.filters) {
                 Object.keys(options.filters)
@@ -49,7 +49,7 @@ export class FilterBuilderService implements FilterBuilderInterface {
                     });
             }
         }
-        this.afterBuildHook();
+        this.afterBuildHook(prevEvent);
         return this.builder.build().toString();
     }
 
@@ -65,5 +65,5 @@ export class FilterBuilderService implements FilterBuilderInterface {
         return true;
     }
 
-    afterBuildHook() {}
+    afterBuildHook(prevEvent: any) {}
 }

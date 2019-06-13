@@ -8,7 +8,7 @@ export class DemoFilterBuilderService extends FilterBuilderService implements Fi
     constructor() {
         super();
     }
-    afterBuildHook() {
+    afterBuildHook(prevEvent: any) {
         console.log('This happens every time when query is built inside FilterBuilderInterface');
     }
 }

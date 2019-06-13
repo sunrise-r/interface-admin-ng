@@ -526,16 +526,10 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      */
     private buildQuery(event: any): string {
         this.searchEngine.createFilter(this.filterType);
-        // if (event.sortField && event.sortField === 'onResolution') {
-        //     filterBuilder.addOption('resolutionSortingDelegate', 'sort', 'onResolution');
-        // }
-        // if (event.sortField && event.sortField === 'onOperation') {
-        //     filterBuilder.addOption('operationSortingDelegate', 'sort', 'onOperation');
-        // }
         if (this.filter) {
             this.searchEngine.merge(this.filter);
         }
-        return this.searchEngine.build({
+        const options = {
             globalFilter: event.globalFilter,
             filters: Object.keys(event.filters)
                 .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
@@ -543,7 +537,8 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
                     value: event.filters[field].value,
                     useWildcard: this.columnHasWildCard(field)
                 }), {})
-        });
+        };
+        return this.searchEngine.build(options, event);
     }
 
     /**
