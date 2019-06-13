@@ -294,7 +294,9 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
          */
         if (this.lazy && this.searchUrl) {
             this.askToRefresh.subscribe(() => {
-                this.dt.paginatorService.resetFirst();
+                if (this.enableInfiniteScroll) {
+                    this.dt.paginatorService.resetFirst();
+                }
                 this.updateData(this.dt.createLazyLoadMetadata(true));
             });
         }
