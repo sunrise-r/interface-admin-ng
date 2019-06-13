@@ -13,7 +13,7 @@ import {
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject } from 'rxjs';
-import { FilterBuilderService, FILTER_BUILDER, CustomizeQuery } from 'iad-interface-admin/filter';
+import { FilterBuilderInterface, FILTER_BUILDER, CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { IadProjectionGridService } from '../services/iad-projection-grid.service';
 
@@ -246,7 +246,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
 
     constructor(private gridDataService: IadProjectionGridService,
                 private configService: IadConfigService,
-                @Inject(FILTER_BUILDER) private searchEngine: FilterBuilderService,
+                @Inject(FILTER_BUILDER) private searchEngine: FilterBuilderInterface,
                 private columnsService: BaseGridColumnsService,
                 private el: ElementRef
     ) {
