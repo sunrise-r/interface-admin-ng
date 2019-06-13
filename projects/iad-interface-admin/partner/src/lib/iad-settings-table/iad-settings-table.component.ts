@@ -46,6 +46,11 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
     @Input() defaultSortField = 'id';
 
     /**
+     * String filter builder type.
+     */
+    @Input() filterType: string;
+
+    /**
      * Название группы настроек. Будет использованная при сохранении настроек на стороне сервера.
      */
     @Input() groupSettingsKey: string;
