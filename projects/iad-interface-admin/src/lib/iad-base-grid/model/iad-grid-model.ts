@@ -20,16 +20,23 @@ export interface IadGridConfigProvider {
 }
 
 export class IadGridConfigModel {
+    columns: IadGridColumn[];
+    rightColumns: IadGridColumn[];
+    leftColumns: IadGridColumn[];
+    searchUrl: string;
+    sortField: string;
+    sortOrder: number;
+    defaultSortField: string;
+    leftWidth: string;
+    rightWidth: string;
     filter: CustomizeQuery;
-    constructor(
-        public columns: IadGridColumn[] = [],
-        public rightColumns: IadGridColumn[] = [],
-        public leftColumns: IadGridColumn[] = [],
-        public sortField: string = null,
-        public sortOrder = 1,
-        public defaultSortField = 'creationDate',
-        public leftWidth = '0',
-        public rightWidth = '0'
-    ) {
+    reset: boolean;
+    constructor() {
+        this.columns = [];
+        this.sortField = null;
+        this.sortOrder = 1;
+        this.defaultSortField = 'creationDate';
+        this.leftWidth = '0';
+        this.rightWidth = '0';
     }
 }

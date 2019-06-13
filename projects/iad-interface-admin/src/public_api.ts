@@ -25,7 +25,6 @@ export * from './lib/iad-base-grid/base-grid/cms-setting';
 export * from './lib/iad-base-grid/base-grid/base-grid-columns.service';
 export * from './lib/iad-base-grid/base-grid/base-grid.component';
 export * from './lib/iad-base-grid/base-grid/base-grid-freeze-column.model';
-export * from './lib/iad-base-grid/base-grid/base-grid-config.model';
 export * from './lib/iad-base-grid/iad-base-grid.module';
 export * from './lib/iad-base-grid/column-components/special-column.component';
 

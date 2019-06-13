@@ -8,7 +8,7 @@ import {
     FILTER_TYPE,
     IadGridConfigModel,
     CmsSetting,
-    DataTableConfigProvider
+    IadGridConfigProvider
 } from 'iad-interface-admin';
 
 import { GridConfigService } from './grid-config.service';
@@ -19,7 +19,7 @@ import {CmsUserSettingsLoaderService, EntityResponseType} from './iad-user-setti
     templateUrl: './iad-settings-table.component.html',
     providers: [GridConfigService]
 })
-export class IADSettingsTableComponent implements OnChanges, OnInit, DataTableConfigProvider, OnDestroy {
+export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConfigProvider, OnDestroy {
     /**
      * Нажата какая-либо кнопка в тулбаре
      */

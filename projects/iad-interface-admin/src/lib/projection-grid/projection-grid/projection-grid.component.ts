@@ -118,7 +118,16 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
             // this.unSelectRow.next(true);
             this.searchUrl = this.projection.searchUrl;
+            this.doRefresh.next(this.populateGridConfig());
         }
+    }
+
+    populateGridConfig() {
+        const conf = new IadGridConfigModel();
+        conf.columns = this.columns;
+        conf.searchUrl = this.searchUrl;
+        conf.reset = true;
+        return conf;
     }
 
     /**

@@ -22,7 +22,7 @@ import { FILTER_TYPE, IadGridConfigModel } from '../model/iad-grid-model';
 import { IadGridColumn } from '../model/iad-grid-column.model';
 import { columnComponents } from '../column-components/column-components.factory';
 import { CmsSetting } from './cms-setting';
-import { BaseGridConfigModel } from './base-grid-config.model';
+
 import { BaseGridColumnsService } from './base-grid-columns.service';
 import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from './base-grid-freeze-column.model';
 
@@ -31,7 +31,7 @@ import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from 
     templateUrl: './base-grid.component.html',
     providers: [BaseGridColumnsService]
 })
-export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
+export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
     /**
      * Flag to toggle possibility to remove row selection
      */
@@ -267,7 +267,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         // Taken from partner project >>
         // Подписка на запрос обновления таблицы
         if (this.doRefresh) {
-            this.doRefresh.subscribe((data: BaseGridConfigModel) => {
+            this.doRefresh.subscribe((data: IadGridConfigModel) => {
                 this.initTableConfig(data);
                 this.refresh();
             });
@@ -306,12 +306,6 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         this.templates.forEach(item => {
             this.colTemplates[item.getType()] = item.template;
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['searchUrl']) {
-            this.refresh();
-        }
     }
 
     /**
@@ -412,15 +406,25 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     /**
      * Перезагрузка данных таблицы
      */
-    refresh() {
+    refresh(reset?: boolean) {
+        if (reset && !this.enableInfiniteScroll) {
+            this.resetNativeTable();
+        }
         this.askToRefresh.next();
     }
 
     /**
      * Method to reset items
      */
-    reset() {
+    resetValues() {
         this.value = [];
+    }
+
+    /**
+     * reset native pager
+     */
+    resetNativeTable() {
+        this.dt.reset();
     }
 
     /**
@@ -433,7 +437,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         if (!this.searchUrl) {
              // #1808
              if (this.lazy) {
-                 this.reset();
+                 this.resetValues();
              }
              return;
         }
@@ -449,7 +453,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
                 (res: HttpResponse<Array<any>>) => this.addItems(res.body, res.headers, event.clearData),
                 () => {
                     if (event.clearData) {
-                        this.reset();
+                        this.resetValues();
                     }
                 }
             );
@@ -473,7 +477,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
                 this.changeTableHeight.next(true);
                 this.refresh();
             },
-            refresh: () => this.refresh,
+            refresh: () => this.refresh(value),
             unselect: () => {
                 this.unSelectRow.next(value);
             }
@@ -550,7 +554,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      */
     private addItems(data: Array<any>, headers: HttpHeaders, clearData?: boolean): void {
         if (clearData) {
-            this.reset();
+            this.resetValues();
         }
         this.totalRecords = parseInt(headers.get('X-Total-Count'), 10);
         this.value = this.value.concat(data);
@@ -569,6 +573,9 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     private initTableConfig(data: IadGridConfigModel): void {
         if (data.filter) {
             this.filter = data.filter;
+        }
+        if (data.searchUrl) {
+            this.searchUrl = data.searchUrl;
         }
         this.dt.frozenColumns = this.frozenCols = data.leftColumns;
         this.dt.frozenRightColumns = this.frozenRightCols = data.rightColumns;
