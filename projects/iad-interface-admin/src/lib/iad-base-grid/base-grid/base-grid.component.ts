@@ -269,7 +269,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         if (this.doRefresh) {
             this.doRefresh.subscribe((data: IadGridConfigModel) => {
                 this.initTableConfig(data);
-                this.refresh();
+                this.refresh(data.reset);
             });
         }
         // Subscription to updateVisibility
@@ -407,6 +407,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      * Перезагрузка данных таблицы
      */
     refresh(reset?: boolean) {
+        // Second part of this condition is made to leave compatibility with partner project
         if (reset && !this.enableInfiniteScroll) {
             this.resetNativeTable();
         }
