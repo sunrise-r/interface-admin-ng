@@ -37,8 +37,8 @@ export class QueryStatementBuilder implements IQueryStatementBuilder {
         return this.cb.build();
     }
 
-    addFromString(condition: string): String {
-        return this.cb.addFromString(condition);
+    addFromString(condition: string, useWildcard?: boolean): String {
+        return this.cb.addFromString(condition, useWildcard);
     }
 
     toString(): string {

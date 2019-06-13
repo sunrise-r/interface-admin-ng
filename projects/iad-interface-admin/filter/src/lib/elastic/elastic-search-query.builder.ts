@@ -13,9 +13,7 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
     private columns: Array<ColumnData>;
 
     static buildFromString(value: string): string {
-        let val = value;
-        val = val.replace(' ', '* ');
-        return val + '*';
+        return value.replace(' ', '* ') + '*';
     }
 
     constructor() {
@@ -93,8 +91,11 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
     /**
      * Добавляет к строке с запросом buildFromString
      */
-    addFromString(condition: string): String {
+    addFromString(condition: string, useWildcard?: boolean): String {
         const build = this.build();
-        return build.length > 0 ? [build, Operator.AND, ElasticSearchQueryBuilder.buildFromString(condition)].join(' ') : build;
+        if (useWildcard !== false) {
+            condition = ElasticSearchQueryBuilder.buildFromString(condition);
+        }
+        return build.length > 0 ? [build, Operator.AND, condition].join(' ') : build;
     }
 }

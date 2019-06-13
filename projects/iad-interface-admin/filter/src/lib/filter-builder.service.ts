@@ -59,7 +59,7 @@ export class FilterBuilderService implements FilterBuilderInterface {
      */
     beforeBuildHook(options: BuildOptions): boolean {
         if (options.globalFilter && options.globalFilter !== '') {
-            this.builder.addFilter('all', options.globalFilter, false).addOption('allMatchDelegate');
+            this.builder.addFilter('all', options.globalFilter, true).addOption('allMatchDelegate');
             return false;
         }
         return true;

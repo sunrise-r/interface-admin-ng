@@ -6,6 +6,7 @@ import { Operator } from './models/operator.model';
 import { IQueryStatementBuilder } from './models/column-builder.interface';
 import { statementTypes } from './operations/statement.factory';
 import { Filter } from '../filter-builder/model/filter';
+import { Option } from '../filter-builder/model/option';
 import { ColumnData } from './models/column-data.model';
 
 export class QueryStringQueryWrapper implements CustomizeQuery {
@@ -33,6 +34,8 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
                 this.applyValues();
                 this.queryStatement = this.queryStatement.addColumn(nameArray[1] ? nameArray[1] : nameArray[0]);
             }
+        } else {
+            this.applyValues();
         }
         this.currentValue = value;
         this.useWildCard = useWildCard;
@@ -48,7 +51,7 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
             this.queryStatement.setStatementType(<statementTypes>action);
             this.applyValues();
         } else if (delegate === 'allMatchDelegate') {
-            this.builtString = (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).addFromString(this.currentValue).toString();
+            this.builtString = (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).addFromString(this.currentValue, this.useWildCard).toString();
             this.clearTemp();
         }
         return this;
@@ -62,6 +65,9 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
             const result = this.builtString;
             this.builtString = null;
             return result;
+        }
+        if (this.currentValue) {
+            this.applyValues();
         }
         return (this.queryStatement ? this.queryStatement : this.elasticQSQBuilder).build();
     }
@@ -84,6 +90,21 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
      * @Todo It would be better to use native angular HttpParams
      */
     raw(): BuilderRaw {
+        if (this.currentValue) {
+            this.applyValues();
+        }
+        if (this.builtString) {
+            const option = new Option();
+            option.delegate = 'allMatchDelegate';
+            option.field = 'all';
+            const result = this.builtString.replace(/query=/, '');
+            this.builtString = null;
+            return new BuilderRaw([
+                new Filter('all', result, false)
+            ], [
+                option
+            ]);
+        }
         return new BuilderRaw(this.elasticQSQBuilder.raw().map(data => new Filter(`${data.operator}.${data.name}`, data.statement)));
     }
 
@@ -94,7 +115,7 @@ export class QueryStringQueryWrapper implements CustomizeQuery {
     }
 
     private applyValues() {
-        if (this.currentValue) {
+        if (this.currentValue !== null && this.currentValue !== undefined) {
             Array.isArray(this.currentValue)
                 ? this.queryStatement.addStatements(this.currentValue)
                 : this.queryStatement.addStatement(this.currentValue, this.useWildCard, this.currentOperator);
