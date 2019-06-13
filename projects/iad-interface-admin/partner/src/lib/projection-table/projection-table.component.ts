@@ -23,7 +23,6 @@ import { DataTableInformationService } from '../services/data-table-information.
 import { ActualSelectionChainService } from '../services/actual-selection-chain.service';
 import { PresentationHelper } from '../services/presentation-helper';
 
-import { ToolbarActionsToggleService } from './toolbar-actions-toggle.service';
 import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
 
@@ -31,7 +30,7 @@ import { PrimeTemplate } from 'primeng/shared';
 @Component({
     selector: 'iad-projection-table',
     templateUrl: './projection-table.component.html',
-    providers: [ToolbarActionsToggleService, PresentationHelper]
+    providers: [PresentationHelper]
 })
 export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
@@ -240,7 +239,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
 
     constructor(
         private informationService: DataTableInformationService,
-        private toolbarActionsToggleService: ToolbarActionsToggleService,
         private eventManager: IadEventManager,
         private presentationHelper: PresentationHelper,
         private dataChainService: DataChainService,
@@ -256,7 +254,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
      */
     ngOnChanges(changes: SimpleChanges): void {
         if ((changes['projection'] && this.projection) || (changes['presentationCode'] && this.presentationCode)) {
-            this.projection.actions = this.toolbarActionsToggleService.disableActions(this.projection.actions, this.disabled); // #1686
             this.selectionRequestField = IadHelper.getProperty(
                 'selectionRequestField',
                 this.selectionRequestField,
@@ -268,12 +265,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
             this.groupSettingsKey = this.settingsGroupName(this.projection.code);
             this.unSelectRow.next(true);
             this.searchUrl = ProjectionTableComponent.resolveUrl(this.projection.searchUrl, this.context);
-        }
-        // #1686
-        if (changes['disabled']) {
-            this.projection.actions = this.disabled
-                ? this.toolbarActionsToggleService.disableActions(this.projection.actions, this.disabled)
-                : this.toolbarActionsToggleService.enableActions(this.projection.actions, true);
         }
     }
 
@@ -341,7 +332,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
         if (!this.actualSelection) {
             return;
         }
-        this.toolbarActionsToggleService.disableActions(this.projection.actions);
 
         // this.dataChainService.reset(this.type);
 
@@ -385,8 +375,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
                 response.type = this.type;
                 response.documentDTO = Object.assign({}, response.documentDTO, response.documentIndex);
                 this.actualSelection = response;
-
-                this.projection.actions = this.resolveActions(this.actualSelection);
                 // this.dataChainService.add(this.type, this.actualSelection);
                 this.sendSelectionToDataPreview(this.actualSelection);
                 this.selectedItem.emit(this.actualSelection);
@@ -442,17 +430,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
      */
     private settingsGroupName(projectionCode: string): string {
         return this.presentationCode + '.' + projectionCode;
-    }
-
-    /**
-     * Определяем доступность экшнов в тулбаре текущей проекции
-     * @param body any
-     */
-    private resolveActions(body: any): ToolbarAction[][] {
-        if (body && body.documentDTO) {
-            return this.toolbarActionsToggleService.resolveActionsByStatus(this.projection.actions, body);
-        }
-        return this.toolbarActionsToggleService.enableActions(this.projection.actions);
     }
 
     /**
