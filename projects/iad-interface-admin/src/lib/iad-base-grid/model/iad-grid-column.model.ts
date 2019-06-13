@@ -9,7 +9,7 @@ export interface IadGridColumnInterface {
     position?: any;
     order?: number;
     frozenOrder?: number;
-    width?: any;
+    width?: number;
     searching?: boolean;
     displayFormat?: string;
     sorting?: boolean;

@@ -28,7 +28,7 @@ export class BaseGridColumnsService {
     /**
      * Размеры колонок текущей таблицы
      */
-    columnSizes = {};
+    columnSizes: {[p: string]: number} = {};
 
     /**
      * Структура замороженных колонок

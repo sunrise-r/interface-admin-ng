@@ -8,6 +8,7 @@ import {
     IadGridColumnFrozenField,
     IadGridColumnOrder
 } from 'iad-interface-admin';
+import { IadHelper } from 'iad-interface-admin/core';
 
 @Injectable()
 export class GridConfigService {
@@ -43,7 +44,7 @@ export class GridConfigService {
             dgColumnWidth = JSON.parse(prefs.get('dgColumnWidth'));
             columns.forEach(column => {
                 if (dgColumnWidth[column.field]) {
-                    column.width = parseInt(dgColumnWidth[column.field], 10);
+                    column.width = IadHelper.toInt(dgColumnWidth[column.field]);
                 }
             });
         }

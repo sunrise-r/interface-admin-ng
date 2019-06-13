@@ -410,7 +410,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
         // #1380
         this.projection.columns.forEach(column => {
             if (column.properties && column.properties.width) {
-                column.width = column.properties.width;
+                column.width = IadHelper.toInt(column.properties.width);
             }
             if (column.position === 'const-froz-right') {
                 this.staticFrozenRightColumns.push(column);
