@@ -1,48 +1,63 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IadGridColumn,
-  IadListProjectionInterface,
-  IadPresentation,
-  PROJECTION_TYPE,
-  ProjectionsHelper
+    IadGridColumn,
+    IadListProjectionInterface,
+    IadPresentation,
+    PROJECTION_TYPE,
+    ProjectionsHelper
 } from 'iad-interface-admin';
-import {Subscription} from 'rxjs';
+import { CustomizeQuery } from 'iad-interface-admin/filter';
+import { Subscription } from 'rxjs';
+import { DemoFilterBuilderService } from './demo-filter-builder.service';
 
 @Component({
-  selector: 'iad-grid',
-  templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+    selector: 'iad-grid',
+    templateUrl: './grid.component.html',
+    styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit {
 
-  columns: IadGridColumn[];
+    columns: IadGridColumn[];
 
-  projection: IadListProjectionInterface;
+    projection: IadListProjectionInterface;
 
-  presentationCode: string;
+    presentationCode: string;
 
-  routerSubscription: Subscription;
+    routerSubscription: Subscription;
 
-  @ViewChild('iadProjectionGrid')
-  iadProjectionGrid: any;
+    filter: CustomizeQuery;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+    @ViewChild('iadProjectionGrid')
+    iadProjectionGrid: any;
 
-  update() {
-    this.iadProjectionGrid.doRefresh.next();
-  }
+    constructor(private route: ActivatedRoute, private searchEngine: DemoFilterBuilderService, private router: Router) {
+    }
 
-  ngOnInit() {
-      this.routerSubscription = this.route.data.subscribe(data => {
-        const presentation: IadPresentation = data.presentation;
-        this.presentationCode = data.presentation.code;
-        this.projection = <IadListProjectionInterface>ProjectionsHelper
-          .filterProjections(presentation, PROJECTION_TYPE.LIST)
-          .find(_projection => _projection.code === data.projectionCode);
+    update() {
+        this.iadProjectionGrid.doRefresh.next();
+    }
 
-        this.columns = this.projection.columns;
-      });
-  }
+    ngOnInit() {
+        this.routerSubscription = this.route.data.subscribe(data => {
+            const presentation: IadPresentation = data.presentation;
+            this.presentationCode = data.presentation.code;
+            this.projection = <IadListProjectionInterface>ProjectionsHelper
+                .filterProjections(presentation, PROJECTION_TYPE.LIST)
+                .find(_projection => _projection.code === data.projectionCode);
+
+            this.columns = this.projection.columns;
+            this.setDefaultFilter();
+        });
+    }
+
+    setDefaultFilter() {
+        const filter = this.searchEngine.createFilter('QUERY_STRING_QUERY');
+        filter
+            .addFilter('active', true, false)
+            .addFilter('all', 'Иван')
+            .addOption('allMatchDelegate');
+        this.filter = filter;
+    }
 
 }
