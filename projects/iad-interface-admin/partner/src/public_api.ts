@@ -13,7 +13,6 @@ export * from './lib/services/data-table-information.service';
 export * from './lib/services/actual-selection-chain.service';
 
 // #projection-table
-export * from './lib/projection-table/toolbar-actions-toggle.service';
 export * from './lib/projection-table/projection-table.component';
 export * from './lib/projection-table/table-toolbar/table-toolbar.component';
 export * from './lib/projection-table/projection-table.module';
