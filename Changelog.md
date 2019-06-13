@@ -48,18 +48,18 @@ export class MyFilterBuilderService implements FilterBuilderInterface() {
     merge(builder: CustomizeQuery): FilterBuilderInterface {
         return this;
     };
-    build(options: BuildOptions): string {
+    build(options: BuildOptions, prevEvent: any): string {
         let result = ''; 
         if (this.beforeBuildHook(options)) {
             result += this.filter.build();
         }
-        this.afterBuildHook();
+        this.afterBuildHook(prevEvent);
         return result;
     };
     beforeBuildHook(options: BuildOptions): boolean {
         return true;
     };
-    afterBuildHook() {
+    afterBuildHook(event: any) {
         console.log('do something');
     };
 }
