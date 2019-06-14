@@ -3,10 +3,10 @@ import {
     Component,
     ContentChildren, ElementRef,
     EventEmitter, Inject,
-    Input, OnChanges, OnDestroy,
+    Input, OnDestroy,
     OnInit,
     Output,
-    QueryList, SimpleChanges,
+    QueryList,
     TemplateRef,
     ViewChild
 } from '@angular/core';
@@ -284,15 +284,25 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     }
 
     ngAfterViewInit(): void {
-        /**
-         * What is happpen here:
-         * When current component is loaded it cannot correctly subscribe to refresh because it calls this.dt methods and props
-         * Then we need to create refresh ReplaySubject
-         * wait for Sort Event (fired when sortField or sortOrder is set)
-         * and finally call that refresh ReplaySubject to update data
-         * @todo think if you can do it better
-         */
-        if (this.lazy && this.searchUrl) {
+        this.initUpdateDataSubscription();
+    }
+
+    ngAfterContentInit(): void {
+        this.templates.forEach(item => {
+            this.colTemplates[item.getType()] = item.template;
+        });
+    }
+
+    /**
+     * What is happpen here:
+     * When current component is loaded it cannot correctly subscribe to refresh because it calls this.dt methods and props
+     * Then we need to create refresh ReplaySubject
+     * wait for Sort Event (fired when sortField or sortOrder is set)
+     * and finally call that refresh ReplaySubject to update data
+     * https://github.com/sunrise-r/interface-admin-ng/issues/66 removed searchUrl checking
+     */
+    initUpdateDataSubscription() {
+        if (this.lazy) {
             this.askToRefresh.subscribe(() => {
                 if (this.enableInfiniteScroll) {
                     this.dt.paginatorService.resetFirst();
@@ -300,12 +310,6 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
                 this.updateData(this.dt.createLazyLoadMetadata(true));
             });
         }
-    }
-
-    ngAfterContentInit(): void {
-        this.templates.forEach(item => {
-            this.colTemplates[item.getType()] = item.template;
-        });
     }
 
     /**
@@ -436,8 +440,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     updateData(event: LazyLoadData): void {
         // #631 we do not need refresh if no searchUrl set and items are set externally
         if (!this.searchUrl) {
-             // #1808
-             if (this.lazy) {
+             if (this.lazy) { // #1808
                  this.resetValues();
              }
              return;
