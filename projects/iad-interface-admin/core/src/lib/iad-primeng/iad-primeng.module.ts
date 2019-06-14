@@ -1,5 +1,5 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
@@ -13,7 +13,17 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from 'primeng/shared';
 import { ConfirmationService } from 'primeng/api';
-import { CalendarModule, CheckboxModule, MultiSelectModule, EditorModule, DropdownModule, ChipsModule, ConfirmDialogModule, PanelModule, MenuModule } from 'primeng/primeng';
+import {
+    CalendarModule,
+    CheckboxModule,
+    MultiSelectModule,
+    EditorModule,
+    DropdownModule,
+    ChipsModule,
+    ConfirmDialogModule,
+    PanelModule,
+    MenuModule
+} from 'primeng/primeng';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Customized
@@ -26,49 +36,50 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
 
 @NgModule({
     imports: [
-      CommonModule,
-      InfiniteScrollModule,
-      SharedModule,
-      PanelModule,
-      TableModule,
-      TooltipModule,
-      ButtonModule,
-      InputTextModule,
-      PaginatorModule,
-      ConfirmDialogModule,
-      CheckboxModule,
-      ChipsModule,
-      CalendarModule,
-      MultiSelectModule,
-      MenuModule,
-      EditorModule,
-      DropdownModule,
-      FontAwesomeModule
+        CommonModule,
+        InfiniteScrollModule,
+        SharedModule,
+        PanelModule,
+        TableModule,
+        TooltipModule,
+        ButtonModule,
+        InputTextModule,
+        PaginatorModule,
+        ConfirmDialogModule,
+        CheckboxModule,
+        ChipsModule,
+        CalendarModule,
+        MultiSelectModule,
+        MenuModule,
+        EditorModule,
+        DropdownModule,
+        FontAwesomeModule
     ],
     declarations: [
-      IadScrollableViewComponent,
-      IadTableBodyComponent,
-      IadTableComponent,
-      TableKeysDirective,
-      TooltipDirective,
-      CalendarComponent
+        IadScrollableViewComponent,
+        IadTableBodyComponent,
+        IadTableComponent,
+        TableKeysDirective,
+        TooltipDirective,
+        CalendarComponent
     ],
     exports: [
-      TooltipModule,
-      ButtonModule,
-      TableModule,
-      MenuModule,
-      ConfirmDialogModule,
-      PanelModule,
-      CheckboxModule,
-      ChipsModule,
-      CalendarModule,
-      MultiSelectModule,
-      EditorModule,
-      DropdownModule,
-      IadTableComponent,
-      CalendarComponent,
-      TooltipDirective
+        SharedModule,
+        TooltipModule,
+        ButtonModule,
+        TableModule,
+        MenuModule,
+        ConfirmDialogModule,
+        PanelModule,
+        CheckboxModule,
+        ChipsModule,
+        CalendarModule,
+        MultiSelectModule,
+        EditorModule,
+        DropdownModule,
+        IadTableComponent,
+        CalendarComponent,
+        TooltipDirective
     ],
     providers: [ConfirmationService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
