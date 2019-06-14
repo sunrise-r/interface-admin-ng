@@ -23,6 +23,9 @@ export interface FilterBuilderInterface {
 
 export const FILTER_BUILDER = new InjectionToken<FilterBuilderInterface>('Filter builder');
 
+@Injectable({
+    providedIn: 'root'
+})
 export class FilterBuilderService implements FilterBuilderInterface {
     builder: CustomizeQuery;
 
