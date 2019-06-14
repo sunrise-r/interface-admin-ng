@@ -40,11 +40,15 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
     encapsulation: ViewEncapsulation.None
 })
 export class IadProjectionFormComponent implements OnChanges {
-    /**
-     * // @todo Using of "data" is not welcome
-     * Предустановленные значения для полей формы
-     */
-    @Input() data: any;
+
+    @Input()
+    set data(data: any) {
+        console.log('Using of "data" is not supported. Use rawFormData instead');
+        console.log('data payload:');
+        console.log(data);
+        console.log('rawFormData payload:');
+        console.log(this.rawFormData);
+    }
 
     /**
      * Проекция по которой строится форма
@@ -82,26 +86,17 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() formProjectionSubject: Subject<{ [param: string]: any }>;
 
     /**
-     * Service to use for form projection upload.
-     * @Todo replace this property and prefer moduleWithProviders to use your own service impl
-     */
-    @Input() projectionService: IadReferenceProjectionProviderInterface;
-
-    /**
-     * // @todo please avoid using this mode
-     * Enables Compatibility mode
-     */
-    @Input() compatibilityMode = false;
-
-    /**
-     * @todo PostDataUrl to use redirects in compatibility mode
-     */
-    @Input() postDataUrl: string;
-
-    /**
      * Style CSS class string
      */
     @Input() styleClass: string;
+
+    /**
+     * Customized form Footer template
+     */
+    @Input()
+    set formExternalTemplates(templates: QueryList<PrimeTemplate>) {
+        this.formTemplates = templates;
+    };
 
     /**
      * Output EventEmitter to handle form submit event externally
@@ -126,8 +121,7 @@ export class IadProjectionFormComponent implements OnChanges {
     constructor(
         private iadDataOperationsService: IadDataOperationsService,
         private iadRouterHistoryService: IadRouterHistoryService,
-        private referenceProjectionService: IadReferenceProjectionProviderService,
-        private router: Router
+        private referenceProjectionService: IadReferenceProjectionProviderService
     ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -186,7 +180,7 @@ export class IadProjectionFormComponent implements OnChanges {
         }, {});
 
         // Request reference form projections
-        return this.resolveProjectionService()
+        return this.referenceProjectionService
             .findProjectionsByName(requestParams)
             .toPromise()
             .then((data: { [param: string]: IadFormProjectionInterface }) => {
@@ -299,16 +293,6 @@ export class IadProjectionFormComponent implements OnChanges {
             formData: value,
             fileInputKeys
         });
-        // @todo please avoid using this mode
-        if (this.compatibilityMode) {
-            this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
-                (response: any) => {
-                    this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
-                },
-                (err: any) => {
-                    this.serverError = err;
-                });
-        }
     }
 
     /**
@@ -316,10 +300,6 @@ export class IadProjectionFormComponent implements OnChanges {
      */
     onFormCancel() {
         this.formCancel.emit();
-        // @todo please avoid using this mode
-        if (this.compatibilityMode) {
-            this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
-        }
     }
 
     /**
@@ -343,26 +323,12 @@ export class IadProjectionFormComponent implements OnChanges {
     }
 
     /**
-     * Compatibility mode
-     */
-    private resolveProjectionService(): IadReferenceProjectionProviderInterface {
-        return this.projectionService ? this.projectionService : this.referenceProjectionService;
-    }
-
-    /**
      * Модифицирует опции перед передачей их в dynamic-form.component
      * @param options
      * @param field
      * @param groupName
      */
     private modifyOptions(options, field: IFormProjectionField, groupName?: string): { [param: string]: any } {
-        // @todo Using of "data" is not welcome
-        if (this.data) {
-            const data = groupName && this.data[groupName] ? this.data[groupName] : this.data;
-            if (options.key in data) {
-                options.value = data[options.key];
-            }
-        }
         if (!options.value && this.rawFormData) {
             options.value = field.dataSourcePath
                 ? this.resolveItemsPath(field.dataSourcePath, this.rawFormData)
