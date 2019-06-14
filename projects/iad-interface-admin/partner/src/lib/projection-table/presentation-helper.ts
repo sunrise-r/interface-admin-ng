@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
 import { StringHelper } from 'iad-interface-admin/core';
 
-@Injectable()
 export class PresentationHelper {
     /**
      * Возвращает чистый код представления без постфикса Presentation
      * @param presentationCode
      */
-    cleanPresentationCode(presentationCode: string) {
+    static cleanPresentationCode(presentationCode: string) {
         presentationCode = StringHelper.parseDotPathFirstSection(presentationCode);
         return presentationCode.replace(/(DataPresentation|Presentation)$/, '');
     }
@@ -16,7 +14,7 @@ export class PresentationHelper {
      * Возвращает чистый код проекции
      * @param presentationCode
      */
-    cleanProjectionCode(presentationCode: string) {
+    static cleanProjectionCode(presentationCode: string) {
         const projectionCode = StringHelper.parseDotPathLastSection(presentationCode);
         return projectionCode.replace(/(ReferenceListProjection|SourceListProjection|ViewListProjection|ListProjection)$/, '');
     }
