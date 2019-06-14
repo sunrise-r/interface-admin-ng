@@ -128,7 +128,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
             // this.unSelectRow.next(true);
             this.searchUrl = this.projection.searchUrl;
-            this.doRefresh.next();
+            this.doRefresh.next(this.populateGridConfig());
         }
         if ('filter' in changes) {
             this.doRefresh.next(this.populateGridConfig());
