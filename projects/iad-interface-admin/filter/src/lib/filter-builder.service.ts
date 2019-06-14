@@ -44,8 +44,7 @@ export class FilterBuilderService implements FilterBuilderInterface {
             if (options.filters) {
                 Object.keys(options.filters)
                     .forEach((field: string) => {
-                        const value = options.filters[field].value;
-                        this.builder.addFilter(field, value, options.filters[field].useWildcard);
+                        this.builder.addFilter(field, options.filters[field].value, options.filters[field].useWildcard);
                     });
             }
         }

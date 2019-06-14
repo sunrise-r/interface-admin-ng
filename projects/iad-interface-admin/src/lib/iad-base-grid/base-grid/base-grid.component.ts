@@ -533,9 +533,11 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
             globalFilter: event.globalFilter,
             filters: Object.keys(event.filters)
                 .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
-                .reduce((acu, field) => ({
-                    value: event.filters[field].value,
-                    useWildcard: this.columnHasWildCard(field)
+                .reduce((acu, field) => Object.assign(acu, {
+                    [field]: {
+                        value: event.filters[field].value,
+                        useWildcard: this.columnHasWildCard(field)
+                    }
                 }), {})
         };
         return this.searchEngine.build(options, event);
