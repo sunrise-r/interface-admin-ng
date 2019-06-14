@@ -21,7 +21,7 @@ import { DATA_DEPENDENCY_LEVEL, DocumentListProjection } from '../model/projecti
 
 import { DataTableInformationService } from '../services/data-table-information.service';
 import { ActualSelectionChainService } from '../services/actual-selection-chain.service';
-import { PresentationHelper } from '../services/presentation-helper';
+import { PresentationHelper } from './presentation-helper';
 
 import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
@@ -29,8 +29,7 @@ import { PrimeTemplate } from 'primeng/shared';
 // TODO Может, разделить для операций и для таблиц данных?
 @Component({
     selector: 'iad-projection-table',
-    templateUrl: './projection-table.component.html',
-    providers: [PresentationHelper]
+    templateUrl: './projection-table.component.html'
 })
 export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
@@ -240,7 +239,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     constructor(
         private informationService: DataTableInformationService,
         private eventManager: IadEventManager,
-        private presentationHelper: PresentationHelper,
         private dataChainService: DataChainService,
         private dataPreviewChainService: ActualSelectionChainService
     ) {}
@@ -363,7 +361,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
                     documentIndex: {},
                     documentDTO: {},
                     properties: {
-                        className: this.presentationHelper.cleanProjectionCode(this.projection.code)
+                        className: PresentationHelper.cleanProjectionCode(this.projection.code)
                     }
                 });
             }

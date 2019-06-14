@@ -532,7 +532,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         const options = {
             globalFilter: event.globalFilter,
             filters: Object.keys(event.filters)
-                .filter(field => event.filters[field].value !== null && event.filters[field].value !== '')
+                .filter(field => event.filters[field].value !== null && event.filters[field].value !== '' && field !== 'global')
                 .reduce((acu, field) => Object.assign(acu, {
                     [field]: {
                         value: event.filters[field].value,
