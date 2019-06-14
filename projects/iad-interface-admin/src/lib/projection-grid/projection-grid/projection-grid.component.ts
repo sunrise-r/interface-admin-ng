@@ -10,7 +10,7 @@ import {
     TemplateRef
 } from '@angular/core';
 import { PrimeTemplate } from 'primeng/shared';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { DocumentListProjection } from '../model/projection-grid.model';
@@ -54,12 +54,10 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     @Input() lazy: boolean;
 
-    doRefresh: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
-
     /**
-     * current projection
+     * Update grid subject
      */
-    private _projection: DocumentListProjection;
+    @Input() refresh: Subject<boolean> = new Subject<boolean>();
 
     @Input()
     get projection(): DocumentListProjection {
@@ -92,6 +90,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
 
     /**
+     * Sending table config to BaseGridComponent
+     */
+    doRefresh: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
+
+    /**
      * Templates for every column type in format {key: value}
      */
     colTemplates: { [param: string]: TemplateRef<any> } = {};
@@ -107,10 +110,20 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      */
     searchUrl: string;
 
+    /**
+     * current projection
+     */
+    private _projection: DocumentListProjection;
+
+    private refreshSbt: Subscription;
+
     constructor() {
     }
 
     ngOnInit() {
+        this.refreshSbt = this.refresh.subscribe(() => {
+            this.doRefresh.next(this.populateGridConfig());
+        });
     }
 
     ngAfterContentInit(): void {
