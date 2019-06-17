@@ -250,7 +250,8 @@ export class IadProjectionFormComponent implements OnChanges {
                     label: field.label,
                     translate: field.translate,
                     children: inputs,
-                    properties: field.properties
+                    properties: field.properties,
+                    validationTypes: field.validationTypes
                 });
             }
         } else {
