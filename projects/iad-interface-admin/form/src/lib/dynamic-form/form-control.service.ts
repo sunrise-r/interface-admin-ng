@@ -14,6 +14,7 @@ export class FormControlService {
         if (inputGroup.children) {
             inputGroup.children.forEach((childColumn: FormGroupChildColumn) =>
                 childColumn.forEach((child: FormGroupChild) => {
+                    child = this.updateRequiredState(inputGroup, child);
                     if (DynamicFormHelper.isFormInputGroup(child)) {
                         group[child.key] = this.toFormGroup(<FormInputGroup>child);
                     } else {
@@ -65,12 +66,12 @@ export class FormControlService {
                 if (formInput.dependencies) {
                     formInput.dependencies.forEach(dependency => {
                         if (!(dependency in context) || !context[dependency]) {
-                            const depended = form.controls[formInput.key + 'Id'];
+                            const depended = form.controls[formInput.key];
                             if (depended.enabled) {
                                 depended.disable();
                             }
                         } else {
-                            const independent = form.controls[formInput.key + 'Id'];
+                            const independent = form.controls[formInput.key];
                             if (independent.disabled) {
                                 independent.enable();
                             }
@@ -79,5 +80,20 @@ export class FormControlService {
                 }
             })
         );
+    }
+
+    /**
+     * Ability to inherit group validationTypes.required when it was set into "true" state
+     * @param inputGroup
+     * @param child
+     */
+    private updateRequiredState(inputGroup: FormInputGroup, child: FormGroupChild): FormGroupChild {
+        if (inputGroup.validationTypes && inputGroup.validationTypes.required) {
+            if (!(<FormInputGroup>child).validationTypes) {
+                (<FormInputGroup>child).validationTypes = <any>{};
+            }
+            (<FormInputGroup>child).validationTypes.required = inputGroup.validationTypes.required;
+        }
+        return child;
     }
 }
