@@ -88,11 +88,11 @@ export class FormControlService {
      * @param child
      */
     private updateRequiredState(inputGroup: FormInputGroup, child: FormGroupChild): FormGroupChild {
-        if (inputGroup.validationTypes && inputGroup.validationTypes.required) {
-            if (!(<FormInputGroup>child).validationTypes) {
-                (<FormInputGroup>child).validationTypes = <any>{};
+        if (inputGroup.validators && inputGroup.validators.required) {
+            if (!(<FormInputGroup>child).validators) {
+                (<FormInputGroup>child).validators = <any>{};
             }
-            (<FormInputGroup>child).validationTypes.required = inputGroup.validationTypes.required;
+            (<FormInputGroup>child).validators.required = inputGroup.validators.required;
         }
         return child;
     }

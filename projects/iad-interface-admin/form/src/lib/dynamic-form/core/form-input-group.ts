@@ -15,7 +15,7 @@ export class FormInputGroup {
     visible: boolean;
     translate: boolean;
     collapsed = true;
-    validationTypes: {
+    validators: {
         email?: boolean;
         required?: boolean;
         minLength?: string;
@@ -32,7 +32,7 @@ export class FormInputGroup {
         visible?: boolean;
         translate?: boolean,
         properties?: any,
-        validationTypes?: any
+        validators?: any
     }) {
         this.key = options.key || '';
         this.label = options.label || '';
@@ -43,7 +43,7 @@ export class FormInputGroup {
         this.dependencies = options.dependencies || [];
         this.visible = options.visible;
         this.translate = options.translate || false;
-        this.validationTypes = options.validationTypes;
+        this.validators = options.validators;
         if (options.properties && options.properties.collapsed !== undefined) {
             this.collapsed = options.properties.collapsed;
         }
