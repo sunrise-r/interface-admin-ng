@@ -284,7 +284,7 @@ export class IadProjectionFormComponent implements OnChanges {
         if (field.properties) {
             Object.assign(options, field.properties);
         }
-        return new InputFactory().initTypeFactory(this.inputModels).createInput(field.type, this.modifyOptions(options, field, groupName));
+        return new InputFactory().initTypeFactory(this.inputModels).createInput(field.type, this.modifyOptions(options, groupName));
     }
 
     onFormSubmit(value: any) {
@@ -325,14 +325,13 @@ export class IadProjectionFormComponent implements OnChanges {
     /**
      * Модифицирует опции перед передачей их в dynamic-form.component
      * @param options
-     * @param field
      * @param groupName
      */
-    private modifyOptions(options, field: IFormProjectionField, groupName?: string): { [param: string]: any } {
+    private modifyOptions(options, groupName?: string): { [param: string]: any } {
         if (!options.value && this.rawFormData) {
-            options.value = field.dataSourcePath
-                ? this.resolveItemsPath(field.dataSourcePath, this.rawFormData)
-                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + field.name, this.rawFormData);
+            options.value = options.dataSourcePath
+                ? this.resolveItemsPath(options.dataSourcePath, this.rawFormData)
+                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + options.key, this.rawFormData);
         }
         return options;
     }
