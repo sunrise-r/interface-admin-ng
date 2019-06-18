@@ -1,3 +1,11 @@
+#0.0.4@devel.35
+
+## Features
+
+* FORM: Added ability to consider group names when using nested input groups
+
+`IadFormComponent @Input() considerSourcePathGroups;`
+
 #0.0.4@devel.34
 
 ## Breaking changes for partner project
