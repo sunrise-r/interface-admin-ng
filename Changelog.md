@@ -1,3 +1,22 @@
+#0.0.4@devel.34
+
+## Breaking changes for partner project
+
+* removed useless IADFrameworkModule from 'iad-interface-admin/partner'
+
+## Features
+
+* FORM: Added ability to inherit input group (references) validationTypes.required when it was set into "true" state
+* FORM: Added form instance to form footer template (let-form="form")
+* FORM: Made FilterBuilderService @Injectable()
+* GRID: Added ProjectionGrid.refresh: Subject<boolean>() to have possibility to refresh data in gridTable
+* GRID: Disabled InfiniteScroll by default
+* GLOBAL: Added export of primeng shared module from IadPrimengModule; version changed
+
+## Compatibility with iad-admin (backend)
+
+* No more difference if you are using dataSourcePath or datasourcePath in projections. But please, prefer dataSourcePath
+
 #0.0.4@devel.22
 
 ## For all projects

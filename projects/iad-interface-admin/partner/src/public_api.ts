@@ -18,5 +18,3 @@ export * from './lib/projection-table/projection-table.module';
 export * from './lib/iad-settings-table/iad-settings-table.component';
 export * from './lib/iad-settings-table/iad-settings-table.module';
 
-export * from './lib/iad-framework.module';
-
