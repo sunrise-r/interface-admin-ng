@@ -76,6 +76,11 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() defaultSourcePath: string;
 
     /**
+     * Default Data source path to fill the form
+     */
+    @Input() considerSourcePathGroups: boolean;
+
+    /**
      * Ошибка сервера, если отправка данных прошла не успешно
      */
     @Input() serverError: HttpErrorResponse;
@@ -330,12 +335,11 @@ export class IadProjectionFormComponent implements OnChanges {
      */
     private modifyOptions(options, groupName?: string): { [param: string]: any } {
         if (!options.value && this.rawFormData) {
-            const defaultPath = (this.defaultSourcePath ? this.defaultSourcePath + '.' : '') +
-                                (groupName ? groupName + '.' : '') +
-                                options.key;
             options.value = options.dataSourcePath
                 ? this.resolveItemsPath(options.dataSourcePath, this.rawFormData)
-                : this.resolveItemsPath(defaultPath + options.key, this.rawFormData);
+                : (this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') +
+                    (this.considerSourcePathGroups && groupName ? groupName + '.' : '') +
+                    options.key, this.rawFormData));
         }
         return options;
     }
