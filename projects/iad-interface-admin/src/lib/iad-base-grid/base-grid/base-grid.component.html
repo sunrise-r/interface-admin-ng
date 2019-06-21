@@ -7,7 +7,7 @@
     [allowUnSelectRow]="allowUnSelectRow"
     [changeTableHeight]="changeTableHeight"
     [columns]="columns"
-    [doRefresh]="askToRefresh"
+    [doRefresh]="internalRefresh"
     [enableInfiniteScroll]="enableInfiniteScroll"
     [frozenColumns]="frozenCols"
     [frozenWidth]="frozenWidth"
@@ -106,7 +106,7 @@
                         [components]="columnComponents"
                         [col]="col"
                         [selected]="selection === rowData"
-                        [doRefresh]="doRefresh"
+                        [doRefresh]="refreshGridConfig"
                         (manageTable)="manageTable($event.code, $event.value)"></ng-container>
                 </td>
             </ng-template>

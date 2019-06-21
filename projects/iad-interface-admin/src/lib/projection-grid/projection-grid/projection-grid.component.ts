@@ -92,7 +92,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     /**
      * Sending table config to BaseGridComponent
      */
-    doRefresh: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
+    refreshGridConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
 
     /**
      * Templates for every column type in format {key: value}
@@ -122,7 +122,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     ngOnInit() {
         this.refreshSbt = this.refresh.subscribe(() => {
-            this.doRefresh.next(this.populateGridConfig());
+            this.refreshGridConfig.next(this.populateGridConfig());
         });
     }
 
@@ -141,10 +141,10 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
             // this.unSelectRow.next(true);
             this.searchUrl = this.projection.searchUrl;
-            this.doRefresh.next(this.populateGridConfig());
+            this.refreshGridConfig.next(this.populateGridConfig());
         }
         if ('filter' in changes) {
-            this.doRefresh.next(this.populateGridConfig());
+            this.refreshGridConfig.next(this.populateGridConfig());
         }
     }
 

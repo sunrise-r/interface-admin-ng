@@ -16,7 +16,7 @@ export interface IadGridConfigProvider {
      * Это позволяет исключить установку сортировки до обработки запроса на обновление данных без
      * необходимости устанавливать таймауты
      */
-    refreshConfig: Subject<IadGridConfigModel>;
+    refreshGridConfig: Subject<IadGridConfigModel>;
 }
 
 export class IadGridConfigModel {

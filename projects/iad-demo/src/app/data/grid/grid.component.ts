@@ -8,7 +8,7 @@ import {
     ProjectionsHelper
 } from 'iad-interface-admin';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { DemoFilterBuilderService } from './demo-filter-builder.service';
 
 @Component({
@@ -28,6 +28,8 @@ export class GridComponent implements OnInit {
 
     filter: CustomizeQuery;
 
+    refresh: Subject<any> = new Subject();
+
     @ViewChild('iadProjectionGrid')
     iadProjectionGrid: any;
 
@@ -35,7 +37,7 @@ export class GridComponent implements OnInit {
     }
 
     update() {
-        this.iadProjectionGrid.doRefresh.next();
+        this.refresh.next();
     }
 
     ngOnInit() {

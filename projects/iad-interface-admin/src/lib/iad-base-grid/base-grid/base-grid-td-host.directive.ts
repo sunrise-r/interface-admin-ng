@@ -53,7 +53,7 @@ export class BaseGridTdHostDirective implements OnInit, OnDestroy, OnChanges {
         (<TableTdContentInterface>this.componentRef.instance).col = this.col;
         (<TableTdContentInterface>this.componentRef.instance).rowData = this.rowData;
         (<TableTdContentInterface>this.componentRef.instance).selected = this.selected;
-        if (this.componentRef.instance.hasOwnProperty('doRefresh')) { this.componentRef.instance.doRefresh = this.doRefresh; }
+        if (this.componentRef.instance.hasOwnProperty('doRefresh')) { this.componentRef.instance.refreshGridData = this.doRefresh; }
         if ('manageTable' in this.componentRef.instance) {
             (<AffectTableInterface>this.componentRef.instance).manageTable.subscribe(result => {
                 this.manageTable.emit(result);
