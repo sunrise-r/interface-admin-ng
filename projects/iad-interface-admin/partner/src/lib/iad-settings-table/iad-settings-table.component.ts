@@ -151,7 +151,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
      * Это позволяет исключить установку сортировки до обработки запроса на обновление данных без
      * необходимости устанавливать таймауты
      */
-    refreshConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
+    refreshGridConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
 
     /**
      * Изменение размеров таблицы
@@ -179,7 +179,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
             if (!this.config) {
                 this.initSettings(this.groupSettingsKey);
             } else {
-                this.refreshConfig.next(this.config);
+                this.refreshGridConfig.next(this.config);
             }
         });
 
@@ -202,7 +202,7 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
         // issue #1745 поправил работу фильтра по проекциям
         if ('filter' in changes) {
             this.config.filter = this.filter;
-            this.refreshConfig.next(this.config);
+            this.refreshGridConfig.next(this.config);
         }
     }
 
@@ -281,7 +281,8 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
         this.loadSettings(groupSettingsKey).then((prefs: Map<string, string>) => {
             this.config = this.gridConfigService.populate(this.config.columns, prefs);
             this.initialSort = this.config.sortField + ',' + (this.config.sortOrder < 0 ? 'desc' : 'asc');
-            this.refreshConfig.next(this.config);
+            // calls first grid update
+            this.refreshGridConfig.next(this.config);
         });
     }
 

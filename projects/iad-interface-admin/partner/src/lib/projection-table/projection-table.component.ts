@@ -289,6 +289,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
             },
             clear: () => {
                 this.resetFilter.next(FILTER_TYPE.BOTH);
+                this.doTableAction.next({ code: event.action.code, value: event.action.active });
                 this.showSearchPanel = false;
                 this.showFilter = false;
             }
@@ -297,7 +298,6 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
             strategy[event.action.code]();
         }
         this.actionClicked.emit(event);
-        this.doTableAction.next({ code: event.action.code, value: event.action.active });
     }
 
     /**

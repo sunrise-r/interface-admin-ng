@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { PrimeTemplate } from 'primeng/shared';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { FilterBuilderInterface, FILTER_BUILDER, CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { IadProjectionGridService } from '../services/iad-projection-grid.service';
@@ -53,9 +53,9 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     @Input() defaultSortField = 'id';
 
     /**
-     * External refresh the table
+     * Sending table config to BaseGridComponent
      */
-    @Input() doRefresh: Subject<IadGridConfigModel>;
+    @Input() refreshGridConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
 
     /**
      * External table action
@@ -180,7 +180,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     /**
      * INTERNAL REQUEST TO UPDATE GRID DATA
      */
-    askToRefresh: ReplaySubject<string> = new ReplaySubject<string>();
+    internalRefresh: ReplaySubject<string> = new ReplaySubject<string>();
 
     /**
      * Column components to pass them to column td host
@@ -244,6 +244,8 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      */
     totalRecords: number;
 
+    private refreshGridConfigSbt: Subscription;
+
     constructor(private gridDataService: IadProjectionGridService,
                 private configService: IadConfigService,
                 @Inject(FILTER_BUILDER) private searchEngine: FilterBuilderInterface,
@@ -266,8 +268,11 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         }
         // Taken from partner project >>
         // Подписка на запрос обновления таблицы
-        if (this.doRefresh) {
-            this.doRefresh.subscribe((data: IadGridConfigModel) => {
+        if (this.refreshGridConfig) {
+            this.refreshGridConfigSbt = this.refreshGridConfig.subscribe((data: IadGridConfigModel) => {
+                if (!data) {
+                    throw new Error('IadGridConfigModel is not passed! Ensure you are using correct way to refresh grid data and config!');
+                }
                 this.initTableConfig(data);
                 this.refresh(data.reset);
             });
@@ -280,7 +285,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     }
 
     ngOnDestroy(): void {
-        this.doRefresh.unsubscribe();
+        this.refreshGridConfig.unsubscribe();
     }
 
     ngAfterViewInit(): void {
@@ -303,7 +308,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      */
     initUpdateDataSubscription() {
         if (this.lazy) {
-            this.askToRefresh.subscribe(() => {
+            this.internalRefresh.subscribe(() => {
                 if (this.enableInfiniteScroll) {
                     this.dt.paginatorService.resetFirst();
                 }
@@ -415,7 +420,7 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
         if (reset && !this.enableInfiniteScroll) {
             this.resetNativeTable();
         }
-        this.askToRefresh.next();
+        this.internalRefresh.next();
     }
 
     /**
@@ -481,7 +486,6 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
                 this.changeTableHeight.next(true);
                 this.refresh();
             },
-            refresh: () => this.refresh(value),
             unselect: () => {
                 this.unSelectRow.next(value);
             }
