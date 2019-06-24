@@ -1,3 +1,7 @@
+# 0.0.4@devel.37
+
+* FORM: If reference field is flatten (plain) then group will be not considered for this field
+
 # 0.0.4@devel.36
 
 * GRID: Changed grid refresh scenario; Now grid update require grid settings every time; Another one change removes double grid refresh in projection-grid
