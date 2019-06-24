@@ -133,22 +133,26 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if ((changes['projection'] || (changes['presentationCode'] && this.presentationCode)) && this.projection) {
+        if ('projection' in changes || 'presentationCode' in changes || 'filter' in changes) {
+
             // this.queryCallback = this.initQueryCallback.bind(this);
             // this.initColumns();
             // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
             // this.loadActualInfo = this.initLoadActualInformationFlag();
             // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
             // this.unSelectRow.next(true);
-            this.searchUrl = this.projection.searchUrl;
-            this.refreshGridConfig.next(this.populateGridConfig());
-        }
-        if ('filter' in changes) {
-            this.refreshGridConfig.next(this.populateGridConfig());
+            if (this.presentationCode && this.projection) {
+                this.searchUrl = this.projection.searchUrl;
+            }
+            this.sendRefreshGridConfig();
         }
     }
 
-    populateGridConfig() {
+    sendRefreshGridConfig(): void {
+        this.refreshGridConfig.next(this.populateGridConfig());
+    }
+
+    populateGridConfig(): IadGridConfigModel {
         const conf = new IadGridConfigModel();
         conf.columns = this.columns;
         conf.searchUrl = this.searchUrl;
