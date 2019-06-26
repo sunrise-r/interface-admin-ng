@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     IadGridColumn,
@@ -10,13 +10,14 @@ import {
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 import { Subject, Subscription } from 'rxjs';
 import { DemoFilterBuilderService } from './demo-filter-builder.service';
+import {IadEventManager} from 'iad-interface-admin/core';
 
 @Component({
     selector: 'iad-grid',
     templateUrl: './grid.component.html',
     styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, OnDestroy {
 
     columns: IadGridColumn[];
 
@@ -33,7 +34,10 @@ export class GridComponent implements OnInit {
     @ViewChild('iadProjectionGrid')
     iadProjectionGrid: any;
 
-    constructor(private route: ActivatedRoute, private searchEngine: DemoFilterBuilderService, private router: Router) {
+    deleteSubscription: Subscription;
+
+    constructor(private route: ActivatedRoute, private searchEngine: DemoFilterBuilderService,
+                private eventManager: IadEventManager) {
     }
 
     update() {
@@ -50,7 +54,14 @@ export class GridComponent implements OnInit {
 
             this.columns = this.projection.columns;
             this.setDefaultFilter();
+            this.deleteSubscription = this.eventManager.subscribe(data.projectionCode + '#recordDeleted', event => {
+                console.log('Record deleted with id: ' + event.content['id']);
+            });
         });
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.deleteSubscription);
     }
 
     setDefaultFilter() {
