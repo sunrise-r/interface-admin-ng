@@ -27,7 +27,6 @@ export class ActionsColumnComponent implements TableTdContentInterface {
     selected: boolean;
     rowData: any;
     disabled: boolean;
-    doRefresh: Subject<any> = null;
 
     constructor(private http: HttpClient, private confirmationService: ConfirmationService,
                 private eventManager: IadEventManager) {
@@ -64,8 +63,12 @@ export class ActionsColumnComponent implements TableTdContentInterface {
             deleteUrl += '\/';
         }
         this.http.delete(deleteUrl + this.rowData['id'])
-            .subscribe(response => this.doRefresh.next(), error => {
-            });
+            .subscribe(response => {
+                this.eventManager.broadcast({
+                    name: this.col.properties['projectionCode'] + '#recordDeleted',
+                    content: this.rowData
+                });
+            }, error => {});
     }
 
     showDeleteUserDialog() {
