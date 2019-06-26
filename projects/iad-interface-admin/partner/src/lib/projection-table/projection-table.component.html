@@ -9,7 +9,7 @@
     (actionClicked)="onActionClicked($event)"
 ></iad-table-toolbar>
 <ng-template ngFor let-tpl [ngForOf]="belowTheToolbarTemplates">
-    <ng-template [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: groupSettingsKey}"></ng-template>
+    <ng-template [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: gridId}"></ng-template>
 </ng-template>
 <div [hidden]="!showSearchPanel" class="table-search-panel">
     <iad-table-search-panel
@@ -17,30 +17,37 @@
         (search)="onSearch($event)"
     ></iad-table-search-panel>
 </div>
-<iad-settings-table
-    #settingsTable
-    class="grid-with-toolbar"
-    defaultSortField="creationDate"
-    [doTableAction]="doTableAction"
+<iad-base-grid
     [allowUnSelectRow]="allowUnSelectRow"
     [changeTableHeight]="changeTableHeight"
-    [columns]="columns"
-    [groupSettingsKey]="groupSettingsKey"
-    [items]="items"
-    [lazyLoadingEnabled]="lazyLoadingEnabled"
-    [ngClass]="{'disabled': disabled}"
+    defaultSortField="creationDate"
+    [doTableAction]="doTableAction"
+    [refreshGridConfig]="refreshGridConfig"
+    [enableInfiniteScroll]="true"
+    [ngClass]="{'disabled': disabled, 'grid-with-toolbar': true}"
     [filter]="filter"
     [filterType]="'FILTER_BUILDER'"
-    [refresh]="refresh"
+    [gridId]="gridId"
+    [value]="items"
+    [lazy]="lazyLoadingEnabled"
     [resetFilter]="resetFilter"
     [searchUrl]="searchUrl"
     [showFilter]="showFilter"
-    [settingsUpdater]="settingsUpdater"
     [staticFrozenColumns]="staticFrozenColumns"
     [staticFrozenRightColumns]="staticFrozenRightColumns"
     [staticFrozenRightWidth]="staticFrozenRightWidth"
     [staticFrozenWidth]="staticFrozenWidth"
     [unSelectRow]="unSelectRow"
-    (selectedItem)="onSelectedItem($event)"
-    (unSelectedItem)="onUnSelectItem()"
+    [updateVisibility]="updateVisibility"
+    (onSettingChanged)="onSettingChanged($event)"
+    (selectionChange)="onSelectionChange($event)"
+></iad-base-grid>
+
+<iad-settings-table
+    #settingsTable
+
+    [columns]="columns"
+    [filter]="filter"
+    [refresh]="refresh"
+    [settingsUpdater]="settingsUpdater"
 ></iad-settings-table>

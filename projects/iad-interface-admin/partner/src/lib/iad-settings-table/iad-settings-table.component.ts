@@ -20,15 +20,6 @@ import {CmsUserSettingsLoaderService, EntityResponseType} from './iad-user-setti
     providers: [GridConfigService]
 })
 export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConfigProvider, OnDestroy {
-    /**
-     * Нажата какая-либо кнопка в тулбаре
-     */
-    @Input() doTableAction: Subject<{ code: string; value: any }>;
-
-    /**
-     * Флаг "Разрешить снятие выделения"
-     */
-    @Input() allowUnSelectRow: boolean;
 
     /**
      * Видимые колонки таблицы
@@ -41,36 +32,6 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
     }
 
     /**
-     * Поле для сортировки по умолчанию
-     */
-    @Input() defaultSortField = 'id';
-
-    /**
-     * String filter builder type.
-     */
-    @Input() filterType: string;
-
-    /**
-     * Название группы настроек. Будет использованная при сохранении настроек на стороне сервера.
-     */
-    @Input() groupSettingsKey: string;
-
-    /**
-     * Внешние данные для таблицы
-     */
-    @Input() items: any[] = [];
-
-    /**
-     * Включает Lazy Loading если есть URL ресурса
-     */
-    @Input() lazyLoadingEnabled: boolean;
-
-    /**
-     * Адресс ресурса - источника данных
-     */
-    @Input() searchUrl: string;
-
-    /**
      * Коллбэк в ктором можено указать дополнительные параметры для построения query
      */
     @Input() filter: CustomizeQuery;
@@ -81,59 +42,9 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
     @Input() refresh: Subject<any> = new Subject<any>();
 
     /**
-     * Посылает событие сброса фильтра
-     */
-    @Input() resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
-
-    /**
-     * сабжект снятия выделения
-     */
-    @Input() unSelectRow: Subject<boolean> = new Subject<boolean>();
-
-    /**
-     * Список "статически замороженных колонок"
-     */
-    @Input() staticFrozenColumns: IadGridColumn[] = [];
-
-    /**
-     * #1226 Subject to notify table about height change
-     */
-    @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
-
-    /**
      * Updates settings inside projection-table
      */
     @Input() settingsUpdater: Subject<any> = new Subject<any>();
-
-    /**
-     * Flag to check if grid filter should be shown by default
-     */
-    @Input() showFilter: boolean;
-
-    /**
-     * Список "статически замороженных справа колонок"
-     */
-    @Input() staticFrozenRightColumns: IadGridColumn[] = [];
-
-    /**
-     * Размер области "статически замороженных справа колонок
-     */
-    @Input() staticFrozenRightWidth = '0';
-
-    /**
-     * Размер области "статически замороженных колонок"
-     */
-    @Input() staticFrozenWidth = '0';
-
-    /**
-     * В таблице была выбрна строка
-     */
-    @Output() selectedItem: EventEmitter<any> = new EventEmitter<any>();
-
-    /**
-     * В таблице было снято выделение строки
-     */
-    @Output() unSelectedItem: EventEmitter<any> = new EventEmitter<any>();
 
     /**
      * Модель конйфига для таблицы
@@ -158,15 +69,6 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
      */
     updateVisibility: Subject<IadGridColumn> = new Subject<IadGridColumn>();
 
-    /**
-     * Currently selected item
-     */
-    selection: any;
-
-    private settingUpdateSbt: Subscription;
-
-    private refreshSbt: Subscription;
-
     constructor(
         private settingsLoader: CmsUserSettingsLoaderService,
         private eventManager: IadEventManager,
@@ -174,24 +76,11 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
     ) {}
 
     ngOnInit(): void {
-        // Подписка на refresh настроек
-        this.refreshSbt = this.refresh.subscribe(() => {
-            if (!this.config) {
-                this.initSettings(this.groupSettingsKey);
-            } else {
-                this.refreshGridConfig.next(this.config);
-            }
-        });
 
-        this.settingUpdateSbt = this.settingsUpdater.subscribe(event => {
-            if (event.name === 'columns') {
-                this.onUpdateColumnsVisibility(event.content.columns, event.content.prevEvent);
-            }
-        });
 
-        // #1570 ЗАкомментировалим чтобы убрать тройной запрос
-        // Обновление данных при смене аккаунта
-        // this.onAccountChangeSbt = this.eventManager.subscribe(onAccountChange, event => this.refreshConfig.next(this.config));
+
+
+
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -221,20 +110,6 @@ export class IADSettingsTableComponent implements OnChanges, OnInit, IadGridConf
      */
     onSettingChanged(data: CmsSetting) {
         this.sendSettingsToServer(this.groupSettingsKey, data.name, data.value);
-    }
-
-    /**
-     * Бросает событие "Строка выбрана в таблице"
-     * @param event
-     */
-    onSelectionChange(event) {
-        if (event) {
-            this.selection = event;
-            this.selectedItem.next(event);
-        } else {
-            this.selection = event;
-            this.unSelectedItem.next(event);
-        }
     }
 
     /**

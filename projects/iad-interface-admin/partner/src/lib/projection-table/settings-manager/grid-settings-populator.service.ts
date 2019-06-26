@@ -11,7 +11,7 @@ import {
 import { IadHelper } from 'iad-interface-admin/core';
 
 @Injectable()
-export class GridConfigService {
+export class GridSettingsPopulatorService {
     /**
      * Разрешает настройки DataTableColumns
      * @param columns

@@ -4,16 +4,16 @@ import {
     ContentChildren,
     EventEmitter,
     Input,
-    OnChanges,
+    OnChanges, OnInit,
     Output,
     QueryList,
     SimpleChanges,
     TemplateRef
 } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { of, Subject, Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
-import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridRowSelection, SELECT_ACTION } from 'iad-interface-admin';
+import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridRowSelection, SELECT_ACTION, IadGridConfigModel } from 'iad-interface-admin';
 import { IadEventManager, IadHelper } from 'iad-interface-admin/core';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 
@@ -25,13 +25,14 @@ import { PresentationHelper } from './presentation-helper';
 
 import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
+import { GridSettingsManagerService } from './settings-manager/grid-settings-manager.service';
 
 // TODO Может, разделить для операций и для таблиц данных?
 @Component({
     selector: 'iad-projection-table',
     templateUrl: './projection-table.component.html'
 })
-export class ProjectionTableComponent implements OnChanges, AfterContentInit {
+export class ProjectionTableComponent implements OnInit, OnChanges, AfterContentInit {
     /**
      * Контекст работы компонента.
      * Используется для:
@@ -206,7 +207,7 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     /**
      * код группы настроек таблицы
      */
-    groupSettingsKey: string;
+    gridId: string;
 
     /**
      * Флаг "Загружать актуальную информацию"
@@ -219,6 +220,11 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
     searchUrl: String;
 
     /**
+     * Currently selected item
+     */
+    selection: any;
+
+    /**
      * Subject to invoke any table action
      */
     doTableAction: Subject<{ code: string; value: any }> = new Subject<{ code: string; value: any }>();
@@ -227,6 +233,10 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
      * Текущая выделенная запись
      */
     private actualSelection: any;
+
+    private refreshSbt: Subscription;
+
+    private settingUpdateSbt: Subscription;
 
     private static resolveUrl(searchUrl: string, context: any) {
         if (context === null || searchUrl === null) {
@@ -240,8 +250,24 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
         private informationService: DataTableInformationService,
         private eventManager: IadEventManager,
         private dataChainService: DataChainService,
-        private dataPreviewChainService: ActualSelectionChainService
+        private dataPreviewChainService: ActualSelectionChainService,
+        private gridSettingsManager: GridSettingsManagerService
     ) {}
+
+    ngOnInit(): void {
+        // Подписка на refresh настроек
+        this.refreshSbt = this.refresh.subscribe(() => {
+            this.gridSettingsManager.refresh();
+        });
+        this.settingUpdateSbt = this.settingsUpdater.subscribe(event => {
+            if (event.name === 'columns') {
+                this.gridSettingsManager.updateColumnsVisibility(event.content.columns, event.content.prevEvent);
+            }
+        });
+        // #1570 ЗАкомментировалим чтобы убрать тройной запрос
+        // Обновление данных при смене аккаунта
+        // this.onAccountChangeSbt = this.eventManager.subscribe(onAccountChange, event => this.refreshConfig.next(this.config));
+    }
 
     /**
      * При изменении проекции меняется:
@@ -260,7 +286,11 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
             this.initColumns();
             // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
             this.loadActualInfo = this.initLoadActualInformationFlag();
-            this.groupSettingsKey = this.settingsGroupName(this.projection.code);
+
+            this.gridId = this.settingsGroupName(this.projection.code);
+
+            this.gridSettingsManager.setGroupSettingsKey(this.gridId);
+
             this.unSelectRow.next(true);
             this.searchUrl = ProjectionTableComponent.resolveUrl(this.projection.searchUrl, this.context);
         }
@@ -298,6 +328,20 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
             strategy[event.action.code]();
         }
         this.actionClicked.emit(event);
+    }
+
+    /**
+     * Бросает событие "Строка выбрана в таблице"
+     * @param event
+     */
+    onSelectionChange(event) {
+        if (event) {
+            this.selection = event;
+            this.onSelectedItem(event);
+        } else {
+            this.selection = event;
+            this.onUnSelectItem(event);
+        }
     }
 
     /**
@@ -420,6 +464,10 @@ export class ProjectionTableComponent implements OnChanges, AfterContentInit {
                 this.columns.push(column);
             }
         });
+
+        const config = new IadGridConfigModel();
+        config.columns = this.columns;
+        this.gridSettingsManager.setExternalGridConfig(config);
     }
 
     /**
