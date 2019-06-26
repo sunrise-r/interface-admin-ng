@@ -18,7 +18,6 @@ export class ChipsColumnComponent implements TableTdContentInterface, OnInit {
     rowData: any;
     values: string[];
     disabled: boolean;
-    doRefresh: Subject<any> = null;
 
     constructor(private http: HttpClient) {
     }

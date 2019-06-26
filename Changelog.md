@@ -1,3 +1,7 @@
+# 0.0.4@devel.38
+
+* GRID Use the IadEventManager to broadcast delete event in order to update table
+
 # 0.0.4@devel.37
 
 * FORM: If reference field is flatten (plain) then group will be not considered for this field
