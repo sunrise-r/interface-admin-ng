@@ -5,6 +5,7 @@ import { ValidationInput } from '../core/validation-input';
 
 @Component({
   selector: 'iad-form-checkbox',
+  styleUrls: ['iad-form-checkbox.component.scss'],
   template: `
         <ng-container [formGroup]="group">
             <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
@@ -17,10 +18,7 @@ import { ValidationInput } from '../core/validation-input';
                           (onBlur)="onBlur()"
               ></p-checkbox>
             </div>
-        </ng-container>`,
-  styles: [
-    'p-checkbox { margin-top: auto; margin-bottom: auto; }'
-  ]
+        </ng-container>`
 })
 export class IadFormCheckboxComponent extends ValidationInput implements OnInit, AfterViewInit {
   constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
