@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GridSettingsManagerInterface } from './grid-settings-manager.interface';
 import { GridSettingsStorageService } from './grid-settings-storage.service';
 import { GridSettingsPopulatorService } from './grid-settings-populator.service';
-import { IadGridConfigModel, IadGridColumn, CmsSetting } from 'iad-interface-admin';
+import { IadGridConfigModel, IadGridColumn, CmsSetting, IadGridConfigInterface } from 'iad-interface-admin';
 import { Subject } from 'rxjs';
 
 // {
@@ -54,7 +54,7 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
      * Refresh grid config with current config values
      */
     refresh(): void {
-        if (!this.config) {
+        if (!this.config.dirty) {
             this.initSettings(this.groupSettingsKey);
         } else {
             this.refreshGridConfig.next(this.config);
@@ -76,8 +76,8 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
      * @param config
      * @param refresh
      */
-    setExternalGridConfig(config: IadGridConfigModel, refresh?: boolean): void {
-        Object.assign(this.config, config);
+    setExternalGridConfig(config: IadGridConfigInterface, refresh?: boolean): void {
+        this.config.merge(config);
         if (refresh) {
             this.refresh();
         }
@@ -111,15 +111,6 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
         this.updateVisibility.next(actedColumn);
         const settings = new CmsSetting('dgColumnVisibility', visibility);
         this.saveSettings(settings);
-    }
-
-    /**
-     * Set filter to current config
-     * @param filter
-     */
-    setFilterAndRefresh(filter: any) {
-        this.config.filter = filter;
-        this.refresh();
     }
 
     /**

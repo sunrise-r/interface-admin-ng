@@ -153,14 +153,14 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     }
 
     populateGridConfig(): IadGridConfigModel {
-        const conf = new IadGridConfigModel();
-        conf.columns = this.columns;
-        conf.searchUrl = this.searchUrl;
-        conf.reset = true;
+        const config = new IadGridConfigModel();
+        config.set('columns', this.columns);
+        config.set('searchUrl', this.searchUrl);
+        config.set('reset', true);
         if (this.filter) {
-            conf.filter = this.filter;
+            config.set('filter', this.filter);
         }
-        return conf;
+        return config;
     }
 
     /**

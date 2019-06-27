@@ -51,23 +51,6 @@ export class DocumentDataProjection implements IIADProjection {
     properties?: any;
 }
 
-export class IadFormField {
-    column: number; // 0 or 1
-    defaultValue: string;
-    fieldInputType: string; // i.e. DISABLED
-    hidden: boolean; // hide column in form
-    label: string; // translated label
-    name: string; // field name attr
-    type: string; // formatter
-    validationTypes: { [param: string]: string | number | boolean }; // Validators
-}
-
-export class IadActualDataField {
-    code: string; // code according to specific data
-    formatter: string; // formatter
-    label: string; // translated label
-}
-
 export class IADPresentation implements IIADPresentation {
     code: string;
     label?: string;
@@ -94,9 +77,4 @@ export class DocumentListProjection implements IIADProjection {
 export class Reference {
     className: string;
     indexName: string;
-}
-
-export class DocumentMetaInfo {
-    className: string;
-    referenceFields: Reference[];
 }

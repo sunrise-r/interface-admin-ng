@@ -13,7 +13,7 @@ import {
 import { of, Subject, Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
-import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridRowSelection, SELECT_ACTION, IadGridConfigModel } from 'iad-interface-admin';
+import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridRowSelection, SELECT_ACTION, IadGridConfigModel, IadGridConfigInterface } from 'iad-interface-admin';
 import { IadEventManager, IadHelper } from 'iad-interface-admin/core';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 
@@ -283,27 +283,29 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
      * @param changes
      */
     ngOnChanges(changes: SimpleChanges): void {
-        if ((changes['projection'] && this.projection) || (changes['presentationCode'] && this.presentationCode)) {
+        if (('projection' in changes) || ('presentationCode' in changes) || 'filter' in changes) {
+            this.gridSettingsManager.reset();
+
             this.selectionRequestField = IadHelper.getProperty(
                 'selectionRequestField',
                 this.selectionRequestField,
                 this.projection.properties
             );
-            this.initColumns();
+            this.gridId = this.settingsGroupName(this.projection.code);
             // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
             this.loadActualInfo = this.initLoadActualInformationFlag();
 
-            this.gridId = this.settingsGroupName(this.projection.code);
-
-            this.gridSettingsManager.setGroupSettingsKey(this.gridId);
-
             this.unSelectRow.next(true);
             this.searchUrl = ProjectionTableComponent.resolveUrl(this.projection.searchUrl, this.context);
-        }
-        // issue #1792 Перенёс это из data-table.component:
-        // issue #1745 поправил работу фильтра по проекциям
-        if ('filter' in changes) {
-            this.gridSettingsManager.setFilterAndRefresh(this.filter);
+
+            this.gridSettingsManager.setExternalGridConfig(<IadGridConfigInterface>{
+                gridId: this.gridId,
+                columns: this.initColumns(),
+                filter: this.filter,
+                searchUrl: this.searchUrl
+            });
+
+            this.gridSettingsManager.refresh();
         }
     }
 
@@ -447,7 +449,7 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
     /**
      * Columns initializer
      */
-    private initColumns(): void {
+    private initColumns(): IadGridColumn[] {
         // #1429
         this.columns = [];
         this.staticFrozenRightColumns = [];
@@ -483,10 +485,7 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
                 this.columns.push(column);
             }
         });
-
-        const config = new IadGridConfigModel();
-        config.columns = this.columns;
-        this.gridSettingsManager.setExternalGridConfig(config);
+        return this.columns;
     }
 
     /**
