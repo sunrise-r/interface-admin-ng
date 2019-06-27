@@ -14,7 +14,3 @@ export * from './lib/projection-table/projection-table.component';
 export * from './lib/projection-table/table-toolbar/table-toolbar.component';
 export * from './lib/projection-table/projection-table.module';
 
-// #settings-table
-export * from './lib/iad-settings-table/iad-settings-table.component';
-export * from './lib/iad-settings-table/iad-settings-table.module';
-

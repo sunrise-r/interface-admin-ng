@@ -1,10 +1,8 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ToolbarModule } from 'iad-interface-admin';
+import { ToolbarModule, IadBaseGridModule } from 'iad-interface-admin';
 import { IadSharedModule, IadModuleConfigInterface, IadModuleConfig, IadConfigService } from 'iad-interface-admin/core';
 import { FilterBuilderService, FILTER_BUILDER } from 'iad-interface-admin/filter';
-
-import { IadSettingsTableModule } from '../iad-settings-table/iad-settings-table.module';
 
 import { ProjectionTableComponent } from './projection-table.component';
 import { TableToolbarComponent } from './table-toolbar/table-toolbar.component';
@@ -15,9 +13,9 @@ export interface ProjectionTableConfigInterface extends IadModuleConfigInterface
 }
 
 @NgModule({
-    imports: [IadSharedModule, ToolbarModule, IadSettingsTableModule],
+    imports: [IadSharedModule, IadBaseGridModule, ToolbarModule],
     declarations: [ProjectionTableComponent, TableToolbarComponent, TableSearchPanelComponent],
-    exports: [IadSettingsTableModule, ProjectionTableComponent, TableToolbarComponent]
+    exports: [ProjectionTableComponent, TableToolbarComponent, IadBaseGridModule]
 })
 export class ProjectionTableModule {
     static forRoot(moduleConfig: ProjectionTableConfigInterface): ModuleWithProviders {

@@ -114,6 +114,15 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
     }
 
     /**
+     * Set filter to current config
+     * @param filter
+     */
+    setFilterAndRefresh(filter: any) {
+        this.config.filter = filter;
+        this.refresh();
+    }
+
+    /**
      * Инициализирует настройки
      * @param groupSettingsKey
      */
@@ -134,9 +143,9 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
         return this.settingsKeeper
             .getSettings(groupSettingsKey)
             .toPromise()
-            .then(settings => settings.reduce((acu, group) => {
+            .then(settings => Promise.resolve(settings.reduce((acu, group) => {
                 acu.set(group.key, group.value);
                 return acu;
-            }, new Map<string, string>()));
+            }, new Map<string, string>())));
     }
 }

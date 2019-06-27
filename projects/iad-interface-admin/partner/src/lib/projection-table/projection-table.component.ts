@@ -294,6 +294,11 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
             this.unSelectRow.next(true);
             this.searchUrl = ProjectionTableComponent.resolveUrl(this.projection.searchUrl, this.context);
         }
+        // issue #1792 Перенёс это из data-table.component:
+        // issue #1745 поправил работу фильтра по проекциям
+        if ('filter' in changes) {
+            this.gridSettingsManager.setFilterAndRefresh(this.filter);
+        }
     }
 
     ngAfterContentInit() {
@@ -340,7 +345,7 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
             this.onSelectedItem(event);
         } else {
             this.selection = event;
-            this.onUnSelectItem(event);
+            this.onUnSelectItem();
         }
     }
 
@@ -382,6 +387,14 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
         this.unSelectedItem.emit();
         const event = new IadGridRowSelection({ action: SELECT_ACTION.UNSELECT, type: this.type });
         this.eventManager.broadcast(event);
+    }
+
+    /**
+     * Обработчик изменения настроек
+     * @param settings
+     */
+    onSettingChanged(settings) {
+        this.gridSettingsManager.saveSettings(settings);
     }
 
     /**
