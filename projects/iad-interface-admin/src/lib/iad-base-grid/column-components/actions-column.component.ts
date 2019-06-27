@@ -9,8 +9,9 @@ import { IadGridColumn } from '../model/iad-grid-column.model';
 
 @Component({
     selector: 'iad-action-column',
+    styleUrls: ['actions-column.component.scss'],
     template: `
-        <div style="text-align: center">
+        <div class="actions-column">
             <a [href]="editUrl">
                 <fa-icon *ngIf="display('edit')" [icon]="'edit'" [size]="'2x'" style="color: dimgray"></fa-icon>
             </a>

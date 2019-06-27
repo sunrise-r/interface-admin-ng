@@ -1,0 +1,15 @@
+.actions-column {
+    text-align: center;
+}
+
+.actions-column > ::ng-deep a {
+    display: inline-block;
+}
+
+.actions-column > ::ng-deep * {
+    vertical-align: middle;
+}
+
+.actions-column > ::ng-deep *:not(:last-child) {
+    margin-right: 5px;
+}
