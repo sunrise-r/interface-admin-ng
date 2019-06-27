@@ -27,10 +27,10 @@ import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
 import { GridSettingsManagerService } from './settings-manager/grid-settings-manager.service';
 
-// TODO Может, разделить для операций и для таблиц данных?
 @Component({
     selector: 'iad-projection-table',
-    templateUrl: './projection-table.component.html'
+    templateUrl: './projection-table.component.html',
+    providers: [GridSettingsManagerService]
 })
 export class ProjectionTableComponent implements OnInit, OnChanges, AfterContentInit {
     /**
@@ -229,6 +229,10 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
      */
     doTableAction: Subject<{ code: string; value: any }> = new Subject<{ code: string; value: any }>();
 
+    refreshGridConfig: Subject<IadGridConfigModel>;
+
+    updateVisibility: Subject<IadGridColumn>;
+
     /**
      * Текущая выделенная запись
      */
@@ -264,6 +268,8 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
                 this.gridSettingsManager.updateColumnsVisibility(event.content.columns, event.content.prevEvent);
             }
         });
+        this.updateVisibility = this.gridSettingsManager.updateVisibility;
+        this.refreshGridConfig = this.gridSettingsManager.refreshGridConfig;
         // #1570 ЗАкомментировалим чтобы убрать тройной запрос
         // Обновление данных при смене аккаунта
         // this.onAccountChangeSbt = this.eventManager.subscribe(onAccountChange, event => this.refreshConfig.next(this.config));

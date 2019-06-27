@@ -10,7 +10,9 @@ import {
 } from 'iad-interface-admin';
 import { IadHelper } from 'iad-interface-admin/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class GridSettingsPopulatorService {
     /**
      * Разрешает настройки DataTableColumns

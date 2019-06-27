@@ -5,10 +5,10 @@ import { GridSettingsPopulatorService } from './grid-settings-populator.service'
 import { IadGridConfigModel, IadGridColumn, CmsSetting } from 'iad-interface-admin';
 import { Subject } from 'rxjs';
 
-
-@Injectable({
-    providedIn: 'root'
-})
+// {
+//     providedIn: 'root'
+// }
+@Injectable()
 export class GridSettingsManagerService implements GridSettingsManagerInterface {
 
     /**
