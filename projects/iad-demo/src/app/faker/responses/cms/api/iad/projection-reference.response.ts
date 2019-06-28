@@ -109,6 +109,17 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'label': 'presentation.projection.main.fileField',
         'column': 0,
         'translate': true
+      },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'AutoComplete',
+        'name': 'autoCompleteField',
+        'label': 'presentation.projection.main.autoCompleteField',
+        'column': 0,
+        'translate': true,
+        'properties': {
+          'valuesUrl': 'partnerdocuments/api/auto-complete-values'
+        }
       }
     ];
     projection.properties = [];
