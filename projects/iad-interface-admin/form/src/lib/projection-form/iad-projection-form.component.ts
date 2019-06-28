@@ -101,7 +101,7 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input()
     set formExternalTemplates(templates: QueryList<PrimeTemplate>) {
         this.formTemplates = templates;
-    };
+    }
 
     /**
      * Output EventEmitter to handle form submit event externally
@@ -183,16 +183,23 @@ export class IadProjectionFormComponent implements OnChanges {
             acu[field.presentationCode].push(field.referenceProjectionCode);
             return acu;
         }, {});
+        // will not show collapse component and will not group reference fields to substructure
+        const checkPlainReference = function (field) {
+            return field.properties && field.properties.plainReference && !field.properties.considerGroup;
+        };
+        const plainReferenceCondition = function (cond, valid, invalid, field) {
+            return cond(field) ? valid() : invalid();
+        };
 
         // Request reference form projections
         return this.referenceProjectionService
             .findProjectionsByName(requestParams)
             .toPromise()
             .then((data: { [param: string]: IadFormProjectionInterface }) => {
-                // flatten plainReference's
-                fields = fields.reduce((acu, field) => acu.concat(IadHelper.runPropertyCondition('plainReference', field.properties,
-                        () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
-                        () => [field])), []);
+                fields = fields.reduce((acu, field) => acu.concat(
+                    plainReferenceCondition(checkPlainReference,
+                    () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
+                    () => [field], field)), []);
                 return new FormInputGroup({
                     children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
                 });

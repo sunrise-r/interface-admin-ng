@@ -14,13 +14,14 @@ export class FormInputGroup {
     children: FormGroupChildColumn[];
     visible: boolean;
     translate: boolean;
-    collapsed = true;
+    collapsed: boolean; // Flag to set group collapse component "collapsed" option defaults
     validators: {
         email?: boolean;
         required?: boolean;
         minLength?: string;
         maxLength?: string;
     };
+    collapsable?: boolean; // Flag to set group collapse template to apply or not
 
     constructor(options: {
         children: FormGroupChildColumn[];
@@ -44,8 +45,28 @@ export class FormInputGroup {
         this.visible = options.visible;
         this.translate = options.translate || false;
         this.validators = options.validators;
-        if (options.properties && options.properties.collapsed !== undefined) {
-            this.collapsed = options.properties.collapsed;
-        }
+        this.collapsed = this.checkCollapsedDefaultState(options);
+
+        // TODO replace considerGroup with 2 options: flattenInputGroup and flattenDataGroup
+        this.collapsable = this.checkCollapsableOption(options);
+        // plainReference
+        // flattenInputGroup = plainReference || flattenInputGroup
+        // flattenDataGroup = plainReference || flattenDataGroup
+        // considerGroup = !plainReference && !flattenDataGroup
+    }
+
+    // will not show collapse component for plainReference, but will group reference fields to substructure
+    checkCollapsableOption(options) {
+        return this.checkPlainOption(options) ? options.properties && options.properties.considerGroup : true;
+    }
+
+    // will not show collapse component, and will not group reference fields to substructure
+    checkPlainOption(options) {
+        return options.properties && options.properties.plainReference;
+    }
+
+    // True by default
+    checkCollapsedDefaultState(options) {
+        return options.properties && options.properties.collapsed !== undefined ? options.properties.collapsed : true;
     }
 }
