@@ -22,7 +22,7 @@ import {
     ChipsModule,
     ConfirmDialogModule,
     PanelModule,
-    MenuModule
+    MenuModule, AutoCompleteModule
 } from 'primeng/primeng';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -53,7 +53,8 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
         MenuModule,
         EditorModule,
         DropdownModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        AutoCompleteModule
     ],
     declarations: [
         IadScrollableViewComponent,
@@ -77,6 +78,7 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
         MultiSelectModule,
         EditorModule,
         DropdownModule,
+        AutoCompleteModule,
         IadTableComponent,
         CalendarComponent,
         TooltipDirective

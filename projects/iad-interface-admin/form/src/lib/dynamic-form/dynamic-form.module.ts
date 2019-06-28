@@ -24,6 +24,7 @@ import { IadFormSelectionDropdownComponent } from './components/iad-form-selecti
 import { IadFormRichEditorComponent } from './components/iad-form-rich-editor.component';
 import { IadFormChipsComponent } from './components/iad-form-chips.component';
 import { IadFormTranslateInputComponent } from './components/iad-form-translate-input.component';
+import {IadFormAutoCompleteInputComponent} from './components/iad-form-auto-complete-input.component';
 
 @NgModule({
     imports: [CalendarModule, InputMaskModule, PanelModule, IadSharedModule, IadPrimengModule, FontAwesomeModule],
@@ -44,7 +45,8 @@ import { IadFormTranslateInputComponent } from './components/iad-form-translate-
         IadFormSelectionDropdownComponent,
         IadFormRichEditorComponent,
         IadFormChipsComponent,
-        IadFormTranslateInputComponent
+        IadFormTranslateInputComponent,
+        IadFormAutoCompleteInputComponent
     ],
     entryComponents: [
         IadFormDateComponent,
@@ -59,7 +61,8 @@ import { IadFormTranslateInputComponent } from './components/iad-form-translate-
         IadFormSelectionDropdownComponent,
         IadFormRichEditorComponent,
         IadFormChipsComponent,
-        IadFormTranslateInputComponent
+        IadFormTranslateInputComponent,
+        IadFormAutoCompleteInputComponent
     ],
     exports: [DynamicFormComponent, FormatInputNamePipe, FileUploadComponent, DynamicFieldDirective]
 })
