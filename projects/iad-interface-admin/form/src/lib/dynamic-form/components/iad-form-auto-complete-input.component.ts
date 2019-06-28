@@ -5,7 +5,7 @@ import {ValidationInput} from '../core/validation-input';
 import {IadFieldValuesService} from '../services/iad-field-values.service';
 
 @Component({
-    selector: 'iad-form-input',
+    selector: 'iad-form-auto-complete-input',
     template: `
         <ng-container [formGroup]="group">
             <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
