@@ -18,7 +18,6 @@ export * from './lib/common/iad-common.module';
 export * from './lib/common/helpers/projections.helper';
 
 // # base grid:
-export * from './lib/iad-base-grid/model/iad-grid-row-selection.model';
 export * from './lib/iad-base-grid/model/iad-grid-column.model';
 export * from './lib/iad-base-grid/model/iad-grid-model';
 export * from './lib/iad-base-grid/base-grid/cms-setting';

@@ -1,12 +1,6 @@
 import { IadFormProjectionInterface } from 'iad-interface-admin/form';
 import { IadGridColumn } from 'iad-interface-admin';
 
-export enum DATA_DEPENDENCY_LEVEL {
-    DOCUMENT = 'document',
-    OPERATION = 'operation',
-    REFERENCE = 'reference'
-}
-
 export interface IProjectionDefaultFilter {
     field: string;
     values: string[];

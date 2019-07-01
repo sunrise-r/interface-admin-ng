@@ -1,3 +1,13 @@
+# 0.0.6@devel.50
+
+* GRID (partner): updateActualInformation method removed from project
+* GRID (partner): PresentationHelper class removed from project
+* GRID (partner): DataChainService class removed from project
+* GRID (partner): ActualSelectionChainService class removed from project
+* GRID: SELECT_ACTION enum removed from project
+* GRID: IadGridRowSelection class removed from project
+* GRID: onGridRowSelection const removed from project
+
 # 0.0.4@devel.38
 
 * GRID Use the IadEventManager to broadcast delete event in order to update table

@@ -13,17 +13,12 @@ import {
 import { of, Subject, Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
-import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridRowSelection, SELECT_ACTION, IadGridConfigModel, IadGridConfigInterface } from 'iad-interface-admin';
-import { IadEventManager, IadHelper } from 'iad-interface-admin/core';
+import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridConfigModel, IadGridConfigInterface } from 'iad-interface-admin';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
+import { IadHelper } from 'iad-interface-admin/core';
 
-import { DATA_DEPENDENCY_LEVEL, DocumentListProjection } from '../model/projection.model';
+import { DocumentListProjection } from '../model/projection.model';
 
-import { DataTableInformationService } from '../services/data-table-information.service';
-import { ActualSelectionChainService } from '../services/actual-selection-chain.service';
-import { PresentationHelper } from './presentation-helper';
-
-import { DataChainService } from '../services/data-chain.service';
 import { PrimeTemplate } from 'primeng/shared';
 import { GridSettingsManagerService } from './settings-manager/grid-settings-manager.service';
 
@@ -106,11 +101,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
     @Input() resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
 
     /**
-     * Поле выделенной строки для запроса актуальной информации по строке
-     */
-    @Input() selectionRequestField = 'id';
-
-    /**
      * Updates settings inside projection-table
      */
     @Input() settingsUpdater: Subject<any> = new Subject<any>();
@@ -149,11 +139,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
      * сабжект для переключения кнопок тулбара
      */
     @Input() resetToggleableStatus: Subject<{ code: string }> = new Subject<{ code: string }>();
-
-    /**
-     * тип отображаемой информации - документ или операция
-     */
-    @Input() type: DATA_DEPENDENCY_LEVEL = DATA_DEPENDENCY_LEVEL.DOCUMENT;
 
     /**
      * сабжект снятия выделения
@@ -210,11 +195,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
     gridId: string;
 
     /**
-     * Флаг "Загружать актуальную информацию"
-     */
-    loadActualInfo: boolean;
-
-    /**
      * Url поиска данных для документа
      */
     searchUrl: String;
@@ -251,10 +231,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
     }
 
     constructor(
-        private informationService: DataTableInformationService,
-        private eventManager: IadEventManager,
-        private dataChainService: DataChainService,
-        private dataPreviewChainService: ActualSelectionChainService,
         private gridSettingsManager: GridSettingsManagerService
     ) {}
 
@@ -286,14 +262,7 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
         if (('projection' in changes) || ('presentationCode' in changes) || 'filter' in changes) {
             this.gridSettingsManager.reset();
 
-            this.selectionRequestField = IadHelper.getProperty(
-                'selectionRequestField',
-                this.selectionRequestField,
-                this.projection.properties
-            );
             this.gridId = this.settingsGroupName(this.projection.code);
-            // #issue 1249 we must load actualInfo if it is not false in loadActualInfo input
-            this.loadActualInfo = this.initLoadActualInformationFlag();
 
             this.unSelectRow.next(true);
             this.searchUrl = ProjectionTableComponent.resolveUrl(this.projection.searchUrl, this.context);
@@ -368,14 +337,7 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
      * @param event
      */
     onSelectedItem(event): void {
-        if (!event) {
-            this.onUnSelectItem();
-            return;
-        }
-        if (event[this.selectionRequestField] === undefined || event[this.selectionRequestField] === null) {
-            return;
-        }
-        this.updateActualInformation(event);
+        this.selectedItem.next(event);
     }
 
     /**
@@ -385,14 +347,9 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
         if (!this.actualSelection) {
             return;
         }
-
-        // this.dataChainService.reset(this.type);
-
-        this.removeSelectedDataFromPreview(this.actualSelection);
         this.actualSelection = undefined;
         this.unSelectedItem.emit();
-        const event = new IadGridRowSelection({ action: SELECT_ACTION.UNSELECT, type: this.type });
-        this.eventManager.broadcast(event);
+
     }
 
     /**
@@ -401,47 +358,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
      */
     onSettingChanged(settings) {
         this.gridSettingsManager.saveSettings(settings);
-    }
-
-    /**
-     * Init actual information flag;
-     */
-    initLoadActualInformationFlag() {
-        return IadHelper.getProperty('loadActualInfo', true, this.projection);
-    }
-
-    /**
-     *  will update actual information
-     */
-    private updateActualInformation(event): void {
-        const strategyName = this.loadActualInfo ? 'load' : 'event';
-        const strategy = {
-            load: () => {
-                return this.informationService.find(event[this.selectionRequestField], this.type);
-            },
-            event: () => {
-                return of(<any>{
-                    documentIndex: {},
-                    documentDTO: {},
-                    properties: {
-                        className: PresentationHelper.cleanProjectionCode(this.projection.code)
-                    }
-                });
-            }
-        };
-        strategy[strategyName]().subscribe((response: any) => {
-            if (response.documentDTO || response.documentIndex) {
-                response.action = SELECT_ACTION.SELECT;
-                response.selection = event;
-                response.type = this.type;
-                response.documentDTO = Object.assign({}, response.documentDTO, response.documentIndex);
-                this.actualSelection = response;
-                // this.dataChainService.add(this.type, this.actualSelection);
-                this.sendSelectionToDataPreview(this.actualSelection);
-                this.selectedItem.emit(this.actualSelection);
-                this.eventManager.broadcast(new IadGridRowSelection(this.actualSelection));
-            }
-        });
     }
 
     /**
@@ -492,22 +408,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
      */
     private settingsGroupName(projectionCode: string): string {
         return this.presentationCode + '.' + projectionCode;
-    }
-
-    /**
-     * Отправляем событие, которое передаёт данные в компонент "Окно данные"
-     * @param body
-     */
-    private sendSelectionToDataPreview(body: any): void {
-        this.dataPreviewChainService.setData(body);
-    }
-
-    /**
-     * Отправляем событие, которое убирает данные из компонента "Окно данные"
-     * @param body
-     */
-    private removeSelectedDataFromPreview(body: any) {
-        this.dataPreviewChainService.unsetData(body);
     }
 
     /**
