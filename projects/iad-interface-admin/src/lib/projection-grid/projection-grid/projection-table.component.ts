@@ -12,13 +12,10 @@ import {
 } from '@angular/core';
 import { of, Subject, Subscription } from 'rxjs';
 
-import * as _ from 'lodash';
 import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridConfigModel, IadGridConfigInterface, DocumentListProjection } from 'iad-interface-admin';
-import { CustomizeQuery } from 'iad-interface-admin/filter';
 import { IadHelper } from 'iad-interface-admin/core';
 
-import { PrimeTemplate } from 'primeng/shared';
-import { GridSettingsManagerService } from './settings-manager/grid-settings-manager.service';
+import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
 
 @Component({
     selector: 'iad-projection-table',
@@ -26,63 +23,6 @@ import { GridSettingsManagerService } from './settings-manager/grid-settings-man
     providers: [GridSettingsManagerService]
 })
 export class ProjectionTableComponent implements OnInit, OnChanges, AfterContentInit {
-    /**
-     * Контекст работы компонента.
-     * Используется для:
-     * Построения url запроса данных
-     */
-    @Input() context: any = null;
-
-    /**
-     * Включать запрос по проекции в запрос данных
-     */
-    @Input() addProjectionToQuery = true;
-
-    /**
-     * Флаг "Разрешить снятие выделения"
-     */
-    @Input() allowUnSelectRow = false;
-
-    /**
-     * #1226 Subject to notify table about height change
-     */
-    @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
-
-    /**
-     * #1686 make table and toolbar disabled
-     */
-    @Input() disabled: boolean;
-
-    /**
-     * Внешний дополнительный фильтр CustomizeQuery
-     */
-    @Input() filter: CustomizeQuery;
-
-    /**
-     * Включен ли фильтр по столбцам (По умолчанию true)
-     */
-    @Input() filterEnabled = true;
-
-    /**
-     * Внешние данные для таблицы
-     */
-    @Input() items: any[] = [];
-
-    /**
-     * Код представления
-     */
-    @Input() presentationCode: string;
-
-    /**
-     * Текущая проекция
-     */
-    @Input() projection: DocumentListProjection;
-
-    /**
-     * Ability to pass any templates outside of projection table
-     */
-    @Input() templates: QueryList<PrimeTemplate>;
-
     /**
      * Свойства для обновления тулбара
      */
@@ -168,21 +108,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
     @Output() unSelectedItem: EventEmitter<null> = new EventEmitter<null>();
 
     /**
-     * Шаблоны для применения в <projection-table></projection-table>
-     */
-    @ContentChildren(PrimeTemplate) innerTemplates: QueryList<PrimeTemplate>;
-
-    /**
-     * Шаблон для добавления контента в правую часть кнопок тулбара
-     */
-    rightAddonTemplate: TemplateRef<any>;
-
-    /**
-     * Template to add content between toolbar and settings-table
-     */
-    belowTheToolbarTemplates: TemplateRef<any>[] = [];
-
-    /**
      * Все колонки таблицы
      */
     columns: IadGridColumnInterface[] = [];
@@ -220,14 +145,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
 
     private settingUpdateSbt: Subscription;
 
-    private static resolveUrl(searchUrl: string, context: any) {
-        if (context === null || searchUrl === null) {
-            return searchUrl;
-        }
-        const compiled = _.template(searchUrl);
-        return compiled(context);
-    }
-
     constructor(
         private gridSettingsManager: GridSettingsManagerService
     ) {}
@@ -263,7 +180,7 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
             this.gridId = this.settingsGroupName(this.projection.code);
 
             this.unSelectRow.next(true);
-            this.searchUrl = ProjectionTableComponent.resolveUrl(this.projection.searchUrl, this.context);
+
 
             this.gridSettingsManager.setExternalGridConfig(<IadGridConfigInterface>{
                 gridId: this.gridId,
@@ -272,40 +189,6 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
                 searchUrl: this.searchUrl
             }, true);
         }
-    }
-
-    ngAfterContentInit() {
-        this.updateTemplates(this.templates);
-        this.updateTemplates(this.innerTemplates);
-    }
-
-    /**
-     * Произведён клик в тулбаре
-     */
-    onActionClicked(event: { nativeEvent: Event; action: ToolbarAction }): void {
-        const strategy = {
-            columnFilter: () => {
-                this.showFilter = event.action.active;
-                this.showSearchPanel = false;
-                this.changeTableHeight.next(true);
-            },
-            search: () => {
-                this.showFilter = false;
-                this.resetFilter.next(FILTER_TYPE.PARTICULAR);
-                this.showSearchPanel = event.action.active;
-                this.changeTableHeight.next(true);
-            },
-            clear: () => {
-                this.resetFilter.next(FILTER_TYPE.BOTH);
-                this.doTableAction.next({ code: event.action.code, value: event.action.active });
-                this.showSearchPanel = false;
-                this.showFilter = false;
-            }
-        };
-        if (event.action.code in strategy) {
-            strategy[event.action.code]();
-        }
-        this.actionClicked.emit(event);
     }
 
     /**
@@ -406,21 +289,5 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
      */
     private settingsGroupName(projectionCode: string): string {
         return this.presentationCode + '.' + projectionCode;
-    }
-
-    /**
-     * Update templates to show them inside templateOutlets
-     * @param templates
-     */
-    private updateTemplates(templates: QueryList<PrimeTemplate>) {
-        templates.forEach(item => {
-            switch (item.getType()) {
-                case 'toolbarRightAddon':
-                    this.rightAddonTemplate = item.template;
-                    break;
-                default:
-                    this.belowTheToolbarTemplates.push(item.template);
-            }
-        });
     }
 }
