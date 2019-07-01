@@ -1,18 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { Subject, Subscription } from 'rxjs';
-import { FILTER_TYPE } from 'iad-interface-admin';
+import { FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 
-// [jhiFocus]="tableSearchDropdown.openChange"
 @Component({
-    selector: 'iad-table-search-panel',
+    selector: 'iad-grid-search-panel',
     template: `<input type="text"
                       [(ngModel)]="searchQuery"
                       (ngModelChange)="emitSearchEvent($event)"
                       class="ui-grid-filter-input ui-grid-filter-input-0"
                       placeholder="{{'partnerTable.toolbar.searchPlaceholder' | translate}}">`
 })
-export class TableSearchPanelComponent implements OnChanges {
+export class GridSearchPanelComponent implements OnChanges {
     /**
      * Входящее событие сброса фильтра
      */

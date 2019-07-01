@@ -28,11 +28,13 @@ export * from './lib/iad-base-grid/base-grid/base-grid-freeze-column.model';
 export * from './lib/iad-base-grid/iad-base-grid.module';
 export * from './lib/iad-base-grid/column-components/special-column.component';
 
-// projection-tree
+// # projection-tree
 export * from './lib/projection-tree/projection-tree.model';
-// projection-grid
+
+// # projection-grid
 export * from './lib/projection-grid/model/projection-grid.model';
 export * from './lib/projection-grid/projection-grid.module';
+export * from './lib/projection-grid/grid-toolbar/grid-toolbar.component';
 
 // # public-services
 export * from './lib/public-services/iad-projection-tree.service';

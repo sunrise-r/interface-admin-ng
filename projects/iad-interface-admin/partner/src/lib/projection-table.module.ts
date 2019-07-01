@@ -5,8 +5,6 @@ import { IadSharedModule, IadModuleConfigInterface, IadModuleConfig, IadConfigSe
 import { FilterBuilderService, FILTER_BUILDER } from 'iad-interface-admin/filter';
 
 import { ProjectionTableComponent } from './projection-table.component';
-import { TableToolbarComponent } from './table-toolbar/table-toolbar.component';
-import { TableSearchPanelComponent } from './table-search-panel/table-search-panel.component';
 
 export interface ProjectionTableConfigInterface extends IadModuleConfigInterface {
     filterBuilderProvider?: Provider;
@@ -14,8 +12,8 @@ export interface ProjectionTableConfigInterface extends IadModuleConfigInterface
 
 @NgModule({
     imports: [IadSharedModule, IadBaseGridModule, ToolbarModule],
-    declarations: [ProjectionTableComponent, TableToolbarComponent, TableSearchPanelComponent],
-    exports: [ProjectionTableComponent, TableToolbarComponent, IadBaseGridModule]
+    declarations: [ProjectionTableComponent],
+    exports: [ProjectionTableComponent, IadBaseGridModule]
 })
 export class ProjectionTableModule {
     static forRoot(moduleConfig: ProjectionTableConfigInterface): ModuleWithProviders {

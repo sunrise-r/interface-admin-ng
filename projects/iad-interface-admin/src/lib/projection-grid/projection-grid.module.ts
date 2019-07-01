@@ -3,9 +3,14 @@ import { ProjectionGridComponent } from './projection-grid/projection-grid.compo
 import { IadSharedModule, IadPrimengModule } from 'iad-interface-admin/core';
 import { IadBaseGridModule } from '../iad-base-grid/iad-base-grid.module';
 
+import { GridToolbarComponent } from './grid-toolbar/grid-toolbar.component';
+import { GridSearchPanelComponent } from './grid-search-panel/grid-search-panel.component';
+
 @NgModule({
     declarations: [
-        ProjectionGridComponent
+        GridToolbarComponent,
+        GridSearchPanelComponent,
+        ProjectionGridComponent,
     ],
     imports: [
         IadPrimengModule,
@@ -13,7 +18,7 @@ import { IadBaseGridModule } from '../iad-base-grid/iad-base-grid.module';
         IadBaseGridModule
     ],
     entryComponents: [],
-    exports: [ProjectionGridComponent]
+    exports: [ProjectionGridComponent, GridToolbarComponent]
 })
 export class ProjectionGridModule {
 }

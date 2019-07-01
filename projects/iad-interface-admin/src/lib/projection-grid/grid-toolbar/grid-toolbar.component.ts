@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnInit, TemplateRef } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ToolbarAction } from 'iad-interface-admin';
+import { ToolbarAction } from '../../toolbar/toolbar-action.model';
 
 @Component({
-    selector: 'iad-table-toolbar',
-    templateUrl: './table-toolbar.component.html'
+    selector: 'iad-grid-toolbar',
+    templateUrl: './grid-toolbar.component.html'
 })
-export class TableToolbarComponent implements OnInit {
+export class GridToolbarComponent implements OnInit {
     /**
      * Флаг "Фильтр активирован" (Фильтр по колонкам показан в таблице)
      * @type {boolean}
