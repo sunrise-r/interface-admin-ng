@@ -27,6 +27,8 @@ import { RichEditorInput } from './inputs/rich-editor-input.model';
 import { TextInputTranslated } from './inputs/text-input-translated.model';
 import { IadFormChipsComponent } from './components/iad-form-chips.component';
 import { IadFormTranslateInputComponent } from './components/iad-form-translate-input.component';
+import {IadFormAutoCompleteInputComponent} from './components/iad-form-auto-complete-input.component';
+import {AutoCompleteInput} from './inputs/auto-complete-input.model';
 
 export const components = {
     textbox: IadFormInputComponent,
@@ -42,7 +44,8 @@ export const components = {
     multiSelect: IadFormMultiSelectComponent,
     dropdown: IadFormSelectionDropdownComponent,
     chips: IadFormChipsComponent,
-    translateValue: IadFormTranslateInputComponent
+    translateValue: IadFormTranslateInputComponent,
+    autoComplete: IadFormAutoCompleteInputComponent
 };
 
 export const inputModels = {
@@ -59,5 +62,6 @@ export const inputModels = {
     Hidden: HiddenInput,
     File: FileInput,
     SplittedDateTime: DateTimeInput,
-    Text: TextareaInput
+    Text: TextareaInput,
+    AutoComplete: AutoCompleteInput
 };
