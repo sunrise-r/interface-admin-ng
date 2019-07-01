@@ -13,11 +13,9 @@ import {
 import { of, Subject, Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
-import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridConfigModel, IadGridConfigInterface } from 'iad-interface-admin';
+import { ToolbarAction, IadGridColumn, FILTER_TYPE, IadGridColumnInterface, IadGridConfigModel, IadGridConfigInterface, DocumentListProjection } from 'iad-interface-admin';
 import { CustomizeQuery } from 'iad-interface-admin/filter';
 import { IadHelper } from 'iad-interface-admin/core';
-
-import { DocumentListProjection } from '../model/projection.model';
 
 import { PrimeTemplate } from 'primeng/shared';
 import { GridSettingsManagerService } from './settings-manager/grid-settings-manager.service';

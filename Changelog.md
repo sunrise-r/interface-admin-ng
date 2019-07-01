@@ -7,6 +7,12 @@
 * GRID: SELECT_ACTION enum removed from project
 * GRID: IadGridRowSelection class removed from project
 * GRID: onGridRowSelection const removed from project
+* GRID: IProjectionDefaultFilter interface and ProjectionDefaultFilter class are removed from project
+* GRID: IIADProjection interface and IIADPresentation interface are removed from project
+* GRID: IADPresentation class is removed from project
+* GRID: Reference class is removed from project
+* MAIN: DocumentDataProjection const replaced to 'interface-iad-admin' main project
+
 
 # 0.0.4@devel.38
 
