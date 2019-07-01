@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {
     AfterContentInit,
     Component,
@@ -23,19 +24,14 @@ import { IadGridConfigModel, IadGridConfigInterface } from '../../iad-base-grid/
 })
 export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges {
     /**
-     * Коллбэк в ктором можено указать дополнительные параметры для построения query
+     * Флаг "Разрешить снятие выделения"
      */
-    @Input() filter: CustomizeQuery;
+    @Input() allowUnSelectRow = false;
 
     /**
-     * String filter builder type.
+     * Subject to notify table about height change
      */
-    @Input() filterType: string;
-
-    /**
-     * #4 Add paginator to the table
-     */
-    @Input() paginator: boolean;
+    @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
 
     /**
      * Projection table columns
@@ -43,14 +39,56 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() columns: IadGridColumn[];
 
     /**
+     * Контекст работы компонента.
+     * Используется для:
+     * Построения url запроса данных
+     */
+    @Input() context: any = null;
+
+    /**
+     * Allows to make table and toolbar disabled
+     */
+    @Input() disabled: boolean;
+
+    /**
+     * Ability to pass any templates outside of projection table
+     */
+    @Input() externalTemplates: QueryList<PrimeTemplate>;
+
+    /**
+     * External additional filter of type "CustomizeQuery"
+     */
+    @Input() filter: CustomizeQuery;
+
+    /**
+     * Включен ли фильтр по столбцам (По умолчанию true)
+     */
+    @Input() filterEnabled = true;
+
+    /**
+     * String filter builder type.
+     */
+    @Input() filterType: string;
+
+    /**
      * Table has toolbar right above the header
      */
     @Input() hasToolbar: boolean;
 
     /**
+     * #4 Add paginator to the table
+     */
+    @Input() paginator: boolean;
+
+    /**
      * unique code to identify current presentation
      */
     @Input() presentationCode: string;
+
+    /**
+     * Current grid projection
+     */
+    @Input() projection: DocumentListProjection;
 
     @Input() lazy: boolean;
 
@@ -58,15 +96,6 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Update grid subject
      */
     @Input() refresh: Subject<boolean> = new Subject<boolean>();
-
-    @Input()
-    get projection(): DocumentListProjection {
-        return this._projection;
-    }
-
-    set projection(projection: DocumentListProjection) {
-        this._projection = projection;
-    }
 
     /**
      * @todo check if we need it
@@ -87,17 +116,22 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     /**
      * PrimeNg Table templates
      */
-    @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
+    @ContentChildren(PrimeTemplate) innerTemplates: QueryList<PrimeTemplate>;
 
     /**
-     * Sending table config to BaseGridComponent
+     * Template to add content between toolbar and settings-table
      */
-    refreshGridConfig: Subject<IadGridConfigInterface> = new Subject<IadGridConfigInterface>();
+    belowTheToolbarTemplates: TemplateRef<any>[] = [];
 
     /**
      * Templates for every column type in format {key: value}
      */
     colTemplates: { [param: string]: TemplateRef<any> } = {};
+
+    /**
+     * Sending table config to BaseGridComponent
+     */
+    refreshGridConfig: Subject<IadGridConfigInterface> = new Subject<IadGridConfigInterface>();
 
     /**
      * @todo check if we need it
@@ -106,16 +140,24 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     resetFilter: Subject<boolean> = new Subject<boolean>();
 
     /**
+     * Шаблон для добавления контента в правую часть кнопок тулбара
+     */
+    rightAddonTemplate: TemplateRef<any>;
+
+    /**
      * Search url for grid-component
      */
     searchUrl: string;
 
-    /**
-     * current projection
-     */
-    private _projection: DocumentListProjection;
-
     private refreshSbt: Subscription;
+
+    private static resolveUrl(searchUrl: string, context: any) {
+        if (context === null || searchUrl === null) {
+            return searchUrl;
+        }
+        const compiled = _.template(searchUrl);
+        return compiled(context);
+    }
 
     constructor() {
     }
@@ -127,9 +169,8 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     }
 
     ngAfterContentInit(): void {
-        this.templates.forEach(item => {
-            this.colTemplates[item.getType()] = item.template;
-        });
+        this.updateTemplates(this.externalTemplates);
+        this.updateTemplates(this.innerTemplates);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -142,10 +183,39 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             // this.groupSettingsKey = this.settingsGroupName(this.projection.code);
             // this.unSelectRow.next(true);
             if (this.presentationCode && this.projection) {
-                this.searchUrl = this.projection.searchUrl;
+                this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
             }
             this.sendRefreshGridConfig();
         }
+    }
+
+    /**
+     * Произведён клик в тулбаре
+     */
+    onActionClicked(event: { nativeEvent: Event; action: ToolbarAction }): void {
+        const strategy = {
+            columnFilter: () => {
+                this.showFilter = event.action.active;
+                this.showSearchPanel = false;
+                this.changeTableHeight.next(true);
+            },
+            search: () => {
+                this.showFilter = false;
+                this.resetFilter.next(FILTER_TYPE.PARTICULAR);
+                this.showSearchPanel = event.action.active;
+                this.changeTableHeight.next(true);
+            },
+            clear: () => {
+                this.resetFilter.next(FILTER_TYPE.BOTH);
+                this.doTableAction.next({ code: event.action.code, value: event.action.active });
+                this.showSearchPanel = false;
+                this.showFilter = false;
+            }
+        };
+        if (event.action.code in strategy) {
+            strategy[event.action.code]();
+        }
+        this.actionClicked.emit(event);
     }
 
     sendRefreshGridConfig(): void {
@@ -170,6 +240,22 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
         // this.dt.filters = {};
         // this.dt.filter(event.value, col.field, col.filterMatchMode);
         // this.refresh();
+    }
+
+    /**
+     * Update templates to show them inside templateOutlets
+     * @param templates
+     */
+    private updateTemplates(templates: QueryList<PrimeTemplate>) {
+        templates.forEach(item => {
+            switch (item.getType()) {
+                case 'toolbarRightAddon':
+                    this.rightAddonTemplate = item.template;
+                    break;
+                default:
+                    this.belowTheToolbarTemplates.push(item.template);
+            }
+        });
     }
 
 }

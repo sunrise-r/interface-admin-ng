@@ -1,3 +1,11 @@
+# 1.0.6@alpha.51
+
+## Cheers! This is our first tagged version!
+
+* MAIN: ProjectionTableComponent, ProjectionTableModule, GridToolbarComponent(TableToolbarComponent) and GridSearchPanel(TableSearchPanel) are replaced to 'interface-iad-admin' main project from 'interface-iad-admin/partner' partner project
+* PARTNER: PARTNER PROJECT IS NO MORE EXISTS IN PROJECT
+* GRID: Toolbar will be shown only when hasToolbar is set true
+
 # 0.0.6@devel.50
 
 * GRID (partner): updateActualInformation method removed from project
@@ -12,7 +20,6 @@
 * GRID: IADPresentation class is removed from project
 * GRID: Reference class is removed from project
 * MAIN: DocumentDataProjection const replaced to 'interface-iad-admin' main project
-
 
 # 0.0.4@devel.38
 

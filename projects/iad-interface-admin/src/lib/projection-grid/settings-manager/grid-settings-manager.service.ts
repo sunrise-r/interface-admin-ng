@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { GridSettingsManagerInterface } from './grid-settings-manager.interface';
 import { GridSettingsStorageService } from './grid-settings-storage.service';
 import { GridSettingsPopulatorService } from './grid-settings-populator.service';
-import { IadGridConfigModel, IadGridColumn, CmsSetting, IadGridConfigInterface } from 'iad-interface-admin';
 import { Subject } from 'rxjs';
+import { IadGridConfigInterface, IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
+import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
+import { CmsSetting } from '../../iad-base-grid/base-grid/cms-setting';
 
 // {
 //     providedIn: 'root'

@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
-import { IadGridConfigModel, CmsSetting } from 'iad-interface-admin';
+import { IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
+import { CmsSetting } from '../../iad-base-grid/base-grid/cms-setting';
 
 export interface GridSettingsManagerInterface {
     /**
