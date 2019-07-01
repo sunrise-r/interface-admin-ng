@@ -179,7 +179,7 @@ export class BaseGridColumnsService {
         let columns: any[] = [];
         Object.keys(frozenStructure).forEach(key => {
             const frozen = key === 'left' || key === 'right';
-            if (['left', 'right', 'center'].includes(key)) {
+            if (['left', 'right', 'center'].includes(key) && frozenStructure[key]) {
                 columns = columns.concat(
                     frozenStructure[key].map((column: IadGridColumn, areaIndex) => callback(column, frozen, key, areaIndex))
                 );
@@ -195,7 +195,7 @@ export class BaseGridColumnsService {
         const frozenStructure = this.frozenStructure;
         Object.keys(frozenStructure).forEach(key => {
             const frozen = key === 'left' || key === 'right';
-            if (['left', 'right', 'center'].includes(key)) {
+            if (['left', 'right', 'center'].includes(key) && frozenStructure[key]) {
                 frozenStructure[key].map((column: IadGridColumn, areaIndex) => callback(column, frozen, key, areaIndex));
             }
         });

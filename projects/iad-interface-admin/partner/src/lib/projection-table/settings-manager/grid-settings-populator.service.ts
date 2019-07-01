@@ -90,15 +90,15 @@ export class GridSettingsPopulatorService {
      */
     private reorderColumns(columns: IadGridColumn[], columnsOrder: IadGridColumnOrder[], frozenArea?: IAD_FROZEN_POSITION): IadGridColumn[] {
         const sortProperty = frozenArea ? 'frozenOrder' : 'order';
-        return columns
+        const result = columns
             .map((column, index) => {
                 const columnOrder = columnsOrder ? columnsOrder.find(_columnOrder => _columnOrder.field === column.field) : <IadGridColumnOrder>{};
                 column.frozenOrder = columnOrder && !isNaN(columnOrder.frozenOrder) ? columnOrder.frozenOrder : 0;
                 column.order = columnOrder && !isNaN(columnOrder.order) ? columnOrder.order : index;
                 return column;
-            })
-            .sort((a: IadGridColumn, b: IadGridColumn) => {
-                return a[sortProperty] > b[sortProperty] ? 1 : a[sortProperty] < b[sortProperty] ? -1 : 0;
             });
+        return result.sort((a: IadGridColumn, b: IadGridColumn) => {
+            return a[sortProperty] > b[sortProperty] ? 1 : a[sortProperty] < b[sortProperty] ? -1 : 0;
+        });
     }
 }

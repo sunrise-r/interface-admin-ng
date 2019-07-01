@@ -64,11 +64,14 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
     /**
      * Allow to set group settings key and reinit settings
      * @param groupSettingsKey
+     * @param reset
      */
-    setGroupSettingsKey(groupSettingsKey: string): void {
+    setGroupSettingsKey(groupSettingsKey: string, reset?: boolean): void {
         this.groupSettingsKey = groupSettingsKey;
-        this.reset();
-        this.refresh();
+        if (reset !== false) {
+            this.reset();
+            this.refresh();
+        }
     }
 
     /**
@@ -78,6 +81,7 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
      */
     setExternalGridConfig(config: IadGridConfigInterface, refresh?: boolean): void {
         this.config.merge(config);
+        this.setGroupSettingsKey(this.config.gridId, false);
         if (refresh) {
             this.refresh();
         }

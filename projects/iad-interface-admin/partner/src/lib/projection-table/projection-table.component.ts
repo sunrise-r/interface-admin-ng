@@ -303,9 +303,7 @@ export class ProjectionTableComponent implements OnInit, OnChanges, AfterContent
                 columns: this.initColumns(),
                 filter: this.filter,
                 searchUrl: this.searchUrl
-            });
-
-            this.gridSettingsManager.refresh();
+            }, true);
         }
     }
 

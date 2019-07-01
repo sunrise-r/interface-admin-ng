@@ -28,12 +28,12 @@ export class IadGridConfigModel implements IadGridConfigInterface {
     private _defaultSortField: string;
     private _leftWidth: string;
     private _rightWidth: string;
-    private _rightColumns?: IadGridColumn[];
-    private _leftColumns?: IadGridColumn[];
-    private _searchUrl?: string;
-    private _filter?: CustomizeQuery;
-    private _gridId?: string;
-    private _reset?: boolean;
+    private _rightColumns: IadGridColumn[];
+    private _leftColumns: IadGridColumn[];
+    private _searchUrl: string;
+    private _filter: CustomizeQuery;
+    private _gridId: string;
+    private _reset: boolean;
 
     get columns(): IadGridColumn[] {
         return this._columns;
@@ -116,6 +116,12 @@ export class IadGridConfigModel implements IadGridConfigInterface {
         this._defaultSortField = 'creationDate';
         this._leftWidth = '0';
         this._rightWidth = '0';
+        this._rightColumns = undefined;
+        this._leftColumns = undefined;
+        this._gridId = undefined;
+        this._searchUrl = undefined;
+        this._filter = undefined;
+        this._reset = undefined;
         this.dirty = false;
     }
 }
