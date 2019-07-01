@@ -10,8 +10,10 @@ import {
 } from 'iad-interface-admin';
 import { IadHelper } from 'iad-interface-admin/core';
 
-@Injectable()
-export class GridConfigService {
+@Injectable({
+    providedIn: 'root'
+})
+export class GridSettingsPopulatorService {
     /**
      * Разрешает настройки DataTableColumns
      * @param columns
@@ -29,16 +31,17 @@ export class GridConfigService {
         if (prefs.has('sort')) {
             [sortField, sortOrder] = prefs.get('sort').split(',');
             const convertSorting = (sort: string) => (sort === 'asc' ? 1 : sort === 'desc' ? -1 : 0);
-            model.sortField = sortField;
-            model.sortOrder = convertSorting(sortOrder) || parseInt(sortOrder, 10);
+
+            model.set('sortField', sortField);
+            model.set('sortOrder', convertSorting(sortOrder) || parseInt(sortOrder, 10));
             if (Number.isNaN(model.sortOrder)) {
-                model.sortOrder = 1;
+                model.set('sortOrder', 1);
             }
         }
         if (prefs.has('dgSidesInfo')) {
             dgSidesInfo = JSON.parse(prefs.get('dgSidesInfo'));
-            model.rightWidth = dgSidesInfo.rightWidth;
-            model.leftWidth = dgSidesInfo.leftWidth;
+            model.set('rightWidth', dgSidesInfo.rightWidth);
+            model.set('leftWidth', dgSidesInfo.leftWidth);
         }
         if (prefs.has('dgColumnWidth')) {
             dgColumnWidth = JSON.parse(prefs.get('dgColumnWidth'));
@@ -65,17 +68,17 @@ export class GridConfigService {
         if (prefs.has('dgOrderInfo')) {
             dgOrderInfo = JSON.parse(prefs.get('dgOrderInfo'));
         }
-        model.columns = this.reorderColumns(columns.filter(_column => !_column.frozen), dgOrderInfo);
-        model.rightColumns = this.reorderColumns(
+        model.set('columns', this.reorderColumns(columns.filter(_column => !_column.frozen), dgOrderInfo));
+        model.set('rightColumns', this.reorderColumns(
             columns.filter(_column => _column.position === IAD_FROZEN_POSITION.RIGHT),
             dgOrderInfo,
             IAD_FROZEN_POSITION.RIGHT
-        );
-        model.leftColumns = this.reorderColumns(
+        ));
+        model.set('leftColumns', this.reorderColumns(
             columns.filter(_column => _column.position === IAD_FROZEN_POSITION.LEFT),
             dgOrderInfo,
             IAD_FROZEN_POSITION.LEFT
-        );
+        ));
         return model;
     }
 
@@ -87,15 +90,15 @@ export class GridConfigService {
      */
     private reorderColumns(columns: IadGridColumn[], columnsOrder: IadGridColumnOrder[], frozenArea?: IAD_FROZEN_POSITION): IadGridColumn[] {
         const sortProperty = frozenArea ? 'frozenOrder' : 'order';
-        return columns
+        const result = columns
             .map((column, index) => {
                 const columnOrder = columnsOrder ? columnsOrder.find(_columnOrder => _columnOrder.field === column.field) : <IadGridColumnOrder>{};
                 column.frozenOrder = columnOrder && !isNaN(columnOrder.frozenOrder) ? columnOrder.frozenOrder : 0;
                 column.order = columnOrder && !isNaN(columnOrder.order) ? columnOrder.order : index;
                 return column;
-            })
-            .sort((a: IadGridColumn, b: IadGridColumn) => {
-                return a[sortProperty] > b[sortProperty] ? 1 : a[sortProperty] < b[sortProperty] ? -1 : 0;
             });
+        return result.sort((a: IadGridColumn, b: IadGridColumn) => {
+            return a[sortProperty] > b[sortProperty] ? 1 : a[sortProperty] < b[sortProperty] ? -1 : 0;
+        });
     }
 }

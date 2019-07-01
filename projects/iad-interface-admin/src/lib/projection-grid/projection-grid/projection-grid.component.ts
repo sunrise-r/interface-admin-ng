@@ -15,7 +15,7 @@ import { CustomizeQuery } from 'iad-interface-admin/filter';
 
 import { DocumentListProjection } from '../model/projection-grid.model';
 import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
-import { IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
+import { IadGridConfigModel, IadGridConfigInterface } from '../../iad-base-grid/model/iad-grid-model';
 
 @Component({
     selector: 'iad-projection-grid',
@@ -92,7 +92,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     /**
      * Sending table config to BaseGridComponent
      */
-    refreshGridConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
+    refreshGridConfig: Subject<IadGridConfigInterface> = new Subject<IadGridConfigInterface>();
 
     /**
      * Templates for every column type in format {key: value}
@@ -152,15 +152,15 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
         this.refreshGridConfig.next(this.populateGridConfig());
     }
 
-    populateGridConfig(): IadGridConfigModel {
-        const conf = new IadGridConfigModel();
-        conf.columns = this.columns;
-        conf.searchUrl = this.searchUrl;
-        conf.reset = true;
+    populateGridConfig(): IadGridConfigInterface {
+        const config = new IadGridConfigModel();
+        config.set('columns', this.columns);
+        config.set('searchUrl', this.searchUrl);
+        config.set('reset', true);
         if (this.filter) {
-            conf.filter = this.filter;
+            config.set('filter', this.filter);
         }
-        return conf;
+        return config;
     }
 
     /**
