@@ -378,18 +378,27 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
         this.staticFrozenRightWidth = this.staticFrozenRightWidth || '0';
         this.staticFrozenWidth = this.staticFrozenWidth || '0';
 
+        const spliceColumn = (collection, column) => {
+            const index = collection.findIndex(_col => _col.field === column.field);
+            if (index !== -1) {
+                collection.splice(index, 1, column);
+            } else {
+                collection.push(column);
+            }
+        };
+
         this.projection.columns.forEach(column => {
             if (column.properties && column.properties.width) {
                 column.width = IadHelper.toInt(column.properties.width);
             }
             if (column.position === 'const-froz-right') {
-                this.staticFrozenRightColumns.push(column);
+                spliceColumn(this.staticFrozenRightColumns, column);
                 this.staticFrozenRightWidth = (parseInt(this.staticFrozenRightWidth, 10) + column.width).toString() + 'px';
             } else if (column.position === 'const-froz-left') {
-                this.staticFrozenColumns.push(column);
+                spliceColumn(this.staticFrozenColumns, column);
                 this.staticFrozenWidth = (parseInt(this.staticFrozenWidth, 10) + column.width).toString() + 'px';
             } else {
-                this.columns.push(column);
+                spliceColumn(this.columns, column);
             }
         });
         return this.columns;
