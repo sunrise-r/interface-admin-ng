@@ -1,5 +1,5 @@
 <div *ngIf="hasToolbar">
-    <iad-table-toolbar
+    <iad-grid-toolbar
         [resetToggleableStatus]="resetToggleableStatus"
         [leftActions]="projection.actions"
         [filterActive]="showFilter"
@@ -8,17 +8,17 @@
         [rightAddonTemplate]="rightAddonTemplate"
         [searchActive]="showSearchPanel"
         (actionClicked)="onActionClicked($event)"
-    ></iad-table-toolbar>
+    ></iad-grid-toolbar>
 </div>
 <ng-template ngFor let-tpl [ngForOf]="belowTheToolbarTemplates">
     <ng-template [ngTemplateOutlet]="tpl"
                  [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: gridId}"></ng-template>
 </ng-template>
-<div [hidden]="!showSearchPanel" class="table-search-panel">
-    <iad-table-search-panel
+<div [hidden]="!showSearchPanel" class="grid-search-panel">
+    <iad-grid-search-panel
         [resetFilter]="resetFilter"
         (search)="onSearch($event)"
-    ></iad-table-search-panel>
+    ></iad-grid-search-panel>
 </div>
 <p-confirmDialog
     *ngIf="projection"
@@ -28,25 +28,6 @@
     [acceptLabel]="'grid.dialog.delete.confirm'|translate"
     [rejectLabel]="'grid.dialog.delete.reject'|translate"
 ></p-confirmDialog>
-<!--
-[allowUnSelectRow]="allowUnSelectRow"
-[changeTableHeight]="changeTableHeight"
-[defaultSortField]="defaultSortField" <---- NEW
-[refreshOnInit]="refreshOnInit" <---- NEW
-[enableInfiniteScroll]="enableInfiniteScroll" <---- NEW
-[columns]="columns" <---- DEPRECATED ???
-[filterType]="filterType" <---- [filterType]="'FILTER_BUILDER'"
-[gridId]="gridId"
-[paginator]="paginator"
-[staticFrozenColumns]="staticFrozenColumns"
-[staticFrozenRightColumns]="staticFrozenRightColumns"
-[staticFrozenRightWidth]="staticFrozenRightWidth"
-[staticFrozenWidth]="staticFrozenWidth"
-[unSelectRow]="unSelectRow"
-[updateVisibility]="updateVisibility" // Deprecated?
-(onSettingChanged)="onSettingChanged($event)"
-(selectionChange)="onSelectionChange($event)"
--->
 <iad-base-grid
     [allowUnSelectRow]="allowUnSelectRow"
     [changeTableHeight]="changeTableHeight"

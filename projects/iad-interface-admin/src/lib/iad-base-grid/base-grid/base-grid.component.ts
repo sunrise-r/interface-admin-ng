@@ -6,12 +6,9 @@ import {
     Input, OnDestroy,
     OnInit,
     Output,
-    QueryList,
-    TemplateRef,
     ViewChild
 } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { FilterBuilderInterface, FILTER_BUILDER, CustomizeQuery } from 'iad-interface-admin/filter';
 
@@ -31,7 +28,7 @@ import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from 
     templateUrl: './base-grid.component.html',
     providers: [BaseGridColumnsService]
 })
-export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Flag to toggle possibility to remove row selection
      */

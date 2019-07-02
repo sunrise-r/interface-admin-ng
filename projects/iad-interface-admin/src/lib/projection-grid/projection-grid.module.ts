@@ -5,6 +5,7 @@ import { IadBaseGridModule } from '../iad-base-grid/iad-base-grid.module';
 
 import { GridToolbarComponent } from './grid-toolbar/grid-toolbar.component';
 import { GridSearchPanelComponent } from './grid-search-panel/grid-search-panel.component';
+import { IadToolbarModule } from '../toolbar/iad-toolbar.module';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,7 @@ import { GridSearchPanelComponent } from './grid-search-panel/grid-search-panel.
     ],
     imports: [
         IadPrimengModule,
+        IadToolbarModule,
         IadSharedModule,
         IadBaseGridModule
     ],

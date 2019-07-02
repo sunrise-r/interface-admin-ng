@@ -44,7 +44,7 @@ export * from './lib/public-services/iad-presentation-load.service';
 export * from './lib/toolbar/toolbar-action.directive';
 export * from './lib/toolbar/toolbar-actions.component';
 export * from './lib/toolbar/toolbar-action.model';
-export * from './lib/toolbar/toolbar.module';
+export * from './lib/toolbar/iad-toolbar.module';
 
 // # main lib module:-
 export * from './lib/iad-interface-admin.module';
