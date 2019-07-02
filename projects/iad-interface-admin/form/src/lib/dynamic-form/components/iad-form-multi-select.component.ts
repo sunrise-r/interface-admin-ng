@@ -33,13 +33,13 @@ export interface MultiSelectValuesInterface {
                     <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                           caption="Ошибка!" [text]="error" [activated]="true">
                         <ng-template>
-                            <fa-icon [icon]="'exclamation-circle'" [size]="'2x'" [ngStyle]="{color: 'red'}"></fa-icon>
+                            <fa-icon [icon]="'exclamation-circle'" [size]="'1x'" [ngStyle]="{color: 'red'}"></fa-icon>
                         </ng-template>
                     </iad-tooltip-notifier>
                     <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && !isInvalid"
                                           caption="Поле валидно!" text="Валидация прошла успешно" [activated]="true">
                         <ng-template>
-                            <fa-icon [icon]="'check-circle'" [size]="'2x'" [ngStyle]="{color: 'green'}"></fa-icon>
+                            <fa-icon [icon]="'check-circle'" [size]="'1x'" [ngStyle]="{color: 'green'}"></fa-icon>
                         </ng-template>
                     </iad-tooltip-notifier>
                 </div>

@@ -479,7 +479,7 @@ IadInterfaceAdminModule.forRoot({
 
 ```
   <ng-template>
-    <fa-icon [icon]="'exclamation-circle'" [size]="'2x'" [ngStyle]="{color: 'red'}"></fa-icon>
+    <fa-icon [icon]="'exclamation-circle'" [size]="'1x'" [ngStyle]="{color: 'red'}"></fa-icon>
   </ng-template>
 ```
 

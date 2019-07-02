@@ -13,28 +13,8 @@ iad-tooltip-notifier {
   right: 10px;
   margin-top: auto;
   margin-bottom: auto;
-  height: 32px;
+  height: 24px;
   z-index: 5;
-}
-
-iad-form-rich-editor iad-tooltip-notifier {
-  margin-top: 5px;
-}
-
-iad-dynamic-form iad-form-rich-editor .input-group > .custom-form-control  {
-  height: inherit;
-}
-
-
-.ui-calendar {
-  width: 100%;
-  .ui-datepicker {
-    min-width: 50%;
-  }
-}
-
-body .ui-widget {
-  font-size: inherit;
 }
 
 .error-text {
