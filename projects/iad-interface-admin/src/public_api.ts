@@ -36,7 +36,7 @@ export * from './lib/projection-grid/model/projection-grid.model';
 export * from './lib/projection-grid/projection-grid.module';
 export * from './lib/projection-grid/projection-grid/projection-grid.component';
 export * from './lib/projection-grid/grid-toolbar/grid-toolbar.component';
-export * from './lib/projection-grid/settings-manager/grid-settings-storage.interface';
+export * from './lib/projection-grid/settings-manager/grid-settings-storage.model';
 export * from './lib/projection-grid/settings-manager/grid-settings-storage.service';
 
 // # public-services

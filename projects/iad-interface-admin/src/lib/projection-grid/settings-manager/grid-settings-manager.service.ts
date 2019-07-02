@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { IadGridConfigInterface, IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
 import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
 import { CmsSetting } from '../../iad-base-grid/base-grid/cms-setting';
-import { GridSettingsStorageInterface } from './grid-settings-storage.interface';
+import { GridSettingsStorageInterface, UserGetSettingsDTO } from './grid-settings-storage.model';
 
 @Injectable()
 export class GridSettingsManagerService implements GridSettingsManagerInterface {
@@ -99,7 +99,7 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
         if ((name === 'sort' && strValue === this.initialSort) || name === 'filter') {
             return;
         }
-        this.settingsKeeper.saveSettings(groupName, {key: name, value: strValue});
+        this.settingsKeeper.saveSettings(groupName, new UserGetSettingsDTO(name, strValue));
     }
 
     /**

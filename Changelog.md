@@ -1,4 +1,4 @@
-# 1.0.6@alpha.52
+# 1.0.6@alpha.53
 
 * GRID: Added GridSettingsStorageInterface inmplementation to keep table settings in user's localStorage
 * GRID: Added ability to set your own GridSettingsStorageInterface imlementation through `settingsKeeper: { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageServiceImpl }` iad-interface-admin module option
