@@ -1,6 +1,11 @@
+# 1.0.6@alpha.52
+
+* GRID: Added GridSettingsStorageInterface inmplementation to keep table settings in user's localStorage
+* GRID: Added ability to set your own GridSettingsStorageInterface imlementation through `settingsKeeper: { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageServiceImpl }` iad-interface-admin module option
+ 
 # 1.0.6@alpha.51
 
-## Cheers! This is our first tagged version!
+## Cheers! 1.0.6@alpha will be our first tagged version!
 
 * MAIN: ProjectionTableComponent, ProjectionTableModule, GridToolbarComponent(TableToolbarComponent) and GridSearchPanel(TableSearchPanel) are replaced to 'interface-iad-admin' main project from 'interface-iad-admin/partner' partner project
 * PARTNER: PARTNER PROJECT IS NO MORE EXISTS IN PROJECT

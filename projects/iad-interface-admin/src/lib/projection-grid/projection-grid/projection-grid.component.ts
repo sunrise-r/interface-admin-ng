@@ -17,7 +17,7 @@ import { IadHelper } from 'iad-interface-admin/core';
 
 import { DocumentListProjection } from '../model/projection-grid.model';
 import { IadGridColumn, IadGridColumnInterface } from '../../iad-base-grid/model/iad-grid-column.model';
-import { IadGridConfigModel, IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
+import { IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
 import { ToolbarAction } from '../../toolbar/toolbar-action.model';
 
