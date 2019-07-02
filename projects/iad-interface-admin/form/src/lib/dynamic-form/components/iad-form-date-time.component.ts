@@ -5,6 +5,7 @@ import { ValidationInput } from '../core/validation-input';
 
 @Component({
     selector: 'iad-form-date-time',
+    styleUrls: ['iad-form-date.component.scss'],
     template: `
     <ng-container [formGroup]="group">
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
