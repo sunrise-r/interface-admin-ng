@@ -1,5 +1,6 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { IadHelper } from 'iad-interface-admin/core';
 import { GridSettingsStorageInterface, UserSettingInputDTO } from './grid-settings-storage.interface';
 
 export const SETTINGS_KEEPER = new InjectionToken<GridSettingsStorageInterface>('SETTINGS_KEEPER');
@@ -24,7 +25,7 @@ export class GridSettingsStorageService implements GridSettingsStorageInterface 
     saveSettings(groupName: string, data: UserSettingInputDTO): void {
         this.getSettings(groupName)
             .then(settings => {
-                settings[data.key] = typeof data.value === 'string' ? data.value : JSON.stringify(data.value);
+                IadHelper.splice(settings, data, 'key');
                 this.storage.set(groupName, JSON.stringify(settings));
             })
             .catch(error => console.error(error));

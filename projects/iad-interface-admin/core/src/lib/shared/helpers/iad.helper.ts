@@ -22,4 +22,13 @@ export class IadHelper {
         }
         return val;
     }
+
+    static splice (collection, item, compareProp: string) {
+        const index = collection.findIndex(_col => _col[compareProp] === item[compareProp]);
+        if (index !== -1) {
+            collection.splice(index, 1, item);
+        } else {
+            collection.push(item);
+        }
+    };
 }
