@@ -1,3 +1,31 @@
+# 1.0.6@alpha.53
+
+* GRID: Added GridSettingsStorageInterface inmplementation to keep table settings in user's localStorage
+* GRID: Added ability to set your own GridSettingsStorageInterface imlementation through `settingsKeeper: { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageServiceImpl }` iad-interface-admin module option
+ 
+# 1.0.6@alpha.51
+
+## Cheers! 1.0.6@alpha will be our first tagged version!
+
+* MAIN: ProjectionTableComponent, ProjectionTableModule, GridToolbarComponent(TableToolbarComponent) and GridSearchPanel(TableSearchPanel) are replaced to 'interface-iad-admin' main project from 'interface-iad-admin/partner' partner project
+* PARTNER: PARTNER PROJECT IS NO MORE EXISTS IN PROJECT
+* GRID: Toolbar will be shown only when hasToolbar is set true
+
+# 0.0.6@devel.50
+
+* GRID (partner): updateActualInformation method removed from project
+* GRID (partner): PresentationHelper class removed from project
+* GRID (partner): DataChainService class removed from project
+* GRID (partner): ActualSelectionChainService class removed from project
+* GRID: SELECT_ACTION enum removed from project
+* GRID: IadGridRowSelection class removed from project
+* GRID: onGridRowSelection const removed from project
+* GRID: IProjectionDefaultFilter interface and ProjectionDefaultFilter class are removed from project
+* GRID: IIADProjection interface and IIADPresentation interface are removed from project
+* GRID: IADPresentation class is removed from project
+* GRID: Reference class is removed from project
+* MAIN: DocumentDataProjection const replaced to 'interface-iad-admin' main project
+
 # 0.0.4@devel.38
 
 * GRID Use the IadEventManager to broadcast delete event in order to update table

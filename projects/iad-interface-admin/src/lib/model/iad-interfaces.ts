@@ -9,6 +9,14 @@ export interface IadProjectionInterface {
 }
 
 /**
+ * Part of Partner project
+ */
+export interface IadDataProjectionInterface extends IadProjectionInterface {
+    fields: any[];
+    documentPhoto?: string;
+}
+
+/**
  * @todo look at his later and resolve if formPresentation and Datapresentation are correctly placed here
  */
 export interface IadPresentationInterface {
@@ -17,5 +25,5 @@ export interface IadPresentationInterface {
     name?: string;
     projections?: IadListProjectionInterface[];
     formProjections?: IadFormProjectionInterface[];
-    dataProjections?: IadProjectionInterface[];
+    dataProjections?: IadDataProjectionInterface[];
 }

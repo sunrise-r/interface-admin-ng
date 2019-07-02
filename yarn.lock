@@ -4272,6 +4272,12 @@ ngx-infinite-scroll@7.1.0:
   dependencies:
     opencollective-postinstall "^2.0.2"
 
+ngx-webstorage-service@~4.0.1:
+  version "4.0.1"
+  resolved "http://37.1.83.184:84/repository/npm-group/ngx-webstorage-service/-/ngx-webstorage-service-4.0.1.tgz#3b26e6cbcdef831db38cd94b206ec59ee07aa4b6"
+  dependencies:
+    tslib "^1.9.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

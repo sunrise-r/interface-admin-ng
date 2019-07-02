@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-
+import { IadHelper } from 'iad-interface-admin/core';
+import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
 import {
-    IadGridConfigModel,
-    IadGridColumn,
     IAD_FROZEN_POSITION,
     IadGridColumnFrozen,
     IadGridColumnFrozenField,
     IadGridColumnOrder
-} from 'iad-interface-admin';
-import { IadHelper } from 'iad-interface-admin/core';
+} from '../../iad-base-grid/base-grid/base-grid-freeze-column.model';
+import { IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
 
 @Injectable({
     providedIn: 'root'

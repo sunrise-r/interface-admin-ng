@@ -6,12 +6,9 @@ import {
     Input, OnDestroy,
     OnInit,
     Output,
-    QueryList,
-    TemplateRef,
     ViewChild
 } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { PrimeTemplate } from 'primeng/shared';
 import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { FilterBuilderInterface, FILTER_BUILDER, CustomizeQuery } from 'iad-interface-admin/filter';
 
@@ -31,7 +28,7 @@ import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from 
     templateUrl: './base-grid.component.html',
     providers: [BaseGridColumnsService]
 })
-export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Flag to toggle possibility to remove row selection
      */
@@ -173,11 +170,6 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
     @ViewChild(IadTableComponent) dt: IadTableComponent;
 
     /**
-     * Templates set as content of iad-grid component (i.e. interlayers)
-     */
-    @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate>;
-
-    /**
      * INTERNAL REQUEST TO UPDATE GRID DATA
      */
     internalRefresh: ReplaySubject<string> = new ReplaySubject<string>();
@@ -186,11 +178,6 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
      * Column components to pass them to column td host
      */
     columnComponents = columnComponents;
-
-    /**
-     * INTERNAL COL TEMPLATES set as content of iad-grid component
-     */
-    colTemplates: { [param: string]: TemplateRef<any> } = {};
 
     /**
      *  Должны ли выполняться  запросы по загрузке данных.
@@ -290,12 +277,6 @@ export class BaseGridComponent implements OnInit, AfterContentInit, AfterViewIni
 
     ngAfterViewInit(): void {
         this.initUpdateDataSubscription();
-    }
-
-    ngAfterContentInit(): void {
-        this.templates.forEach(item => {
-            this.colTemplates[item.getType()] = item.template;
-        });
     }
 
     /**

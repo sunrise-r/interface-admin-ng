@@ -8,6 +8,7 @@ export interface IadModuleConfigInterface {
     rootUrl?: string;
     referenceProjectionProvider?: Provider;
     filterBuilderProvider?: Provider;
+    settingsKeeper?: Provider;
 }
 
 export class IadConfigService {
@@ -36,4 +37,5 @@ export class IadModuleConfig {
     rootUrl = '';
     referenceProjectionProvider = null;
     filterBuilderProvider = null;
+    settingsKeeper = null;
 }

@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { GridSettingsManagerInterface } from './grid-settings-manager.interface';
-import { GridSettingsStorageService } from './grid-settings-storage.service';
+import { SETTINGS_KEEPER } from './grid-settings-storage.service';
 import { GridSettingsPopulatorService } from './grid-settings-populator.service';
-import { IadGridConfigModel, IadGridColumn, CmsSetting, IadGridConfigInterface } from 'iad-interface-admin';
 import { Subject } from 'rxjs';
+import { IadGridConfigInterface, IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
+import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
+import { CmsSetting } from '../../iad-base-grid/base-grid/cms-setting';
+import { GridSettingsStorageInterface, UserGetSettingsDTO } from './grid-settings-storage.model';
 
-// {
-//     providedIn: 'root'
-// }
 @Injectable()
 export class GridSettingsManagerService implements GridSettingsManagerInterface {
 
@@ -37,7 +37,7 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
     private groupSettingsKey: string;
 
     constructor(
-        private settingsKeeper: GridSettingsStorageService,
+        @Inject(SETTINGS_KEEPER) private settingsKeeper: GridSettingsStorageInterface,
         private gridConfigService: GridSettingsPopulatorService
     ) {
         this.reset();
@@ -99,7 +99,7 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
         if ((name === 'sort' && strValue === this.initialSort) || name === 'filter') {
             return;
         }
-        this.settingsKeeper.saveSettings({groupName, key: name, value: strValue});
+        this.settingsKeeper.saveSettings(groupName, new UserGetSettingsDTO(name, strValue));
     }
 
     /**
@@ -137,7 +137,6 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
     private loadSettings(groupSettingsKey: string): Promise<Map<string, string>> {
         return this.settingsKeeper
             .getSettings(groupSettingsKey)
-            .toPromise()
             .then(settings => Promise.resolve(settings.reduce((acu, group) => {
                 acu.set(group.key, group.value);
                 return acu;

@@ -19,10 +19,9 @@ import { SpecialColumnComponent } from './column-components/special-column.compo
 
 import { ActionsColumnComponent } from './column-components/actions-column.component';
 import { ChipsColumnComponent } from './column-components/chips-column.component';
-import { ToolbarModule } from '../toolbar/toolbar.module';
 
 @NgModule({
-    imports: [IadSharedModule, SharedModule, IadPrimengModule, ToolbarModule, FilterBuilderModule],
+    imports: [IadSharedModule, SharedModule, IadPrimengModule, FilterBuilderModule],
     declarations: [
         SelectionIndicatorColumnComponent,
         TableHeaderMenuComponent,

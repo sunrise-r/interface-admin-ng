@@ -9,4 +9,4 @@ import { ToolbarActionsComponent } from './toolbar-actions.component';
     declarations: [ToolbarActionDirective, ToolbarActionsComponent],
     exports: [ToolbarActionsComponent]
 })
-export class ToolbarModule {}
+export class IadToolbarModule {}
