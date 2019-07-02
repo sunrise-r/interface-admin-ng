@@ -1,7 +1,18 @@
-<iad-projection-grid #iadProjectionGrid
-  [columns]="columns"
-  [paginator]="true"
-  [projection]="projection"
-  [presentationCode]="presentationCode"
-  [lazy]="false"
-></iad-projection-grid>
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary" type="button" (click)="update()">Refresh table</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <iad-projection-grid #iadProjectionGrid
+                             [columns]="columns"
+                             [filter]="filter"
+                             [paginator]="true"
+                             [projection]="projection"
+                             [presentationCode]="presentationCode"
+                             [refresh]="refresh"
+                             [lazy]="true"
+        ></iad-projection-grid>
+    </div>
+</div>

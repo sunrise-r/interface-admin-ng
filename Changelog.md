@@ -1,3 +1,290 @@
+# 1.0.6@alpha.53
+
+* GRID: Added GridSettingsStorageInterface inmplementation to keep table settings in user's localStorage
+* GRID: Added ability to set your own GridSettingsStorageInterface imlementation through `settingsKeeper: { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageServiceImpl }` iad-interface-admin module option
+ 
+# 1.0.6@alpha.51
+
+## Cheers! 1.0.6@alpha will be our first tagged version!
+
+* MAIN: ProjectionTableComponent, ProjectionTableModule, GridToolbarComponent(TableToolbarComponent) and GridSearchPanel(TableSearchPanel) are replaced to 'interface-iad-admin' main project from 'interface-iad-admin/partner' partner project
+* PARTNER: PARTNER PROJECT IS NO MORE EXISTS IN PROJECT
+* GRID: Toolbar will be shown only when hasToolbar is set true
+
+# 0.0.6@devel.50
+
+* GRID (partner): updateActualInformation method removed from project
+* GRID (partner): PresentationHelper class removed from project
+* GRID (partner): DataChainService class removed from project
+* GRID (partner): ActualSelectionChainService class removed from project
+* GRID: SELECT_ACTION enum removed from project
+* GRID: IadGridRowSelection class removed from project
+* GRID: onGridRowSelection const removed from project
+* GRID: IProjectionDefaultFilter interface and ProjectionDefaultFilter class are removed from project
+* GRID: IIADProjection interface and IIADPresentation interface are removed from project
+* GRID: IADPresentation class is removed from project
+* GRID: Reference class is removed from project
+* MAIN: DocumentDataProjection const replaced to 'interface-iad-admin' main project
+
+# 0.0.4@devel.38
+
+* GRID Use the IadEventManager to broadcast delete event in order to update table
+
+# 0.0.4@devel.37
+
+* FORM: If reference field is flatten (plain) then group will be not considered for this field
+
+# 0.0.4@devel.36
+
+* GRID: Changed grid refresh scenario; Now grid update require grid settings every time; Another one change removes double grid refresh in projection-grid
+
+#0.0.4@devel.35
+
+## Features
+
+* FORM: Added ability to consider group names when using nested input groups
+
+`IadFormComponent @Input() considerSourcePathGroups;`
+
+#0.0.4@devel.34
+
+## Breaking changes for partner project
+
+* removed useless IADFrameworkModule from 'iad-interface-admin/partner'
+
+## Features
+
+* FORM: Added ability to inherit input group (references) validationTypes.required when it was set into "true" state
+* FORM: Added form instance to form footer template (let-form="form")
+* FORM: Made FilterBuilderService @Injectable()
+* GRID: Added ProjectionGrid.refresh: Subject<boolean>() to have possibility to refresh data in gridTable
+* GRID: Disabled InfiniteScroll by default
+* GLOBAL: Added export of primeng shared module from IadPrimengModule; version changed
+
+## Compatibility with iad-admin (backend)
+
+* No more difference if you are using dataSourcePath or datasourcePath in projections. But please, prefer dataSourcePath
+
+#0.0.4@devel.22
+
+## For all projects
+
+* You are able to implement FilterBuilderInterface like this:
+
+```typescript
+export class MyQueryBuilder implements CustomizeQuery {
+    /**
+         * @param name; Usage with operator: OR.name
+         * @param value
+         * @param useWildCard
+         */
+        addFilter(name: String, value: any, useWildCard?: boolean): AddOption {
+            return this;
+        }
+    
+        addOption(delegate: string, action: string, field: string): CustomizeQuery;
+        addOption(delegate: string, action: string): CustomizeQuery;
+        addOption(delegate: string): CustomizeQuery;
+        addOption(delegate: string, action?: string, field?: string): CustomizeQuery {
+            return this;
+        }
+    
+        build(): String {
+            return '';
+        }
+    
+        merge(raw: BuilderRaw): CustomizeQuery {
+            return this;
+        }
+    
+        raw(): BuilderRaw {
+            return new BuilderRaw({
+                filters: Filter[] = [],
+                options: Option[] = []
+            });
+        }
+}
+
+export class MyFilterBuilderService implements FilterBuilderInterface() {
+    filter: CustomizeQuery;
+    
+    createFilter(type?: string): CustomizeQuery {
+        this.filter = new MyQueryBuilder();
+        return this.filter;
+    };
+    merge(builder: CustomizeQuery): FilterBuilderInterface {
+        return this;
+    };
+    build(options: BuildOptions, prevEvent: any): string {
+        let result = ''; 
+        if (this.beforeBuildHook(options)) {
+            result += this.filter.build();
+        }
+        this.afterBuildHook(prevEvent);
+        return result;
+    };
+    beforeBuildHook(options: BuildOptions): boolean {
+        return true;
+    };
+    afterBuildHook(event: any) {
+        console.log('do something');
+    };
+}
+
+
+IadInterfaceAdminModule.forRoot({
+    i18nEnabled: true,
+    defaultI18nLang: 'ru',
+    noi18nMessage: 'translation-not-found',
+    filterBuilderProvider: { provide: FILTER_BUILDER, useClass: MyFilterBuilderService }
+})
+```
+
+##Breaking changes
+
+### For main project
+
+* QueryBuildCallback is removed
+* ElasticService made provided in root
+* GridComponent.onBuildQuery:QueryBuildCallback replaced with GridComponent.filter: CustomizeQuery
+
+### For partner project
+
+* IDataTableColumn removed in favor of IadGridColumn
+* DataTableConfigModel removed in favor of IadGridConfigModel
+* DataTablecomponent.groupSettingsKey replaced with GridComponent.gridId
+* added GridComponent.enableInfiniteScroll default to false
+* DataTablecomponent.items replaced with GridComponent.value
+* GridComponent.pageSize must be set in module config! (Before it was 60)
+* DataTablecomponent.lazyLoadingEnabled replaced with GridComponent.lazy
+* removed ActualSelectionModel. Implement it outsiside!
+	export class ActualSelectionModel {
+	    action: SELECT_ACTION;
+	    documentDTO?: any;
+	    documentIndex?: any;
+	    properties?: any;
+	    referenceDocuments?: any;
+	    type?: string;
+	    selection?: any;
+	}
+* removed SelectionBufferService
+	@Injectable({
+	    providedIn: 'root'
+	})
+	export class SelectionBufferService {
+	    dataUpdated: Subject<ActualSelectionModel> = new Subject<ActualSelectionModel>();
+
+	    constructor(private dataBuffer: DataBufferService) {}
+
+	    init(event) {
+		this.dataBuffer.setData('selection', event);
+		this.dataUpdated.next(this.getSelection());
+	    }
+
+	    getSelection(): ActualSelectionModel {
+		return <ActualSelectionModel>this.dataBuffer.getData('selection');
+	    }
+
+	    getSelectionIndex() {
+		return this.getSelection().selection;
+	    }
+
+	    getDTO() {
+		return this.getSelection().documentDTO;
+	    }
+
+	    getProperties() {
+		return this.getSelection() ? this.getSelection().properties : null;
+	    }
+
+	    getProperty(name: string) {
+		return this.getProperties() ? this.getProperties()[name] : null;
+	    }
+
+	    getIndex() {
+		return this.getSelection().documentIndex;
+	    }
+
+	    concat() {
+		return Object.assign({}, this.getDTO(), this.getSelectionIndex(), this.getIndex(), this.getProperties());
+	    }
+
+	    getClassName(): string {
+		const className: string = this.getProperties() ? this.getProperties().className : null;
+		return className ? StringHelper.parseDotPathLastSection(className) : null;
+	    }
+
+	    clean() {
+		this.dataBuffer.cleanData('selection');
+	    }
+	}
+* removed DataBufferService
+	@Injectable({
+	    providedIn: 'root'
+	})
+	export class DataBufferService {
+	    private dataSource: Map<string, any> = new Map<string, any>();
+
+	    dataUpdated: Subject<DataBufferService> = new Subject<DataBufferService>();
+
+	    /**
+	     * Сохраняет данные в буффер
+	     * @param key
+	     * @param data
+	     */
+	    setData(key: string, data: any) {
+		this.dataSource.set(key, data);
+		this.dataUpdated.next(this);
+	    }
+
+	    /**
+	     * Возвращает данные из буффера
+	     * @param key
+	     */
+	    getData(key: string): any {
+		return this.dataSource.get(key);
+	    }
+
+	    /**
+	     * Возвращает true если данные по ключу чуществуют и равны данным из второго параметра
+	     * @param key
+	     * @param data
+	     */
+	    areEquals(key: string, data: any): boolean {
+		return (
+		    this.dataSource.has(key) &&
+		    (typeof this.dataSource.get(key) === 'string' ? this.dataSource.get(key) : JSON.stringify(this.dataSource.get(key))) ===
+		        (typeof data === 'string' ? data : JSON.stringify(data))
+		);
+	    }
+
+	    /**
+	     * Возвращает данные и удаляет из буфера
+	     * @param key
+	     */
+	    getCleanData(key: string): any {
+		const data = this.getData(key);
+		this.cleanData(key);
+		return data;
+	    }
+
+	    /**
+	     * Удаляет данные из буфера
+	     * @param key
+	     */
+	    cleanData(key: string) {
+		this.dataSource.delete(key);
+	    }
+	}
+* ENTITY_TYPE removed from partner lib section
+	export enum ENTITY_TYPE {
+	    DOCUMENT = 'document',
+	    OPERATION = 'operation',
+	    RESOLUTION = 'resolution'
+	}
+
+
+
 #0.0.3-devel.20
 
 ## Fixed bugs
@@ -192,7 +479,7 @@
 
 ```
   <ng-template>
-    <fa-icon [icon]="'exclamation-circle'" [size]="'2x'" [ngStyle]="{color: 'red'}"></fa-icon>
+    <fa-icon [icon]="'exclamation-circle'" [size]="'1x'" [ngStyle]="{color: 'red'}"></fa-icon>
   </ng-template>
 ```
 

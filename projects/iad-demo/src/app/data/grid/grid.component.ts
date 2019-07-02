@@ -1,50 +1,76 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IadGridColumn,
-  IadListProjectionInterface,
-  IadPresentation,
-  PROJECTION_TYPE,
-  ProjectionsHelper
+    IadGridColumn,
+    IadListProjectionInterface,
+    IadPresentation,
+    PROJECTION_TYPE,
+    ProjectionsHelper
 } from 'iad-interface-admin';
-import {Subscription} from 'rxjs';
+import { CustomizeQuery } from 'iad-interface-admin/filter';
+import { Subject, Subscription } from 'rxjs';
+import { DemoFilterBuilderService } from './demo-filter-builder.service';
+import {IadEventManager} from 'iad-interface-admin/core';
 
 @Component({
-  selector: 'iad-grid',
-  templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+    selector: 'iad-grid',
+    templateUrl: './grid.component.html',
+    styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, OnDestroy {
 
-  columns: IadGridColumn[];
+    columns: IadGridColumn[];
 
-  projection: IadListProjectionInterface;
+    projection: IadListProjectionInterface;
 
-  presentationCode: string;
+    presentationCode: string;
 
-  routerSubscription: Subscription;
+    routerSubscription: Subscription;
 
-  @ViewChild('iadProjectionGrid')
-  iadProjectionGrid: any;
+    filter: CustomizeQuery;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+    refresh: Subject<any> = new Subject();
 
-  update() {
-    this.iadProjectionGrid.doRefresh.next();
-  }
+    @ViewChild('iadProjectionGrid')
+    iadProjectionGrid: any;
 
-  ngOnInit() {
-      this.routerSubscription = this.route.data.subscribe(data => {
-        const presentation: IadPresentation = data.presentation;
-        this.presentationCode = data.presentation.code;
-        // Actually we have only one list projection to show and it's name is 'main';
-        // And we don't need projectionCode for this case
-        this.projection = <IadListProjectionInterface>ProjectionsHelper
-          .filterProjections(presentation, PROJECTION_TYPE.LIST)
-          .find(_projection => _projection.code === 'main');
+    deleteSubscription: Subscription;
 
-        this.columns = this.projection.columns;
-      });
-  }
+    constructor(private route: ActivatedRoute, private searchEngine: DemoFilterBuilderService,
+                private eventManager: IadEventManager) {
+    }
+
+    update() {
+        this.refresh.next();
+    }
+
+    ngOnInit() {
+        this.routerSubscription = this.route.data.subscribe(data => {
+            const presentation: IadPresentation = data.presentation;
+            this.presentationCode = data.presentation.code;
+            this.projection = <IadListProjectionInterface>ProjectionsHelper
+                .filterProjections(presentation, PROJECTION_TYPE.LIST)
+                .find(_projection => _projection.code === data.projectionCode);
+
+            this.columns = this.projection.columns;
+            this.setDefaultFilter();
+            this.deleteSubscription = this.eventManager.subscribe(data.projectionCode + '#recordDeleted', event => {
+                console.log('Record deleted with id: ' + event.content['id']);
+            });
+        });
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.deleteSubscription);
+    }
+
+    setDefaultFilter() {
+        const filter = this.searchEngine.createFilter('QUERY_STRING_QUERY');
+        filter
+            .addFilter('active', 'true', false)
+            .addFilter('all', 'Иван', true)
+            .addOption('allMatchDelegate');
+        this.filter = filter;
+    }
 
 }

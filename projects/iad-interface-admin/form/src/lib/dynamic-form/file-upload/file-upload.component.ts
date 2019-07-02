@@ -17,10 +17,9 @@ export const FILE_VALUE_ACCESSOR: any = {
         (change)="handleFileInput($event.target.files)"
         (blur)="onInputBlur($event)"
         type="file">
-        <span>{{fileName}}</span>
-        <div class="upload-button">
-            <fa-icon [icon]="['far', 'folder-open']"></fa-icon>
-        </div>`,
+        <button class="btn btn-primary" type="button">{{'fileInput.selectFile' | translate}}</button>
+        <span class="file-upload-text">{{fileName || ('fileInput.fileNotSelected' | translate)}}</span>
+        <button *ngIf="fileToUpload" class="btn btn-primary pi pi-times" type="button" (click)="clearFileInput($event)"></button>`,
     providers: [FILE_VALUE_ACCESSOR]
 })
 export class FileUploadComponent implements OnInit, ControlValueAccessor {
@@ -81,5 +80,13 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
     onInputBlur(event) {
       this.onTouched();
       this.onBlur.emit(event);
+    }
+
+    clearFileInput(event) {
+        event.stopPropagation();
+        this.file.nativeElement.value = '';
+        this.fileToUpload = null;
+        this.fileName = '';
+        this.onChange(null);
     }
 }

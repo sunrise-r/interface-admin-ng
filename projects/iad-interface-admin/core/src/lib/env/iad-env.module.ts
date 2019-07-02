@@ -7,6 +7,8 @@ export interface IadModuleConfigInterface {
     pageSize?: number;
     rootUrl?: string;
     referenceProjectionProvider?: Provider;
+    filterBuilderProvider?: Provider;
+    settingsKeeper?: Provider;
 }
 
 export class IadConfigService {
@@ -34,4 +36,6 @@ export class IadModuleConfig {
     pageSize = 20;
     rootUrl = '';
     referenceProjectionProvider = null;
+    filterBuilderProvider = null;
+    settingsKeeper = null;
 }

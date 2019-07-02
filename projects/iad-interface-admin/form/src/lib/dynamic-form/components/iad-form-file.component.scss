@@ -1,0 +1,15 @@
+iad-file-upload {
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    height: 38px;
+}
+
+iad-file-upload ::ng-deep .form-control-file {
+    display: none;
+}
+
+iad-file-upload ::ng-deep .file-upload-text {
+    padding-left: 10px;
+    padding-right: 10px;
+}

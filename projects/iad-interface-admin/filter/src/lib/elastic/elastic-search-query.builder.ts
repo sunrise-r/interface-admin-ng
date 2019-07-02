@@ -13,12 +13,11 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
     private columns: Array<ColumnData>;
 
     static buildFromString(value: string): string {
-        let val = value;
-        val = val.replace(' ', '* ');
-        return val + '*';
+        return value.replace(' ', '* ') + '*';
     }
 
     constructor() {
+        console.log('Direct usage of "query string query" builder may be unsafe');
         this.columns = [];
     }
 
@@ -60,7 +59,23 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
         }
         const result = query.substr(0, query.length - (2 + this.columns[this.columns.length - 1].operator.toLocaleString().length));
         this.columns = [];
-        return result;
+        return 'query=' + result;
+    }
+
+    /**
+     * Raw data to merge
+     */
+    raw(): ColumnData[] {
+        return this.columns;
+    }
+
+    /**
+     * merge multiple filter instances
+     * @param columns
+     */
+    merge(columns: ColumnData[]): ElasticSearchQueryBuilder {
+        this.columns = this.columns.concat(columns);
+        return this;
     }
 
     /**
@@ -76,8 +91,11 @@ export class ElasticSearchQueryBuilder implements ColumnBuilder {
     /**
      * Добавляет к строке с запросом buildFromString
      */
-    addFromString(condition: string): String {
+    addFromString(condition: string, useWildcard?: boolean): String {
         const build = this.build();
-        return build.length > 0 ? [build, Operator.AND, ElasticSearchQueryBuilder.buildFromString(condition)].join(' ') : build;
+        if (useWildcard !== false) {
+            condition = ElasticSearchQueryBuilder.buildFromString(condition);
+        }
+        return build.length > 0 ? [build, Operator.AND, condition].join(' ') : build;
     }
 }

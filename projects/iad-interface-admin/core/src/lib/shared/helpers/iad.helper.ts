@@ -15,4 +15,20 @@ export class IadHelper {
             ? onValid(obj[propertyName])
             : onInvalid(propertyName, obj);
     }
+
+    static toInt(val: any): number {
+        if (isNaN(val)) {
+            return parseInt(val, 10);
+        }
+        return val;
+    }
+
+    static splice (collection, item, compareProp: string) {
+        const index = collection.findIndex(_col => _col[compareProp] === item[compareProp]);
+        if (index !== -1) {
+            collection.splice(index, 1, item);
+        } else {
+            collection.push(item);
+        }
+    };
 }

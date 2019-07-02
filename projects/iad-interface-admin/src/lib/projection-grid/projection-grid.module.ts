@@ -1,42 +1,26 @@
 import { NgModule } from '@angular/core';
 import { ProjectionGridComponent } from './projection-grid/projection-grid.component';
-import {IadSharedModule, IadPrimengModule} from 'iad-interface-admin/core';
-import {TableColumnSizeDirective} from './table-column-size/table-column-size.directive';
-import {TableSortIconComponent} from './table-sort-icon/table-sort-icon.component';
-import {TableColumnFilterComponent} from './table-column-filter/table-column-filter.component';
-import { GridComponent } from './grid/grid.component';
-import {GridTdHostDirective} from './grid/grid-td-host.directive';
-import {SelectionIndicatorColumnComponent} from './column-components/selection-indicator-column.component';
-import {DefaultColumnComponent} from './column-components/default-column.component';
-import {SpecialColumnComponent} from './column-components/special-column.component';
-import {ActionsColumnComponent} from './column-components/actions-column.component';
-import {ChipsColumnComponent} from './column-components/chips-column.component';
+import { IadSharedModule, IadPrimengModule } from 'iad-interface-admin/core';
+import { IadBaseGridModule } from '../iad-base-grid/iad-base-grid.module';
+
+import { GridToolbarComponent } from './grid-toolbar/grid-toolbar.component';
+import { GridSearchPanelComponent } from './grid-search-panel/grid-search-panel.component';
+import { IadToolbarModule } from '../toolbar/iad-toolbar.module';
 
 @NgModule({
-  declarations: [
-    ProjectionGridComponent,
-    TableColumnSizeDirective,
-    TableSortIconComponent,
-    TableColumnFilterComponent,
-    GridComponent,
-    GridTdHostDirective,
-    SelectionIndicatorColumnComponent,
-    DefaultColumnComponent,
-    SpecialColumnComponent,
-    ActionsColumnComponent,
-    ChipsColumnComponent
-  ],
-  imports: [
-    IadPrimengModule,
-    IadSharedModule,
-  ],
-  entryComponents: [
-    SelectionIndicatorColumnComponent,
-    DefaultColumnComponent,
-    SpecialColumnComponent,
-    ActionsColumnComponent,
-    ChipsColumnComponent
-  ],
-  exports: [ProjectionGridComponent, TableColumnSizeDirective, TableSortIconComponent]
+    declarations: [
+        GridToolbarComponent,
+        GridSearchPanelComponent,
+        ProjectionGridComponent,
+    ],
+    imports: [
+        IadPrimengModule,
+        IadToolbarModule,
+        IadSharedModule,
+        IadBaseGridModule
+    ],
+    entryComponents: [],
+    exports: [ProjectionGridComponent, GridToolbarComponent]
 })
-export class ProjectionGridModule { }
+export class ProjectionGridModule {
+}

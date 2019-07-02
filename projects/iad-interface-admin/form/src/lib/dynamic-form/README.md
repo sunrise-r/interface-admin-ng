@@ -203,7 +203,9 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
   Model: DropdownInputModel
   
       values?: string[];
+      valuesUrl?: string;
       translatePrefix?: string;
+      showClear?: boolean;
 
 ### 12. IadFormChipsComponent
 
@@ -213,4 +215,15 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
   
   Model: ChipsInputModel
   
-      value?: string; // coma separated
+      value?: string; // comma separated
+
+### 13. IadFormAutoCompleteInputComponent
+
+  Description: PrimeNg autocomplete component
+
+  Selector: iad-form-auto-complete-input
+
+  Model: AutoCompleteInput
+
+      valuesUrl?: string;
+      multiple?: boolean;

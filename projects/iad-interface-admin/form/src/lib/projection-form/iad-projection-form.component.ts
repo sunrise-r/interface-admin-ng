@@ -40,11 +40,15 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
     encapsulation: ViewEncapsulation.None
 })
 export class IadProjectionFormComponent implements OnChanges {
-    /**
-     * // @todo Using of "data" is not welcome
-     * Предустановленные значения для полей формы
-     */
-    @Input() data: any;
+
+    @Input()
+    set data(data: any) {
+        console.log('Using of "data" is not supported. Use rawFormData instead');
+        console.log('data payload:');
+        console.log(data);
+        console.log('rawFormData payload:');
+        console.log(this.rawFormData);
+    }
 
     /**
      * Проекция по которой строится форма
@@ -72,6 +76,11 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() defaultSourcePath: string;
 
     /**
+     * Default Data source path to fill the form
+     */
+    @Input() considerSourcePathGroups: boolean;
+
+    /**
      * Ошибка сервера, если отправка данных прошла не успешно
      */
     @Input() serverError: HttpErrorResponse;
@@ -82,26 +91,17 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() formProjectionSubject: Subject<{ [param: string]: any }>;
 
     /**
-     * Service to use for form projection upload.
-     * @Todo replace this property and prefer moduleWithProviders to use your own service impl
-     */
-    @Input() projectionService: IadReferenceProjectionProviderInterface;
-
-    /**
-     * // @todo please avoid using this mode
-     * Enables Compatibility mode
-     */
-    @Input() compatibilityMode = false;
-
-    /**
-     * @todo PostDataUrl to use redirects in compatibility mode
-     */
-    @Input() postDataUrl: string;
-
-    /**
      * Style CSS class string
      */
     @Input() styleClass: string;
+
+    /**
+     * Customized form Footer template
+     */
+    @Input()
+    set formExternalTemplates(templates: QueryList<PrimeTemplate>) {
+        this.formTemplates = templates;
+    }
 
     /**
      * Output EventEmitter to handle form submit event externally
@@ -126,8 +126,7 @@ export class IadProjectionFormComponent implements OnChanges {
     constructor(
         private iadDataOperationsService: IadDataOperationsService,
         private iadRouterHistoryService: IadRouterHistoryService,
-        private referenceProjectionService: IadReferenceProjectionProviderService,
-        private router: Router
+        private referenceProjectionService: IadReferenceProjectionProviderService
     ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -184,16 +183,23 @@ export class IadProjectionFormComponent implements OnChanges {
             acu[field.presentationCode].push(field.referenceProjectionCode);
             return acu;
         }, {});
+        // will not show collapse component and will not group reference fields to substructure
+        const checkPlainReference = function (field) {
+            return field.properties && field.properties.plainReference && !field.properties.considerGroup;
+        };
+        const plainReferenceCondition = function (cond, valid, invalid, field) {
+            return cond(field) ? valid() : invalid();
+        };
 
         // Request reference form projections
-        return this.resolveProjectionService()
+        return this.referenceProjectionService
             .findProjectionsByName(requestParams)
             .toPromise()
             .then((data: { [param: string]: IadFormProjectionInterface }) => {
-                // flatten plainReference's
-                fields = fields.reduce((acu, field) => acu.concat(IadHelper.runPropertyCondition('plainReference', field.properties,
-                        () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
-                        () => [field])), []);
+                fields = fields.reduce((acu, field) => acu.concat(
+                    plainReferenceCondition(checkPlainReference,
+                    () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
+                    () => [field], field)), []);
                 return new FormInputGroup({
                     children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
                 });
@@ -254,9 +260,10 @@ export class IadProjectionFormComponent implements OnChanges {
                     column: field.column,
                     key: field.name,
                     label: field.label,
+                    validators: field.validationTypes,
                     translate: field.translate,
-                    children: inputs,
-                    properties: field.properties
+                    properties: field.properties,
+                    children: inputs
                 });
             }
         } else {
@@ -290,7 +297,7 @@ export class IadProjectionFormComponent implements OnChanges {
         if (field.properties) {
             Object.assign(options, field.properties);
         }
-        return new InputFactory().initTypeFactory(this.inputModels).createInput(field.type, this.modifyOptions(options, field, groupName));
+        return new InputFactory().initTypeFactory(this.inputModels).createInput(field.type, this.modifyOptions(options, groupName));
     }
 
     onFormSubmit(value: any) {
@@ -299,16 +306,6 @@ export class IadProjectionFormComponent implements OnChanges {
             formData: value,
             fileInputKeys
         });
-        // @todo please avoid using this mode
-        if (this.compatibilityMode) {
-            this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
-                (response: any) => {
-                    this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
-                },
-                (err: any) => {
-                    this.serverError = err;
-                });
-        }
     }
 
     /**
@@ -316,10 +313,6 @@ export class IadProjectionFormComponent implements OnChanges {
      */
     onFormCancel() {
         this.formCancel.emit();
-        // @todo please avoid using this mode
-        if (this.compatibilityMode) {
-            this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
-        }
     }
 
     /**
@@ -343,30 +336,17 @@ export class IadProjectionFormComponent implements OnChanges {
     }
 
     /**
-     * Compatibility mode
-     */
-    private resolveProjectionService(): IadReferenceProjectionProviderInterface {
-        return this.projectionService ? this.projectionService : this.referenceProjectionService;
-    }
-
-    /**
      * Модифицирует опции перед передачей их в dynamic-form.component
      * @param options
-     * @param field
      * @param groupName
      */
-    private modifyOptions(options, field: IFormProjectionField, groupName?: string): { [param: string]: any } {
-        // @todo Using of "data" is not welcome
-        if (this.data) {
-            const data = groupName && this.data[groupName] ? this.data[groupName] : this.data;
-            if (options.key in data) {
-                options.value = data[options.key];
-            }
-        }
+    private modifyOptions(options, groupName?: string): { [param: string]: any } {
         if (!options.value && this.rawFormData) {
-            options.value = field.dataSourcePath
-                ? this.resolveItemsPath(field.dataSourcePath, this.rawFormData)
-                : this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') + field.name, this.rawFormData);
+            options.value = options.dataSourcePath
+                ? this.resolveItemsPath(options.dataSourcePath, this.rawFormData)
+                : (this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') +
+                    (!options.plainReference && this.considerSourcePathGroups && groupName ? groupName + '.' : '') +
+                    options.key, this.rawFormData));
         }
         return options;
     }

@@ -12,7 +12,7 @@ export class DataComponent implements OnInit {
 
   ngOnInit() {
     this.eventManager.subscribe('actionsButtonClick', event => {
-      alert('Actions button clicked with id: ' + event.content);
+      alert('Actions button clicked with id: ' + event.content['id']);
     });
   }
 

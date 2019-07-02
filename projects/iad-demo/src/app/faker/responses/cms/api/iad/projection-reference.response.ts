@@ -70,7 +70,8 @@ export class ProjectionReferenceResponse extends AbstractResponse {
           'values': [
             'One', 'Two', 'Three', 'Four', 'Five'
           ],
-          'translatePrefix': 'phoneBook.firstField.values'
+          'translatePrefix': 'phoneBook.firstField.values',
+          'showClear': true
         }
       },
       {
@@ -101,6 +102,25 @@ export class ProjectionReferenceResponse extends AbstractResponse {
         'column': 0,
         'translate': true
       },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'File',
+        'name': 'fileField',
+        'label': 'presentation.projection.main.fileField',
+        'column': 0,
+        'translate': true
+      },
+      {
+        'validationTypes': {'email': false, 'required': false},
+        'type': 'AutoComplete',
+        'name': 'autoCompleteField',
+        'label': 'presentation.projection.main.autoCompleteField',
+        'column': 0,
+        'translate': true,
+        'properties': {
+          'valuesUrl': 'partnerdocuments/api/auto-complete-values'
+        }
+      }
     ];
     projection.properties = [];
     const response = {'presentationOne.additionalFields': projection};

@@ -164,6 +164,112 @@ export class PresentationResponse extends AbstractResponse {
                 'label': 'presentation.projection.main.label',
                 'filters': [],
                 'loadActualInfo': null
+            },
+            {
+                'code': 'other',
+                'active': false,
+                'searchUrl': 'partnerdocuments/api/_search/phonebook',
+                'actions': [
+                    [
+                        {'code': 'new', 'toggle': true, 'style': 'newBtn'},
+                        {
+                            'code': 'copy',
+                            'toggle': false,
+                            'style': 'copyBtn'
+                        },
+                        {'code': 'operation', 'toggle': true, 'style': 'operationBtn'},
+                        {
+                            'code': 'edit',
+                            'toggle': false,
+                            'style': 'editBtn'
+                        },
+                        {'code': 'delete', 'toggle': false, 'style': 'discardBtn'}
+                    ],
+                    [
+                        {
+                            'code': 'filter',
+                            'toggle': true,
+                            'style': 'filterBtn'
+                        }
+                    ],
+                    [
+                        {'code': 'REVIEW', 'toggle': false, 'style': 'reviewBtn'},
+                        {
+                            'code': 'ACCEPTED',
+                            'toggle': false,
+                            'style': 'acceptBtn'
+                        },
+                        {'code': 'REJECTED', 'toggle': false, 'style': 'rejectBtn'}
+                    ],
+                    [
+                        {
+                            'code': 'remind',
+                            'toggle': false,
+                            'style': 'remindBtn'
+                        },
+                        {'code': 'path', 'toggle': false, 'style': 'pathBtn'}
+                    ],
+                    [
+                        {
+                            'code': 'documentCard',
+                            'toggle': false,
+                            'style': 'cardBtn'
+                        },
+                        {'code': 'print', 'toggle': false, 'style': 'printBtn'},
+                        {
+                            'code': 'help',
+                            'toggle': false,
+                            'style': 'helpBtn'
+                        },
+                        {'code': 'refresh', 'toggle': false, 'style': 'refreshBtn'}
+                    ]
+                ],
+                'columns': [
+                    {
+                        'field': 'nameField',
+                        'header': 'presentation.projection.main.nameField',
+                        'formatter': null,
+                        'displayFormat': 'String',
+                        'visible': true,
+                        'translate': true,
+                        'searching': true,
+                        'style': null,
+                        'sorting': true,
+                        'position': null,
+                        'properties': null
+                    },
+                    {
+                        'field': 'surnameField',
+                        'header': 'presentation.projection.main.surnameField',
+                        'formatter': null,
+                        'displayFormat': 'String',
+                        'visible': true,
+                        'translate': true,
+                        'searching': true,
+                        'style': null,
+                        'sorting': true,
+                        'position': null,
+                        'properties': null
+                    },
+                    {
+                        'field': 'birthDate',
+                        'header': 'presentation.projection.main.birthDate',
+                        'formatter': null,
+                        'displayFormat': 'ZonedDateTime',
+                        'visible': true,
+                        'translate': true,
+                        'searching': true,
+                        'style': null,
+                        'sorting': true,
+                        'position': null,
+                        'properties': null
+                    }
+                ],
+                'settingsGroupName': null,
+                'resourceSearchUrl': null,
+                'label': 'presentation.projection.other.label',
+                'filters': [],
+                'loadActualInfo': null
             }
         ];
         data.formProjections = [

@@ -3,12 +3,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { IadConfigService, IadModuleConfig, IadModuleConfigInterface, IadSharedModule } from 'iad-interface-admin/core';
 import { IadProjectionFormModule, DynamicFormModule, IadReferenceProjectionProviderService } from 'iad-interface-admin/form';
+import { FILTER_BUILDER, FilterBuilderService } from 'iad-interface-admin/filter';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { ProjectionTreeComponent } from './projection-tree/projection-tree.component';
 import { DropdownModule, MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 import { ProjectionGridModule } from './projection-grid/projection-grid.module';
+import { GridSettingsStorageService, SETTINGS_KEEPER } from './projection-grid/settings-manager/grid-settings-storage.service';
 
 @NgModule({
     declarations: [ProjectionTreeComponent],
@@ -37,7 +39,9 @@ export class IadInterfaceAdminModule {
                     useClass: IadConfigService,
                     deps: [IadModuleConfig]
                 },
-                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService }
+                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService },
+                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService },
+                moduleConfig.settingsKeeper || { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageService }
             ]
         };
     }
@@ -47,7 +51,9 @@ export class IadInterfaceAdminModule {
             ngModule: IadInterfaceAdminModule,
             providers: [
                 {provide: IadModuleConfig, useValue: moduleConfig},
-                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService }
+                moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService },
+                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService },
+                moduleConfig.settingsKeeper || { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageService }
             ]
         };
     }

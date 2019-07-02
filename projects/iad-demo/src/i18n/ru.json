@@ -1,125 +1,134 @@
 {
-  "phoneBook": {
-    "firstField": {
-      "values": {
-        "One": "Один",
-        "Two": "Два",
-        "Three": "Три",
-        "Four": "Четыре",
-        "Five": "Пять",
-        "Six": "Шесть",
-        "Seven": "Семь",
-        "Eight": "Восемь",
-        "Nine": "Девять",
-        "Ten": "Десять",
-        "label": "Значения",
-        "elementsSelected": "{0} выбрано"
-      }
+    "phoneBook": {
+        "firstField": {
+            "values": {
+                "One": "Один",
+                "Two": "Два",
+                "Three": "Три",
+                "Four": "Четыре",
+                "Five": "Пять",
+                "Six": "Шесть",
+                "Seven": "Семь",
+                "Eight": "Восемь",
+                "Nine": "Девять",
+                "Ten": "Десять",
+                "label": "Значения",
+                "elementsSelected": "{0} выбрано"
+            }
+        }
+    },
+    "presentation": {
+        "label": "Представление 1",
+        "label2": "Представление 2",
+        "projection": {
+            "listProjectionOne": "Проекция списка 1",
+            "listProjectionTwo": "Проекция списка 2",
+            "main": {
+                "nameField": "Имя",
+                "surnameField": "Фамилия",
+                "birthDate": "Дата рождения",
+                "phone": "Телефон",
+                "email": "Email",
+                "actions": "Действия",
+                "actionButton": "Кнопка",
+                "additionalFields": "Дополнительные поля",
+                "firstField": "Первое поле",
+                "secondField": "Второе поле",
+                "booleanField": "Булево поле",
+                "dropdownField": "Выпадающий список",
+                "htmlField": "Поле HTML",
+                "chipsField": "Поле chips",
+                "fileField": "Файл",
+                "dropdownFieldDynamic": "Выпадающий список с загружаемыми значениями",
+                "autoCompleteField": "Поле с подсказками"
+            },
+            "other": {
+                "label": "Другая проекция"
+            }
+        },
+        "formProjection": {
+            "filledForm": "Проекция заполненной формы",
+            "emptyForm": "Проекция пустой формы"
+        }
+    },
+    "fileInput": {
+        "selectFile": "Выберите файл",
+        "fileNotSelected": "Файл не выбран"
+    },
+    "grid": {
+        "dialog": {
+            "delete": {
+                "header": "Вы уверены?",
+                "message": "Вы действительно хотите удалить эту запись?",
+                "confirm": "Да",
+                "reject": "Нет"
+            }
+        }
+    },
+    "entity": {
+        "validation": {
+            "required": "Поле должно быть заполнено",
+            "email": "Поле должно содержать корректный e-mail",
+            "minlength": "Поле является слишком коротким"
+        }
+    },
+    "calendar": {
+        "dayNames": {
+            "Sunday": "Воскресенье",
+            "Monday": "Понедельник",
+            "Tuesday": "Вторник",
+            "Wednesday": "Среда",
+            "Thursday": "Четверг",
+            "Friday": "Пятница",
+            "Saturday": "Суббота"
+        },
+        "dayNamesShort": {
+            "Sun": "Вос",
+            "Mon": "Пон",
+            "Tue": "Вто",
+            "Wed": "Сре",
+            "Thu": "Чет",
+            "Fri": "Пят",
+            "Sat": "Суб"
+        },
+        "dayNamesMin": {
+            "Su": "Вс",
+            "Mo": "Пн",
+            "Tu": "Вт",
+            "We": "Ср",
+            "Th": "Чт",
+            "Fr": "Пт",
+            "Sa": "Сб"
+        },
+        "monthNames": {
+            "January": "Январь",
+            "February": "Февраль",
+            "March": "Март",
+            "April": "Апрель",
+            "May": "Май",
+            "June": "Июнь",
+            "July": "Июль",
+            "August": "Август",
+            "September": "Сентябрь",
+            "October": "Октябрь",
+            "November": "Ноябрь",
+            "December": "Декабрь"
+        },
+        "monthNamesShort": {
+            "Jan": "Янв",
+            "Feb": "Фев",
+            "Mar": "Мар",
+            "Apr": "Апр",
+            "May": "Май",
+            "Jun": "Июн",
+            "Jul": "Июл",
+            "Aug": "Авг",
+            "Sep": "Сен",
+            "Oct": "Окт",
+            "Nov": "Ноя",
+            "Dec": "Дек"
+        },
+        "Today": "Сегодня",
+        "Clear": "Очистить"
     }
-  },
-  "presentation": {
-    "label": "Представление 1",
-    "label2": "Представление 2",
-    "projection": {
-      "listProjectionOne": "Проекция списка 1",
-      "listProjectionTwo": "Проекция списка 2",
-      "main": {
-        "nameField": "Имя",
-        "surnameField": "Фамилия",
-        "birthDate": "Дата рождения",
-        "phone": "Телефон",
-        "email": "Email",
-        "actions": "Действия",
-        "actionButton": "Кнопка",
-        "additionalFields": "Дополнительные поля",
-        "firstField": "Первое поле",
-        "secondField": "Второе поле",
-        "booleanField": "Булево поле",
-        "dropdownField": "Выпадающий список",
-        "htmlField": "Поле HTML",
-        "chipsField": "Поле chips",
-        "dropdownFieldDynamic": "Выпадающий список с загружаемыми значениями"
-      }
-    },
-    "formProjection": {
-      "filledForm": "Проекция заполненной формы",
-      "emptyForm": "Проекция пустой формы"
-    }
-  },
-  "grid": {
-    "dialog": {
-      "delete": {
-        "header": "Вы уверены?",
-        "message": "Вы действительно хотите удалить эту запись?",
-        "confirm": "Да",
-        "reject": "Нет"
-      }
-    }
-  },
-  "entity": {
-    "validation": {
-      "required": "Поле должно быть заполнено",
-      "email": "Поле должно содержать корректный e-mail",
-      "minlength": "Поле является слишком коротким"
-    }
-  },
-  "calendar": {
-    "dayNames": {
-      "Sunday": "Воскресенье",
-      "Monday": "Понедельник",
-      "Tuesday": "Вторник",
-      "Wednesday": "Среда",
-      "Thursday": "Четверг",
-      "Friday": "Пятница",
-      "Saturday": "Суббота"
-    },
-    "dayNamesShort": {
-      "Sun": "Вос",
-      "Mon": "Пон",
-      "Tue": "Вто",
-      "Wed": "Сре",
-      "Thu": "Чет",
-      "Fri": "Пят",
-      "Sat": "Суб"
-    },
-    "dayNamesMin": {
-      "Su": "Вс",
-      "Mo": "Пн",
-      "Tu": "Вт",
-      "We": "Ср",
-      "Th": "Чт",
-      "Fr": "Пт",
-      "Sa": "Сб"
-    },
-    "monthNames": {
-      "January": "Январь",
-      "February": "Февраль",
-      "March": "Март",
-      "April": "Апрель",
-      "May": "Май",
-      "June": "Июнь",
-      "July": "Июль",
-      "August": "Август",
-      "September": "Сентябрь",
-      "October": "Октябрь",
-      "November": "Ноябрь",
-      "December": "Декабрь"
-    },
-    "monthNamesShort": {
-      "Jan": "Янв",
-      "Feb": "Фев",
-      "Mar": "Мар",
-      "Apr": "Апр",
-      "May": "Май",
-      "Jun": "Июн",
-      "Jul": "Июл",
-      "Aug": "Авг",
-      "Sep": "Сен",
-      "Oct": "Окт",
-      "Nov": "Ноя",
-      "Dec": "Дек"
-    },
-    "Today": "Сегодня",
-    "Clear": "Очистить"
-  }
 }

@@ -40,6 +40,9 @@ export class FilterProvider implements AddFilter, AddOption, BuildQuery, Customi
         return this;
     }
 
+    /**
+     * @Todo It would be better to use native angular HttpParams
+     */
     build(): String {
         if (this.filters.length === 0 && this.options.length === 0 && !this.currentFilter) {
             return '';
@@ -56,10 +59,12 @@ export class FilterProvider implements AddFilter, AddOption, BuildQuery, Customi
             query += this.options[i].toQueryPart() + '&';
         }
         query = query.substr(0, query.length - 1);
-        console.log('calculated query=' + query);
-        return '?' + query;
+        return query;
     }
 
+    /**
+     * @Todo It would be better to use native angular HttpParams
+     */
     raw(): BuilderRaw {
         if (this.currentFilter) {
             this.filters.push(this.currentFilter);
@@ -71,6 +76,9 @@ export class FilterProvider implements AddFilter, AddOption, BuildQuery, Customi
         };
     }
 
+    /**
+     * @Todo It would be better to use native angular HttpParams
+     */
     merge(raw: { filters: Filter[]; options: Option[] }): CustomizeQuery {
         this.filters = this.filters.concat(raw.filters);
         this.options = this.options.concat(raw.options);
