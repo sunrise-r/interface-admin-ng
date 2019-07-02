@@ -290,14 +290,14 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if ('projection' in changes || 'presentationCode' in changes || 'filter' in changes) {
+        if (this.projection && ('projection' in changes || 'presentationCode' in changes || 'filter' in changes)) {
             this.gridSettingsManager.reset();
             this.unSelectRow.next(true);
-            if (this.presentationCode && this.projection) {
+            if (this.presentationCode) {
                 this.gridId = [this.presentationCode, this.projection.code].join('.');
                 this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
             } else {
-                console.error('Warning! projection is not loaded!');
+                console.error('Warning! presentationCode is not set!');
                 this.gridId = '_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             }
             this.gridSettingsManager.setExternalGridConfig(this.populateGridConfig(), true);
