@@ -5,13 +5,14 @@ import { ValidationInput } from '../core/validation-input';
 
 @Component({
   selector: 'iad-form-rich-editor',
+  styleUrls: ['iad-form-rich-editor.component.scss'],
   template: `
     <ng-container [formGroup]="group">
       <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}}">
-        <div class="input-wrapper input-group">
+        <div class="input-wrapper input-group rich-editor-wrapper">
           <p-editor class="custom-form-control"
             [formControlName]="config.key"
             [id]="config.key"

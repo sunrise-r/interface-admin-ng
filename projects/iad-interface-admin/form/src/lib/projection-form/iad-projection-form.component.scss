@@ -17,14 +17,6 @@ iad-tooltip-notifier {
   z-index: 5;
 }
 
-iad-form-rich-editor iad-tooltip-notifier {
-  margin-top: 5px;
-}
-
-iad-dynamic-form iad-form-rich-editor .input-group > .custom-form-control  {
-  height: inherit;
-}
-
 .error-text {
   width: max-content;
   max-width: 500px;
