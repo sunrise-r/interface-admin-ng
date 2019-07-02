@@ -16,6 +16,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.0.13",
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
-    "ngx-infinite-scroll": "0.5.1"
+    "ngx-infinite-scroll": "0.5.1",
+    "ngx-webstorage-service": "~4.0.1"
   }
 }

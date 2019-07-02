@@ -10,6 +10,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProjectionTreeComponent } from './projection-tree/projection-tree.component';
 import { DropdownModule, MultiSelectModule, PanelMenuModule } from 'primeng/primeng';
 import { ProjectionGridModule } from './projection-grid/projection-grid.module';
+import { GridSettingsStorageService, SETTINGS_KEEPER } from './projection-grid/settings-manager/grid-settings-storage.service';
 
 @NgModule({
     declarations: [ProjectionTreeComponent],
@@ -39,7 +40,8 @@ export class IadInterfaceAdminModule {
                     deps: [IadModuleConfig]
                 },
                 moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService },
-                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService }
+                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService },
+                moduleConfig.settingsKeeper || { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageService }
             ]
         };
     }
@@ -50,7 +52,8 @@ export class IadInterfaceAdminModule {
             providers: [
                 {provide: IadModuleConfig, useValue: moduleConfig},
                 moduleConfig.referenceProjectionProvider || { provide: IadReferenceProjectionProviderService, useClass: IadReferenceProjectionProviderService },
-                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService }
+                moduleConfig.filterBuilderProvider || { provide: FILTER_BUILDER, useClass: FilterBuilderService },
+                moduleConfig.settingsKeeper || { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageService }
             ]
         };
     }
