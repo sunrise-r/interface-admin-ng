@@ -5,6 +5,7 @@ import { ValidationInput } from '../core/validation-input';
 
 @Component({
     selector: 'iad-form-date',
+    styleUrls: ['iad-form-date.component.scss'],
     template: `
     <ng-container [formGroup]="group">
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
@@ -27,13 +28,13 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
             <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                   caption="Ошибка!" [text]="error" [activated]="true">
               <ng-template>
-                <fa-icon [icon]="'exclamation-circle'" [size]="'2x'" [ngStyle]="{color: 'red'}"></fa-icon>
+                <fa-icon [icon]="'exclamation-circle'" [size]="'1x'" [ngStyle]="{color: 'red'}"></fa-icon>
               </ng-template>
             </iad-tooltip-notifier>
             <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && !isInvalid"
                                   caption="Поле валидно!" text="Валидация прошла успешно" [activated]="true">
               <ng-template>
-                <fa-icon [icon]="'check-circle'" [size]="'2x'" [ngStyle]="{color: 'green'}" ></fa-icon>
+                <fa-icon [icon]="'check-circle'" [size]="'1x'" [ngStyle]="{color: 'green'}" ></fa-icon>
               </ng-template>
             </iad-tooltip-notifier>
           </div>
