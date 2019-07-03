@@ -1,3 +1,7 @@
+# 1.0.6@alpha.56
+
+* GRID: Columns are allowed to set only from @Input() projection. Direct setting is deprecated and affects nothing
+
 # 1.0.6@alpha.53
 
 * GRID: Added GridSettingsStorageInterface inmplementation to keep table settings in user's localStorage
