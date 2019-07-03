@@ -557,6 +557,9 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
      * Устанавливает первую колонку слева как закреплённую (это колонка-селектор)
      */
     private initTableConfig(data: IadGridConfigModel): void {
+        if (this.lazy) { // #86
+            this.resetValues();
+        }
         if (data.filter) {
             this.filter = data.filter;
         }
