@@ -38,10 +38,15 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * @Todo May be deprecated usage: [columns]="columns". Check.
      * Projection table columns
      */
-    @Input() columns: IadGridColumnInterface[];
+    @Input()
+    get columns(): IadGridColumnInterface[] {
+        return this._columns;
+    }
+    set columns(columns: IadGridColumnInterface[]) {
+        console.error('Columns are allowed to set only from @Input() projection. Direct setting is deprecated and affects nothing since v1.0.6');
+    }
 
     /**
      * Контекст работы компонента.
@@ -257,6 +262,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     private settingUpdateSbt: Subscription;
 
     /**
+     * Grid columns
+     */
+    private _columns: IadGridColumnInterface[];
+
+    /**
      * Will parse current projection url string as _underscore template string with context variables
      * @param searchUrl
      * @param context
@@ -375,7 +385,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     }
 
     initColumns(): IadGridColumn[] {
-        this.columns = this.columns || [];
+        this._columns = [];
         this.staticFrozenRightColumns = this.staticFrozenRightColumns || [];
         this.staticFrozenColumns = this.staticFrozenColumns || [];
         this.staticFrozenRightWidth = this.staticFrozenRightWidth || '0';
@@ -392,11 +402,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
                     IadHelper.splice(this.staticFrozenColumns, column, 'field');
                     this.staticFrozenWidth = (parseInt(this.staticFrozenWidth, 10) + column.width).toString() + 'px';
                 } else {
-                    IadHelper.splice(this.columns, column, 'field');
+                    IadHelper.splice(this._columns, column, 'field');
                 }
             });
         }
-        return this.columns;
+        return this._columns;
     }
 
     /**
