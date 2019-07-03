@@ -419,14 +419,13 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /**
-     * @Todo It would be better to use native angular HttpParams
      * Добавление данных в таблицу
      * @param event
      */
     updateData(event: LazyLoadData): void {
-        // #631 we do not need refresh if no searchUrl set and items are set externally
+        // we do not need refresh if no searchUrl set and items are set externally
         if (!this.searchUrl) {
-             if (this.lazy) { // #1808
+             if (this.lazy) {
                  this.resetValues();
              }
              return;
@@ -547,7 +546,7 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dt.tableService.onValueChange(data);
         // force current selection reset
         if (this.selection) {
-            this.selection = data.find(item => item.id === this.selection.id);
+            this.selection = this.value.find(item => item.id === this.selection.id);
             this.selectionChange.emit(this.selection);
         }
     }
