@@ -153,22 +153,46 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     /**
      * Список "статически замороженных колонок"
      */
-    @Input() staticFrozenColumns: IadGridColumnInterface[];
+    @Input()
+    set staticFrozenColumns(columns: IadGridColumnInterface[]) {
+        this._externalStaticFrozenColumns = columns;
+    }
+    get staticFrozenColumns(): IadGridColumnInterface[] {
+        return this._staticFrozenColumns;
+    }
 
     /**
      * Список "статически замороженных справа колонок"
      */
-    @Input() staticFrozenRightColumns: IadGridColumnInterface[];
+    @Input()
+    set staticFrozenRightColumns(columns: IadGridColumnInterface[]) {
+        this._externalStaticFrozenRightColumns = columns;
+    }
+    get staticFrozenRightColumns(): IadGridColumnInterface[] {
+        return this._staticFrozenRightColumns;
+    }
 
     /**
      * Размер области "статически замороженных справа колонок
      */
-    @Input() staticFrozenRightWidth;
+    @Input()
+    set staticFrozenRightWidth(width: string) {
+        this._externalStaticFrozenRightWidth = width;
+    }
+    get staticFrozenRightWidth(): string {
+        return this._staticFrozenRightWidth;
+    }
 
     /**
      * Размер области "статически замороженных колонок"
      */
-    @Input() staticFrozenWidth;
+    @Input()
+    set staticFrozenWidth(width: string) {
+        this._externalStaticFrozenWidth = width;
+    }
+    get staticFrozenWidth(): string {
+        return this._staticFrozenWidth;
+    }
 
     /**
      * Свойства для обновления тулбара
@@ -265,6 +289,46 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Grid columns
      */
     private _columns: IadGridColumnInterface[];
+
+    /**
+     * Список "статически замороженных колонок"
+     */
+    private _externalStaticFrozenColumns: IadGridColumnInterface[];
+
+    /**
+     * Список "статически замороженных справа колонок"
+     */
+    private _externalStaticFrozenRightColumns: IadGridColumnInterface[];
+
+    /**
+     * Размер области "статически замороженных справа колонок
+     */
+    private _externalStaticFrozenRightWidth;
+
+    /**
+     * Размер области "статически замороженных колонок"
+     */
+    private _externalStaticFrozenWidth;
+
+    /**
+     * Список "статически замороженных колонок"
+     */
+    private _staticFrozenColumns: IadGridColumnInterface[];
+
+    /**
+     * Список "статически замороженных справа колонок"
+     */
+    private _staticFrozenRightColumns: IadGridColumnInterface[];
+
+    /**
+     * Размер области "статически замороженных справа колонок
+     */
+    private _staticFrozenRightWidth;
+
+    /**
+     * Размер области "статически замороженных колонок"
+     */
+    private _staticFrozenWidth;
 
     /**
      * Will parse current projection url string as _underscore template string with context variables
@@ -386,10 +450,10 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     initColumns(): IadGridColumn[] {
         this._columns = [];
-        this.staticFrozenRightColumns = this.staticFrozenRightColumns || [];
-        this.staticFrozenColumns = this.staticFrozenColumns || [];
-        this.staticFrozenRightWidth = this.staticFrozenRightWidth || '0';
-        this.staticFrozenWidth = this.staticFrozenWidth || '0';
+        this._staticFrozenRightColumns = this._externalStaticFrozenRightColumns || [];
+        this._staticFrozenColumns = this._externalStaticFrozenColumns || [];
+        this._staticFrozenRightWidth = this._externalStaticFrozenRightWidth || '0';
+        this._staticFrozenWidth = this._externalStaticFrozenWidth || '0';
         if (this.projection) {
             this.projection.columns.forEach(column => {
                 if (column.properties && column.properties.width) {
@@ -397,10 +461,10 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
                 }
                 if (column.position === 'const-froz-right') {
                     IadHelper.splice(this.staticFrozenRightColumns, column, 'field');
-                    this.staticFrozenRightWidth = (parseInt(this.staticFrozenRightWidth, 10) + column.width).toString() + 'px';
+                    this._staticFrozenRightWidth = (parseInt(this._staticFrozenRightWidth, 10) + column.width).toString() + 'px';
                 } else if (column.position === 'const-froz-left') {
                     IadHelper.splice(this.staticFrozenColumns, column, 'field');
-                    this.staticFrozenWidth = (parseInt(this.staticFrozenWidth, 10) + column.width).toString() + 'px';
+                    this._staticFrozenWidth = (parseInt(this._staticFrozenWidth, 10) + column.width).toString() + 'px';
                 } else {
                     IadHelper.splice(this._columns, column, 'field');
                 }
