@@ -1,4 +1,4 @@
-# 1.0.7@alpha.61
+# 1.0.7@alpha.62
 
 * GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
 
@@ -8,6 +8,12 @@
       }   
      ```
 
+* FORM: IadFormComponent @Input() considerSourcePathGroups replaced with IadFormComponent @Input() flattenData
+
+    `IadFormComponent @Input() flattenData;`
+
+    if you want your data DTO would use plain data structure set flattenData true
+    
 # 1.0.7@alpha.60
 
 * FORM: Changed "plain/flatten" behavior for fields with referenceProjections. 

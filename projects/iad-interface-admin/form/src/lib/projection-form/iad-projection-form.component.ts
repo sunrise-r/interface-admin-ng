@@ -71,9 +71,9 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() defaultSourcePath: string;
 
     /**
-     * Default Data source path to fill the form
+     * Default flattenData state to get form input values
      */
-    @Input() considerSourcePathGroups: boolean;
+    @Input() flattenData: boolean;
 
     /**
      * Ошибка сервера, если отправка данных прошла не успешно
@@ -118,8 +118,14 @@ export class IadProjectionFormComponent implements OnChanges {
      */
     formInputGroup: FormInputGroup;
 
-    static checkFlattenDataState(field): boolean {
-        return ('checkFlattenDataState' in field) ? (<FormInputGroupInterface>field).checkFlattenDataState() : false;
+    static checkFlattenDataState(field, def?: boolean): boolean {
+        let state: boolean;
+        if ('checkFlattenDataState' in field) {
+            state = (<FormInputGroupInterface>field).checkFlattenDataState();
+            return state !== undefined ? state : def || false;
+        }
+        // return false always when we deal with non-groups
+        return false;
     }
 
     constructor(
@@ -184,7 +190,7 @@ export class IadProjectionFormComponent implements OnChanges {
             return acu;
         }, {});
         const plainReferenceCondition = function (cond, valid, invalid, field) {
-            return cond(field) ? valid() : invalid();
+            return cond(field) ? valid(field) : invalid(field);
         };
 
         // Request reference form projections
@@ -193,9 +199,10 @@ export class IadProjectionFormComponent implements OnChanges {
             .toPromise()
             .then((data: { [param: string]: IadFormProjectionInterface }) => {
                 fields = fields.reduce((acu, field) => acu.concat(
-                    plainReferenceCondition(IadProjectionFormComponent.checkFlattenDataState,
-                        () => data[field.presentationCode + '.' + field.referenceProjectionCode].fields,
-                        () => [field], field)), []);
+                    plainReferenceCondition(
+                        (_field) => IadProjectionFormComponent.checkFlattenDataState(_field, this.flattenData),
+                        (_field) => data[_field.presentationCode + '.' + _field.referenceProjectionCode].fields,
+                        (_field) => [_field], field)), []);
                 return new FormInputGroup({
                     children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
                 });
@@ -302,7 +309,7 @@ export class IadProjectionFormComponent implements OnChanges {
         // #89 flatten data for groups with flattenData Option or plainReference option
         (<FormInputGroup>this.formInputGroup).children
             .reduce((acu, childColumn: FormGroupChildColumn) => acu.concat(childColumn), [])
-            .filter((child: FormGroupChild) => IadProjectionFormComponent.checkFlattenDataState(child))
+            .filter((child: FormGroupChild) => IadProjectionFormComponent.checkFlattenDataState(child, this.flattenData))
             .map((child: FormGroupChild) => child.key)
             .forEach((key: string) => {
                 Object.assign(formValue, formValue[key]);
@@ -352,7 +359,7 @@ export class IadProjectionFormComponent implements OnChanges {
             options.value = options.dataSourcePath
                 ? this.resolveItemsPath(options.dataSourcePath, this.rawFormData)
                 : (this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') +
-                    ((!flattenData || this.considerSourcePathGroups) && groupName ? groupName + '.' : '') +
+                    ((!flattenData && !this.flattenData) && groupName ? groupName + '.' : '') +
                     options.key, this.rawFormData));
         }
         return options;
