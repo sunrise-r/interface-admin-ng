@@ -1,3 +1,13 @@
+# 1.0.7@alpha.61
+
+* GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
+
+     ```typescript
+      const columnComponents = {
+          formatterName: ColumnDisplayEntryComponent
+      }   
+     ```
+
 # 1.0.7@alpha.60
 
 * FORM: Changed "plain/flatten" behavior for fields with referenceProjections. 
