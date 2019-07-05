@@ -45,6 +45,17 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() columns: IadGridColumn[];
 
     /**
+     * Column components to pass them to column td host
+     */
+    @Input()
+    set columnComponents(_columnComponents: { [param: string]: any }) {
+        Object.assign(this._columnComponents, _columnComponents);
+    };
+    get columnComponents(): { [param: string]: any } {
+        return this._columnComponents;
+    }
+
+    /**
      * Field to sort the table by default
      */
     @Input() defaultSortField = 'id';
@@ -175,11 +186,6 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     internalRefresh: ReplaySubject<string> = new ReplaySubject<string>();
 
     /**
-     * Column components to pass them to column td host
-     */
-    columnComponents = columnComponents;
-
-    /**
      *  Должны ли выполняться  запросы по загрузке данных.
      *  NPrime моментально регариует на измнение сортировки перезагрузкой данных, что приводит к множественной перезагрузке данных.
      *  С помощеью этого параметра можно отключитьвыполнение загрузки данныхю
@@ -230,6 +236,11 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
      * Count of total data items
      */
     totalRecords: number;
+
+    /**
+     * Компоненты колонок
+     */
+    private _columnComponents: { [param: string]: any } = columnComponents;
 
     private refreshGridConfigSbt: Subscription;
 
