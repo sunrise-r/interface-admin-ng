@@ -19,8 +19,6 @@ import {IadEventManager} from 'iad-interface-admin/core';
 })
 export class GridComponent implements OnInit, OnDestroy {
 
-    columns: IadGridColumn[];
-
     projection: IadListProjectionInterface;
 
     presentationCode: string;
@@ -51,8 +49,6 @@ export class GridComponent implements OnInit, OnDestroy {
             this.projection = <IadListProjectionInterface>ProjectionsHelper
                 .filterProjections(presentation, PROJECTION_TYPE.LIST)
                 .find(_projection => _projection.code === data.projectionCode);
-
-            this.columns = this.projection.columns;
             this.setDefaultFilter();
             this.deleteSubscription = this.eventManager.subscribe(data.projectionCode + '#recordDeleted', event => {
                 console.log('Record deleted with id: ' + event.content['id']);

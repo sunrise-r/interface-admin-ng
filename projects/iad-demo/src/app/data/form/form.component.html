@@ -1,12 +1,9 @@
 <iad-projection-form
-  [formProjection]="projection"
-  [formProjectionSubject]="formProjectionSubject"
-  [rawFormData]="rawFormData"
-  [serverError]="serverError"
-  (formSubmit)="onFormSubmit($event)"
-  (formCancel)="onFormCancel()"
->
-
-    <ng-template pTemplate></ng-template>
-
-</iad-projection-form>
+    [flattenData]="true"
+    [formProjection]="projection"
+    [formProjectionSubject]="formProjectionSubject"
+    [rawFormData]="rawFormData"
+    [serverError]="serverError"
+    (formSubmit)="onFormSubmit($event)"
+    (formCancel)="onFormCancel()"
+></iad-projection-form>
