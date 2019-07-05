@@ -49,6 +49,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     }
 
     /**
+     * Column components to pass them to column td host
+     */
+    @Input() columnComponents: { [param: string]: any };
+
+    /**
      * Контекст работы компонента.
      * Используется для:
      * Построения url запроса данных

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 import { IadEventManager } from 'iad-interface-admin/core';
 
-import { TableTdContentInterface } from './column-components.model';
+import { TableTdContentInterface } from '../model/column-components.model';
 import { IadGridColumn } from '../model/iad-grid-column.model';
 
 @Component({
