@@ -4,7 +4,49 @@ export type FormGroupChildColumn = (FormInput<any> | FormInputGroup)[];
 
 export type FormGroupChild = FormInput<any> | FormInputGroup;
 
-export class FormInputGroup {
+export interface FormInputGroupInterface {
+    /**
+     * will not show collapse component, and will not group reference fields to substructure
+     * Not considered if FlattenFields or FlattenData property is used
+     */
+    checkPlainOption(): boolean;
+
+    /**
+     * Will not show collapse component
+     */
+    checkFlattenFields(): boolean;
+
+    /**
+     * Will not group reference fields to substructure
+     */
+    checkFlattenData(): boolean;
+
+    /**
+     * Will return checkFlattenFields(options) if checkFlattenData or checkFlattenFields is not undefined
+     * Will return checkPlainOption in all other cases
+     * Will return TRUE if data is flatten for current group and false/undefined if data is grouped by current group "key" field
+     */
+    checkFlattenFieldsState(): boolean;
+
+    /**
+     * Will return checkFlattenData(options) if checkFlattenData or checkFlattenFields is not undefined
+     * Will return checkPlainOption in all other cases
+     * Will return TRUE if fields are flatten and false/undefined if fields may be collapsable
+     */
+    checkFlattenDataState(): boolean;
+
+    /**
+     * Default "collapsed" status when group is collapsable
+     */
+    checkCollapsedDefaultState(): boolean;
+
+    /**
+     * Ability to add children into current group
+     */
+    addChildren(children: FormGroupChildColumn[]): FormInputGroupInterface;
+}
+
+export class FormInputGroup implements FormInputGroupInterface {
     controlType: string;
     column: number;
     key: string;
@@ -22,9 +64,10 @@ export class FormInputGroup {
         maxLength?: string;
     };
     collapsable?: boolean; // Flag to set group collapse template to apply or not
+    properties?: any;
 
     constructor(options: {
-        children: FormGroupChildColumn[];
+        children?: FormGroupChildColumn[];
         key?: string;
         label?: string;
         column?: number;
@@ -35,6 +78,7 @@ export class FormInputGroup {
         properties?: any,
         validators?: any
     }) {
+        this.properties = options.properties;
         this.key = options.key || '';
         this.label = options.label || '';
         this.children = options.children || [];
@@ -45,28 +89,43 @@ export class FormInputGroup {
         this.visible = options.visible;
         this.translate = options.translate || false;
         this.validators = options.validators;
-        this.collapsed = this.checkCollapsedDefaultState(options);
-
-        // TODO replace considerGroup with 2 options: flattenInputGroup and flattenDataGroup
-        this.collapsable = this.checkCollapsableOption(options);
-        // plainReference
-        // flattenInputGroup = plainReference || flattenInputGroup
-        // flattenDataGroup = plainReference || flattenDataGroup
-        // considerGroup = !plainReference && !flattenDataGroup
+        this.collapsed = this.checkCollapsedDefaultState();
+        this.collapsable = !this.checkFlattenFieldsState();
     }
 
-    // will not show collapse component for plainReference, but will group reference fields to substructure
-    checkCollapsableOption(options) {
-        return this.checkPlainOption(options) ? options.properties && options.properties.considerGroup : true;
+    checkPlainOption(): boolean {
+        return this.properties && this.properties.plainReference;
     }
 
-    // will not show collapse component, and will not group reference fields to substructure
-    checkPlainOption(options) {
-        return options.properties && options.properties.plainReference;
+    checkFlattenFields(): boolean {
+        return this.properties && this.properties.flattenFields;
+    }
+
+    checkFlattenData(): boolean {
+        return this.properties && this.properties.flattenData;
+    }
+
+    checkFlattenFieldsState() {
+        const flattenData = this.checkFlattenData();
+        const flattenFields = this.checkFlattenFields();
+        const considerPlainOption = flattenData === undefined && flattenFields === undefined;
+        return considerPlainOption ? this.checkPlainOption() : flattenFields;
+    }
+
+    checkFlattenDataState(): boolean {
+        const flattenData = this.checkFlattenData();
+        const flattenFields = this.checkFlattenFields();
+        const considerPlainOption = flattenData === undefined && flattenFields === undefined;
+        return considerPlainOption ? this.checkPlainOption() : flattenData;
     }
 
     // True by default
-    checkCollapsedDefaultState(options) {
-        return options.properties && options.properties.collapsed !== undefined ? options.properties.collapsed : true;
+    checkCollapsedDefaultState(): boolean {
+        return this.properties && this.properties.collapsed !== undefined ? this.properties.collapsed : true;
+    }
+
+    addChildren(children: FormGroupChildColumn[]) {
+        this.children = this.children.concat(children);
+        return this;
     }
 }

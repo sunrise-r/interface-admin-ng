@@ -46,8 +46,8 @@ export class FormComponent implements OnInit {
         });
     }
 
-    onFormSubmit(value: any) {
-        this.iadDataOperationsService.saveData(this.postDataUrl, value).subscribe(
+    onFormSubmit(value: { formData: any, fileInputKeys }) {
+        this.iadDataOperationsService.saveData(this.postDataUrl, value.formData).subscribe(
             (response: any) => {
                 this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
             },
