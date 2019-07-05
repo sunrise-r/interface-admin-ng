@@ -13,7 +13,7 @@ import {
 
 
 import {IadGridColumn} from '../model/iad-grid-column.model';
-import {AffectTableInterface, TableTdContentInterface} from '../column-components/column-components.model';
+import {AffectTableInterface, TableTdContentInterface} from '../model/column-components.model';
 
 @Directive({
     selector: '[iadGridTdHost]'

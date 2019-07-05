@@ -36,6 +36,6 @@ import { ChipsColumnComponent } from './column-components/chips-column.component
         ActionsColumnComponent,
         ChipsColumnComponent
     ],
-    exports: [TableColumnFilterComponent, BaseGridComponent, SelectionIndicatorColumnComponent, TableColumnSizeDirective, TableSortIconComponent]
+    exports: [TableColumnFilterComponent, BaseGridComponent, TableColumnSizeDirective, TableSortIconComponent]
 })
 export class IadBaseGridModule {}
