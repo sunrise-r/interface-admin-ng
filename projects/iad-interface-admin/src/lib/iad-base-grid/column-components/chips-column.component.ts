@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TableTdContentInterface } from './column-components.model';
+import { TableTdContentInterface } from '../model/column-components.model';
 import { IadGridColumn } from '../model/iad-grid-column.model';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
 
 @Component({
     selector: 'iad-chips-column',

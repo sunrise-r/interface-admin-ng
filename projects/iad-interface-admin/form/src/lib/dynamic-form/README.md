@@ -227,3 +227,83 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
 
       valuesUrl?: string;
       multiple?: boolean;
+
+## Adding custom form input components 
+
+1) Create new component inside your project, i.e. FormInputComponent
+
+    ```typescript
+       import { TranslateService } from '@ngx-translate/core';
+       import { ValidationInput } from 'iad-interface-admin/form';   
+ 
+       @Component({selector: 'app-my-new-input-class', template: '<input type="text" name="config.name" value="config.value">'})
+       export class MyNewInputClassComponent extends ValidationInput implements OnInit, AfterViewInit {
+            constructor(translateService: TranslateService, public el: ElementRef, public renderer: Renderer2) {
+                super(translateService, el, renderer);
+            }
+       }
+    ```
+
+2) Declare MyNewInputClassComponent inside your module declarations and add him to entryComponents section
+
+    ```typescript
+        @NgModule({
+            imports: [
+                IadInterfaceAdminModule,
+                IadPrimengModule,
+                DynamicFormModule,
+                IadProjectionFormModule
+            ],
+            declarations: [   
+                FormViewComponent,
+                MyNewInputClassComponent
+            ],
+            entryComponents: [
+                MyNewInputClassComponent
+            ],
+            exports: [FormViewComponent]
+        })
+        export class FormsModule {}
+    ```
+
+3) Create an MyInputModel class for your component. To do that you have to extend FormInput class. One necessary parameter that you have to override is controlType. Set this property to some unique string, i.e. controlType = 'myInputCode';
+
+    ```typescript
+       import { FormInput } from 'iad-interface-admin/form';
+       
+       export class MyInputModel extends FormInput<any> {
+           constructor(options: { key?: string; label?: string; column?: number; order?: number; dependencies?: string[] }) {
+               super(options);
+               this.controlType = 'text';
+           }
+       }
+    ```
+
+4) Create JavaScript object to associate your MyInputModel to your MyNewInputClassComponent. The keys in this object are controlTypes from your input models, i.e. {'myInputCode': MyNewInputClassComponent}
+
+    ```typescript
+       export const inputComponents = {
+           text: MyNewInputClassComponent
+       };
+    ```
+
+5) Create JavaScript object to associate formatter you have set in form projection field's 'fieldInputType' to your MyInputModel, i.e. {'MyFormatterFromFormProjectionInput': MyInputModel}
+
+    ```typescript
+       export const inputModels = {
+           TextFormatter: MyInputModel
+       };
+    ```
+    
+6) While initialize <iad-projection-form...> inside your form wrapper component's template pass the Component-controlType association object to @Input() inputComponents, and formatter-inputModel association object to @Input inputModels
+
+    ```html
+       <iad-projection-form
+        [formProjection]="formProjection"
+        [inputComponents]="inputComponents"
+        [inputModels]="inputModels"
+        [rawFormData]="rawFormData"
+        [serverError]="serverError"
+        (formSubmit)="onFormSubmit($event)"
+        (formCancel)="onFormCancel()"></iad-projection-form>
+    ```

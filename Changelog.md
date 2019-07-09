@@ -1,3 +1,82 @@
+# 1.0.7@alpha.62
+
+* GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
+
+     ```typescript
+      const columnComponents = {
+          formatterName: ColumnDisplayEntryComponent
+      }   
+     ```
+
+* FORM: IadFormComponent @Input() considerSourcePathGroups replaced with IadFormComponent @Input() flattenData
+
+    `IadFormComponent @Input() flattenData;`
+
+    if you want your data DTO would use plain data structure set flattenData true
+    
+# 1.0.7@alpha.60
+
+* FORM: Changed "plain/flatten" behavior for fields with referenceProjections. 
+
+    Before: properties.plainReference formProjection field option made "Data and Groups flatten" strategy for form;
+    After: properties.plainReference keeps its functionality, but two more properties were added: properties.flattenData, properties.flattenFields. New strategy implies that if one of new options is used in formProjection field properties.plainReference will not work. Below is an explanation of how these two option work.
+     
+     1) setting both options "true" will equal to set properties.plainReference = true:
+     
+     ```json
+        {
+         "properties" : {
+          "flattenData": true
+          "flattenFields": true
+         }
+        }  
+     ```      
+              
+    2) `"flattenData": true` will mean that form data will sent to your API in flatten object, even if `"flattenFields": false` and referenceProjection data will be grouped into collapsable component: 
+    
+    ```json
+        {
+         "properties" : {
+          "flattenData": true
+          "flattenFields": false
+         }
+        }  
+    ```  
+             
+    3) `"flattenFields": true` will mean that form data will **not** be grouped into collapsable component. Although, if `"flattenData": false` referenceProjection data will be sent to your API **grouped** by reference field name (group key): 
+          
+    ```json
+        {
+         "properties" : {
+          "flattenData": false
+          "flattenFields": true  
+         }
+        }  
+    ```  
+            
+    4) setting both options "false" will equal to not set any of properties.plainReference, properties.flattenData or properties.flattenFields;
+    
+* FORM: Note that formSubmit EventEmitter enits event containing formData and fileInputKeys; If you need to flatten fileInputKeys into formData you should implement relevant methods by yourself
+
+* FORM: Note that if you will use flattenData mode for fields with referenceProjections **data from referenceProjection group will have higher priority than root form data**. In other words fields with the same name in root and nested form groups will be replaced with nested form group input value. i.e.:
+
+    ```json
+        {
+         "field": "value",
+         "field2": {
+              "field": "value2"       
+          }
+        } 
+    ```
+    
+    will be flatten into
+    
+    ```json
+        {
+         "field": "value2"
+        } 
+    ```
+
 # 1.0.6@alpha.59
 
 * FORM: fixed extra space used with hidden form inputs

@@ -291,6 +291,7 @@ export class PresentationResponse extends AbstractResponse {
                         'type': 'String',
                         'name': 'surnameField',
                         'label': 'presentation.projection.main.surnameField',
+                        'defaultValue': 'I am READONLY, What do ya want',
                         'translate': true,
                         'fieldInputType': 'READONLY',
                         'column': 0
@@ -330,9 +331,7 @@ export class PresentationResponse extends AbstractResponse {
                         'column': 0,
                         'referenceProjectionCode': 'additionalFields',
                         'presentationCode': 'presentationOne',
-                        'properties': {
-                            'plainReference': true
-                        }
+                        'properties': {}
                     },
                     {
                         'validationTypes': {'email': false, 'required': false},
