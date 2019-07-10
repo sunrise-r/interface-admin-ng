@@ -283,7 +283,9 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.refreshGridConfigSbt.unsubscribe();
+        if (this.refreshGridConfigSbt) {
+            this.refreshGridConfigSbt.unsubscribe();
+        }
     }
 
     ngAfterViewInit(): void {
