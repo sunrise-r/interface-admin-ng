@@ -81,6 +81,11 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() enableInfiniteScroll: boolean;
 
     /**
+     * Flag to set custom perfect scroll instead of regular browser scroll
+     */
+    @Input() enablePerfectScroll: boolean;
+
+    /**
      * Data to display in the table
      */
     @Input() value: any[] = [];

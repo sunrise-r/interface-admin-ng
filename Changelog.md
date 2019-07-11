@@ -1,3 +1,13 @@
+# 1.0.7@alpha.63
+
+* GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) component instead of common
+
+    ```html
+    <iad-projection-grid
+        [enablePerfectScroll]="true"
+    ></iad-projection-grid>
+    ```
+
 # 1.0.7@alpha.62
 
 * GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:

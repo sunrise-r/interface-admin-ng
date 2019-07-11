@@ -76,6 +76,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() enableInfiniteScroll: boolean;
 
     /**
+     * Flag to set custom perfect scroll instead of regular browser scroll
+     */
+    @Input() enablePerfectScroll: boolean;
+
+    /**
      * Ability to pass any templates outside of projection table
      */
     @Input() externalTemplates: QueryList<PrimeTemplate>;

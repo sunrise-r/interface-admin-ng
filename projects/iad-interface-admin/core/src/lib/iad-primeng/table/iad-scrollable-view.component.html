@@ -15,27 +15,46 @@
 </div>
 <ng-template [ngIf]="enableInfiniteScroll" [ngIfThen]="bodyWithInfiniteScroll" [ngIfElse]="bodyWithoutInfiniteScroll"></ng-template>
 <ng-template #bodyWithInfiniteScroll>
-  <div #scrollBody class="ui-table-scrollable-body"
-       infiniteScroll
-       [infiniteScrollDistance]="2"
-       [infiniteScrollThrottle]="500"
-       [scrollWindow]="false"
-       (scrolled)="onScroll()">
-    <ng-template [ngTemplateOutlet]="scrollTableTemplate"></ng-template>
-  </div>
+    <ng-template [ngIf]="enablePerfectScroll" [ngIfThen]="bodyWithPerfectScrollTemplate" [ngIfElse]="bodyWithNativeScrollTemplate"></ng-template>
+    <ng-template #bodyWithPerfectScrollTemplate>
+        <div #infiniteScrollContainer
+             infiniteScroll
+             [infiniteScrollContainer]="'.ps-content'"
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="500"
+             [scrollWindow]="false"
+             (scrolled)="onScroll()">
+            <perfect-scrollbar [ngStyle]="{'width.%': 100, 'height.%': 100}">
+                <ng-template [ngTemplateOutlet]="scrollTableTemplate"></ng-template>
+            </perfect-scrollbar>
+        </div>
+    </ng-template>
+    <ng-template #bodyWithNativeScrollTemplate>
+        <div #scrollBody class="ui-table-scrollable-body"
+             infiniteScroll
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="500"
+             [scrollWindow]="false"
+             (scrolled)="onScroll()">
+            <ng-template [ngTemplateOutlet]="scrollTableTemplate"></ng-template>
+        </div>
+    </ng-template>
 </ng-template>
 <ng-template #bodyWithoutInfiniteScroll>
-  <div #scrollBody class="ui-table-scrollable-body">
-    <ng-template [ngTemplateOutlet]="scrollTableTemplate"></ng-template>
-  </div>
+    <div #scrollBody class="ui-table-scrollable-body">
+        <ng-template [ngTemplateOutlet]="scrollTableTemplate"></ng-template>
+    </div>
 </ng-template>
+
 <ng-template #scrollTableTemplate>
-  <table #scrollTable [ngClass]="{'ui-table-scrollable-body-table': true, 'ui-table-virtual-table': dt.virtualScroll}" [class]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
-    <ng-container *ngTemplateOutlet="frozen ? dt.frozenColGroupTemplate||dt.colGroupTemplate : dt.colGroupTemplate; context: {$implicit: columns}"></ng-container>
-    <tbody class="ui-table-tbody" iadTableKeys [iadTableBody]="columns" [iadTableBodyTemplate]="frozen ? dt.frozenBodyTemplate||dt.bodyTemplate : dt.bodyTemplate"></tbody>
-  </table>
-  <div #virtualScroller class="ui-table-virtual-scroller"></div>
+    <table #scrollTable [ngClass]="{'ui-table-scrollable-body-table': true, 'ui-table-virtual-table': dt.virtualScroll}" [class]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
+        <ng-container *ngTemplateOutlet="frozen ? dt.frozenColGroupTemplate||dt.colGroupTemplate : dt.colGroupTemplate; context: {$implicit: columns}"></ng-container>
+        <tbody class="ui-table-tbody" iadTableKeys [iadTableBody]="columns" [iadTableBodyTemplate]="frozen ? dt.frozenBodyTemplate||dt.bodyTemplate : dt.bodyTemplate"></tbody>
+    </table>
+    <div #virtualScroller class="ui-table-virtual-scroller"></div>
 </ng-template>
+
+
 <div #scrollFooter *ngIf="dt.footerTemplate" class="ui-table-scrollable-footer ui-widget-header">
   <div #scrollFooterBox class="ui-table-scrollable-footer-box">
     <table class="ui-table-scrollable-footer-table" [ngClass]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
