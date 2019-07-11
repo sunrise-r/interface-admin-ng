@@ -1,6 +1,5 @@
 import { Subject } from 'rxjs';
 import { IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
-import { CmsSetting } from '../../iad-base-grid/base-grid/cms-setting';
 
 export interface GridSettingsManagerInterface {
     /**
@@ -20,5 +19,5 @@ export interface GridSettingsManagerInterface {
     refresh(): void;
     setGroupSettingsKey(groupSettingsKey: string): void;
     setExternalGridConfig(config: IadGridConfigModel, refresh?: boolean): void;
-    saveSettings(data: CmsSetting): void;
+    saveSettings(name: string, value: any): void;
 }

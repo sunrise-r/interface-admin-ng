@@ -1,3 +1,52 @@
+# 1.0.7-alpha.67
+
+* GRID: Refactoring of BaseGridComponent:
+
+    Removed:
+    
+    ```typescript
+    /**
+     * Internal settings changed event
+     */
+    @Output() onSettingChanged: EventEmitter<CmsSetting> = new EventEmitter<CmsSetting>();
+    ```
+
+    Added:
+    
+    ```typescript
+    /**
+     * event, that fired on column size change
+     * will propagate object with column names as keys and sizes as value;
+     */
+    @Output() columnResize = new EventEmitter<{ [param: string]: string | number }>();
+
+    /**
+     * event, that is fired on any column is dynamically made frozen
+     * will propagate array with field name, frozen state and frozen area for each column
+     */
+    @Output() columnFrozen = new EventEmitter<IadGridColumnFrozenField[]>();
+
+    /**
+     * event, that is fired when we need to update frozen areas sizes
+     * will propagate object containing rightWidth: string, public leftWidth: string
+     */
+    @Output() frozenAreasUpdated = new EventEmitter<IadGridColumnFrozen>();
+
+    /**
+     * event, that is fired on any column position is changed in a drag and drop way
+     * will propagate columns array
+     */
+    @Output() columnReorder = new EventEmitter<any[]>();
+
+    /**
+     * event, that is fired on any column is sorted
+     */
+    @Output() columnSort = new EventEmitter<string>();
+    ```
+* GRID Refactoring of ProjectionGridComponent: added handlers to new BaseGridComponent's events
+
+* GRID Removed CmsSetting class
+
 # 1.0.7@alpha.62
 
 * GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
