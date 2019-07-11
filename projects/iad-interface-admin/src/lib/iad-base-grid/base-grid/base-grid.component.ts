@@ -1,7 +1,7 @@
 import {
-    AfterContentInit, AfterViewInit,
+    AfterViewInit,
     Component,
-    ContentChildren, ElementRef,
+    ElementRef,
     EventEmitter, Inject,
     Input, OnDestroy,
     OnInit,
@@ -18,10 +18,15 @@ import { LazyLoadData, ResizeEvent, IadTableComponent, IadConfigService } from '
 import { FILTER_TYPE, IadGridConfigModel } from '../model/iad-grid-model';
 import { IadGridColumn } from '../model/iad-grid-column.model';
 import { columnComponents } from '../column-components/column-components.factory';
-import { CmsSetting } from './cms-setting';
 
 import { BaseGridColumnsService } from './base-grid-columns.service';
-import { IadGridColumnFrozen, IadGridFrozenEvent, IadGridFrozenStructure } from './base-grid-freeze-column.model';
+import {
+    IadGridColumnFrozen,
+    IadGridColumnFrozenField,
+    IadGridColumnOrder,
+    IadGridFrozenEvent,
+    IadGridFrozenStructure
+} from './base-grid-freeze-column.model';
 
 @Component({
     selector: 'iad-base-grid',
@@ -50,7 +55,7 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input()
     set columnComponents(_columnComponents: { [param: string]: any }) {
         Object.assign(this._columnComponents, _columnComponents);
-    };
+    }
     get columnComponents(): { [param: string]: any } {
         return this._columnComponents;
     }
@@ -166,14 +171,38 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() unSelectRow: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * Internal settings changed event
-     */
-    @Output() onSettingChanged: EventEmitter<CmsSetting> = new EventEmitter<CmsSetting>();
-
-    /**
      * Internal row selection event
      */
     @Output() selectionChange = new EventEmitter<any>();
+
+    /**
+     * event, that fired on column size change
+     * will propagate object with column names as keys and sizes as value;
+     */
+    @Output() columnResize = new EventEmitter<{ [param: string]: string | number }>();
+
+    /**
+     * event, that is fired on any column is dynamically made frozen
+     * will propagate array with field name, frozen state and frozen area for each column
+     */
+    @Output() columnFrozen = new EventEmitter<IadGridColumnFrozenField[]>();
+
+    /**
+     * event, that is fired when we need to update frozen areas sizes
+     * will propagate object containing rightWidth: string, public leftWidth: string
+     */
+    @Output() frozenAreasUpdated = new EventEmitter<IadGridColumnFrozen>();
+
+    /**
+     * event, that is fired on any column position is changed in a drag and drop way
+     * will propagate columns array
+     */
+    @Output() columnReorder = new EventEmitter<IadGridColumnOrder[]>();
+
+    /**
+     * event, that is fired on any column is sorted
+     */
+    @Output() columnSort = new EventEmitter<{value: string, field: string, order: number}>();
 
     /**
      * PrimeNg Table instance
@@ -319,7 +348,7 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
         let frozenStructure = this.getFrozenStructure();
         frozenStructure = this.columnsService.updateContainerSizes(column, frozenStructure, this.el.nativeElement);
         this.updateDataTable(frozenStructure);
-        this.updateFrozenSidesInfo(this.columnsService.getGridSidesInformation());
+        this.updateFrozenAreasInfo(this.columnsService.getGridSidesInformation());
     }
 
     /**
@@ -330,8 +359,8 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     onColResize(event: any): void {
         const frozenStructure = this.getFrozenStructure();
         const data = this.columnsService.resize(event, frozenStructure);
-        this.generateSettingsChangedEvent(new CmsSetting('dgColumnWidth', data));
-        this.updateFrozenSidesInfo(this.columnsService.getGridSidesInformation());
+        this.columnResize.emit(data);
+        this.updateFrozenAreasInfo(this.columnsService.getGridSidesInformation());
     }
 
     /**
@@ -341,9 +370,8 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
         let frozenStructure = this.getFrozenStructure();
         frozenStructure = this.columnsService.freeze(event, frozenStructure);
         this.updateDataTable(frozenStructure);
-        const dgColumnsFrozenInfo = new CmsSetting('dgFrozenInfo', this.columnsService.getFrozenColumns());
-        this.generateSettingsChangedEvent(dgColumnsFrozenInfo);
-        this.updateFrozenSidesInfo(this.columnsService.getGridSidesInformation());
+        this.columnFrozen.emit(this.columnsService.getFrozenColumns());
+        this.updateFrozenAreasInfo(this.columnsService.getGridSidesInformation());
     }
 
     /**
@@ -364,30 +392,31 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     onColReorder(event: any) {
         const frozenStructure = this.getFrozenStructure();
-        const settings = new CmsSetting('dgOrderInfo', this.columnsService.getOrderInformation(frozenStructure));
-        this.generateSettingsChangedEvent(settings);
+        this.columnReorder.emit(this.columnsService.getOrderInformation(frozenStructure));
     }
 
     /**
      * Handler to be called when column filter is fullfilled
+     * Do not reset filters in this method!
      * @param event
      * @param col
      */
     onColFilter(event: any, col: any) {
-        // this.dt.filters = {}; // commented to solve issue #1745
         this.resetFilter.next(FILTER_TYPE.GLOBAL);
         this.dt.filter(event.value, col.field, col.filterMatchMode);
         this.refresh();
     }
 
     /**
-     * При сортировке таблицы необходимо перезагружать данные
+     * Will send sort event to upper level
      * @param event
      */
     onSort(event: any) {
-        const sort = this.buildSort(event.field, event.order);
-        const settings = new CmsSetting('sort', sort);
-        this.generateSettingsChangedEvent(settings);
+        this.columnSort.emit({
+            value: this.buildSort(event.field, event.order),
+            field: event.field,
+            order: event.order
+        });
         this.refresh();
     }
 
@@ -486,14 +515,6 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
         if (action in strategy) {
             strategy[action]();
         }
-    }
-
-    /**
-     * Создаёт событие "Настройки изменены"
-     * @param settings
-     */
-    generateSettingsChangedEvent(settings) {
-        this.onSettingChanged.next(settings);
     }
 
     isColumnResizable(col: IadGridColumn) {
@@ -621,14 +642,14 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
      * updates frozen sides information and saves settings
      * @param data
      */
-    private updateFrozenSidesInfo(data: IadGridColumnFrozen): void {
+    private updateFrozenAreasInfo(data: IadGridColumnFrozen): void {
         this.dt.frozenWidth = data.leftWidth;
         this.dt.frozenRightWidth = data.rightWidth;
         this.resize.next(<ResizeEvent>{
             frozenLeft: data.leftWidth,
             frozenRight: data.rightWidth
         });
-        this.generateSettingsChangedEvent(new CmsSetting('dgSidesInfo', data));
+        this.frozenAreasUpdated.next(data);
     }
 
     /**
