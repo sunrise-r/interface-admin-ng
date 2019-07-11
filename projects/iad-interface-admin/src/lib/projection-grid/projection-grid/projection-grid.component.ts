@@ -426,8 +426,10 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Handler of any column is sorted event
      * @param event
      */
-    onColumnSort(event: string) {
-        this.gridSettingsManager.saveSettings('sort', event);
+    onColumnSort(event: {value: string, field: string, order: number}) {
+        this.gridSettingsManager.config.set('sortField', event.field);
+        this.gridSettingsManager.config.set('sortOrder', event.order);
+        this.gridSettingsManager.saveSettings('sort', event.value);
     }
 
     /**

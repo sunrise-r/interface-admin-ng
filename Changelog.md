@@ -41,7 +41,7 @@
     /**
      * event, that is fired on any column is sorted
      */
-    @Output() columnSort = new EventEmitter<string>();
+    @Output() columnSort = new EventEmitter<{value: string, field: string, order: number}>();
     ```
 * GRID Refactoring of ProjectionGridComponent: added handlers to new BaseGridComponent's events
 

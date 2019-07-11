@@ -202,7 +202,7 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * event, that is fired on any column is sorted
      */
-    @Output() columnSort = new EventEmitter<string>();
+    @Output() columnSort = new EventEmitter<{value: string, field: string, order: number}>();
 
     /**
      * PrimeNg Table instance
@@ -397,23 +397,26 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
     /**
      * Handler to be called when column filter is fullfilled
+     * Do not reset filters in this method!
      * @param event
      * @param col
      */
     onColFilter(event: any, col: any) {
-        // this.dt.filters = {}; // commented to solve issue #1745
         this.resetFilter.next(FILTER_TYPE.GLOBAL);
         this.dt.filter(event.value, col.field, col.filterMatchMode);
         this.refresh();
     }
 
     /**
-     * При сортировке таблицы необходимо перезагружать данные
+     * Will send sort event to upper level
      * @param event
      */
     onSort(event: any) {
-        const sort = this.buildSort(event.field, event.order);
-        this.columnSort.emit(sort);
+        this.columnSort.emit({
+            value: this.buildSort(event.field, event.order),
+            field: event.field,
+            order: event.order
+        });
         this.refresh();
     }
 
