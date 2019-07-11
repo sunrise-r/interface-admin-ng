@@ -54,6 +54,11 @@
     [unSelectRow]="unSelectRow"
     [updateVisibility]="updateVisibility"
     [value]="value"
-    (onSettingChanged)="onSettingChanged($event)"
+    (columnResize)="onColumnResize($event)"
+    (columnFrozen)="onColumnFrozen($event)"
+    (columnFrozen)="onColumnFrozen($event)"
+    (frozenAreasUpdated)="onFrozenAreasUpdated($event)"
+    (columnReorder)="onColumnReorder($event)"
+    (columnSort)="onColumnSort($event)"
     (selectionChange)="onSelectionChange($event)"
 ></iad-base-grid>

@@ -21,7 +21,6 @@ export * from './lib/common/helpers/projections.helper';
 export * from './lib/iad-base-grid/model/iad-grid-column.model';
 export * from './lib/iad-base-grid/model/iad-grid-model';
 export * from './lib/iad-base-grid/model/column-components.model';
-export * from './lib/iad-base-grid/base-grid/cms-setting';
 export * from './lib/iad-base-grid/base-grid/base-grid-columns.service';
 export * from './lib/iad-base-grid/table-header-menu/table-header-menu.component';
 export * from './lib/iad-base-grid/base-grid/base-grid.component';
