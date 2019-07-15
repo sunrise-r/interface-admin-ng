@@ -12,16 +12,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { PrimeTemplate } from 'primeng/shared';
 
-import { DISABLED, IFormProjectionField, READONLY } from './model/form-projection-field.model';
-
-import { FormInput } from '../dynamic-form/core/form-input.model';
-import { InputFactory } from '../dynamic-form/core/input.factory';
-import { FormGroupChild, FormGroupChildColumn, FormInputGroup, FormInputGroupInterface } from '../dynamic-form/core/form-input-group';
-import { IadFormProjection, IadFormProjectionInterface } from './model/iad-form-projection.model';
-import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
-
-import { IadDataOperationsService } from './public-services/iad-data-operations.service';
-import { IadRouterHistoryService } from './public-services/iad-router-history.service';
+import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
+import { IadFormProjection } from './model/iad-form-projection.model';
+import { IadProjectionFormService, ProjectionFormHelper } from './iad-projection-form.service';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -32,6 +25,7 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
     selector: 'iad-projection-form',
     templateUrl: './iad-projection-form.component.html',
     styleUrls: ['./iad-projection-form.component.scss'],
+    providers: [IadProjectionFormService],
     encapsulation: ViewEncapsulation.None
 })
 export class IadProjectionFormComponent implements OnChanges {
@@ -51,14 +45,14 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() formProjection: IadFormProjection;
 
     /**
-     * Компоненты инпутов для передачи в модуль форм-билдера
+     * Column components to pass them to column td host
      */
-    @Input() inputComponents;
+    @Input() inputComponents: { [param: string]: any };
 
     /**
      * Модели конфигов для инпутов
      */
-    @Input() inputModels;
+    @Input() inputModels: any;
 
     /**
      * Raw data to fill the form
@@ -118,22 +112,7 @@ export class IadProjectionFormComponent implements OnChanges {
      */
     formInputGroup: FormInputGroup;
 
-    static checkFlattenDataState(field, def?: boolean): boolean {
-        let state: boolean;
-        if ('checkFlattenDataState' in field) {
-            state = (<FormInputGroupInterface>field).checkFlattenDataState();
-            return state !== undefined ? state : def || false;
-        }
-        // return false always when we deal with non-groups
-        return false;
-    }
-
-    constructor(
-        private iadDataOperationsService: IadDataOperationsService,
-        private iadRouterHistoryService: IadRouterHistoryService,
-        private referenceProjectionService: IadReferenceProjectionProviderService
-    ) {
-    }
+    constructor(private formProjectionService: IadProjectionFormService) {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if ('formProjectionSubject' in changes) {
@@ -152,156 +131,14 @@ export class IadProjectionFormComponent implements OnChanges {
      * Инициализирует форму с группами ProjectionReference и колонками column
      */
     initForm() {
-        const fields = this.formProjection.fields;
-        const referenceFields = this.findReferenceFields(fields);
-        if (referenceFields.length > 0) {
-            this.initSubForms(fields, referenceFields)
-                .then((formInputGroup) => {
-                    this.formInputGroup = formInputGroup;
-                })
-                .catch(err => {
-                    console.error(err);
-                });
-        } else {
-            this.formInputGroup = new FormInputGroup({children: this.initInputs(fields)});
-        }
-    }
-
-    /**
-     * filters Reference fields
-     */
-    findReferenceFields(fields: IFormProjectionField[]): IFormProjectionField[] {
-        return fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
-    }
-
-    /**
-     * Initialize reference form projections.
-     * If a field, referring on form projection is marked as plainReference, it's referred projection fields will be flatten
-     * @param fields
-     * @param referenceFields
-     */
-    initSubForms(fields: IFormProjectionField[], referenceFields: IFormProjectionField[]): Promise<FormInputGroup> {
-        // collect reference form projection codes
-        const requestParams = referenceFields.reduce((acu, field) => {
-            if (!acu[field.presentationCode]) {
-                acu[field.presentationCode] = [];
-            }
-            acu[field.presentationCode].push(field.referenceProjectionCode);
-            return acu;
-        }, {});
-        const plainReferenceCondition = function (cond, valid, invalid, field) {
-            return cond(field) ? valid(field) : invalid(field);
-        };
-
-        // Request reference form projections
-        return this.referenceProjectionService
-            .findProjectionsByName(requestParams)
-            .toPromise()
-            .then((data: { [param: string]: IadFormProjectionInterface }) => {
-                fields = fields.reduce((acu, field) => acu.concat(
-                    plainReferenceCondition(
-                        (_field) => IadProjectionFormComponent.checkFlattenDataState(_field, this.flattenData),
-                        (_field) => data[_field.presentationCode + '.' + _field.referenceProjectionCode].fields,
-                        (_field) => [_field], field)), []);
-                return new FormInputGroup({
-                    children: this.initFormGroupChildColumns(fields, field => this.initInputAndGroup(field, data))
-                });
-            });
-    }
-
-    /**
-     * Иницуиализация инпутов (будут преобразованы в FormControl)
-     * @param fields
-     * @param groupName
-     * @param flattenData
-     */
-    initInputs(fields: IFormProjectionField[], groupName?: string, flattenData?: boolean): FormGroupChildColumn[] {
-        return this.initFormGroupChildColumns(fields, field => this.initFormInput(field, groupName, flattenData));
-    }
-
-    /**
-     * Разбивает инпуты и группы по колонкам
-     * @param fields
-     * @param callback
-     */
-    initFormGroupChildColumns(fields: IFormProjectionField[], callback: FormGroupChildCallback): FormGroupChildColumn[] {
-        const result: FormGroupChildColumn[] = [];
-        let columns: FormGroupChildColumn = [];
-        fields.forEach((field: IFormProjectionField) => {
-            if (field.column && (field.column === 1 || field.column === 2)) {
-                columns.push(callback(field));
-                if (field.column === 2) {
-                    result.push(columns);
-                    columns = [];
-                }
-            } else {
-                if (columns.length > 0) {
-                    result.push(columns);
-                    columns = [];
-                }
-                const formGroupChild = callback(field);
-                if (formGroupChild) {
-                    result.push([formGroupChild]);
-                } else {
-                    console.error('No projections for ' + field.name);
-                }
-            }
-        });
-        return result;
-    }
-
-    /**
-     * Инициализирует список групп инпутов (будут преобразованы в FormGroup) и инпутов (будут преобразованы в FormControl)
-     * @param field
-     * @param groups
-     */
-    initInputAndGroup(field: IFormProjectionField, groups: { [param: string]: IadFormProjectionInterface }): FormGroupChild {
-        if (field.type === 'ProjectionReference') {
-            const dataKey = field.presentationCode + '.' + field.referenceProjectionCode;
-            if (groups[dataKey]) {
-                const group = new FormInputGroup({
-                    column: field.column,
-                    key: field.name,
-                    label: field.label,
-                    validators: field.validationTypes,
-                    translate: field.translate,
-                    properties: field.properties
-                });
-                return group.addChildren(this.initInputs(groups[dataKey].fields, field.name, group.checkFlattenDataState()));
-            }
-        } else {
-            return this.initFormInput(field);
-        }
-    }
-
-    /**
-     * Инициализирует FormInput для DTO (информации о поле проекции), который (будут преобразованы в FormControl)
-     * @param field
-     * @param groupName
-     * @param flattenData
-     */
-    initFormInput(field: IFormProjectionField, groupName?: string, flattenData?: boolean): FormInput<any> {
-        const options: any = {
-            column: field.column,
-            key: field.name,
-            label: field.label,
-            validators: field.validationTypes,
-            disabled: field.fieldInputType && field.fieldInputType === DISABLED,
-            readonly: field.fieldInputType && field.fieldInputType === READONLY,
-            value: field.defaultValue || '',
-            presentationCode: field.presentationCode || null,
-            lookupSourceProjectionCode: field.lookupSourceProjectionCode || null,
-            lookupViewProjectionCode: field.lookupViewProjectionCode || null,
-            referenceProjectionCode: field.referenceProjectionCode || null,
-            inputMask: field.inputMask || null,
-            valueField: field.valueField,
-            dataSourcePath: field.datasourcePath || field.dataSourcePath || null,
-            translate: field.translate || false
-        };
-        if (field.properties) {
-            Object.assign(options, field.properties);
-        }
-        return new InputFactory().initTypeFactory(this.inputModels).createInput(field.type, this.modifyOptions(options, groupName, flattenData));
+        this.formProjectionService.init({
+                formProjection: this.formProjection,
+                defaultSourcePath: this.defaultSourcePath,
+                flattenData: this.flattenData,
+                inputModels: this.inputModels,
+                rawFormData: this.rawFormData
+            })
+            .then(result => { this.formInputGroup = result; });
     }
 
     onFormSubmit(formValue: any) {
@@ -309,7 +146,7 @@ export class IadProjectionFormComponent implements OnChanges {
         // #89 flatten data for groups with flattenData Option or plainReference option
         (<FormInputGroup>this.formInputGroup).children
             .reduce((acu, childColumn: FormGroupChildColumn) => acu.concat(childColumn), [])
-            .filter((child: FormGroupChild) => IadProjectionFormComponent.checkFlattenDataState(child, this.flattenData))
+            .filter((child: FormGroupChild) => ProjectionFormHelper.checkFlattenDataState(child, this.flattenData))
             .map((child: FormGroupChild) => child.key)
             .forEach((key: string) => {
                 Object.assign(formValue, formValue[key]);
@@ -346,29 +183,5 @@ export class IadProjectionFormComponent implements OnChanges {
             });
         });
         return fileInputs;
-    }
-
-    /**
-     * Модифицирует опции перед передачей их в dynamic-form.component
-     * @param options
-     * @param groupName
-     * @param flattenData
-     */
-    private modifyOptions(options, groupName?: string, flattenData?: boolean): { [param: string]: any } {
-        if (!options.value && this.rawFormData) {
-            options.value = options.dataSourcePath
-                ? this.resolveItemsPath(options.dataSourcePath, this.rawFormData)
-                : (this.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') +
-                    ((!flattenData && !this.flattenData) && groupName ? groupName + '.' : '') +
-                    options.key, this.rawFormData));
-        }
-        return options;
-    }
-
-    /**
-     * Resolve source items for lookupViewProjections
-     */
-    private resolveItemsPath(path: string, dataSource: any): any {
-        return dataSource ? path.split('.').reduce((o, i) => (o ? o[i] : undefined), dataSource) : dataSource;
     }
 }

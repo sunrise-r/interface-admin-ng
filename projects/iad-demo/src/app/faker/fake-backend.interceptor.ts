@@ -17,6 +17,10 @@ import { dropdownValuesConditionCallback, DropdownValuesResponse } from './respo
 import { phonebookAddConditionCallback, PhonebookAddResponse } from './responses/phonebook-add.response';
 import { phonebookDeleteConditionCallback, PhonebookDeleteResponse } from './responses/phonebook-delete.response';
 import { autoCompleteValuesConditionCallback, AutoCompleteValuesResponse } from './responses/documents/api/auto-complete-values';
+import {
+    projectionSubReferenceConditionCallback,
+    ProjectionSubReferenceResponse
+} from './responses/cms/api/iad/projection-sub-reference.response';
 
 class FakerRegistry {
     constructor(
@@ -43,7 +47,8 @@ const registry = [
     new FakerRegistry(DropdownValuesResponse, dropdownValuesConditionCallback),
     new FakerRegistry(PhonebookAddResponse, phonebookAddConditionCallback),
     new FakerRegistry(PhonebookDeleteResponse, phonebookDeleteConditionCallback),
-    new FakerRegistry(AutoCompleteValuesResponse, autoCompleteValuesConditionCallback)
+    new FakerRegistry(AutoCompleteValuesResponse, autoCompleteValuesConditionCallback),
+    new FakerRegistry(ProjectionSubReferenceResponse, projectionSubReferenceConditionCallback)
 ];
 
 @Injectable()
