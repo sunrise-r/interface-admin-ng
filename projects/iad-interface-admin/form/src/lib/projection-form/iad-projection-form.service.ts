@@ -34,27 +34,31 @@ export class ProjectionFormHelper {
         return fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
     }
 
-    // collect reference form projection codes
-    static generateRequestParams(fields) {
+    /**
+     * collect reference form projection codes
+     * @param fields
+     * @param keyField
+     * @param valField
+     */
+    static generateRequestParams(fields, keyField: string, valField: string) {
         return fields.reduce((acu, field) => {
-            if (!acu[field.presentationCode]) {
-                acu[field.presentationCode] = [];
+            if (!acu[field[keyField]]) {
+                acu[field[keyField]] = [];
             }
-            acu[field.presentationCode].push(field.referenceProjectionCode);
+            acu[field[keyField]].push(field[valField]);
             return acu;
         }, {});
     }
 
-    // flatten data state condition check
+    /**
+     * flatten data state condition check
+     * @param cond
+     * @param valid
+     * @param invalid
+     * @param field
+     */
     static plainReferenceCondition(cond, valid, invalid, field) {
         return cond(field) ? valid(field) : invalid(field);
-    }
-
-    // Will exclude reference fields intersection, to find only new reference fields
-    static intersectReferenceFields(_prevFields, _newFields) {
-        return ProjectionFormHelper
-            .findReferenceFields(_newFields)
-            .filter((_f) => !_prevFields.some(_rf => _rf.name === _f.name));
     }
 }
 
@@ -132,8 +136,9 @@ export class IadProjectionFormService {
             return Promise.resolve({fields, referenceFields, data});
         }
         // Request reference form projections
+        const requestParams = ProjectionFormHelper.generateRequestParams(referenceFields, 'presentationCode', 'referenceProjectionCode');
         return this.referenceProjectionService
-            .findProjectionsByName(ProjectionFormHelper.generateRequestParams(referenceFields))
+            .findProjectionsByName(requestParams)
             .toPromise()
             .then((_data: { [param: string]: IadFormProjectionInterface }) => {
                 fields = fields.reduce((acu, field) => acu.concat(
