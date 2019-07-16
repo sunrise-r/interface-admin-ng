@@ -1,3 +1,7 @@
+# 1.0.7-alpha.69
+
+* GRID TabbedViewComponent is no more exist in iad
+
 # 1.0.7-alpha.68
 
 * FORM: Enhancement for nested (reference) forms. Forms made hierarchically nested
