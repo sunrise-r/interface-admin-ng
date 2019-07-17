@@ -1,12 +1,14 @@
 # 1.0.7@devel.71
 
-* GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) component instead of common
+* GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid
 
     ```html
     <iad-projection-grid
         [enablePerfectScroll]="true"
     ></iad-projection-grid>
     ```
+    
+    NOTE: It will make any sense only if enableInfiniteScroll is true and grid has absolute positioning with set up width and height;
 
 # 1.0.7-alpha.70
 
