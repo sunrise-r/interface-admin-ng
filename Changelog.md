@@ -1,10 +1,11 @@
-# 1.0.7@devel.71
+# 1.0.7@alpha.86
 
 * GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid
 
     ```html
     <iad-projection-grid
         [enablePerfectScroll]="true"
+        [enableInfiniteScroll]="true"
     ></iad-projection-grid>
     ```
     
