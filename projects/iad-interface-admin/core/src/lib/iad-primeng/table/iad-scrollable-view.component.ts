@@ -56,7 +56,7 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
         }
     }
     get scrollBodyViewChild(): ElementRef {
-        if (!this._scrollBodyViewChild && this.infiniteScrollContainer && this.enablePerfectScroll) {
+        if (!this._scrollBodyViewChild && !this.frozen && this.infiniteScrollContainer && this.enablePerfectScroll) {
             const nativeScrollBody = IadDomHandler.findSingle(this.el.nativeElement, this.infiniteScrollContainer.infiniteScrollContainer);
             if (nativeScrollBody) {
                 IadDomHandler.addClass(nativeScrollBody, 'ui-table-scrollable-body');
@@ -114,7 +114,9 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
             }
             this.resizeMainContainer(this.dt.frozenWidth, this.dt.frozenRightWidth);
         } else {
-            this.scrollBodyViewChild.nativeElement.style.marginBottom = IadDomHandler.calculateScrollbarWidth() + 'px';
+            if (!this.enablePerfectScroll) {
+                this.scrollBodyViewChild.nativeElement.style.marginBottom = IadDomHandler.calculateScrollbarWidth() + 'px';
+            }
             const scrollableViews = Array.from(scrollableWrapper.children).filter(
                 (node: HTMLElement) => !node.classList.contains('ui-table-frozen-view')
             );
@@ -211,8 +213,10 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     setScrollHeight() {
         super.setScrollHeight();
         if (!this.scrollHeight && this.scrollBodyViewChild && this.scrollBodyViewChild.nativeElement) {
-            const scrollHeight =
-                this.frozen && this.scrollableSiblingBody && IadDomHandler.hasHorizontalScrollbar(<HTMLElement>this.scrollableSiblingBody)
+            const scrollHeight = this.frozen
+                && !this.enablePerfectScroll
+                && this.scrollableSiblingBody
+                && IadDomHandler.hasHorizontalScrollbar(<HTMLElement>this.scrollableSiblingBody)
                     ? IadDomHandler.calculateScrollbarWidth()
                     : 0;
             let headerHeight = 0;
@@ -220,7 +224,7 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
                 headerHeight = IadDomHandler.getOuterHeight(this.scrollHeaderViewChild.nativeElement);
             }
             const height = 'calc(100% - ' + (headerHeight + scrollHeight) + 'px)';
-            if (this.enablePerfectScroll) {
+            if (this.enablePerfectScroll && !this.frozen) {
                 this.infiniteScrollContainerRef.nativeElement.style.maxHeight = height;
                 this.infiniteScrollContainerRef.nativeElement.style.height = height;
                 this.scrollBodyViewChild.nativeElement.style.maxHeight = '100%';
@@ -230,6 +234,18 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
                 this.scrollBodyViewChild.nativeElement.style.height = height;
             }
         }
+    }
+
+    alignScrollBar() {
+        if (!this.frozen) {
+            const scrollBarWidth = this.hasVerticalOverflow() && !this.enablePerfectScroll ? IadDomHandler.calculateScrollbarWidth() : 0;
+            this.scrollHeaderBoxViewChild.nativeElement.style.marginRight = scrollBarWidth + 'px';
+
+            if(this.scrollFooterBoxViewChild && this.scrollFooterBoxViewChild.nativeElement) {
+                this.scrollFooterBoxViewChild.nativeElement.style.marginRight = scrollBarWidth + 'px';
+            }
+        }
+        this.initialized = false;
     }
 
     /**
