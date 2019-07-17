@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, NgZone, AfterViewInit, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, AfterViewInit, OnDestroy, OnInit, ViewChild, forwardRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
@@ -43,14 +43,35 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     @Input() enablePerfectScroll: boolean;
 
     /**
-     * Perfect scroll contqainer when it is used
+     * Perfect scroll container when it is used
      */
-    @ViewChild('infiniteScrollContainer') infiniteScrollContainer: InfiniteScrollDirective;
+    @ViewChild(InfiniteScrollDirective, { read: InfiniteScrollDirective }) infiniteScrollContainer: InfiniteScrollDirective;
+    @ViewChild(InfiniteScrollDirective, { read: ElementRef }) infiniteScrollContainerRef: ElementRef;
+
+    @ViewChild('scrollBody')
+    set scrollBodyViewChild(scrollBodyViewChild: ElementRef) {
+        // to avoid undefined set from parent
+        if (scrollBodyViewChild) {
+            this._scrollBodyViewChild = scrollBodyViewChild;
+        }
+    }
+    get scrollBodyViewChild(): ElementRef {
+        if (!this._scrollBodyViewChild && this.infiniteScrollContainer && this.enablePerfectScroll) {
+            const nativeScrollBody = IadDomHandler.findSingle(this.el.nativeElement, this.infiniteScrollContainer.infiniteScrollContainer);
+            if (nativeScrollBody) {
+                IadDomHandler.addClass(nativeScrollBody, 'ui-table-scrollable-body');
+            }
+            this._scrollBodyViewChild = new ElementRef(nativeScrollBody);
+        }
+        return this._scrollBodyViewChild;
+    }
 
     /**
      * Контейнеры закреплённых колонок
      */
     frozenSiblingsScrollableBodies: Element[];
+
+    private _scrollBodyViewChild: ElementRef;
 
     constructor(
         public dt: IadTableComponent,
@@ -73,13 +94,6 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     }
 
     ngAfterViewInit() {
-        // НЕ РАБОТАЕТ VVV
-        if (this.infiniteScrollContainer) {
-            this.scrollBodyViewChild = IadDomHandler.findSingle(this.el.nativeElement, this.infiniteScrollContainer.infiniteScrollContainer);
-            if (this.scrollBodyViewChild) {
-                IadDomHandler.addClass(this.scrollBodyViewChild, 'ui-table-scrollable-body');
-            }
-        }
         const scrollableWrapper = <HTMLElement>this.el.nativeElement.parentNode;
         this.dt.doRefresh.subscribe(() => {
             this.scrollTop();
@@ -206,8 +220,15 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
                 headerHeight = IadDomHandler.getOuterHeight(this.scrollHeaderViewChild.nativeElement);
             }
             const height = 'calc(100% - ' + (headerHeight + scrollHeight) + 'px)';
-            this.scrollBodyViewChild.nativeElement.style.maxHeight = height;
-            this.scrollBodyViewChild.nativeElement.style.height = height;
+            if (this.enablePerfectScroll) {
+                this.infiniteScrollContainerRef.nativeElement.style.maxHeight = height;
+                this.infiniteScrollContainerRef.nativeElement.style.height = height;
+                this.scrollBodyViewChild.nativeElement.style.maxHeight = '100%';
+                this.scrollBodyViewChild.nativeElement.style.height = '100%';
+            } else {
+                this.scrollBodyViewChild.nativeElement.style.maxHeight = height;
+                this.scrollBodyViewChild.nativeElement.style.height = height;
+            }
         }
     }
 
