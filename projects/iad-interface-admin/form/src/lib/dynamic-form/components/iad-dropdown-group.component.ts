@@ -6,7 +6,7 @@ import { ContextAware } from '../core/context-aware';
 
 @Component({
     selector: 'iad-dropdown-group',
-    styleUrls: ['iad-dropdown-group.component.scss'],
+    styleUrls: ['./iad-dropdown-group.component.scss'],
     template: `
         <ng-container [formGroup]="group">
             <ng-template [ngIf]="config.collapsable" [ngIfThen]="collapsableTemplate" [ngIfElse]="childGroupTemplate"></ng-template>
