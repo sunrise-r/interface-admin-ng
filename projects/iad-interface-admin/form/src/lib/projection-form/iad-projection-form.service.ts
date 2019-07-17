@@ -138,7 +138,7 @@ export class IadProjectionFormService {
         // Request reference form projections
         const requestParams = ProjectionFormHelper.generateRequestParams(referenceFields, 'presentationCode', 'referenceProjectionCode');
         return this.referenceProjectionService
-            .findProjectionsByName(requestParams)
+            .findFormProjectionsByName(requestParams)
             .toPromise()
             .then((_data: { [param: string]: IadFormProjectionInterface }) => {
                 fields = fields.reduce((acu, field) => acu.concat(
