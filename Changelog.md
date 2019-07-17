@@ -1,4 +1,4 @@
-# 1.0.7@devel.63
+# 1.0.7@devel.71
 
 * GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) component instead of common
 
@@ -8,7 +8,19 @@
     ></iad-projection-grid>
     ```
 
-# 1.0.7@alpha.67
+# 1.0.7-alpha.70
+
+* FORM findProjectionByName changed to findFormProjectionByName
+
+# 1.0.7-alpha.69
+
+* GRID TabbedViewComponent is no more exist in iad
+
+# 1.0.7-alpha.68
+
+* FORM: Enhancement for nested (reference) forms. Forms made hierarchically nested
+
+# 1.0.7-alpha.67
 
 * GRID: Refactoring of BaseGridComponent:
 

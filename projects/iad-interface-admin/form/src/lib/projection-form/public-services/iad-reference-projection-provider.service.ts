@@ -7,8 +7,16 @@ import { IadReferenceProjectionProviderInterface } from '../iad-reference-projec
     providedIn: 'root'
 })
 export class IadReferenceProjectionProviderService implements IadReferenceProjectionProviderInterface {
-    findProjectionsByName(input: { [p: string]: string | string[] }): Observable<{ [p: string]: IadFormProjectionInterface }> {
+    findFormProjectionsByName(input: { [p: string]: string | string[] }): Observable<{ [p: string]: IadFormProjectionInterface }> {
         console.error('IadReferenceProjectionProviderService is not implemented!');
         return undefined;
+    }
+
+    /**
+     * @deprecated
+     * @param input
+     */
+    findProjectionsByName(input: { [p: string]: string | string[] }): Observable<{ [p: string]: IadFormProjectionInterface }> {
+        return this.findFormProjectionsByName(input);
     }
 }
