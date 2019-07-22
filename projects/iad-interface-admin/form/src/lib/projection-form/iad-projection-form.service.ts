@@ -213,7 +213,7 @@ export class IadProjectionFormService {
             properties: field.properties
         });
         return group.addChildren(this.initFormGroupChildColumns(groups[dataKey].fields, _field => (
-            this.initInputAndGroup(_field, groups, _field.name, group.checkFlattenDataState())
+            this.initInputAndGroup(_field, groups, field.name, group.checkFlattenDataState())
         )));
     }
 
