@@ -1,3 +1,10 @@
+# 1.0.7-alpha.72
+
+* GRID ReferenceProjection field name is used as group name instead of inner field names to create
+* GRID removed IadProjectionLoadService from iad	pavel.a	23.07.2019 09:51
+* FORM removed IadRouterHistoryService from iad
+* FORM exported IadFieldValuesService from iad
+
 # 1.0.7-alpha.69
 
 * GRID TabbedViewComponent is no more exist in iad
