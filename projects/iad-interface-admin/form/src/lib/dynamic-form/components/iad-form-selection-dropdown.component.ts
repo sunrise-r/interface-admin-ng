@@ -85,12 +85,19 @@ export class IadFormSelectionDropdownComponent extends ValidationInput implement
             } else {
                 return Promise.resolve(values.map(value => ({
                     label: value,
-                    value: value
+                    value
                 })));
             }
         }
         if (this.config.valuesUrl) {
-            return this.fieldValuesService.retrieveFieldMap(this.config.valuesUrl).toPromise();
+            return this.fieldValuesService.retrieveFieldMap(this.config.valuesUrl)
+                .toPromise()
+                .then(data => {
+                    return data.map(item => ({
+                        label: item[this.config.labelField],
+                        value: item[this.config.valueField]
+                    }));
+                });
         }
         return Promise.resolve(values);
     }

@@ -6,6 +6,7 @@ export * from './lib/shared/util/request-params-builder';
 export * from './lib/shared/helpers/string.helper';
 export * from './lib/shared/helpers/iad.helper';
 export * from './lib/shared/iad-shared.module';
+export * from './lib/shared/tooltip-notifier/tooltip-notifier.component';
 
 // Primeng Extensions
 export * from './lib/iad-primeng/table/iad-table-models';
