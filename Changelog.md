@@ -11,6 +11,10 @@
     
     NOTE: It will make any sense only if enableInfiniteScroll is true and grid has absolute positioning with set up width and height;
 
+# 1.0.7-alpha.73
+
+* FORM Now possible to set fieldTypes for fields in projection-form lowerCamelCase
+
 # 1.0.7-alpha.72
 
 * GRID ReferenceProjection field name is used as group name instead of inner field names to create
