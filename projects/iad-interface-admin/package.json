@@ -3,7 +3,7 @@
   "publishConfig": {
     "registry": "http://37.1.83.184:84/repository/npm-sunrise/"
   },
-  "version": "1.0.7-alpha.73",
+  "version": "1.0.7-alpha.74",
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0",

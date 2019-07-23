@@ -1,3 +1,9 @@
+# 1.0.7-alpha.74
+
+* FORM added export of all dynamic form models and components
+* FORM added dropdown options valueField: string; and  labelField: string;
+* FORM added date and datetime option dateFormat: string; to set displaying date
+
 # 1.0.7-alpha.73
 
 * FORM Now possible to set fieldTypes for fields in projection-form lowerCamelCase

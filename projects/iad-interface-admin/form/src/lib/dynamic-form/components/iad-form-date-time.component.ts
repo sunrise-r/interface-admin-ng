@@ -14,17 +14,17 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
           <div class="input-wrapper input-group">
             <iad-calendar
               class="custom-form-control"
+              [dateFormat]="config.dateFormat"
+              [enableTranslations]="true"
               [formControlName]="config | formatInputName"
               [id]="config.key"
-              [enableTranslations]="true"
+              [monthNavigator]="true"
               [readonlyInput]="config.readonly"
               [showTime]="true"
-              [monthNavigator]="true"
               [yearNavigator]="true"
               inputStyleClass="form-control form-control-thin"
               yearRange="1931:2040"
               styleClass="iad-calendar"
-              dateFormat="dd.mm.yy"
               (onBlur)="onBlur()"></iad-calendar>
             <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                   caption="Ошибка!" [text]="error" [activated]="true">
