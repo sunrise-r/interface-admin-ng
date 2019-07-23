@@ -14,6 +14,7 @@ col-form-label">{{config.translate ? (config.label | translate) : config.label}}
           <div class="input-wrapper input-group">
             <iad-calendar
               class="custom-form-control"
+              [dataType]="config.dataType"
               [dateFormat]="config.dateFormat"
               [enableTranslations]="true"
               [formControlName]="config | formatInputName"
