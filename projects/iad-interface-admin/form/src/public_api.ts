@@ -5,6 +5,7 @@ export * from './lib/dynamic-form/core/form-input-group';
 export * from './lib/dynamic-form/core/input.factory';
 export * from './lib/dynamic-form/core/form-input.model';
 export * from './lib/dynamic-form/dynamic-form.module';
+export * from './lib/dynamic-form/services/iad-field-values.service';
 
 // projection form
 export * from './lib/projection-form/model/iad-form-projection.model';
