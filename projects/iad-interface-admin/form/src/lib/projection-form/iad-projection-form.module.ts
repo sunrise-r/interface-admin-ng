@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule, Provider } from '@angular/core';
 
 import { IadSharedModule, IadModuleConfigInterface, IadModuleConfig, IadConfigService } from 'iad-interface-admin/core';
-import { IadRouterHistoryService } from './public-services/iad-router-history.service';
 import { DynamicFormModule } from '../dynamic-form/dynamic-form.module';
 import { IadProjectionFormComponent } from './iad-projection-form.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,7 +49,7 @@ export class IadProjectionFormModule {
         };
     }
 
-    constructor(translate: TranslateService, config: IadConfigService, iadRouterHistoryService: IadRouterHistoryService) {
+    constructor(translate: TranslateService, config: IadConfigService) {
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang(config.getConfig().defaultI18nLang);
 
