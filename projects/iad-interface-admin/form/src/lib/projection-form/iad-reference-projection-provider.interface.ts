@@ -8,10 +8,4 @@ export interface IadReferenceProjectionProviderInterface {
      * @param input
      */
     findFormProjectionsByName?: (input: { [param: string]: string | string[] }) => Observable<{ [param: string]: IadFormProjectionInterface }>;
-
-    /**
-     * @deprecated
-     * @param input
-     */
-    findProjectionsByName?: (input: { [param: string]: string | string[] }) => Observable<{ [param: string]: IadFormProjectionInterface }>;
 }

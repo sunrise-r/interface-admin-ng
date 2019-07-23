@@ -11,12 +11,4 @@ export class IadReferenceProjectionProviderService implements IadReferenceProjec
         console.error('IadReferenceProjectionProviderService is not implemented!');
         return undefined;
     }
-
-    /**
-     * @deprecated
-     * @param input
-     */
-    findProjectionsByName(input: { [p: string]: string | string[] }): Observable<{ [p: string]: IadFormProjectionInterface }> {
-        return this.findFormProjectionsByName(input);
-    }
 }

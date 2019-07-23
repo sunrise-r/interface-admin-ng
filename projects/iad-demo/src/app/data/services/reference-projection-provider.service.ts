@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IadFormProjectionInterface, IadReferenceProjectionProviderInterface } from 'iad-interface-admin/form';
-import { IadProjectionLoadService } from 'iad-interface-admin';
+import { IadProjectionLoadService } from './iad-projection-load.service';
 
 @Injectable({
     providedIn: 'root'

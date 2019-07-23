@@ -11,6 +11,13 @@
     
     NOTE: It will make any sense only if enableInfiniteScroll is true and grid has absolute positioning with set up width and height;
 
+# 1.0.7-alpha.72
+
+* GRID ReferenceProjection field name is used as group name instead of inner field names to create
+* GRID removed IadProjectionLoadService from iad	pavel.a	23.07.2019 09:51
+* FORM removed IadRouterHistoryService from iad
+* FORM exported IadFieldValuesService from iad
+
 # 1.0.7-alpha.70
 
 * FORM findProjectionByName changed to findFormProjectionByName
