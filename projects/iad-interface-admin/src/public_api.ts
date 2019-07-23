@@ -5,9 +5,6 @@
 export * from './lib/model/iad-interfaces';
 export * from './lib/model/iad-model';
 
-// #Service
-export * from './lib/public-services/iad-projection-load.service';
-
 // #Utils
 
 // #Common
