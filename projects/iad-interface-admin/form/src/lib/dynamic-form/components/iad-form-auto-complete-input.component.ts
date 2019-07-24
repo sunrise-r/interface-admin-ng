@@ -15,11 +15,12 @@ import {IadFieldValuesService} from '../services/iad-field-values.service';
                 <div class="input-wrapper input-group">
                     <p-autoComplete class="custom-form-control"
                                     [id]="config.key"
+                                    [forceSelection]="config.forceSelection"
+                                    [formControlName]="config.key"
+                                    [multiple]="config.multiple"
                                     [readonly]="config.readonly"
                                     [required]="config.required"
-                                    [formControlName]="config.key"
                                     [suggestions]="suggestions"
-                                    [multiple]="config.multiple"
                                     (completeMethod)="suggestionValues($event.query)"
                                     (onBlur)="onBlur()">
                     </p-autoComplete>
