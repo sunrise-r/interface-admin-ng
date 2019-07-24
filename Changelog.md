@@ -1,3 +1,8 @@
+# 1.0.7-alpha.75
+
+* FORM added support for selection-restricted values for autocomplete
+* GRID changed minimum input length for delete action in action column
+
 # 1.0.7-alpha.74
 
 * FORM added export of all dynamic form models and components

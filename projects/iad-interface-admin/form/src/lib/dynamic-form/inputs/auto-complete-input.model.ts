@@ -11,6 +11,7 @@ export class AutoCompleteInput extends FormInput<string> {
     type: string;
     valuesUrl: string;
     multiple: boolean;
+    forceSelection: string; // will limit autocomplete values with only selectable values
 
     constructor(options: {} = {}) {
         super(options);
@@ -20,5 +21,6 @@ export class AutoCompleteInput extends FormInput<string> {
         this.type = options['type'] || '';
         this.valuesUrl = options['valuesUrl'];
         this.multiple = options['multiple'] || false;
+        this.forceSelection = options['forceSelection'] || false;
     }
 }
