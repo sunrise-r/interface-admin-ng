@@ -74,7 +74,7 @@ export class ActionsColumnComponent implements TableTdContentInterface {
     showDeleteUserDialog() {
         this.confirmationService.confirm({
             message: null,
-            key: ('delete#' + this.col.properties['projectionCode']).substr(0, 40),
+            key: 'delete#' + this.col.properties['projectionCode'],
             accept: () => this.deleteUser()
         });
     }
