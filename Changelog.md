@@ -1,3 +1,10 @@
+# 1.0.7-alpha.77
+
+* Form Export of DynamicFormComponent
+* Form disableTemplate option will disable form footr when set to true
+* Form added outgoing valueChanges event
+
+
 # 1.0.7-alpha.75
 
 * FORM added support for selection-restricted values for autocomplete
