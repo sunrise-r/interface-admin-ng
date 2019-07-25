@@ -1,14 +1,14 @@
 import {
-  AfterContentInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges, OnDestroy,
-  OnInit,
-  Output,
-  QueryList,
-  SimpleChanges,
-  TemplateRef
+    AfterContentInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges, OnDestroy,
+    OnInit,
+    Output,
+    QueryList,
+    SimpleChanges,
+    TemplateRef
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
@@ -17,7 +17,7 @@ import { PrimeTemplate } from 'primeng/shared';
 import { FormControlService } from './form-control.service';
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from './core/form-input-group';
 import { FormErrorsStringifyService, FormHelperService } from 'iad-interface-admin/core';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'iad-dynamic-form',
@@ -41,6 +41,11 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     @Input() context: any;
 
     /**
+     * Disable footer option.
+     */
+    @Input() disableFooter: boolean;
+
+    /**
      * Customized form Footer template
      */
     @Input() formTemplates: QueryList<PrimeTemplate>;
@@ -61,9 +66,14 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
 
     /**
-     * Событие отмены
+     * Form cancel event
      */
     @Output() formCancel: EventEmitter<any> = new EventEmitter<any>();
+
+    /**
+     * Form values change outgoing event
+     */
+    @Output() valueChanges: EventEmitter<any> = new EventEmitter<any>();
 
     /**
      * Форма
@@ -91,7 +101,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
         private fcs: FormControlService,
         private formErrorsStringify: FormErrorsStringifyService,
         private formHelper: FormHelperService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.formErrorsStringify.errors.subscribe(errors => {
@@ -109,36 +120,37 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
         }
         if ('formInputGroup' in changes) {
             if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
-              this.formValueChangesSbt.unsubscribe();
+                this.formValueChangesSbt.unsubscribe();
             }
             this.form = this.fcs.toFormGroup(this.formInputGroup);
             this.formValueChangesSbt = this.form.valueChanges.subscribe(() => {
-              if (!this.context) {
-                this.context = {};
-              }
-              Object.keys(this.form.value).forEach(k => (this.context[k] = this.form.value[k]));
-              this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
-              this.addFormErrors();
+                if (!this.context) {
+                    this.context = {};
+                }
+                Object.keys(this.form.value).forEach(k => (this.context[k] = this.form.value[k]));
+                this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
+                this.valueChanges.emit(this.form.value);
+                this.addFormErrors();
             });
         }
     }
 
     ngAfterContentInit(): void {
-      if(this.formTemplates) {
-        this.formTemplates.forEach(item => {
-          switch (item.getType()) {
-            case 'footer':
-              this.formFooter = item.template;
-              break;
-          }
-        });
-      }
+        if (this.formTemplates) {
+            this.formTemplates.forEach(item => {
+                switch (item.getType()) {
+                    case 'footer':
+                        this.formFooter = item.template;
+                        break;
+                }
+            });
+        }
     }
 
     ngOnDestroy(): void {
-      if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
-        this.formValueChangesSbt.unsubscribe();
-      }
+        if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
+            this.formValueChangesSbt.unsubscribe();
+        }
     }
 
     addFormErrors() {

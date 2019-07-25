@@ -32,6 +32,7 @@
         <ng-template [ngTemplateOutlet]="submitBtnTpl" [ngTemplateOutletContext]="{styleClass: 'btn btn-primary'}"></ng-template>
       </div>
     </ng-template>
-
-    <ng-template [ngTemplateOutlet]="formFooter || defaultFormFooter" [ngTemplateOutletContext]="{cancelBtnTpl: cancelBtn, submitBtnTpl: submitBtn, errors: errors, form: form}"></ng-template>
+    <ng-template [ngIf]="!disableFooter">
+        <ng-template [ngTemplateOutlet]="formFooter || defaultFormFooter" [ngTemplateOutletContext]="{cancelBtnTpl: cancelBtn, submitBtnTpl: submitBtn, errors: errors, form: form}"></ng-template>
+    </ng-template>
 </form>

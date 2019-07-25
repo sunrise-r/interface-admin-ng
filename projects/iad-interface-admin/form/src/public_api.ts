@@ -1,12 +1,3 @@
-// Dynamic form
-export * from './lib/dynamic-form/core/context-aware';
-export * from './lib/dynamic-form/core/validation-input';
-export * from './lib/dynamic-form/core/form-input-group';
-export * from './lib/dynamic-form/core/input.factory';
-export * from './lib/dynamic-form/core/form-input.model';
-export * from './lib/dynamic-form/dynamic-form.module';
-export * from './lib/dynamic-form/services/iad-field-values.service';
-
 // Dynamic form components
 export * from './lib/dynamic-form/components/iad-dropdown-group.component';
 export * from './lib/dynamic-form/components/iad-form-checkbox.component';
@@ -37,6 +28,16 @@ export * from './lib/dynamic-form/inputs/rich-editor-input.model';
 export * from './lib/dynamic-form/inputs/text-input.model';
 export * from './lib/dynamic-form/inputs/text-input-translated.model';
 export * from './lib/dynamic-form/inputs/textarea-input.model';
+
+// Dynamic form
+export * from './lib/dynamic-form/core/context-aware';
+export * from './lib/dynamic-form/core/validation-input';
+export * from './lib/dynamic-form/core/form-input-group';
+export * from './lib/dynamic-form/core/input.factory';
+export * from './lib/dynamic-form/core/form-input.model';
+export * from './lib/dynamic-form/dynamic-form.component';
+export * from './lib/dynamic-form/services/iad-field-values.service';
+export * from './lib/dynamic-form/dynamic-form.module';
 
 // projection form
 export * from './lib/projection-form/model/iad-form-projection.model';
