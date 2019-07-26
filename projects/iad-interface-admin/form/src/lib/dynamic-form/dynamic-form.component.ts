@@ -41,9 +41,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     @Input() context: any;
 
     /**
-     * Disable footer option.
+     * When form is nested than it has other parent form.
+     * Set this parameter to disable <form></form> tag and form buttons for current fieldset
      */
-    @Input() disableFooter: boolean;
+    @Input() isNestedForm: boolean;
 
     /**
      * Customized form Footer template

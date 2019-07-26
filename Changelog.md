@@ -1,7 +1,11 @@
+# 1.0.7-alpha.78
+
+* Form disableFooter changed to isNestedForm. It will not only disable form footer, but also disable the whole <form> tag, leaving clear <fieldset> inner content 
+
 # 1.0.7-alpha.77
 
 * Form Export of DynamicFormComponent
-* Form disableTemplate option will disable form footr when set to true
+* Form disableFooter option will disable form footr when set to true
 * Form added outgoing valueChanges event
 
 
