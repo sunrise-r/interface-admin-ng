@@ -14,7 +14,7 @@ import { IadGridColumn } from '../model/iad-grid-column.model';
             <a *ngIf="display('edit')" [href]="editUrl">
                 <fa-icon [icon]="'edit'" [size]="'1x'" style="color: dimgray"></fa-icon>
             </a>
-            <a *ngIf="display('delete')" (click)="showDeleteUserDialog()">
+            <a *ngIf="display('delete')" (click)="showDeleteRecordDialog()">
                 <fa-icon [icon]="'trash'" [size]="'1x'" style="color: dimgray"></fa-icon>
             </a>
             <button class="btn" *ngIf="display('button')" (click)="broadcastButtonEvent()">
@@ -57,7 +57,7 @@ export class ActionsColumnComponent implements TableTdContentInterface {
         return this.col.properties['translatedButtonName'];
     }
 
-    deleteUser() {
+    broadcastDeleteRecordConfirm() {
         let deleteUrl: string = <string>this.col.properties['deleteUrl'];
         if (!deleteUrl.endsWith('\/')) {
             deleteUrl += '\/';
@@ -71,11 +71,11 @@ export class ActionsColumnComponent implements TableTdContentInterface {
             }, error => {});
     }
 
-    showDeleteUserDialog() {
+    showDeleteRecordDialog() {
         this.confirmationService.confirm({
             message: null,
-            key: ('delete#' + this.col.properties['projectionCode']).substr(0, 40),
-            accept: () => this.deleteUser()
+            key: 'delete#' + this.col.properties['projectionCode'],
+            accept: () => this.broadcastDeleteRecordConfirm()
         });
     }
 
