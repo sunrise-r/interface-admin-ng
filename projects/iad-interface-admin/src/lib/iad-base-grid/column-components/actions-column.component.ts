@@ -41,7 +41,7 @@ export class ActionsColumnComponent implements TableTdContentInterface {
             return '';
         }
         const editUrlParam: string = <string>this.col.properties['editUrl'];
-        return '/#' + (editUrlParam[0] === '\/' ? '' : '\/') + editUrlParam
+        return '#' + (editUrlParam[0] === '\/' ? '' : '\/') + editUrlParam
             + (editUrlParam[editUrlParam.length - 1] === '\/' ? '' : '\/') + this.rowData['id'];
     }
 
