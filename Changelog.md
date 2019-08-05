@@ -1,4 +1,4 @@
-# 1.0.7@alpha.88
+# 1.0.8@alpha.88
 
 * GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid
 
