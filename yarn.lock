@@ -4272,6 +4272,13 @@ ngx-infinite-scroll@7.1.0:
   dependencies:
     opencollective-postinstall "^2.0.2"
 
+ngx-perfect-scrollbar@~7.2.1:
+  version "7.2.1"
+  resolved "http://37.1.83.184:84/repository/npm-group/ngx-perfect-scrollbar/-/ngx-perfect-scrollbar-7.2.1.tgz#72cbbba6bc75b4836fa0300760d2d69ed41d241c"
+  dependencies:
+    perfect-scrollbar "^1.4.0"
+    resize-observer-polyfill "^1.5.0"
+
 ngx-webstorage-service@~4.0.1:
   version "4.0.1"
   resolved "http://37.1.83.184:84/repository/npm-group/ngx-webstorage-service/-/ngx-webstorage-service-4.0.1.tgz#3b26e6cbcdef831db38cd94b206ec59ee07aa4b6"
@@ -4884,6 +4891,10 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+perfect-scrollbar@^1.4.0:
+  version "1.4.0"
+  resolved "http://37.1.83.184:84/repository/npm-group/perfect-scrollbar/-/perfect-scrollbar-1.4.0.tgz#5d014ef9775e1f43058a1dbae9ed1daf0e7091f1"
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -5437,6 +5448,10 @@ require-main-filename@^1.0.1:
 requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+
+resize-observer-polyfill@^1.5.0:
+  version "1.5.1"
+  resolved "http://37.1.83.184:84/repository/npm-group/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
 
 resolve-cwd@^2.0.0:
   version "2.0.0"

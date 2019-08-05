@@ -1,3 +1,16 @@
+# 1.0.7@alpha.88
+
+* GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid
+
+    ```html
+    <iad-projection-grid
+        [enablePerfectScroll]="true"
+        [enableInfiniteScroll]="true"
+    ></iad-projection-grid>
+    ```
+    
+    NOTE: It will make any sense only if enableInfiniteScroll is true and grid has absolute positioning with set up width and height;
+
 # 1.0.7-alpha.78
 
 * Form disableFooter changed to isNestedForm. It will not only disable form footer, but also disable the whole <form> tag, leaving clear <fieldset> inner content 
@@ -30,6 +43,10 @@
 * GRID removed IadProjectionLoadService from iad	pavel.a	23.07.2019 09:51
 * FORM removed IadRouterHistoryService from iad
 * FORM exported IadFieldValuesService from iad
+
+# 1.0.7-alpha.70
+
+* FORM findProjectionByName changed to findFormProjectionByName
 
 # 1.0.7-alpha.69
 
@@ -88,7 +105,7 @@
 
 * GRID Removed CmsSetting class
 
-# 1.0.7@alpha.62
+# 1.0.7@devel.62
 
 * GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
 

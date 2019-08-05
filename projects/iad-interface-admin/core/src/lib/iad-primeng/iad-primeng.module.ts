@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
-// import { IadSharedModule } from '../shared/iad-shared.module';
+import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 // Original
 import { TableModule } from 'primeng/table';
@@ -34,6 +34,13 @@ import { IadTableComponent } from './table/iad-table.component';
 import { TableKeysDirective } from './table-keys/table-keys.directive';
 import { TooltipDirective } from './tooltip/tooltip.directive';
 
+
+export const IAD_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+    wheelSpeed: 0.25,
+    wheelPropagation: true,
+    minScrollbarLength: 20
+};
+
 @NgModule({
     imports: [
         CommonModule,
@@ -54,7 +61,8 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
         EditorModule,
         DropdownModule,
         FontAwesomeModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        PerfectScrollbarModule
     ],
     declarations: [
         IadScrollableViewComponent,
@@ -83,7 +91,10 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
         CalendarComponent,
         TooltipDirective
     ],
-    providers: [ConfirmationService],
+    providers: [
+        ConfirmationService,
+        {provide: PERFECT_SCROLLBAR_CONFIG, useValue: IAD_PERFECT_SCROLLBAR_CONFIG}
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IadPrimengModule {}

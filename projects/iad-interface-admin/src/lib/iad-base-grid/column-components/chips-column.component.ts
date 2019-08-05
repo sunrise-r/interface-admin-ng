@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'iad-chips-column',
-    styleUrls: ['chips-column.component.scss'],
+    styleUrls: ['./chips-column.component.scss'],
     template: `
         <div>
             <p-chips [(ngModel)]="values" (ngModelChange)="valuesChanged()"></p-chips>
