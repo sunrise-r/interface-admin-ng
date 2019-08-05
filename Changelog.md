@@ -1,4 +1,111 @@
-# 1.0.7@alpha.62
+# 1.0.7@alpha.88
+
+* GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid
+
+    ```html
+    <iad-projection-grid
+        [enablePerfectScroll]="true"
+        [enableInfiniteScroll]="true"
+    ></iad-projection-grid>
+    ```
+    
+    NOTE: It will make any sense only if enableInfiniteScroll is true and grid has absolute positioning with set up width and height;
+
+# 1.0.7-alpha.78
+
+* Form disableFooter changed to isNestedForm. It will not only disable form footer, but also disable the whole <form> tag, leaving clear <fieldset> inner content 
+
+# 1.0.7-alpha.77
+
+* Form Export of DynamicFormComponent
+* Form disableFooter option will disable form footr when set to true
+* Form added outgoing valueChanges event
+
+
+# 1.0.7-alpha.75
+
+* FORM added support for selection-restricted values for autocomplete
+* GRID changed minimum input length for delete action in action column
+
+# 1.0.7-alpha.74
+
+* FORM added export of all dynamic form models and components
+* FORM added dropdown options valueField: string; and  labelField: string;
+* FORM added date and datetime option dateFormat: string; to set displaying date
+
+# 1.0.7-alpha.73
+
+* FORM Now possible to set fieldTypes for fields in projection-form lowerCamelCase
+
+# 1.0.7-alpha.72
+
+* GRID ReferenceProjection field name is used as group name instead of inner field names to create
+* GRID removed IadProjectionLoadService from iad	pavel.a	23.07.2019 09:51
+* FORM removed IadRouterHistoryService from iad
+* FORM exported IadFieldValuesService from iad
+
+# 1.0.7-alpha.70
+
+* FORM findProjectionByName changed to findFormProjectionByName
+
+# 1.0.7-alpha.69
+
+* GRID TabbedViewComponent is no more exist in iad
+
+# 1.0.7-alpha.68
+
+* FORM: Enhancement for nested (reference) forms. Forms made hierarchically nested
+
+# 1.0.7-alpha.67
+
+* GRID: Refactoring of BaseGridComponent:
+
+    Removed:
+    
+    ```typescript
+    /**
+     * Internal settings changed event
+     */
+    @Output() onSettingChanged: EventEmitter<CmsSetting> = new EventEmitter<CmsSetting>();
+    ```
+
+    Added:
+    
+    ```typescript
+    /**
+     * event, that fired on column size change
+     * will propagate object with column names as keys and sizes as value;
+     */
+    @Output() columnResize = new EventEmitter<{ [param: string]: string | number }>();
+
+    /**
+     * event, that is fired on any column is dynamically made frozen
+     * will propagate array with field name, frozen state and frozen area for each column
+     */
+    @Output() columnFrozen = new EventEmitter<IadGridColumnFrozenField[]>();
+
+    /**
+     * event, that is fired when we need to update frozen areas sizes
+     * will propagate object containing rightWidth: string, public leftWidth: string
+     */
+    @Output() frozenAreasUpdated = new EventEmitter<IadGridColumnFrozen>();
+
+    /**
+     * event, that is fired on any column position is changed in a drag and drop way
+     * will propagate columns array
+     */
+    @Output() columnReorder = new EventEmitter<any[]>();
+
+    /**
+     * event, that is fired on any column is sorted
+     */
+    @Output() columnSort = new EventEmitter<{value: string, field: string, order: number}>();
+    ```
+* GRID Refactoring of ProjectionGridComponent: added handlers to new BaseGridComponent's events
+
+* GRID Removed CmsSetting class
+
+# 1.0.7@devel.62
 
 * GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
 

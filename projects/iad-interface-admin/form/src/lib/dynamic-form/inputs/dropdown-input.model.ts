@@ -6,6 +6,8 @@ export class DropdownInputModel extends FormInput<string> {
     values: string[];
     translatePrefix: string;
     valuesUrl: string;
+    valueField: string;
+    labelField: string;
     showClear: boolean;
 
     constructor(options: {} = {}) {
@@ -15,5 +17,7 @@ export class DropdownInputModel extends FormInput<string> {
         this.valuesUrl = options['valuesUrl'];
         this.value = options['value'];
         this.showClear = options['showClear'];
+        this.valueField = options['valueField'] || 'value';
+        this.labelField = options['labelField'] || 'label';
     }
 }

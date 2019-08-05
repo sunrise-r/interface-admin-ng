@@ -8,8 +8,13 @@ export class DateTimeInput extends FormInput<string> implements FormatValueInter
     validators: {
         required?: boolean;
     };
+    dataType: string;
+    dateFormat: string;
+
     constructor(options: {} = {}) {
         super(options);
+        this.dataType = options['dataType'] || 'date';
+        this.dateFormat = options['dateFormat'] || 'dd.mm.yy';
     }
 
     formatValue(): any {

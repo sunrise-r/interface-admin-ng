@@ -20,6 +20,7 @@ import { IadGridColumn, IadGridColumnInterface } from '../../iad-base-grid/model
 import { IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
 import { ToolbarAction } from '../../toolbar/toolbar-action.model';
+import { IadGridColumnFrozenField, IadGridColumnOrder } from '../../iad-base-grid/base-grid/base-grid-freeze-column.model';
 
 @Component({
     selector: 'iad-projection-grid',
@@ -74,6 +75,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Flag to set infinite scroll instead of regular paginator
      */
     @Input() enableInfiniteScroll: boolean;
+
+    /**
+     * Flag to set custom perfect scroll instead of regular browser scroll
+     */
+    @Input() enablePerfectScroll: boolean;
 
     /**
      * Ability to pass any templates outside of projection table
@@ -396,11 +402,47 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     }
 
     /**
-     * Обработчик изменения настроек
-     * @param settings
+     * Handler of on column size change event
+     * will propagate object with column names as keys and sizes as value;
+     * @param event
      */
-    onSettingChanged(settings) {
-        this.gridSettingsManager.saveSettings(settings);
+    onColumnResize(event: { [param: string]: string | number }) {
+        this.gridSettingsManager.saveSettings('dgColumnWidth', event);
+    }
+
+    /**
+     * Handler of any column is dynamically made frozen event
+     * will propagate array with field name, frozen state and frozen area for each column
+     * @param event
+     */
+    onColumnFrozen(event: IadGridColumnFrozenField[]) {
+        this.gridSettingsManager.saveSettings('dgFrozenInfo', event);
+    }
+
+    /**
+     * Handler of any column position is changed in a drag and drop way event
+     * @param event
+     */
+    onColumnReorder(event: IadGridColumnOrder[]) {
+        this.gridSettingsManager.saveSettings('dgOrderInfo', event);
+    }
+
+    /**
+     * Handler of any column is sorted event
+     * @param event
+     */
+    onColumnSort(event: {value: string, field: string, order: number}) {
+        this.gridSettingsManager.config.set('sortField', event.field);
+        this.gridSettingsManager.config.set('sortOrder', event.order);
+        this.gridSettingsManager.saveSettings('sort', event.value);
+    }
+
+    /**
+     * Handler of update frozen areas sizes event
+     * @param event
+     */
+    onFrozenAreasUpdated(event: string) {
+        this.gridSettingsManager.saveSettings('dgSidesInfo', event);
     }
 
     /**

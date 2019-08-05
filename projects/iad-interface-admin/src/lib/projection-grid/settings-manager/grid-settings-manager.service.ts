@@ -5,7 +5,6 @@ import { GridSettingsPopulatorService } from './grid-settings-populator.service'
 import { Subject } from 'rxjs';
 import { IadGridConfigInterface, IadGridConfigModel } from '../../iad-base-grid/model/iad-grid-model';
 import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
-import { CmsSetting } from '../../iad-base-grid/base-grid/cms-setting';
 import { GridSettingsStorageInterface, UserGetSettingsDTO } from './grid-settings-storage.model';
 
 @Injectable()
@@ -89,12 +88,11 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
 
     /**
      * Обработчик смены настроек, если они были изменены с помощью контролов таблицы
-     * @param data
+     * @param name
+     * @param value
      */
-    saveSettings(data: CmsSetting): void {
+    saveSettings(name: string, value: any): void {
         const groupName = this.groupSettingsKey;
-        const name = data.name;
-        const value = data.value;
         const strValue = typeof value === 'string' ? value : JSON.stringify(value);
         if ((name === 'sort' && strValue === this.initialSort) || name === 'filter') {
             return;
@@ -113,8 +111,7 @@ export class GridSettingsManagerService implements GridSettingsManagerInterface 
             visibility[column.field] = column.visible;
         });
         this.updateVisibility.next(actedColumn);
-        const settings = new CmsSetting('dgColumnVisibility', visibility);
-        this.saveSettings(settings);
+        this.saveSettings('dgColumnVisibility', visibility);
     }
 
     /**

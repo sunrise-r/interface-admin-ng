@@ -137,7 +137,7 @@ export class BaseGridColumnsService {
     /**
      * Возвращает информацию о текущей заморозке колонок
      */
-    getOrderInformation(frozenStructure: IadGridFrozenStructure) {
+    getOrderInformation(frozenStructure: IadGridFrozenStructure): IadGridColumnOrder[] {
         this.frozenStructure = frozenStructure;
         return this.mapColumnArrays(
             (column, frozen, position, areaIndex) =>
@@ -174,7 +174,7 @@ export class BaseGridColumnsService {
     /**
      * Слияние всех видов колонок
      */
-    private mapColumnArrays(callback: MergeColumnCallback) {
+    private mapColumnArrays(callback: MergeColumnCallback): any[] {
         const frozenStructure = this.frozenStructure;
         let columns: any[] = [];
         Object.keys(frozenStructure).forEach(key => {

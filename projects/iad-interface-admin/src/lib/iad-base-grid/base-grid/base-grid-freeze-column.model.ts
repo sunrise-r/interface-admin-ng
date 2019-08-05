@@ -21,11 +21,7 @@ export interface IadGridFrozenEvent {
 /**
  * Model to store widths of frozen areas in userSettings
  */
-export interface IadGridColumnFrozen {
-    rightWidth: string;
-    leftWidth: string;
-}
-export class IadGridColumnFrozen implements IadGridColumnFrozen {
+export class IadGridColumnFrozen {
     constructor(public rightWidth: string, public leftWidth: string) {}
 }
 
