@@ -5,8 +5,8 @@ import { FormInputGroup } from '../core/form-input-group';
 import { ContextAware } from '../core/context-aware';
 
 @Component({
-    selector: 'iad-dropdown-group',
-    styleUrls: ['./iad-dropdown-group.component.scss'],
+    selector: 'iad-form-group',
+    styleUrls: ['./iad-form-group.component.scss'],
     template: `
         <ng-container [formGroup]="group">
             <ng-template [ngIf]="config.collapsable" [ngIfThen]="collapsableTemplate" [ngIfElse]="childGroupTemplate"></ng-template>
@@ -47,7 +47,7 @@ import { ContextAware } from '../core/context-aware';
             </ng-template>
         </ng-container>`
 })
-export class IadDropdownGroupComponent implements OnInit, ContextAware {
+export class IadFormGroupComponent implements OnInit, ContextAware {
     context: any;
 
     /**

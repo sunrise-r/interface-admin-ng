@@ -1,15 +1,14 @@
 // Dynamic form components
-export * from './lib/dynamic-form/components/iad-dropdown-group.component';
+export * from './lib/dynamic-form/components/iad-form-group.component';
 export * from './lib/dynamic-form/components/iad-form-checkbox.component';
 export * from './lib/dynamic-form/components/iad-form-chips.component';
 export * from './lib/dynamic-form/components/iad-form-date.component';
 export * from './lib/dynamic-form/components/iad-form-date-time.component';
 export * from './lib/dynamic-form/components/iad-form-file.component';
 export * from './lib/dynamic-form/components/iad-form-input.component';
-export * from './lib/dynamic-form/components/iad-form-multi-select.component';
 export * from './lib/dynamic-form/components/iad-form-number.component';
 export * from './lib/dynamic-form/components/iad-form-rich-editor.component';
-export * from './lib/dynamic-form/components/iad-form-selection-dropdown.component';
+export * from './lib/dynamic-form/components/iad-form-dropdown.component';
 export * from './lib/dynamic-form/components/iad-form-textarea.component';
 export * from './lib/dynamic-form/components/iad-form-translate-input.component';
 
@@ -22,7 +21,7 @@ export * from './lib/dynamic-form/inputs/date-time-input.model';
 export * from './lib/dynamic-form/inputs/dropdown-input.model';
 export * from './lib/dynamic-form/inputs/file-input.model';
 export * from './lib/dynamic-form/inputs/hidden-input.model';
-export * from './lib/dynamic-form/inputs/multi-select-input.model';
+export * from './lib/dynamic-form/inputs/dropdown-multi-input.model';
 export * from './lib/dynamic-form/inputs/number-input.model';
 export * from './lib/dynamic-form/inputs/rich-editor-input.model';
 export * from './lib/dynamic-form/inputs/text-input.model';

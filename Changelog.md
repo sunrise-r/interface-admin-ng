@@ -1,6 +1,7 @@
 # 1.0.8@alpha.89
 
 * FORM removed iad-tooltip-notifier default icons styling for projection-form
+* FORM refactored dropdown input component. Now it is combined with multiSelection component 
 
 # 1.0.8@alpha.88
 
