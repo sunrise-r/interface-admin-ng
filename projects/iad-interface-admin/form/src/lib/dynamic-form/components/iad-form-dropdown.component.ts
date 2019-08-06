@@ -5,13 +5,13 @@ import { ValidationInput } from '../core/validation-input';
 import { IadEventManager } from 'iad-interface-admin/core';
 import { IadFieldValuesService } from '../services/iad-field-values.service';
 
-export interface SelectionDropdownValuesInterface {
+export interface DropdownValuesInterface {
     label: string;
     value: string;
 }
 
 @Component({
-    selector: 'iad-form-selection-dropdown',
+    selector: 'iad-form-dropdown',
     template: `
         <ng-container [formGroup]="group">
             <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}} col-form-label">
@@ -19,17 +19,36 @@ export interface SelectionDropdownValuesInterface {
             </label>
             <div class="col-12 col-lg-{{formControlColumnSize}}">
                 <div class="input-wrapper input-group">
-                    <p-dropdown class="custom-form-control"
-                                [id]="config.key"
-                                [readonly]="config.readonly"
-                                [options]="values"
-                                [required]="config.required"
-                                [formControlName]="config.key"
-                                [placeholder]="' '"
-                                [showClear]="config.showClear"
-                                (onChange)="onChange($event)"
-                                (onBlur)="onBlur()">
-                    </p-dropdown>
+                    <ng-template [ngIf]="config.multiple" [ngIfThen]="multipleSelect" [ngIfElse]="singleSelect"></ng-template>
+                    <ng-template #multipleSelect>
+                        <p-multiSelect
+                            class="custom-form-control"
+                            [selectedItemsLabel]="config.translatePrefix + '.elementsSelected' | translate"
+                            [defaultLabel]="config.translatePrefix + '.label' | translate"
+                            [panelStyle]="{minWidth: '12em'}"
+                            [maxSelectedLabels]="config.maxSelectedLabels"
+                            [showHeader]="config.showHeader"
+                            [formControlName]="config.key"
+                            [id]="config.key"
+                            [readonly]="config.readonly"
+                            [options]="values"
+                            (onBlur)="onBlur()"
+                        ></p-multiSelect>
+                    </ng-template>
+                    <ng-template #singleSelect>
+                        <p-dropdown
+                            class="custom-form-control"
+                            [id]="config.key"
+                            [readonly]="config.readonly"
+                            [options]="values"
+                            [required]="config.required"
+                            [formControlName]="config.key"
+                            [placeholder]="' '"
+                            [showClear]="config.showClear"
+                            (onChange)="onChange($event)"
+                            (onBlur)="onBlur()">
+                        </p-dropdown>
+                    </ng-template>
                     <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                           caption="Ошибка!" [text]="error" [activated]="true">
                         <ng-template>
@@ -48,9 +67,9 @@ export interface SelectionDropdownValuesInterface {
     styles: ['p-dropdown > ::ng-deep .ui-dropdown { height: 100%; }']
 })
 
-export class IadFormSelectionDropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
+export class IadFormDropdownComponent extends ValidationInput implements OnInit, AfterViewInit {
 
-    values: SelectionDropdownValuesInterface[];
+    values: DropdownValuesInterface[];
 
     constructor(
         private inputTranslateService: TranslateService,
@@ -73,7 +92,7 @@ export class IadFormSelectionDropdownComponent extends ValidationInput implement
         this.eventManager.broadcast({name: this.config.key + '#onChange', content: value});
     }
 
-    private dropdownValues(): Promise<SelectionDropdownValuesInterface[]> {
+    private dropdownValues(): Promise<DropdownValuesInterface[]> {
         const values = this.config.values;
         if (values) {
             if (this.config.valuesUrl) {
@@ -82,12 +101,11 @@ export class IadFormSelectionDropdownComponent extends ValidationInput implement
             } else if (this.config.translatePrefix) {
                 return this.translateValues(values);
 
-            } else {
-                return Promise.resolve(values.map(value => ({
-                    label: value,
-                    value
-                })));
             }
+            return Promise.resolve(values.map(value => ({
+                label: value,
+                value
+            })));
         }
         if (this.config.valuesUrl) {
             return this.fieldValuesService.retrieveFieldMap(this.config.valuesUrl)
@@ -102,7 +120,7 @@ export class IadFormSelectionDropdownComponent extends ValidationInput implement
         return Promise.resolve(values);
     }
 
-    private translateValues(values: string[]): Promise<SelectionDropdownValuesInterface[]> {
+    private translateValues(values: string[]): Promise<DropdownValuesInterface[]> {
         const translationPaths = values.reduce((acu, v) => Object.assign(acu, {[this.config.translatePrefix + '.' + v]: v}), {});
         return this.inputTranslateService.get(Object.keys(translationPaths)).toPromise()
             .then(translations => {

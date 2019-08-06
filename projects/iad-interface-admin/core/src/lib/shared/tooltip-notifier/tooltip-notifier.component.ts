@@ -1,14 +1,14 @@
 import {
-  Component,
-  OnInit,
-  Renderer2,
-  Input,
-  ElementRef,
-  ViewChild,
-  AfterViewInit,
-  OnChanges,
-  SimpleChanges,
-  ContentChild, TemplateRef
+    Component,
+    OnInit,
+    Renderer2,
+    Input,
+    ElementRef,
+    ViewChild,
+    AfterViewInit,
+    OnChanges,
+    SimpleChanges,
+    ContentChild, TemplateRef
 } from '@angular/core';
 
 const Size16 = 16;
@@ -16,69 +16,101 @@ const Size24 = 24;
 const Size32 = 32;
 
 enum Sizes {
-  Size16,
-  Size24,
-  Size32
+    Size16,
+    Size24,
+    Size32
 }
 
 @Component({
-  selector: 'iad-tooltip-notifier',
-  templateUrl: './tooltip-notifier.component.html',
-  styleUrls: ['./iad-tooltip-notifier.scss']
+    selector: 'iad-tooltip-notifier',
+    templateUrl: './tooltip-notifier.component.html',
+    styleUrls: ['./iad-tooltip-notifier.scss']
 })
 export class TooltipNotifierComponent implements OnInit, OnChanges {
-  content: string;
+    content: string;
 
-  @Input() position = 'bottom-right';
-  @Input() caption: string;
-  @Input() size: Sizes;
-  @Input() text: string;
-  @Input() activated: boolean;
-  @Input() iconStyleClass: string;
-  @Input() tooltipStyleClass: string;
-  @ContentChild(TemplateRef) template: TemplateRef<any>;
+    /**
+     * Notifier tooltip position: top, bottom, left, right, bottom-right, bottom-left, top-right, top-left
+     */
+    @Input() position = 'bottom-right';
 
-  @ViewChild('iadPTooltip') tooltip: ElementRef;
+    /**
+     * Tooltip header
+     */
+    @Input() caption: string;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+    /**
+     * Notifier icon size type: 16, 24, 32
+     */
+    @Input() size: Sizes;
 
-  ngOnInit() {
-    this.initContent(this.text);
-    if (this.iconStyleClass) {
-      this.renderer.addClass(this.tooltip.nativeElement, this.iconStyleClass + '-' + this.size);
+    /**
+     * Tooltip content
+     */
+    @Input() text: string;
+
+    /**
+     * Flag allowing to activate tooltip on icon and add css-class activated for notifier
+     */
+    @Input() activated: boolean;
+
+    /**
+     * Icon style class prefix. Will expect set up classes in your css in format .{{iconStyleClass}}-{{size}}
+     */
+    @Input() iconStyleClass: string;
+
+    /**
+     * Will add custom css style class to the tooltip directive
+     */
+    @Input() tooltipStyleClass: string;
+
+    /**
+     * Will read content child ng-template to set it as icon. may accept activated property from tooltip-notifier component
+     */
+    @ContentChild(TemplateRef) template: TemplateRef<any>;
+
+    @ViewChild('iadPTooltip') tooltip: ElementRef;
+
+    constructor(private el: ElementRef, private renderer: Renderer2) {
     }
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if ('text' in changes) {
-      this.initContent(changes['text'].currentValue);
-    }
-  }
-
-  initContent(text: string) {
-    if (text === undefined || !this.activated) {
-      this.content = '';
-      return;
+    ngOnInit() {
+        this.initContent(this.text);
+        if (this.iconStyleClass) {
+            this.renderer.addClass(this.tooltip.nativeElement, this.iconStyleClass + '-' + this.size);
+        }
     }
 
-    const captionElement = this.addDivWithText(this.caption, 'caption');
-    const textElement = this.addDivWithText(text, 'text');
+    ngOnChanges(changes: SimpleChanges): void {
+        if ('text' in changes) {
+            this.initContent(changes['text'].currentValue);
+        }
+    }
 
-    const div = this.renderer.createElement('div');
-    this.renderer.addClass(div, 'tooltip-text');
-    this.renderer.addClass(div, this.iconStyleClass + '-text');
+    initContent(text: string) {
+        if (text === undefined || !this.activated) {
+            this.content = '';
+            return;
+        }
 
-    this.renderer.appendChild(div, captionElement);
-    this.renderer.appendChild(div, textElement);
+        const captionElement = this.addDivWithText(this.caption, 'caption');
+        const textElement = this.addDivWithText(text, 'text');
 
-    this.content = div.outerHTML;
-  }
+        const div = this.renderer.createElement('div');
+        this.renderer.addClass(div, 'tooltip-text');
+        this.renderer.addClass(div, this.iconStyleClass + '-text');
 
-  private addDivWithText(text: string, className: string) {
-    const div = this.renderer.createElement('div');
-    const divInnerText = this.renderer.createText(text);
-    this.renderer.addClass(div, className);
-    this.renderer.appendChild(div, divInnerText);
-    return div;
-  }
+        this.renderer.appendChild(div, captionElement);
+        this.renderer.appendChild(div, textElement);
+
+        this.content = div.outerHTML;
+    }
+
+    private addDivWithText(text: string, className: string) {
+        const div = this.renderer.createElement('div');
+        const divInnerText = this.renderer.createText(text);
+        this.renderer.addClass(div, className);
+        this.renderer.appendChild(div, divInnerText);
+        return div;
+    }
 }
