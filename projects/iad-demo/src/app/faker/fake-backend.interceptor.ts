@@ -23,13 +23,18 @@ import {
 } from './responses/cms/api/iad/projection-sub-reference.response';
 
 class FakerRegistry {
+    fakerInstance: IFakeResponse;
+
     constructor(
         public faker: Type<IFakeResponse>,
         public condition: (request: HttpRequest<any>) => boolean
     ) {}
 
     getFaker(request): IFakeResponse {
-        return new this.faker(request);
+        if (!this.fakerInstance) {
+            this.fakerInstance = (new this.faker());
+        }
+        return this.fakerInstance.setRequest(request);
     }
 }
 
@@ -59,7 +64,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             const fakerRegistry = registry.find(fR => fR.condition(request));
             if (fakerRegistry) {
                 console.log('Intercepting URL: ' + request.url);
-                return <Observable<HttpEvent<any>>>(fakerRegistry.getFaker(request).getResponse());
+                const response = fakerRegistry.getFaker(request).getResponse();
+                return <Observable<HttpEvent<any>>>(response);
             }
             // pass through any requests not handled above
             return next.handle(request);

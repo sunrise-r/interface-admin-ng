@@ -24,7 +24,6 @@ import {
     PanelModule,
     MenuModule, AutoCompleteModule
 } from 'primeng/primeng';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Customized
 import { CalendarComponent } from './calendar/calendar.component';
@@ -34,6 +33,7 @@ import { IadTableComponent } from './table/iad-table.component';
 import { TableKeysDirective } from './table-keys/table-keys.directive';
 import { TooltipDirective } from './tooltip/tooltip.directive';
 
+import { IadIconsModule } from '../iad-icons/iad-icons.module';
 
 export const IAD_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     wheelSpeed: 0.25,
@@ -60,7 +60,7 @@ export const IAD_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         MenuModule,
         EditorModule,
         DropdownModule,
-        FontAwesomeModule,
+        IadIconsModule,
         AutoCompleteModule,
         PerfectScrollbarModule
     ],

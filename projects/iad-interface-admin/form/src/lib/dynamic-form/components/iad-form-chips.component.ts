@@ -20,13 +20,13 @@ import { ValidationInput } from '../core/validation-input';
           <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && isInvalid"
                                 caption="Ошибка!" [text]="error" [activated]="true">
             <ng-template>
-              <fa-icon [icon]="'exclamation-circle'" [size]="'1x'" [ngStyle]="{color: 'red'}"></fa-icon>
+                <iad-icon-outlet icon="fas exclamation-circle" [size]="'1x'" [cssStyle]="{color: 'red'}"></iad-icon-outlet>
             </ng-template>
           </iad-tooltip-notifier>
           <iad-tooltip-notifier *ngIf="!(config.readonly || config.disabled) && !isInvalid"
                                 caption="Поле валидно!" text="Валидация прошла успешно" [activated]="true">
             <ng-template>
-              <fa-icon [icon]="'check-circle'" [size]="'1x'" [ngStyle]="{color: 'green'}" ></fa-icon>
+                <iad-icon-outlet icon="fas check-circle" [size]="'1x'" [cssStyle]="{color: 'green'}"></iad-icon-outlet>
             </ng-template>
           </iad-tooltip-notifier>
         </div>

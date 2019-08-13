@@ -1,3 +1,33 @@
+# 1.0.8@alpha.90
+
+* GLOBAL; GRID added ability to customize icons for grid sorting. To configure icons you shold use NgModule.forRoot() module config as following:
+
+    ```typescript
+    IadInterfaceAdminModule.forRoot({
+        ...,
+        icons: {
+         'grid-sort-asc': 'pi pi-sort-up',
+         'grid-sort-desc': 'pi pi-sort-down',
+         'grid-sort': 'pi pi-sort'
+        }
+    })
+    ```
+
+    to use FontAwesome icons you should add `fa`, `fas` or `far` prefix to your icons
+    
+    ```typescript
+    IadInterfaceAdminModule.forRoot({
+        ...,
+        icons: {
+         'grid-sort-asc': 'fas sort-up',
+         'grid-sort-desc': 'fas sort-down',
+         'grid-sort': 'fas sort'
+        }
+    })
+    ```
+    
+    This schema will be used in future for all icons in project
+
 # 1.0.8@alpha.89
 
 * FORM removed iad-tooltip-notifier default icons styling for projection-form

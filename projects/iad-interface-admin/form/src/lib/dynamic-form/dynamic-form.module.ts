@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IadPrimengModule, IadSharedModule, IadModuleConfig, IadModuleConfigInterface, IadConfigService } from 'iad-interface-admin/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IadPrimengModule, IadSharedModule, IadModuleConfig, IadModuleConfigInterface, IadConfigService, IadIconsModule } from 'iad-interface-admin/core';
 
 import { InputMaskModule } from 'primeng/inputmask';
 import { CalendarModule, PanelModule } from 'primeng/primeng';
@@ -26,7 +25,7 @@ import { IadFormTranslateInputComponent } from './components/iad-form-translate-
 import { IadFormAutoCompleteInputComponent } from './components/iad-form-auto-complete-input.component';
 
 @NgModule({
-    imports: [CalendarModule, InputMaskModule, PanelModule, IadSharedModule, IadPrimengModule, FontAwesomeModule],
+    imports: [CalendarModule, InputMaskModule, PanelModule, IadSharedModule, IadPrimengModule, IadIconsModule],
     declarations: [
         FileUploadComponent,
         DynamicFormComponent,
