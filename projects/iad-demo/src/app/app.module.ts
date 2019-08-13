@@ -28,7 +28,12 @@ import { DemoFilterBuilderService } from './data/grid/demo-filter-builder.servic
             defaultI18nLang: 'ru',
             noi18nMessage: 'translation-not-found',
             referenceProjectionProvider: {provide: IadReferenceProjectionProviderService, useClass: ReferenceProjectionProviderService},
-            filterBuilderProvider: { provide: FILTER_BUILDER, useClass: DemoFilterBuilderService }
+            filterBuilderProvider: { provide: FILTER_BUILDER, useClass: DemoFilterBuilderService },
+            icons: {
+                'grid-sort-asc': 'fas sort-up',
+                'grid-sort-desc': 'fas sort-down',
+                'grid-sort': 'fas sort'
+            }
             // rootUrl: '/myAwesomeRoot'
         }),
         DataModule

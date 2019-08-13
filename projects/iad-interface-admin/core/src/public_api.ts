@@ -1,3 +1,7 @@
+// IconModule
+export * from './lib/iad-icons/iad-icon-outlet.component';
+export * from './lib/iad-icons/iad-icons.module';
+
 // Shared utils, services and helpers
 export * from './lib/shared/services/form-errors-stringify.service';
 export * from './lib/shared/services/event-manager.service';

@@ -88,9 +88,9 @@
   <div #resizeHelper class="ui-column-resizer-helper ui-state-highlight" style="display:none"
        *ngIf="resizableColumns"></div>
   <span #reorderIndicatorUp class="ui-table-reorder-indicator-up" style="display:none" *ngIf="reorderableColumns">
-        <fa-icon [icon]="'caret-down'"></fa-icon>
+        <iad-icon-outlet icon="fas caret-down"></iad-icon-outlet>
     </span>
   <span #reorderIndicatorDown class="ui-table-reorder-indicator-down" style="display:none" *ngIf="reorderableColumns">
-        <fa-icon [icon]="'caret-up'"></fa-icon>
+      <iad-icon-outlet icon="fas caret-up"></iad-icon-outlet>
     </span>
 </div>

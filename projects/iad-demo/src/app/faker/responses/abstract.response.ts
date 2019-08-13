@@ -1,18 +1,22 @@
-import {HttpEvent, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { HttpEvent, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface IFakeResponse {
-  request: HttpRequest<any>;
-  getResponse(): Observable<HttpEvent<any>>;
+    request: HttpRequest<any>;
+
+    setRequest(request: HttpRequest<any>);
+
+    getResponse(): Observable<HttpEvent<any>>;
 }
 
 export abstract class AbstractResponse implements IFakeResponse {
 
-  request: HttpRequest<any>;
+    request: HttpRequest<any>;
 
-  constructor(request: HttpRequest<any>) {
-    this.request = request;
-  }
+    setRequest(request: HttpRequest<any>) {
+        this.request = request;
+        return this;
+    }
 
-  abstract getResponse(): Observable<HttpEvent<any>>;
+    abstract getResponse(): Observable<HttpEvent<any>>;
 }

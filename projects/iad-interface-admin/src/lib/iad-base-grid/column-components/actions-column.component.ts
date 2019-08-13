@@ -12,10 +12,10 @@ import { IadGridColumn } from '../model/iad-grid-column.model';
     template: `
         <div class="actions-column">
             <a *ngIf="display('edit')" [href]="editUrl">
-                <fa-icon [icon]="'edit'" [size]="'1x'" style="color: dimgray"></fa-icon>
+                <iad-icon-outlet icon="fas edit" [size]="'1x'" [style]="{color: 'dimgray'}"></iad-icon-outlet>
             </a>
             <a *ngIf="display('delete')" (click)="showDeleteRecordDialog()">
-                <fa-icon [icon]="'trash'" [size]="'1x'" style="color: dimgray"></fa-icon>
+                <iad-icon-outlet icon="fas trash" [size]="'1x'" [style]="{color: 'dimgray'}"></iad-icon-outlet>
             </a>
             <button class="btn" *ngIf="display('button')" (click)="broadcastButtonEvent()">
                 {{translateButton ? (buttonTranslationCode | translate) : buttonName}}
