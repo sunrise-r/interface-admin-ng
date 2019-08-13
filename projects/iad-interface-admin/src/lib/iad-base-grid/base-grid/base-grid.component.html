@@ -69,7 +69,7 @@
                         <ng-container *ngIf="col.translate; then thTranslate; else thNoTranslate"></ng-container>
                         <ng-template #thTranslate>{{col.header | translate}}</ng-template>
                         <ng-template #thNoTranslate>{{col.header}}</ng-template>
-                        <ng-container [iadTableSortIcon]="col.field"></ng-container>
+                        <ng-container *ngIf="col.sorting" [iadTableSortIcon]="col.field"></ng-container>
                     </div>
                     <iad-table-header-menu
                         *ngIf="hasColumnMenu(col)"
