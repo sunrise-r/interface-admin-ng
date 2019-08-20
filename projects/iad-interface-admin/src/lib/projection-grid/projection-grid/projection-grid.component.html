@@ -1,64 +1,71 @@
-<div *ngIf="hasToolbar">
-    <iad-grid-toolbar
-        [resetToggleableStatus]="resetToggleableStatus"
-        [leftActions]="projection.actions"
-        [filterActive]="showFilter"
-        [filterEnabled]="filterEnabled"
-        [ngClass]="{'disabled': disabled}"
-        [rightAddonTemplate]="rightAddonTemplate"
-        [searchActive]="showSearchPanel"
-        (actionClicked)="onActionClicked($event)"
-    ></iad-grid-toolbar>
-</div>
-<ng-template ngFor let-tpl [ngForOf]="belowTheToolbarTemplates">
-    <ng-template [ngTemplateOutlet]="tpl"
-                 [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: gridId}"></ng-template>
-</ng-template>
-<div [hidden]="!showSearchPanel" class="grid-search-panel">
-    <iad-grid-search-panel
+<ng-template [ngIf]="projection" [ngIfThen]="projectionIsLoaded" [ngIfElse]="projectionIsNotLoaded"></ng-template>
+<ng-template #projectionIsLoaded>
+    <div *ngIf="hasToolbar">
+        <iad-grid-toolbar
+            [resetToggleableStatus]="resetToggleableStatus"
+            [leftActions]="projection.actions"
+            [filterActive]="showFilter"
+            [filterEnabled]="filterEnabled"
+            [ngClass]="{'disabled': disabled}"
+            [rightAddonTemplate]="rightAddonTemplate"
+            [searchActive]="showSearchPanel"
+            (actionClicked)="onActionClicked($event)"
+        ></iad-grid-toolbar>
+    </div>
+    <ng-template ngFor let-tpl [ngForOf]="belowTheToolbarTemplates">
+        <ng-template [ngTemplateOutlet]="tpl"
+                     [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: gridId}"></ng-template>
+    </ng-template>
+    <div [hidden]="!showSearchPanel" class="grid-search-panel">
+        <iad-grid-search-panel
+            [resetFilter]="resetFilter"
+            (search)="onSearch($event)"
+        ></iad-grid-search-panel>
+    </div>
+    <p-confirmDialog
+        *ngIf="projection"
+        [key]="'delete#' + projection.code"
+        [header]="'grid.dialog.delete.header'|translate"
+        [message]="'grid.dialog.delete.message'|translate"
+        [acceptLabel]="'grid.dialog.delete.confirm'|translate"
+        [rejectLabel]="'grid.dialog.delete.reject'|translate"
+    ></p-confirmDialog>
+    <iad-base-grid
+        [allowUnSelectRow]="allowUnSelectRow"
+        [changeTableHeight]="changeTableHeight"
+        [columns]="columns"
+        [columnComponents]="columnComponents"
+        [defaultSortField]="defaultSortField"
+        [doTableAction]="doTableAction"
+        [enableInfiniteScroll]="enableInfiniteScroll"
+        [enablePerfectScroll]="enablePerfectScroll"
+        [filter]="filter"
+        [filterType]="filterType"
+        [lazy]="lazy"
+        [ngClass]="{'disabled': disabled, 'grid-with-toolbar': true}"
+        [paginator]="paginator"
         [resetFilter]="resetFilter"
-        (search)="onSearch($event)"
-    ></iad-grid-search-panel>
-</div>
-<p-confirmDialog
-    *ngIf="projection"
-    [key]="'delete#' + projection.code"
-    [header]="'grid.dialog.delete.header'|translate"
-    [message]="'grid.dialog.delete.message'|translate"
-    [acceptLabel]="'grid.dialog.delete.confirm'|translate"
-    [rejectLabel]="'grid.dialog.delete.reject'|translate"
-></p-confirmDialog>
-<iad-base-grid
-    [allowUnSelectRow]="allowUnSelectRow"
-    [changeTableHeight]="changeTableHeight"
-    [columns]="columns"
-    [columnComponents]="columnComponents"
-    [defaultSortField]="defaultSortField"
-    [doTableAction]="doTableAction"
-    [enableInfiniteScroll]="enableInfiniteScroll"
-    [enablePerfectScroll]="enablePerfectScroll"
-    [filter]="filter"
-    [filterType]="filterType"
-    [lazy]="lazy"
-    [ngClass]="{'disabled': disabled, 'grid-with-toolbar': true}"
-    [paginator]="paginator"
-    [resetFilter]="resetFilter"
-    [refreshGridConfig]="refreshGridConfig"
-    [refreshOnInit]="refreshOnInit"
-    [searchUrl]="searchUrl"
-    [showFilter]="showFilter"
-    [staticFrozenColumns]="staticFrozenColumns"
-    [staticFrozenRightColumns]="staticFrozenRightColumns"
-    [staticFrozenRightWidth]="staticFrozenRightWidth"
-    [staticFrozenWidth]="staticFrozenWidth"
-    [unSelectRow]="unSelectRow"
-    [updateVisibility]="updateVisibility"
-    [value]="value"
-    (columnResize)="onColumnResize($event)"
-    (columnFrozen)="onColumnFrozen($event)"
-    (columnFrozen)="onColumnFrozen($event)"
-    (frozenAreasUpdated)="onFrozenAreasUpdated($event)"
-    (columnReorder)="onColumnReorder($event)"
-    (columnSort)="onColumnSort($event)"
-    (selectionChange)="onSelectionChange($event)"
-></iad-base-grid>
+        [refreshGridConfig]="refreshGridConfig"
+        [refreshOnInit]="refreshOnInit"
+        [searchUrl]="searchUrl"
+        [showFilter]="showFilter"
+        [staticFrozenColumns]="staticFrozenColumns"
+        [staticFrozenRightColumns]="staticFrozenRightColumns"
+        [staticFrozenRightWidth]="staticFrozenRightWidth"
+        [staticFrozenWidth]="staticFrozenWidth"
+        [unSelectRow]="unSelectRow"
+        [updateVisibility]="updateVisibility"
+        [value]="value"
+        (columnResize)="onColumnResize($event)"
+        (columnFrozen)="onColumnFrozen($event)"
+        (frozenAreasUpdated)="onFrozenAreasUpdated($event)"
+        (columnReorder)="onColumnReorder($event)"
+        (columnSort)="onColumnSort($event)"
+        (selectionChange)="onSelectionChange($event)"
+    ></iad-base-grid>
+</ng-template>
+<ng-template #projectionIsNotLoaded>
+    <div class="alert alert-danger">
+        Projection was not loaded for this datatable
+    </div>
+</ng-template>
