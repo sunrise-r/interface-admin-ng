@@ -12,6 +12,7 @@ export interface IadGridConfigInterface {
     sortField?: string;
     sortOrder?: number;
     defaultSortField?: string;
+    defaultSortOrder?: number;
     leftWidth?: string;
     rightWidth?: string;
     rightColumns?: IadGridColumn[];
@@ -26,6 +27,7 @@ export class IadGridConfigModel implements IadGridConfigInterface {
     private _sortField: string;
     private _sortOrder: number;
     private _defaultSortField: string;
+    private _defaultSortOrder: number;
     private _leftWidth: string;
     private _rightWidth: string;
     private _rightColumns: IadGridColumn[];
@@ -49,6 +51,10 @@ export class IadGridConfigModel implements IadGridConfigInterface {
 
     get defaultSortField(): string {
         return this._defaultSortField;
+    }
+
+    get defaultSortOrder(): number {
+        return this._defaultSortOrder;
     }
 
     get leftWidth(): string {
@@ -112,8 +118,9 @@ export class IadGridConfigModel implements IadGridConfigInterface {
     resetConfig() {
         this._columns = [];
         this._sortField = null;
-        this._sortOrder = 1;
-        this._defaultSortField = 'creationDate';
+        this._sortOrder = null;
+        this._defaultSortField = 'id';
+        this._defaultSortOrder = 1;
         this._leftWidth = '0';
         this._rightWidth = '0';
         this._rightColumns = undefined;

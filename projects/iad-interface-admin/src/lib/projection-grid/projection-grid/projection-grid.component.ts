@@ -67,6 +67,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() defaultSortField: string;
 
     /**
+     * Setting of default sort order
+     */
+    @Input() defaultSortOrder: string;
+
+    /**
      * Allows to make table and toolbar disabled
      */
     @Input() disabled: boolean;
@@ -491,7 +496,8 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             columns: this.initColumns(),
             filter: this.filter,
             searchUrl: this.searchUrl,
-            defaultSortField: this.defaultSortField
+            defaultSortField: this.defaultSortField,
+            defaultSortOrder: this.defaultSortOrder === 'asc' ? 1 : -1
         };
     }
 
