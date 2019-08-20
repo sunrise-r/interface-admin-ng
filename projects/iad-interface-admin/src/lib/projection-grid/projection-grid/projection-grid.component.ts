@@ -503,10 +503,10 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     initColumns(): IadGridColumn[] {
         this._columns = [];
-        this._staticFrozenRightColumns = this._externalStaticFrozenRightColumns || [];
-        this._staticFrozenColumns = this._externalStaticFrozenColumns || [];
-        this._staticFrozenRightWidth = this._externalStaticFrozenRightWidth || '0';
-        this._staticFrozenWidth = this._externalStaticFrozenWidth || '0';
+        this._staticFrozenRightColumns = this._externalStaticFrozenRightColumns ? [...this._externalStaticFrozenRightColumns] : [];
+        this._staticFrozenColumns = this._externalStaticFrozenColumns ? [...this._externalStaticFrozenColumns] : [];
+        this._staticFrozenRightWidth = this._externalStaticFrozenRightWidth ? this._externalStaticFrozenRightWidth : '0';
+        this._staticFrozenWidth = this._externalStaticFrozenWidth ? this._externalStaticFrozenWidth : '0';
         if (this.projection) {
             this.projection.columns.forEach(column => {
                 if (column.properties && column.properties.width) {
