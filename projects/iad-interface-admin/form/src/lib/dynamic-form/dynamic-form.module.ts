@@ -7,6 +7,7 @@ import { CalendarModule, PanelModule } from 'primeng/primeng';
 
 import { DynamicFormComponent } from './dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-field.directive';
+import { ElementFocusDirective } from './element-focus.directive';
 
 import { FormatInputNamePipe } from './format-input-name.pipe';
 import { IadFormDateComponent } from './components/iad-form-date.component';
@@ -31,6 +32,7 @@ import { IadFormAutoCompleteInputComponent } from './components/iad-form-auto-co
         DynamicFormComponent,
         FormatInputNamePipe,
         DynamicFieldDirective,
+        ElementFocusDirective,
         IadFormDateComponent,
         IadFormInputComponent,
         IadFormNumberComponent,
@@ -60,7 +62,7 @@ import { IadFormAutoCompleteInputComponent } from './components/iad-form-auto-co
         IadFormTranslateInputComponent,
         IadFormAutoCompleteInputComponent
     ],
-    exports: [DynamicFormComponent, FormatInputNamePipe, FileUploadComponent, DynamicFieldDirective]
+    exports: [DynamicFormComponent, FormatInputNamePipe, FileUploadComponent, DynamicFieldDirective, ElementFocusDirective]
 })
 export class DynamicFormModule {
     static forRoot(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {
