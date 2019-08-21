@@ -17,8 +17,10 @@ export class ElementFocusDirective {
     @HostListener('document:click', ['$event'])
     onAnyClick(event) {
         const focus = this.eRef.nativeElement.contains(event.target);
-        this.toggleClickedClass(focus);
-        this.elementFocus.emit({focus, nativeEvent: event});
+        if (!focus) {
+            this.toggleClickedClass(focus);
+            this.elementFocus.emit({focus, nativeEvent: event});
+        }
     }
 
     toggleClickedClass(state: boolean) {
