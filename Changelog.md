@@ -1,3 +1,7 @@
+1.0.8-alpha.95
+
+* FORMS added iadElementFocus directive. This directive will produce (elementFocus) event<{focus: boolean, nativeEvent: ClickEvent}> when something is clicked inside its host element and also will add ui-focused css class to the host element;
+
 1.0.8-alpha.94
 
 * GLOBAL added @Input() configIcon: string to the class IadIconOutletComponent; It allows to set for any `<iad-icon-outlet>` customizable through NgModule.forRoot() module config icons:
