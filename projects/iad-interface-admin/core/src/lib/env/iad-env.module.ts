@@ -42,6 +42,8 @@ export class IadModuleConfig {
     icons = {
         'grid-sort-asc': 'pi pi-sort-up',
         'grid-sort-desc': 'pi pi-sort-down',
-        'grid-sort': 'pi pi-sort'
+        'grid-sort': 'pi pi-sort',
+        'chevron-down': 'fas chevron-down',
+        'chevron-up' : 'fas chevron-up'
     };
 }

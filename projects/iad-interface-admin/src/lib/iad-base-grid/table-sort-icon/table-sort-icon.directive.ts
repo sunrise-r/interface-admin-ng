@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
-import { IadConfigService, IadIconOutletComponent } from 'iad-interface-admin/core';
+import { IadIconOutletComponent } from 'iad-interface-admin/core';
 
 @Directive({
     selector: '[iadTableSortIcon]'
@@ -31,7 +31,6 @@ export class TableSortIconDirective implements OnInit, OnDestroy {
         public dt: Table,
         private renderer: Renderer2,
         private el: ElementRef,
-        private config: IadConfigService,
         private vctr: ViewContainerRef,
         private cfr: ComponentFactoryResolver
     ) {
@@ -56,20 +55,19 @@ export class TableSortIconDirective implements OnInit, OnDestroy {
     }
 
     private updateIcon() {
-        let cssClass: string;
+        let configIcon: string;
         if (this.sortOrder === 1) {
-            cssClass = this.config.getConfig().icons['grid-sort-asc'];
+            configIcon = 'grid-sort-asc';
         } else if (this.sortOrder === -1) {
-            cssClass = this.config.getConfig().icons['grid-sort-desc'];
+            configIcon = 'grid-sort-desc';
         } else {
-            cssClass = this.config.getConfig().icons['grid-sort'];
+            configIcon = 'grid-sort';
         }
         if (!this.componentRef) {
             const cmp = this.cfr.resolveComponentFactory(IadIconOutletComponent);
             this.componentRef = this.vctr.createComponent(cmp);
         }
-        (<IadIconOutletComponent>this.componentRef.instance).icon = cssClass;
-        (<IadIconOutletComponent>this.componentRef.instance).addIconView();
+        (<IadIconOutletComponent>this.componentRef.instance).initConfigIcon(configIcon);
     }
 
     ngOnDestroy() {

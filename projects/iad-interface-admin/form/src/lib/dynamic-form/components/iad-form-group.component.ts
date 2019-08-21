@@ -15,7 +15,7 @@ import { ContextAware } from '../core/context-aware';
                          (onBeforeToggle)="$event.collapsed ? panel.expand($event.event) : panel.collapse($event.event)">
                     <p-header>
                         <div class="block-title link" (click)="panel.toggle($event)">
-                            <iad-icon-outlet [icon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" cssClass="text-left"></iad-icon-outlet>
+                            <iad-icon-outlet [configIcon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" cssClass="text-left"></iad-icon-outlet>
                             {{config.translate ? (config.label | translate) : config.label}}
                         </div>
                     </p-header>

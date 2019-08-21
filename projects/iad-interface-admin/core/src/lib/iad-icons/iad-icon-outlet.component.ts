@@ -1,4 +1,5 @@
 import { Component, EmbeddedViewRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { IadConfigService } from '../env/iad-env.module';
 
 @Component({
     selector: 'iad-icon-outlet',
@@ -11,9 +12,7 @@ import { Component, EmbeddedViewRef, Input, OnChanges, OnInit, SimpleChanges, Vi
         </ng-template>
     `
 })
-export class IadIconOutletComponent implements OnInit, OnChanges {
-
-    constructor(public viewContainerRef: ViewContainerRef) {}
+export class IadIconOutletComponent implements OnChanges {
 
     @Input()
     set icon(icon: string) {
@@ -22,6 +21,15 @@ export class IadIconOutletComponent implements OnInit, OnChanges {
     }
     get icon(): string {
         return this._icon;
+    }
+
+    @Input()
+    set configIcon(icon: string) {
+        this._configIcon = icon;
+        this.initConfigIcon(icon);
+    }
+    get configIcon(): string {
+        return this._configIcon;
     }
 
     /**
@@ -53,14 +61,21 @@ export class IadIconOutletComponent implements OnInit, OnChanges {
 
     private _icon: string;
 
+    private _configIcon: string;
+
     private _view: EmbeddedViewRef<any>;
 
-    ngOnInit(): void {}
+    constructor(public viewContainerRef: ViewContainerRef,  private config: IadConfigService) {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if ('icon' in changes) {
             this.addIconView();
         }
+    }
+
+    initConfigIcon(icon: string) {
+        this.icon = this.config.getConfig().icons[icon];
+        this.addIconView();
     }
 
     addIconView() {

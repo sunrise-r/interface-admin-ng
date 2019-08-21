@@ -1,3 +1,57 @@
+1.0.8-alpha.94
+
+* GLOBAL added @Input() configIcon: string to the class IadIconOutletComponent; It allows to set for any `<iad-icon-outlet>` customizable through NgModule.forRoot() module config icons:
+
+
+Example 1.
+
+   ```html
+    <iad-icon-outlet icon="fas chevron-up"></iad-icon-outlet>
+    ```
+    
+will add
+    
+   ```html
+   <fa-icon [icon]="['fas', 'chevron-up'"></fa-icon>
+   ```
+   
+Example 2. 
+
+    ```html
+    <iad-icon-outlet icon="pi pi-chevron-up"></iad-icon-outlet>
+    ```
+    
+will add
+    
+   ```html
+   <i class="pi pi-chevron-up"></i>
+   ```  
+
+Example 3. 
+
+    ```html
+    <iad-icon-outlet configIcon="chevron-up"></iad-icon-outlet>
+    ```
+    
+when:
+    
+    ```typescript
+    IadInterfaceAdminModule.forRoot({
+        ...,
+        icons: {
+         'chevron-up': 'custom-chevron-up'
+        }
+    })
+    ```
+    
+will add
+    
+   ```html
+   <i class="custom-chevron-up"></i>
+   ```
+
+* FORM added customizable chevron-up icon to iad-form-group
+
 # 1.0.8@alpha.90
 
 * GLOBAL; GRID added ability to customize icons for grid sorting. To configure icons you shold use NgModule.forRoot() module config as following:
