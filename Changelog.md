@@ -1,3 +1,7 @@
+1.0.9-alpha.97
+
+* CORE added export of IadObjectUtils extension for primeng/ObjectUtils
+
 1.0.8-alpha.95
 
 * FORMS added iadElementFocus directive. This directive will produce (elementFocus) event<{focus: boolean, nativeEvent: ClickEvent}> when something is clicked inside its host element and also will add ui-focused css class to the host element;
