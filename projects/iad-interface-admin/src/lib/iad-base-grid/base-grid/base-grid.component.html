@@ -69,13 +69,14 @@
                         <ng-container *ngIf="col.translate; then thTranslate; else thNoTranslate"></ng-container>
                         <ng-template #thTranslate>{{col.header | translate}}</ng-template>
                         <ng-template #thNoTranslate>{{col.header}}</ng-template>
-                        <iad-table-sort-icon [field]="col.field"></iad-table-sort-icon>
+                        <ng-container *ngIf="col.sorting" [iadTableSortIcon]="col.field"></ng-container>
                     </div>
                     <iad-table-header-menu
                         *ngIf="hasColumnMenu(col)"
                         [columns]="columns"
                         [column]="col"
                         [defaultSortField]="defaultSortField"
+                        [defaultSortOrder]="defaultSortOrder"
                         [groupSettingsKey]="gridId"
                         (freeze)="onFrozenColumn($event)"></iad-table-header-menu>
                 </th>

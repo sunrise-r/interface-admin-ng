@@ -1,3 +1,7 @@
+// IconModule
+export * from './lib/iad-icons/iad-icon-outlet.component';
+export * from './lib/iad-icons/iad-icons.module';
+
 // Shared utils, services and helpers
 export * from './lib/shared/services/form-errors-stringify.service';
 export * from './lib/shared/services/event-manager.service';
@@ -14,6 +18,7 @@ export * from './lib/iad-primeng/table/iad-table.component';
 export * from './lib/iad-primeng/table/iad-table-body.component';
 export * from './lib/iad-primeng/table/iad-scrollable-view.component';
 export * from './lib/iad-primeng/dom/iad-dom-handler';
+export * from './lib/iad-primeng/utils/iad-object-utils';
 export * from './lib/iad-primeng/iad-primeng.module';
 
 // Env

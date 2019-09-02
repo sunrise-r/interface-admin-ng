@@ -5,7 +5,7 @@ import { FilterBuilderModule } from 'iad-interface-admin/filter';
 
 
 import { TableHeaderMenuComponent } from './table-header-menu/table-header-menu.component';
-import { TableSortIconComponent } from './table-sort-icon/table-sort-icon.component';
+import { TableSortIconDirective } from './table-sort-icon/table-sort-icon.directive';
 import { TableColumnFilterComponent } from './table-column-filter/table-column-filter.component';
 
 import { TableColumnSizeDirective } from './table-column-size/table-column-size.directive';
@@ -22,7 +22,7 @@ import { ChipsColumnComponent } from './column-components/chips-column.component
     imports: [IadSharedModule, SharedModule, IadPrimengModule, FilterBuilderModule],
     declarations: [
         TableHeaderMenuComponent,
-        TableSortIconComponent,
+        TableSortIconDirective,
         TableColumnFilterComponent,
         BaseGridComponent,
         TableColumnSizeDirective,
@@ -36,6 +36,6 @@ import { ChipsColumnComponent } from './column-components/chips-column.component
         ActionsColumnComponent,
         ChipsColumnComponent
     ],
-    exports: [TableColumnFilterComponent, BaseGridComponent, TableColumnSizeDirective, TableSortIconComponent]
+    exports: [TableColumnFilterComponent, BaseGridComponent, TableColumnSizeDirective, TableSortIconDirective]
 })
 export class IadBaseGridModule {}

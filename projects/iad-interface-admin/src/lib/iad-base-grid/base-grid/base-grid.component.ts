@@ -66,6 +66,11 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() defaultSortField = 'id';
 
     /**
+     * Order to sort the table by default
+     */
+    @Input() defaultSortOrder = 1;
+
+    /**
      * Sending table config to BaseGridComponent
      */
     @Input() refreshGridConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
@@ -623,9 +628,12 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
      * event.sortOrder = Sort order as number, 1 for asc and -1 for dec
      * @returns {string[]}
      */
-    private buildSort(sortField?: string, sortOrder = 1): string {
+    private buildSort(sortField?: string, sortOrder?: number): string {
         if (!sortField) {
             sortField = this.defaultSortField;
+        }
+        if (sortOrder === undefined || sortOrder === null) {
+            sortOrder = this.defaultSortOrder;
         }
         return sortField + ',' + (sortOrder < 0 ? 'desc' : 'asc');
     }

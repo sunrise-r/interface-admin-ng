@@ -1,48 +1,47 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IadPrimengModule, IadSharedModule, IadModuleConfig, IadModuleConfigInterface, IadConfigService } from 'iad-interface-admin/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IadPrimengModule, IadSharedModule, IadModuleConfig, IadModuleConfigInterface, IadConfigService, IadIconsModule } from 'iad-interface-admin/core';
 
 import { InputMaskModule } from 'primeng/inputmask';
 import { CalendarModule, PanelModule } from 'primeng/primeng';
 
 import { DynamicFormComponent } from './dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-field.directive';
+import { ElementFocusDirective } from './element-focus.directive';
 
 import { FormatInputNamePipe } from './format-input-name.pipe';
 import { IadFormDateComponent } from './components/iad-form-date.component';
 import { IadFormFileComponent } from './components/iad-form-file.component';
 import { IadFormInputComponent } from './components/iad-form-input.component';
 import { IadFormNumberComponent } from './components/iad-form-number.component';
-import { IadDropdownGroupComponent } from './components/iad-dropdown-group.component';
+import { IadFormGroupComponent } from './components/iad-form-group.component';
 import { IadFormDateTimeComponent } from './components/iad-form-date-time.component';
 import { IadFormTextareaComponent } from './components/iad-form-textarea.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { IadFormCheckboxComponent } from './components/iad-form-checkbox.component';
-import { IadFormMultiSelectComponent } from './components/iad-form-multi-select.component';
-import { IadFormSelectionDropdownComponent } from './components/iad-form-selection-dropdown.component';
+import { IadFormDropdownComponent } from './components/iad-form-dropdown.component';
 import { IadFormRichEditorComponent } from './components/iad-form-rich-editor.component';
 import { IadFormChipsComponent } from './components/iad-form-chips.component';
 import { IadFormTranslateInputComponent } from './components/iad-form-translate-input.component';
-import {IadFormAutoCompleteInputComponent} from './components/iad-form-auto-complete-input.component';
+import { IadFormAutoCompleteInputComponent } from './components/iad-form-auto-complete-input.component';
 
 @NgModule({
-    imports: [CalendarModule, InputMaskModule, PanelModule, IadSharedModule, IadPrimengModule, FontAwesomeModule],
+    imports: [CalendarModule, InputMaskModule, PanelModule, IadSharedModule, IadPrimengModule, IadIconsModule],
     declarations: [
         FileUploadComponent,
         DynamicFormComponent,
         FormatInputNamePipe,
         DynamicFieldDirective,
+        ElementFocusDirective,
         IadFormDateComponent,
         IadFormInputComponent,
         IadFormNumberComponent,
-        IadDropdownGroupComponent,
+        IadFormGroupComponent,
         IadFormFileComponent,
         IadFormDateTimeComponent,
         IadFormTextareaComponent,
         IadFormCheckboxComponent,
-        IadFormMultiSelectComponent,
-        IadFormSelectionDropdownComponent,
+        IadFormDropdownComponent,
         IadFormRichEditorComponent,
         IadFormChipsComponent,
         IadFormTranslateInputComponent,
@@ -52,19 +51,18 @@ import {IadFormAutoCompleteInputComponent} from './components/iad-form-auto-comp
         IadFormDateComponent,
         IadFormInputComponent,
         IadFormNumberComponent,
-        IadDropdownGroupComponent,
+        IadFormGroupComponent,
         IadFormFileComponent,
         IadFormDateTimeComponent,
         IadFormTextareaComponent,
         IadFormCheckboxComponent,
-        IadFormMultiSelectComponent,
-        IadFormSelectionDropdownComponent,
+        IadFormDropdownComponent,
         IadFormRichEditorComponent,
         IadFormChipsComponent,
         IadFormTranslateInputComponent,
         IadFormAutoCompleteInputComponent
     ],
-    exports: [DynamicFormComponent, FormatInputNamePipe, FileUploadComponent, DynamicFieldDirective]
+    exports: [DynamicFormComponent, FormatInputNamePipe, FileUploadComponent, DynamicFieldDirective, ElementFocusDirective]
 })
 export class DynamicFormModule {
     static forRoot(moduleConfig: IadModuleConfigInterface): ModuleWithProviders {

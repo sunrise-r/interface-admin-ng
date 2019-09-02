@@ -67,6 +67,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() defaultSortField: string;
 
     /**
+     * Setting of default sort order
+     */
+    @Input() defaultSortOrder: string;
+
+    /**
      * Allows to make table and toolbar disabled
      */
     @Input() disabled: boolean;
@@ -491,26 +496,27 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             columns: this.initColumns(),
             filter: this.filter,
             searchUrl: this.searchUrl,
-            defaultSortField: this.defaultSortField
+            defaultSortField: this.defaultSortField,
+            defaultSortOrder: this.defaultSortOrder === 'asc' ? 1 : -1
         };
     }
 
     initColumns(): IadGridColumn[] {
         this._columns = [];
-        this._staticFrozenRightColumns = this._externalStaticFrozenRightColumns || [];
-        this._staticFrozenColumns = this._externalStaticFrozenColumns || [];
-        this._staticFrozenRightWidth = this._externalStaticFrozenRightWidth || '0';
-        this._staticFrozenWidth = this._externalStaticFrozenWidth || '0';
+        this._staticFrozenRightColumns = this._externalStaticFrozenRightColumns ? [...this._externalStaticFrozenRightColumns] : [];
+        this._staticFrozenColumns = this._externalStaticFrozenColumns ? [...this._externalStaticFrozenColumns] : [];
+        this._staticFrozenRightWidth = this._externalStaticFrozenRightWidth ? this._externalStaticFrozenRightWidth : '0';
+        this._staticFrozenWidth = this._externalStaticFrozenWidth ? this._externalStaticFrozenWidth : '0';
         if (this.projection) {
             this.projection.columns.forEach(column => {
                 if (column.properties && column.properties.width) {
                     column.width = IadHelper.toInt(column.properties.width);
                 }
                 if (column.position === 'const-froz-right') {
-                    IadHelper.splice(this.staticFrozenRightColumns, column, 'field');
+                    IadHelper.splice(this._staticFrozenRightColumns, column, 'field');
                     this._staticFrozenRightWidth = (parseInt(this._staticFrozenRightWidth, 10) + column.width).toString() + 'px';
                 } else if (column.position === 'const-froz-left') {
-                    IadHelper.splice(this.staticFrozenColumns, column, 'field');
+                    IadHelper.splice(this._staticFrozenColumns, column, 'field');
                     this._staticFrozenWidth = (parseInt(this._staticFrozenWidth, 10) + column.width).toString() + 'px';
                 } else {
                     IadHelper.splice(this._columns, column, 'field');

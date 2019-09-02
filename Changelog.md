@@ -1,3 +1,100 @@
+1.0.9-alpha.97
+
+* CORE added export of IadObjectUtils extension for primeng/ObjectUtils
+
+1.0.8-alpha.95
+
+* FORMS added iadElementFocus directive. This directive will produce (elementFocus) event<{focus: boolean, nativeEvent: ClickEvent}> when something is clicked inside its host element and also will add ui-focused css class to the host element;
+
+1.0.8-alpha.94
+
+* GLOBAL added @Input() configIcon: string to the class IadIconOutletComponent; It allows to set for any `<iad-icon-outlet>` customizable through NgModule.forRoot() module config icons:
+
+
+Example 1.
+
+   ```html
+    <iad-icon-outlet icon="fas chevron-up"></iad-icon-outlet>
+    ```
+    
+will add
+    
+   ```html
+   <fa-icon [icon]="['fas', 'chevron-up'"></fa-icon>
+   ```
+   
+Example 2. 
+
+    ```html
+    <iad-icon-outlet icon="pi pi-chevron-up"></iad-icon-outlet>
+    ```
+    
+will add
+    
+   ```html
+   <i class="pi pi-chevron-up"></i>
+   ```  
+
+Example 3. 
+
+    ```html
+    <iad-icon-outlet configIcon="chevron-up"></iad-icon-outlet>
+    ```
+    
+when:
+    
+    ```typescript
+    IadInterfaceAdminModule.forRoot({
+        ...,
+        icons: {
+         'chevron-up': 'custom-chevron-up'
+        }
+    })
+    ```
+    
+will add
+    
+   ```html
+   <i class="custom-chevron-up"></i>
+   ```
+
+* FORM added customizable chevron-up icon to iad-form-group
+
+# 1.0.8@alpha.90
+
+* GLOBAL; GRID added ability to customize icons for grid sorting. To configure icons you shold use NgModule.forRoot() module config as following:
+
+    ```typescript
+    IadInterfaceAdminModule.forRoot({
+        ...,
+        icons: {
+         'grid-sort-asc': 'pi pi-sort-up',
+         'grid-sort-desc': 'pi pi-sort-down',
+         'grid-sort': 'pi pi-sort'
+        }
+    })
+    ```
+
+    to use FontAwesome icons you should add `fa`, `fas` or `far` prefix to your icons
+    
+    ```typescript
+    IadInterfaceAdminModule.forRoot({
+        ...,
+        icons: {
+         'grid-sort-asc': 'fas sort-up',
+         'grid-sort-desc': 'fas sort-down',
+         'grid-sort': 'fas sort'
+        }
+    })
+    ```
+    
+    This schema will be used in future for all icons in project
+
+# 1.0.8@alpha.89
+
+* FORM removed iad-tooltip-notifier default icons styling for projection-form
+* FORM refactored dropdown input component. Now it is combined with multiSelection component 
+
 # 1.0.8@alpha.88
 
 * GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid

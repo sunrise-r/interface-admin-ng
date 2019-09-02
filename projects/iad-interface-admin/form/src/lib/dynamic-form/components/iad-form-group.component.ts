@@ -5,8 +5,8 @@ import { FormInputGroup } from '../core/form-input-group';
 import { ContextAware } from '../core/context-aware';
 
 @Component({
-    selector: 'iad-dropdown-group',
-    styleUrls: ['./iad-dropdown-group.component.scss'],
+    selector: 'iad-form-group',
+    styleUrls: ['./iad-form-group.component.scss'],
     template: `
         <ng-container [formGroup]="group">
             <ng-template [ngIf]="config.collapsable" [ngIfThen]="collapsableTemplate" [ngIfElse]="childGroupTemplate"></ng-template>
@@ -15,8 +15,7 @@ import { ContextAware } from '../core/context-aware';
                          (onBeforeToggle)="$event.collapsed ? panel.expand($event.event) : panel.collapse($event.event)">
                     <p-header>
                         <div class="block-title link" (click)="panel.toggle($event)">
-                            <fa-icon [icon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" class="text-left">
-                            </fa-icon>
+                            <iad-icon-outlet [configIcon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" cssClass="text-left"></iad-icon-outlet>
                             {{config.translate ? (config.label | translate) : config.label}}
                         </div>
                     </p-header>
@@ -47,7 +46,7 @@ import { ContextAware } from '../core/context-aware';
             </ng-template>
         </ng-container>`
 })
-export class IadDropdownGroupComponent implements OnInit, ContextAware {
+export class IadFormGroupComponent implements OnInit, ContextAware {
     context: any;
 
     /**

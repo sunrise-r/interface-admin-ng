@@ -12,10 +12,10 @@ import { IadGridColumn } from '../model/iad-grid-column.model';
     template: `
         <div class="actions-column">
             <a *ngIf="display('edit')" [href]="editUrl">
-                <fa-icon [icon]="'edit'" [size]="'1x'" style="color: dimgray"></fa-icon>
+                <iad-icon-outlet icon="fas edit" [size]="'1x'" [cssStyle]="{color: 'dimgray'}"></iad-icon-outlet>
             </a>
             <a *ngIf="display('delete')" (click)="showDeleteRecordDialog()">
-                <fa-icon [icon]="'trash'" [size]="'1x'" style="color: dimgray"></fa-icon>
+                <iad-icon-outlet icon="fas trash" [size]="'1x'" [cssStyle]="{color: 'dimgray'}"></iad-icon-outlet>
             </a>
             <button class="btn" *ngIf="display('button')" (click)="broadcastButtonEvent()">
                 {{translateButton ? (buttonTranslationCode | translate) : buttonName}}
@@ -41,7 +41,7 @@ export class ActionsColumnComponent implements TableTdContentInterface {
             return '';
         }
         const editUrlParam: string = <string>this.col.properties['editUrl'];
-        return '/#' + (editUrlParam[0] === '\/' ? '' : '\/') + editUrlParam
+        return '#' + (editUrlParam[0] === '\/' ? '' : '\/') + editUrlParam
             + (editUrlParam[editUrlParam.length - 1] === '\/' ? '' : '\/') + this.rowData['id'];
     }
 

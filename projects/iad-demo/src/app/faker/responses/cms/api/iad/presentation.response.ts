@@ -146,6 +146,7 @@ export class PresentationResponse extends AbstractResponse {
                     {
                         'field': 'actions',
                         'header': 'presentation.projection.main.actions',
+                        'sorting': false,
                         'translate': true,
                         'visible': true,
                         'formatter': 'actions',

@@ -9,6 +9,7 @@ export interface IadModuleConfigInterface {
     referenceProjectionProvider?: Provider;
     filterBuilderProvider?: Provider;
     settingsKeeper?: Provider;
+    icons?: any;
 }
 
 export class IadConfigService {
@@ -38,4 +39,11 @@ export class IadModuleConfig {
     referenceProjectionProvider = null;
     filterBuilderProvider = null;
     settingsKeeper = null;
+    icons = {
+        'grid-sort-asc': 'pi pi-sort-up',
+        'grid-sort-desc': 'pi pi-sort-down',
+        'grid-sort': 'pi pi-sort',
+        'chevron-down': 'fas chevron-down',
+        'chevron-up' : 'fas chevron-up'
+    };
 }

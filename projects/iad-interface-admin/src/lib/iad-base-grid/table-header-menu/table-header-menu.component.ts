@@ -83,9 +83,25 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      */
     @Input() groupSettingsKey: string;
 
-    @Input() column: IadGridColumnInterface; // Текущая колонка
-    @Input() columns: IadGridColumnInterface[]; // Все колонки
-    @Input() defaultSortField = 'id'; // Поле для сортировки по умолчанию
+    /**
+     * Текущая колонка
+     */
+    @Input() column: IadGridColumnInterface;
+
+    /**
+     * Все колонки
+     */
+    @Input() columns: IadGridColumnInterface[];
+
+    /**
+     * Поле для сортировки по умолчанию
+     */
+    @Input() defaultSortField = 'id';
+
+    /**
+     * Порядок для сортировки по умолчанию
+     */
+    @Input() defaultSortOrder = SORT_ASC;
 
     @Output() sort = new EventEmitter<boolean | string>();
     @Output() hidden = new EventEmitter<string>();
@@ -213,7 +229,7 @@ export class TableHeaderMenuComponent implements OnInit, OnDestroy {
      * @param event
      */
     resetSort(event) {
-        this.iadTableComponent._sortOrder = SORT_ASC;
+        this.iadTableComponent._sortOrder = this.defaultSortOrder;
         this.iadTableComponent._sortField = this.defaultSortField;
         this.iadTableComponent.sortSingle();
     }

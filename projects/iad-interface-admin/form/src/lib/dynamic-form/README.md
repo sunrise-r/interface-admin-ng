@@ -68,11 +68,11 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
 
 ## Default input components
 
-### 1. IadDropdownGroupComponent
+### 1. IadFormGroupComponent
   
   Description: Subform with collapse option
   
-  Selector: iad-dropdown-group
+  Selector: iad-form-group
   
   Model: FormInputGroup
   
@@ -172,21 +172,8 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
   Selector: iad-form-checkbox
   
   Model: BooleanInput
-    
-### 9. IadFormMultiSelectComponent
 
-  Description: PrimeNg multiSelect component
-  
-  Selector: iad-form-multi-select
-  
-  Model: MultiSelectInputModel
-  
-    values: string[];
-    maxSelectedLabels = 3;
-    showHeader = true;
-    translatePrefix: string;
-
-### 10. IadFormRichEditorComponent
+### 9. IadFormRichEditorComponent
 
   Description: PrimeNg rich editor component (quill)
   
@@ -194,20 +181,31 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
   
   Model: RichEditorInput
     
-### 11. IadFormSelectionDropdownComponent
+### 10. IadFormDropdownComponent
 
-  Description: PrimeNg selection dropdown component
+  Description: PrimeNg selection dropdown / multiSelect component
   
-  Selector: iad-form-rich-editor
+  Selector: iad-form-dropdown
   
   Model: DropdownInputModel
+  
+  Model2: MultiSelectInputModel (deprecated)
   
       values?: string[];
       valuesUrl?: string;
       translatePrefix?: string;
-      showClear?: boolean;
+      
+      valueField = 'value'; // field to use as value
+      labelField = 'label'; // field to show label
+      
+      showClear= false; // single only
+      
+      multiple = false;
+      
+      maxSelectedLabels = 3; // multiple only
+      showHeader = true; // multiple only
 
-### 12. IadFormChipsComponent
+### 11. IadFormChipsComponent
 
   Description: PrimeNg chips component
   
@@ -217,7 +215,7 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
   
       value?: string; // comma separated
 
-### 13. IadFormAutoCompleteInputComponent
+### 12. IadFormAutoCompleteInputComponent
 
   Description: PrimeNg autocomplete component
 

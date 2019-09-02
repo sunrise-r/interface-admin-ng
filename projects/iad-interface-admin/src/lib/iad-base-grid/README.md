@@ -10,6 +10,7 @@
     [changeTableHeight]="changeTableHeight"
     [columns]="columns"
     [defaultSortField]="defaultSortField"
+    [defaultSortOrder]="defaultSortOrder"
     [doTableAction]="doTableAction"
     [enableInfiniteScroll]="true"
     [filter]="filter"
@@ -42,6 +43,7 @@ allowUnSelectRow|boolean|Flag to allow to unselect rows
 changeTableHeight|Subject()|Subject to recalculate table height
 columns|IadGridColumn[]|@deprecated. Grid columns. May be installed via IadGridConfigModel 
 defaultSortField||
+defaultSortOrder||
 doTableAction||
 enableInfiniteScroll|boolean|
 filter||
