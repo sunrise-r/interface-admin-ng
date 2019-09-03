@@ -12,7 +12,7 @@ export class IadObjectUtils extends ObjectUtils {
         if (data && field) {
             if (ObjectUtils.isFunction(field)) {
                 return field(data);
-            } else if (typeof data === 'string') {
+            } else if (typeof data === 'string' || typeof data === 'number') {
                 return data;
             } else if (field.indexOf('.') === -1) {
                 return data[field];
