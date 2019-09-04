@@ -44,9 +44,7 @@
     <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
             <ng-template ngFor let-col [ngForOf]="columns">
-                <col *ngIf="col.visible"
-                     [iadTableColumnSize]="col.width"
-                     [iadTableColumnSizeDisabled]="!(isColumnResizable(col))">
+                <col *ngIf="col.visible" [iadTableColumnSize]="col.width">
             </ng-template>
         </colgroup>
     </ng-template>
@@ -59,7 +57,6 @@
                     [iadTableColumnSize]="col.width"
                     [pResizableColumnDisabled]="!(isColumnResizable(col))"
                     [pReorderableColumnDisabled]="!(isColumnReorderable(col))"
-                    [iadTableColumnSizeDisabled]="!(isColumnResizable(col))"
                     [ngClass]="[col.style || '']">
 
                     <div class="ui-grid-header-label"
