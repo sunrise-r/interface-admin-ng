@@ -1,3 +1,7 @@
+# 1.0.9-alpha.99
+
+* GRID removed iadTableColumnSizeDisabled col property because this property does not allow to set hard size of columns
+
 # 1.0.9-alpha.97
 
 * CORE added export of IadObjectUtils extension for primeng/ObjectUtils
