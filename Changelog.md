@@ -1,6 +1,7 @@
 # 1.0.9-alpha.100
 
 * GLOBAL IadPresentationLoadService is removed from lib
+* GRID Added "infoUrl" property to listProjection model
 
 # 1.0.9-alpha.99
 
