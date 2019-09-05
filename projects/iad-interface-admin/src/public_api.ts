@@ -32,7 +32,6 @@ export * from './lib/projection-grid/settings-manager/grid-settings-storage.serv
 
 // # public-services
 export * from './lib/public-services/iad-projection-tree.service';
-export * from './lib/public-services/iad-presentation-load.service';
 
 // #table toolbar
 export * from './lib/toolbar/toolbar-action.directive';

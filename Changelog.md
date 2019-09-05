@@ -1,3 +1,7 @@
+# 1.0.9-alpha.100
+
+* GLOBAL IadPresentationLoadService is removed from lib
+
 # 1.0.9-alpha.99
 
 * GRID removed iadTableColumnSizeDisabled col property because this property does not allow to set hard size of columns
