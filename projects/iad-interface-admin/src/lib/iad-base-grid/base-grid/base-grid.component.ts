@@ -171,6 +171,11 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() staticFrozenWidth = '0';
 
     /**
+     * Style class for table
+     */
+    @Input() tableStyleClass: string;
+
+    /**
      * Update columns visibility
      */
     @Input() updateVisibility: Subject<IadGridColumn> = new Subject<IadGridColumn>();

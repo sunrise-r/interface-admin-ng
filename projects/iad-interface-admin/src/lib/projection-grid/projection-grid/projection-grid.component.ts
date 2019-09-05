@@ -132,6 +132,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() lazy: boolean;
 
     /**
+     * Style class for table
+     */
+    @Input() tableStyleClass: string;
+
+    /**
      * Update grid subject
      */
     @Input() refresh: Subject<boolean> = new Subject<boolean>();

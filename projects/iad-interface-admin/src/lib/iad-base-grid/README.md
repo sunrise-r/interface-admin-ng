@@ -27,6 +27,7 @@
     [staticFrozenRightColumns]="staticFrozenRightColumns"
     [staticFrozenRightWidth]="staticFrozenRightWidth"
     [staticFrozenWidth]="staticFrozenWidth"
+    [tableStyleClass]="tableStyleClass"
     [unSelectRow]="unSelectRow"
     [updateVisibility]="updateVisibility"
     [value]="value"
@@ -60,6 +61,7 @@ staticFrozenColumns|IadGridColumn[]|
 staticFrozenRightColumns|IadGridColumn[]|
 staticFrozenRightWidth|string|
 staticFrozenWidth|string|
+tableStyleClass|string|Style css class to add to &lt;table&gt; html tag 
 unSelectRow||
 updateVisibility||
 value|any[]|
