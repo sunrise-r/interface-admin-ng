@@ -1,3 +1,9 @@
+# 1.0.9-alpha.101
+
+* GRID removed default tableStyleClass "partner-table" since it belongs to partner project
+* GLOBAL added scss files to keep default styles for iad
+* 
+
 # 1.0.9-alpha.100
 
 * GLOBAL IadPresentationLoadService is removed from lib

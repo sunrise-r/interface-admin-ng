@@ -4,13 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve iad-demo",
-    "build": "ng build",
+    "build": "yarn build:lib && yarn lib:copy:styles && yarn lib:copy:readme",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test:lib": "ng test iad-interface-admin",
     "test:demo": "ng test iad-demo",
     "build:lib": "ng build iad-interface-admin",
-    "build:demo": "ng build iad-demo --prod"
+    "build:demo": "ng build iad-demo --prod",
+    "lib:copy:styles": "cpx \"projects/iad-interface-admin/src/lib/assets/*.*\" \"dist/iad-interface-admin/assets\"",
+    "lib:copy:readme": "cpx \"README.md\" \"dist/iad-interface-admin\""
   },
   "private": true,
   "dependencies": {
@@ -54,6 +56,7 @@
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "codelyzer": "~4.5.0",
+    "cpx": "^1.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.1.1",

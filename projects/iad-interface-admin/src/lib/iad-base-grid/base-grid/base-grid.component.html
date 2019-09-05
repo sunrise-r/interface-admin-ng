@@ -3,7 +3,7 @@
     columnResizeMode="expand"
     dataKey="id"
     selectionMode="single"
-    tableStyleClass="partner-table"
+    [tableStyleClass]="tableStyleClass"
     [allowUnSelectRow]="allowUnSelectRow"
     [changeTableHeight]="changeTableHeight"
     [columns]="columns"
@@ -57,13 +57,12 @@
                     [iadTableColumnSize]="col.width"
                     [pResizableColumnDisabled]="!(isColumnResizable(col))"
                     [pReorderableColumnDisabled]="!(isColumnReorderable(col))"
-                    [ngClass]="[col.style || '']">
-
+                    [ngClass]="[col.style || 'ui-grid-header']">
                     <div class="ui-grid-header-label"
                          [pSortableColumn]="col.field"
                          [pSortableColumnDisabled]="!(isColumnSortable(col))"
-                    >
-                        <ng-container *ngIf="col.translate; then thTranslate; else thNoTranslate"></ng-container>
+                         [ngClass]="{'ui-grid-with-menu': hasColumnMenu(col), 'ui-grid-with-label': col.header && col.header.length}">
+                        <ng-template [ngIf]="col.translate" [ngIfThen]="thTranslate" [ngIfElse]="thNoTranslate"></ng-template>
                         <ng-template #thTranslate>{{col.header | translate}}</ng-template>
                         <ng-template #thNoTranslate>{{col.header}}</ng-template>
                         <ng-container *ngIf="col.sorting" [iadTableSortIcon]="col.field"></ng-container>

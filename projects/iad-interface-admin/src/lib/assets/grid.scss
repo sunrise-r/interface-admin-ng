@@ -1,0 +1,66 @@
+body .ui-table table {
+    & > tbody.ui-table-tbody > tr,
+    & > thead.ui-table-thead > tr {
+        cursor: pointer;
+    }
+    & > thead.ui-table-thead > tr > th,
+    & > tbody.ui-table-tbody > tr > td {
+        border: 1px solid;
+        box-sizing: border-box;
+        position: relative;
+        white-space: nowrap;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none;
+    }
+    & > thead.ui-table-thead > tr {
+        & > th {
+            font-weight: 400;
+            padding: 0;
+            text-transform: uppercase;
+            background-clip: padding-box;
+
+            .ui-grid-header-label {
+                overflow: hidden;
+                padding: 3px 0 2px 4px;
+                text-overflow: ellipsis;
+                -ms-text-overflow: ellipsis;
+                -o-text-overflow: ellipsis;
+                width: calc(100%);
+
+                &.ui-grid-with-menu {
+                    width: calc(100% - 15px);
+                }
+
+                &:focus {
+                    outline: none;
+                }
+
+                &.ui-state-highlight {
+                    background: transparent;
+                    color: inherit;
+                }
+            }
+        }
+
+        &.ui-column-header-row {}
+        &.ui-column-filter-row {}
+        &.ui-column-filter-shown > th {}
+    }
+
+    & > tbody.ui-table-tbody > tr {
+        outline: none;
+        & > td {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding: 2px 5px 0 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+        }
+    }
+}
