@@ -28,6 +28,7 @@ export class DocumentListProjection implements IadListProjectionInterface {
     code: string;
     active?: boolean;
     searchUrl?: string;
+    infoUrl?: string;
     columns?: IadGridColumn[];
     filters?: FilterInterface[];
     properties?: any;

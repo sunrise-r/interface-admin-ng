@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IadPresentationLoadService } from './presentation-load.service';
+import { IadPresentationLoadService } from './iad-presentation-load.service';
 
 describe('PresentationLoadService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

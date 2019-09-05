@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import {IadPresentationInterface, IadPresentationLoadService} from 'iad-interface-admin';
+import { IadPresentationInterface } from 'iad-interface-admin';
+import { IadPresentationLoadService } from './iad-presentation-load.service';
 
 @Injectable({
   providedIn: 'root'
