@@ -29,16 +29,6 @@ export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
     encapsulation: ViewEncapsulation.None
 })
 export class IadProjectionFormComponent implements OnChanges {
-
-    @Input()
-    set data(data: any) {
-        console.log('Using of "data" is not supported. Use rawFormData instead');
-        console.log('data payload:');
-        console.log(data);
-        console.log('rawFormData payload:');
-        console.log(this.rawFormData);
-    }
-
     /**
      * Проекция по которой строится форма
      */

@@ -1,3 +1,7 @@
+# 1.0.9-alpha.102
+ 
+* FORM added @Input() fileName to file-upload-component
+
 # 1.0.9-alpha.101
 
 * GRID removed default tableStyleClass "partner-table" since it belongs to partner project

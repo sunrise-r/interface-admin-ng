@@ -1,8 +1,16 @@
 [InterfaceAdminNg](../README.md) / Development
 
+## Convention
+
+1. When you make any changes to this project please write short descriptions of those changes to Changelog.md, that is located in the root directory of the project
+2. Every time you want to upload changed files to your npm repository change the minor version of pre-release. It is necessary to avoid cache comparison errors in dependent projects
+3. Add necessary changes to documentation when you change project code.
+4. If you have something to add to demo project then do it
+5. If you are seeing grammar or syntax issues in documentation or code - fix them!
+
 ## Publish library to the local Nexus server
 
-1. First you must build library. To do it open the project root directory and type: 
+1. First you have to build the library. To do it open the project root directory and type: 
 
     ```
     user@desktop:~/interface-admin-ng$ yarn run build:lib

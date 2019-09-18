@@ -25,15 +25,15 @@ export const FILE_VALUE_ACCESSOR: any = {
 export class FileUploadComponent implements OnInit, ControlValueAccessor {
     @Input() inputId: string;
 
-    @Input() inputReadonly: string;
+    @Input() inputReadonly: boolean;
 
     @Input() styleClass: string;
+
+    @Input() fileName = '';
 
     @Output() onBlur: EventEmitter<any> = new EventEmitter();
 
     @ViewChild('file') file: ElementRef;
-
-    fileName = '';
 
     fileToUpload: File = null;
 

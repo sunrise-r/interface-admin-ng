@@ -2,49 +2,96 @@
 
 # Form builder
 
-## FormProjection field model
+Form builder is an Angular module that allows you to build complex forms using prepared data structure. 
+To use form builder you should import angular module and use its main component inside your wrapper component:
+
+ ```typescript
+     @NgModule({
+         imports: [
+             DynamicFormModule.forRoot({
+               i18nEnabled: false,
+               defaultI18nLang: 'en',
+               noi18nMessage: 'translation-not-found',
+               referenceProjectionProvider: null,
+               filterBuilderProvider: null
+           })
+         ]
+     })
+     export class FormsModule {}
+ ```
+
+If you are using IadInterfaceAdminModule in your root module, then in your child module use simple
+
+ ```typescript
+     @NgModule({
+         imports: [
+             DynamicFormModule
+         ]
+     })
+     export class FormsModule {}
+ ```
+
+And in your component's template:
+
+ ```html
+ <iad-dynamic-form
+    [formInputGroup]="formInputGroup"
+    [serverError]="serverError" 
+    [context]="formMetaInformation"
+    [isNestedForm]="false"
+    [formTemplates]="formFooterTemplates"
+    (formSubmit)="onFormSubmit($event)"
+    (formCancel)="onFormCancel()"
+    ></iad-dynamic-form>
+ 
+```
+
+### Properties
+
+\@Input name | Type | Description
+---------- | ---- | -----------
+formInputGroup | FormInputGroup | Инпуты формы (заполняются извне компонента)
+serverError | HttpErrorResponse | Ошибка сервера для вывода её в форме
+context | any | Контекст построения формы (Обычно - данные для формы)
+isNestedForm | boolean | When form is nested than it has other parent form. Set this parameter to disable <form></form> tag and form buttons for current fieldset
+formTemplates | QueryList<PrimeTemplate> | Customized form Footer template
+inputComponents | { [param: string]: any } | * Компоненты инпутов формы
+| | | В виде объекта
+| | | {
+| | |     [inputKey: string]: any
+| | | }
+
+### Events
+
+\@Output name | Type | Description
+---------- | ---- | -----------
+formSubmit | any | событие сабмита формы. Angular неявно создаёт событие submit, которое можно использовать тоже, но тогда мы теряем контроль над событиями
+formCancel | any | Form cancel event
+valueChanges | any | Form values change outgoing event
+
+## FormInputGroup structure
 
 Field name | Type | Description
 ---------- | ---- | -----------
-label | string | Перевод или переведённое название поля
-name | string | Имя поля формы
-type | string |  [Тип отображаемого филда](#input-types-with-models)
-column? | number |  Номер колонки дял показа в форме (в форме поля могут быть раскиданы по колонкам)
-fieldInputType? | string |  DISABLED/READONLY/Null
-defaultValue? | string |  Знкачение по умолчанию, заданное в проекции
-presentationCode? | string | Код представления для запроса мета-информации, содержащей проекции Lookup или Reference.
-lookupSourceProjectionCode? | string | Код лист-проекции для отображения ресурсов Lookup (список, с предложениями для выбора в Lookup)
-lookupViewProjectionCode? | string | Код лист-проекции для отображения данных в Lookup
-referenceProjectionCode? | string | Код форм-проекции, которую нужно отобразить как вложенную группу полей данной формы
-translate? | boolean | Производится перевод по метке
-inputMask? | string | Маска ввода для плагинов ввода по маске
-validationTypes? | object | Типы валидации: 
-. | . | {
-. | . | email?: boolean;
-. | . | required?: boolean;
-. | . | minLength?: string;
-. | . | maxLength?: string;
-. | . | };
-valueField? | string | Название поля, по которому следует определять значение этого поля. Было сделаано для Lookup, но может быть применено к другим полям
-dataSourcePath? | string | Путь к данным, разделённый точками для заполнения поля значениями по умолчанию. Было сделаано для Lookup, но может быть применено к другим полям
-properties? | object | key=>value с кастомными свойствами 
-
-## Usage in formProjection
-    fields: [
-      {
-        'validationTypes': {'email': false, 'required': false},
-        'type': 'Hidden',
-        'name': 'hiddenStatus',
-        'label': 'Скрытый статус',
-        'defaultValue': 'SuperHiddenStatus',
-        'datasourcePath': 'properties.status.hiddenStatusValue'
-        'column': 0,
-        'translate': true,
-        'properties': {}
-      }
-    ],...
-    
-Note! 'datasourcePath' is named incorrect and should be renamed to dataSourcePath in IAD backend... But we have backward compatibility 
+controlType | string | ?
+column | number | column to show in form (allows to place fields in columns using Twitter Bootstrap grid)
+key | string | Input or Group name
+label | string | Input or Group label
+order | number | ?
+dependencies | string[] | dependent FormInputGroup's that shoul be disabled until current group is fullfilled
+children | FormGroupChildColumn[] | ?
+visible | boolean | ? // deprecated
+translate | boolean | ?
+collapsed | boolean | Flag to set group collapse component "collapsed" option defaults
+validators | object | Типы валидации: 
+          . | . | {
+          . | . | email?: boolean;
+          . | . | required?: boolean;
+          . | . | minLength?: string;
+          . | . | maxLength?: string;
+          . | . | };
+collapsable? | boolean | Flag to set group collapse template to apply or not
+properties? | any | Any additional properties for group
 
 ## Input types with Models
 
@@ -74,17 +121,7 @@ Chips | ChipsInputModel | [PrimeNg chips component](#12-iadformchipscomponent)
   
   Selector: iad-form-group
   
-  Model: FormInputGroup
-  
-      column: number;
-      key: string;
-      label: string;
-      order: number;
-      dependencies: string[];
-      children: FormGroupChildColumn[];
-      visible: boolean;
-      translate: boolean;
-      collapsed = true;
+  Model: [FormInputGroup](#forminputgroup-structure)
       
   Projection field config properties:
       

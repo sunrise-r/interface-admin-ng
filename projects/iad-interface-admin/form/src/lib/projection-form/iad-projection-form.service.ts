@@ -81,21 +81,23 @@ export class IadProjectionFormService {
     flattenData: boolean;
 
     /**
-     * Модели конфигов для инпутов
+     * Configuration models for each input type
      */
     inputModels: any;
 
-    constructor(public referenceProjectionService: IadReferenceProjectionProviderService) {}
+    constructor(public referenceProjectionService: IadReferenceProjectionProviderService) {
+    }
 
     /**
-     * Инициализирует форму с группами ProjectionReference и колонками column
+     * Initialize form with groups from "ProjectionReference" property and columns from "column" property of
+     * each child group
      */
     init(options: {
         formProjection: IadFormProjection,
-        rawFormData: any,
-        defaultSourcePath: string
-        flattenData: boolean,
-        inputModels: any;
+        inputModels: any,
+        rawFormData?: any,
+        defaultSourcePath?: string
+        flattenData?: boolean
     }): Promise<FormInputGroup> {
         this.rawFormData = options.rawFormData;
         this.defaultSourcePath = options.defaultSourcePath;
@@ -129,7 +131,7 @@ export class IadProjectionFormService {
         fields: IFormProjectionField[],
         referenceFields: IFormProjectionField[],
         data?: { [param: string]: IadFormProjectionInterface }
-        ): Promise<{fields: IFormProjectionField[], referenceFields: IFormProjectionField[], data: { [param: string]: IadFormProjectionInterface }}> {
+    ): Promise<{ fields: IFormProjectionField[], referenceFields: IFormProjectionField[], data: { [param: string]: IadFormProjectionInterface } }> {
 
         // Check if there any nested references in the form; If no more references, then resolve
         if (!referenceFields || referenceFields.length === 0) {
