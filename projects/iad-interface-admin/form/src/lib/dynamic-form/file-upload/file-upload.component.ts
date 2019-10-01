@@ -68,7 +68,7 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
         if (this.fileToUpload) {
             this.fileName = this.fileToUpload.name;
         }
-        this.writeValue(this.fileToUpload);
+        this.onChange(this.fileToUpload);
         this.onTouched();
     }
 
