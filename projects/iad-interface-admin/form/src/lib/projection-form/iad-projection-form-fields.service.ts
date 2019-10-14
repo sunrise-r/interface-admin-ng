@@ -1,21 +1,12 @@
 import { Injectable } from '@angular/core';
 import { IFormProjectionField } from './model/form-projection-field.model';
 import { IadFormProjectionInterface } from './model/iad-form-projection.model';
-import { ProjectionFormHelper } from './iad-projection-form.service';
+import { ProjectionFormHelper } from './iad-projection-form-helper';
 import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
 
 export class FieldsInitializationModel {
     private _fields: IFormProjectionField[];
     private _referenceFields: IFormProjectionField[];
-    private _data: { [param: string]: IadFormProjectionInterface };
-
-    constructor(fields: IFormProjectionField[], referenceFields: IFormProjectionField[], data?: { [p: string]: IadFormProjectionInterface }) {
-        this._fields = fields;
-        this._referenceFields = referenceFields;
-        if (data) {
-            this._data = data;
-        }
-    }
 
     getFields(): IFormProjectionField[] {
         return this._fields;
@@ -31,14 +22,6 @@ export class FieldsInitializationModel {
 
     setReferenceFields(value: IFormProjectionField[]) {
         this._referenceFields = value;
-    }
-
-    getData(): { [p: string]: IadFormProjectionInterface } {
-        return this._data;
-    }
-
-    setData(value: { [p: string]: IadFormProjectionInterface }) {
-        this._data = value;
     }
 }
 
@@ -60,19 +43,28 @@ export class FieldsInitializationModel {
 @Injectable()
 export class IadProjectionFormFieldsService {
 
-    private fields: IFormProjectionField[];
-
-    private referenceFields: IFormProjectionField[];
-
-    private data: { [param: string]: IadFormProjectionInterface };
+    /**
+     * Default flattenData state to get form input values
+     */
+    private flattenData: boolean;
 
     constructor(public referenceProjectionService: IadReferenceProjectionProviderService) {}
 
     initFormFields(baseProjection: IadFormProjectionInterface): Promise<FieldsInitializationModel> {
-        this.updateFields(baseProjection.fields);
         const referenceFields = ProjectionFormHelper.findReferenceFields(baseProjection.fields);
-        const model = new FieldsInitializationModel(baseProjection.fields, referenceFields);
+        const model = new FieldsInitializationModel();
+        model.setFields(baseProjection.fields);
+        model.setReferenceFields(referenceFields);
         return this.initFormFieldsRecursive(model);
+    }
+
+    /**
+     * Set state of the flag Flaten for data
+     * @param flattenData
+     */
+    setFlattenDataState(flattenData: boolean) {
+        this.flattenData = flattenData;
+        return this;
     }
 
     /**
@@ -90,44 +82,31 @@ export class IadProjectionFormFieldsService {
         }
         return this.requestReferredProjections(model.getReferenceFields())
             .then((projections: { [param: string]: IadFormProjectionInterface }) => {
-                // will update current model fields with flatten fields
-                model.setFields(this.updateScopeFields(model.getFields(), projections));
-                model.setReferenceFields(this.findReferenceFieldsInProjections(projections));
-                model.setData(Object.assign({}, model.getData, projections));
-                return this.initFormFieldsRecursive(model);
+                const newModel = new FieldsInitializationModel();
+                newModel.setFields(this.updateFieldsTree(model.getFields(), projections));
+                newModel.setReferenceFields(this.findReferenceFieldsInProjections(projections));
+                return this.initFormFieldsRecursive(newModel);
             });
     }
 
-
-    updateFields(fields: IFormProjectionField[]): void {
-        this.fields = fields;
-    }
-
     /**
-     * #АЛГО1
-     * смотрим филды в текущем scope
-     * Если это вложенка и поля флатен, то мы их мёрджим со всеми полями в текущем scope
-     * Иначе поле добавляется как есть в текущем scope
-     // Был запрошен референс, поэтому мы можем
-     // 1) пробежать по referenceFormProjections
-     // 1.1) Для каждого референса найти в филдах поле этого референса
-     // 1.2.1) Если у поля flattenData, то запоминаем позицию поля
-     // 1.2.1) Отрезаем часть массива полей до этого поля
-     // 1.3.1) Иначе ищем вложенные референсы и ползём дальше как раньше
-     // Бежим по первому уровню (scope1):
-
-     // Если текущее поле референсное (в referenceFields), то мы ищем его вложенки в data (scope2...n)
-     // Для каждой вложенки проверяем #АЛГО1
+     * Updates fields tree with reference fields recursive
      * @param fields
      * @param referenceFormProjections
      */
-    private updateScopeFields(fields: IFormProjectionField[], referenceFormProjections: { [param: string]: IadFormProjectionInterface }): IFormProjectionField[] {
-        return fields.reduce((acu, field) => acu.concat(
-            ProjectionFormHelper.plainReferenceCondition(
-                (_f) => ProjectionFormHelper.checkFlattenDataState(_f, this.flattenData),
-                (_f) => referenceFormProjections[_f.presentationCode + '.' + _f.referenceProjectionCode].fields,
-                (_f) => [_f], field)
-        ), []);
+    private updateFieldsTree(fields: IFormProjectionField[], referenceFormProjections: { [param: string]: IadFormProjectionInterface }): IFormProjectionField[] {
+        let result: IFormProjectionField[] = [];
+        fields.forEach(field => {
+            if (field.referenceFields) {
+                field.referenceFields = this.updateFieldsTree(field.referenceFields, referenceFormProjections);
+            }
+            if (ProjectionFormHelper.checkFlattenDataState(field, this.flattenData)) {
+                result = result.concat(ProjectionFormHelper.getFields(field, referenceFormProjections));
+            } else {
+                result = result.concat(ProjectionFormHelper.updateReferenceFields(field, referenceFormProjections));
+            }
+        });
+        return result;
     }
 
     /**

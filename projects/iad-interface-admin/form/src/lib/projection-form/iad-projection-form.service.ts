@@ -1,66 +1,12 @@
 import { Injectable } from '@angular/core';
 import { DISABLED, IFormProjectionField, READONLY } from './model/form-projection-field.model';
-import { IadFormProjection, IadFormProjectionInterface } from './model/iad-form-projection.model';
-import { FormGroupChild, FormGroupChildColumn, FormInputGroup, FormInputGroupInterface } from '../dynamic-form/core/form-input-group';
+import { IadFormProjection } from './model/iad-form-projection.model';
+import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
 import { FormGroupChildCallback } from './iad-projection-form.component';
 import { FormInput } from '../dynamic-form/core/form-input.model';
 import { InputFactory } from '../dynamic-form/core/input.factory';
 import { IadProjectionFormFieldsService } from './iad-projection-form-fields.service';
-
-// @dynamic
-export class ProjectionFormHelper {
-
-    static checkFlattenDataState(field, def?: boolean): boolean {
-        let state: boolean;
-        if ('checkFlattenDataState' in field) {
-            state = (<FormInputGroupInterface>field).checkFlattenDataState();
-            return state !== undefined ? state : def || false;
-        }
-        // return false always when we deal with non-groups
-        return false;
-    }
-
-    /**
-     * Resolve source items for lookupViewProjections
-     */
-    static resolveItemsPath(path: string, dataSource: any): any {
-        return dataSource ? path.split('.').reduce((o, i) => (o ? o[i] : undefined), dataSource) : dataSource;
-    }
-
-    /**
-     * filters Reference fields
-     */
-    static findReferenceFields(fields: IFormProjectionField[]): IFormProjectionField[] {
-        return fields.filter((field: IFormProjectionField) => field.type === 'ProjectionReference');
-    }
-
-    /**
-     * collect reference form projection codes
-     * @param fields
-     * @param keyField
-     * @param valField
-     */
-    static generateRequestParams(fields, keyField: string, valField: string) {
-        return fields.reduce((acu, field) => {
-            if (!acu[field[keyField]]) {
-                acu[field[keyField]] = [];
-            }
-            acu[field[keyField]].push(field[valField]);
-            return acu;
-        }, {});
-    }
-
-    /**
-     * flatten data state condition check
-     * @param cond
-     * @param valid
-     * @param invalid
-     * @param field
-     */
-    static plainReferenceCondition(cond, valid, invalid, field) {
-        return cond(field) ? valid(field) : invalid(field);
-    }
-}
+import { ProjectionFormHelper } from './iad-projection-form-helper';
 
 @Injectable()
 export class IadProjectionFormService {
@@ -102,10 +48,12 @@ export class IadProjectionFormService {
         this.defaultSourcePath = options.defaultSourcePath;
         this.flattenData = options.flattenData;
         this.inputModels = options.inputModels;
-        return this.projectionFormFieldsService.initFormFields(options.formProjection)
+        return this.projectionFormFieldsService
+            .setFlattenDataState(this.flattenData)
+            .initFormFields(options.formProjection)
             .then((result) => {
                 return new FormInputGroup({
-                    children: this.initFormGroupChildColumns(result.getFields(), field => this.initInputAndGroup(field, result.getData()))
+                    children: this.initFormGroupChildColumns(result.getFields(), field => this.initInputAndGroup(field))
                 });
             })
             .catch(err => {
@@ -148,12 +96,11 @@ export class IadProjectionFormService {
     /**
      * Инициализирует список групп инпутов (будут преобразованы в FormGroup) и инпутов (будут преобразованы в FormControl)
      * @param field current field or referenceField(Group)
-     * @param projections referenceFields (groups) available in current form
      * @param groupName referenceFields (groups) available in current form
-     * @param flattenData
+     * @param dataShouldBeFlatten flag to identify if data are flatten
      */
-    initInputAndGroup(field: IFormProjectionField, projections: { [param: string]: IadFormProjectionInterface }, groupName?: string, flattenData?: boolean): FormGroupChild {
-        return field.type === 'ProjectionReference' ? this.initFormGroup(field, projections) : this.initFormInput(field, groupName, flattenData);
+    initInputAndGroup(field: IFormProjectionField, groupName?: string, dataShouldBeFlatten?: boolean): FormGroupChild {
+        return field.type === 'ProjectionReference' ? this.initFormGroup(field) : this.initFormInput(field, groupName, dataShouldBeFlatten);
     }
 
     /**
@@ -161,9 +108,9 @@ export class IadProjectionFormService {
      * @param field
      * @param groups
      */
-    initFormGroup(field: IFormProjectionField, groups: { [param: string]: IadFormProjectionInterface }) {
+    initFormGroup(field: IFormProjectionField) {
         const dataKey = field.presentationCode + '.' + field.referenceProjectionCode;
-        if (!groups[dataKey]) {
+        if (!field.referenceFields) {
             throw new Error('ReferenceProjection ' + dataKey + ' is not defined by it\'s key');
         }
         const group = new FormInputGroup({
@@ -174,8 +121,8 @@ export class IadProjectionFormService {
             translate: field.translate,
             properties: field.properties
         });
-        return group.addChildren(this.initFormGroupChildColumns(groups[dataKey].fields, _field => (
-            this.initInputAndGroup(_field, groups, field.name, group.checkFlattenDataState())
+        return group.addChildren(this.initFormGroupChildColumns(field.referenceFields, _field => (
+            this.initInputAndGroup(_field, field.name, group.checkFlattenDataState())
         )));
     }
 

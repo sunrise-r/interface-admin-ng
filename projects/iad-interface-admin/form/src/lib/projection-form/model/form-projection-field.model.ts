@@ -24,4 +24,5 @@ export interface IFormProjectionField {
     dataSourcePath?: string; // Путь к данным, разделённый точками для заполнения поля значениями по умолчанию. Было сделаано для Lookup, но может быть применено к другим полям
     datasourcePath?: string; // @invalid!
     properties?: any; // key=>value с кастомными свойствами,
+    referenceFields?: IFormProjectionField[]; // Fields, received by referenceProjection request
 }
