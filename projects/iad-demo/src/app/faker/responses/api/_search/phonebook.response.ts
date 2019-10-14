@@ -3,6 +3,7 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { AbstractResponse } from '../../abstract.response';
 import { PhoneBook } from '../../model/phonebook.model';
+import { Faker } from '../../../faker';
 
 export const phonebookConditionCallback = (request) => {
     return request.url.match(/api\/_search\/phonebook$/) && request.method === 'GET';
@@ -14,10 +15,7 @@ export class PhonebookResponse extends AbstractResponse {
 
     getResponse(): Observable<HttpResponse<PhoneBook[]>> {
         if (!this.data) {
-            this.data = [];
-            for (let i = 1; i < 6; i++) {
-                this.data.push(new PhoneBook(i));
-            }
+            this.data = this.initData();
         }
         let data = this.data.map((item: PhoneBook) => item.clone());
         const sort = this.request.params.get('sort');
@@ -40,6 +38,22 @@ export class PhonebookResponse extends AbstractResponse {
 
         const headers = new HttpHeaders({'X-Total-Count': data.length.toString()});
         return of(new HttpResponse({status: 200, body: currentPageData, headers: headers}));
+    }
+
+    initData(): PhoneBook[] {
+        const data = [];
+        const faker = new Faker();
+        for (let i = 1; i < 6; i++) {
+            data.push(new PhoneBook(
+                i,
+                faker.randomName(),
+                faker.randomSurname(),
+                faker.randomDateBetweenYears(1952, 1999),
+                faker.randomPhone(),
+                faker.randomMail()
+            ));
+        }
+        return data;
     }
 }
 

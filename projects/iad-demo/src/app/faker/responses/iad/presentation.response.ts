@@ -332,7 +332,10 @@ export class PresentationResponse extends AbstractResponse {
                         'column': 0,
                         'referenceProjectionCode': 'additionalFields',
                         'presentationCode': 'presentationOne',
-                        'properties': {}
+                        'properties': {
+                            'flattenFields': false,
+                            'flattenData': false
+                        }
                     },
                     {
                         'validationTypes': {'email': false, 'required': false},
