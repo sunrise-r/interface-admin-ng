@@ -1,10 +1,10 @@
-import {Observable, of} from 'rxjs';
-import {HttpResponse} from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
-import {AbstractResponse} from '../../abstract.response';
+import { AbstractResponse } from '../abstract.response';
 
 export const autoCompleteValuesConditionCallback = (request) => {
-    return request.url.match(/partnerdocuments\/api\/auto-complete-values/) && request.method === 'GET';
+    return request.url.match(/api\/auto-complete-values/) && request.method === 'GET';
 };
 
 export class AutoCompleteValuesResponse extends AbstractResponse {

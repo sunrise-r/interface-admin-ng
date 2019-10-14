@@ -14,7 +14,8 @@ import { PrimeTemplate } from 'primeng/shared';
 
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
 import { IadFormProjection } from './model/iad-form-projection.model';
-import { IadProjectionFormService, ProjectionFormHelper } from './iad-projection-form.service';
+import { IadProjectionFormService } from './iad-projection-form.service';
+import { ProjectionFormHelper } from './iad-projection-form-helper';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
 
@@ -102,7 +103,8 @@ export class IadProjectionFormComponent implements OnChanges {
      */
     formInputGroup: FormInputGroup;
 
-    constructor(private formProjectionService: IadProjectionFormService) {}
+    constructor(private formProjectionService: IadProjectionFormService) {
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if ('formProjectionSubject' in changes) {
@@ -122,28 +124,22 @@ export class IadProjectionFormComponent implements OnChanges {
      */
     initForm() {
         this.formProjectionService.init({
-                formProjection: this.formProjection,
-                defaultSourcePath: this.defaultSourcePath,
-                flattenData: this.flattenData,
-                inputModels: this.inputModels,
-                rawFormData: this.rawFormData
-            })
-            .then(result => { this.formInputGroup = result; });
+            formProjection: this.formProjection,
+            defaultSourcePath: this.defaultSourcePath,
+            flattenData: this.flattenData,
+            inputModels: this.inputModels,
+            rawFormData: this.rawFormData
+        })
+            .then(result => {
+                this.formInputGroup = result;
+            });
     }
 
     onFormSubmit(formValue: any) {
         const fileInputKeys = this.findFileInputsRecursive(this.formInputGroup);
-        // #89 flatten data for groups with flattenData Option or plainReference option
-        (<FormInputGroup>this.formInputGroup).children
-            .reduce((acu, childColumn: FormGroupChildColumn) => acu.concat(childColumn), [])
-            .filter((child: FormGroupChild) => ProjectionFormHelper.checkFlattenDataState(child, this.flattenData))
-            .map((child: FormGroupChild) => child.key)
-            .forEach((key: string) => {
-                Object.assign(formValue, formValue[key]);
-                delete formValue[key];
-            });
+        const formData = this.flattenFormData(<FormInputGroup>this.formInputGroup, formValue);
         this.formSubmit.emit({
-            formData: formValue,
+            formData,
             fileInputKeys
         });
     }
@@ -173,5 +169,32 @@ export class IadProjectionFormComponent implements OnChanges {
             });
         });
         return fileInputs;
+    }
+
+    /**
+     * Consider flatten form data
+     * @param group
+     * @param data
+     */
+    private flattenFormData(group: FormGroupChild, data: { [p: string]: any }) {
+        const result: { [p: string]: any } = {};
+        if (group instanceof FormInputGroup) {
+            (<FormGroupChildColumn[]>group.children)
+                .reduce((acu, child: FormGroupChildColumn) => acu.concat(child), [])
+                .forEach((child: FormGroupChild) => {
+                    if ('children' in child) {
+                        if (ProjectionFormHelper.checkFlattenDataState(child, this.flattenData)) {
+                            Object.assign(result, this.flattenFormData(child, data[child.key]));
+                        } else {
+                            result[child.key] = this.flattenFormData(child, data[child.key]);
+                        }
+                    } else {
+                        result[child.key] = data[child.key];
+                    }
+                });
+        } else {
+            result[group.key] = data[group.key];
+        }
+        return result;
     }
 }

@@ -1,12 +1,12 @@
 import { Observable, of } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
-import { AbstractResponse } from '../../../abstract.response';
+import { AbstractResponse } from '../abstract.response';
 import { IadFormProjection } from 'iad-interface-admin/form';
 
 export const projectionReferenceConditionCallback = (request) => {
     console.log(request.params.toString());
-    return request.url.match(/partnercms\/api\/iad\/form-projection\/form$/) && request.method === 'GET' && request.params.toString() === 'presentationOne=additionalFields';
+    return request.url.match(/iad\/form-projection\/form$/) && request.method === 'GET' && request.params.toString() === 'presentationOne=additionalFields';
 };
 
 // IadProjectionInterface
@@ -83,7 +83,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
                 'column': 0,
                 'translate': true,
                 properties: {
-                    'valuesUrl': 'partnerdocuments/api/dropdown-values',
+                    'valuesUrl': 'api/dropdown-values',
                     'translatePrefix': 'phoneBook.firstField.values'
                 }
             },
@@ -119,7 +119,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
                 'column': 0,
                 'translate': true,
                 'properties': {
-                    'valuesUrl': 'partnerdocuments/api/auto-complete-values'
+                    'valuesUrl': 'api/auto-complete-values'
                 }
             },
             {
@@ -133,7 +133,7 @@ export class ProjectionReferenceResponse extends AbstractResponse {
                 'presentationCode': 'presentationOne',
                 'properties': {
                     'flattenFields': true,
-                    'flattenData': false
+                    'flattenData': true
                 }
             }
         ];
