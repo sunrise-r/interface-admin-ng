@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { DISABLED, IFormProjectionField, READONLY } from './model/form-projection-field.model';
-import { IadFormProjection } from './model/iad-form-projection.model';
+import { IadFormProjection, IadFormProjectionInterface } from './model/iad-form-projection.model';
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
 import { FormGroupChildCallback } from './iad-projection-form.component';
 import { FormInput } from '../dynamic-form/core/form-input.model';
 import { InputFactory } from '../dynamic-form/core/input.factory';
-import { IadProjectionFormFieldsService } from './iad-projection-form-fields.service';
 import { ProjectionFormHelper } from './iad-projection-form-helper';
+import { FieldsInitializationModel } from './model/fields-initialization.model';
+import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
 
 @Injectable()
 export class IadProjectionFormService {
@@ -31,7 +32,7 @@ export class IadProjectionFormService {
      */
     inputModels: any;
 
-    constructor(public projectionFormFieldsService: IadProjectionFormFieldsService) {}
+    constructor(public referenceProjectionService: IadReferenceProjectionProviderService) {}
 
     /**
      * Initialize form with groups from "ProjectionReference" property and columns from "column" property of
@@ -48,9 +49,11 @@ export class IadProjectionFormService {
         this.defaultSourcePath = options.defaultSourcePath;
         this.flattenData = options.flattenData;
         this.inputModels = options.inputModels;
-        return this.projectionFormFieldsService
-            .setFlattenDataState(this.flattenData)
-            .initFormFields(options.formProjection)
+        const referenceFields = ProjectionFormHelper.findReferenceFields(options.formProjection.fields);
+        const model = new FieldsInitializationModel();
+        model.setFields(options.formProjection.fields);
+        model.setReferenceFields(referenceFields);
+        return this.initFormFieldsRecursive(model)
             .then((result) => {
                 return new FormInputGroup({
                     children: this.initFormGroupChildColumns(result.getFields(), field => this.initInputAndGroup(field))
@@ -106,7 +109,6 @@ export class IadProjectionFormService {
     /**
      * Initializes
      * @param field
-     * @param groups
      */
     initFormGroup(field: IFormProjectionField) {
         const dataKey = field.presentationCode + '.' + field.referenceProjectionCode;
@@ -156,6 +158,69 @@ export class IadProjectionFormService {
         return new InputFactory()
             .initTypeFactory(this.inputModels)
             .createInput(field.type, this.modifyOptions(options, groupName, flattenData));
+    }
+
+    /**
+     * Initialize reference form projections recursive.
+     * If a field, referring on form projection is marked as plainReference, it's referred projection fields will be flatten
+     * This properties may seem incorrect:
+     * ** We cannot use same projectionReference twice
+     *
+     * @param model
+     */
+    initFormFieldsRecursive(model: FieldsInitializationModel): Promise<FieldsInitializationModel> {
+        // Check if there any nested references in the form; If no more references, then resolve
+        if (!model.getReferenceFields() || model.getReferenceFields().length === 0) {
+            return Promise.resolve(model);
+        }
+        return this.requestReferredProjections(model.getReferenceFields())
+            .then((projections: { [param: string]: IadFormProjectionInterface }) => {
+                const newModel = new FieldsInitializationModel();
+                newModel.setFields(this.updateFieldsTree(model.getFields(), projections));
+                newModel.setReferenceFields(this.findReferenceFieldsInProjections(projections));
+                return this.initFormFieldsRecursive(newModel);
+            });
+    }
+
+    /**
+     * Updates fields tree with reference fields recursive
+     * @param fields
+     * @param referenceFormProjections
+     */
+    private updateFieldsTree(fields: IFormProjectionField[], referenceFormProjections: { [param: string]: IadFormProjectionInterface }): IFormProjectionField[] {
+        let result: IFormProjectionField[] = [];
+        fields.forEach(field => {
+            if (field.referenceFields) {
+                field.referenceFields = this.updateFieldsTree(field.referenceFields, referenceFormProjections);
+                result.push(field);
+            } else {
+                if (ProjectionFormHelper.checkFlattenDataState(field, this.flattenData)) {
+                    result = result.concat(ProjectionFormHelper.getFields(field, referenceFormProjections));
+                } else {
+                    result.push(ProjectionFormHelper.updateReferenceFields(field, referenceFormProjections));
+                }
+            }
+        });
+        return result;
+    }
+
+    /**
+     * Request projections by presentationCode and projectionCode, taken from current referenceFields
+     * @param referenceFields
+     */
+    private requestReferredProjections(referenceFields): Promise<{ [param: string]: IadFormProjectionInterface }> {
+        const requestParams = ProjectionFormHelper.generateRequestParams(referenceFields, 'presentationCode', 'referenceProjectionCode');
+        return this.referenceProjectionService.findFormProjectionsByName(requestParams).toPromise();
+    }
+
+    /**
+     * Find reference fields among the fields of each of given projections
+     * @param projections
+     */
+    private findReferenceFieldsInProjections(projections: { [param: string]: IadFormProjectionInterface }): IFormProjectionField[] {
+        return Object.keys(projections).reduce((acu, key) => (
+            acu.concat(ProjectionFormHelper.findReferenceFields(projections[key].fields))
+        ), []);
     }
 
     /**

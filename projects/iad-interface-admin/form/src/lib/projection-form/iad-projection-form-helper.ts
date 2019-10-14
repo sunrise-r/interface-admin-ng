@@ -50,7 +50,7 @@ export class ProjectionFormHelper {
      * @param field
      * @param referenceFormProjections
      */
-    static getFields(field, referenceFormProjections: { [param: string]: IadFormProjectionInterface }) {
+    static getFields(field, referenceFormProjections: { [param: string]: IadFormProjectionInterface }): IFormProjectionField[] {
         if (field.type !== 'ProjectionReference') {
             return;
         }
@@ -62,8 +62,8 @@ export class ProjectionFormHelper {
      * @param field
      * @param referenceFormProjections
      */
-    static updateReferenceFields(field, referenceFormProjections: { [param: string]: IadFormProjectionInterface }) {
+    static updateReferenceFields(field, referenceFormProjections: { [param: string]: IadFormProjectionInterface }): IFormProjectionField {
         field.referenceFields = ProjectionFormHelper.getFields(field, referenceFormProjections);
-        return [field];
+        return field;
     }
 }
