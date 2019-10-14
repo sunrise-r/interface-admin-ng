@@ -11,6 +11,6 @@ export class ReferenceProjectionProviderService implements IadReferenceProjectio
     constructor(private iadProjectionLoadService: IadProjectionLoadService) {}
 
     findFormProjectionsByName(params: { [param: string]: string | string[] }): Observable<{ [param: string]: IadFormProjectionInterface }> {
-        return this.iadProjectionLoadService.request(params, 'partnercms/api/iad/form-projection/form');
+        return this.iadProjectionLoadService.request(params, 'iad/form-projection/form');
     }
 }

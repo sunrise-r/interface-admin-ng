@@ -1,11 +1,11 @@
 import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
-import { AbstractResponse } from '../../../abstract.response';
+import { AbstractResponse } from '../../abstract.response';
 import { PhoneBook } from '../../model/phonebook.model';
 
 export const phonebookConditionCallback = (request) => {
-    return request.url.match(/partnerdocuments\/api\/_search\/phonebook$/) && request.method === 'GET';
+    return request.url.match(/api\/_search\/phonebook$/) && request.method === 'GET';
 };
 
 // IadProjectionInterface

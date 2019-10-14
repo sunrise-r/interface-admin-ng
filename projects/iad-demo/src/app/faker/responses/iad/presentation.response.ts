@@ -1,11 +1,11 @@
 import { Observable, of } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
-import { AbstractResponse } from '../../../abstract.response';
+import { AbstractResponse } from '../abstract.response';
 import { IadPresentation } from 'iad-interface-admin';
 
 export const presentationConditionCallback = (request) => {
-    return request.url.match(/partnercms\/api\/iad\/presentation\/[a-zA-Z0-9]+$/) && request.method === 'GET';
+    return request.url.match(/iad\/presentation\/[a-zA-Z0-9]+$/) && request.method === 'GET';
 };
 
 // IadProjectionInterface
@@ -18,7 +18,7 @@ export class PresentationResponse extends AbstractResponse {
             {
                 'code': 'main',
                 'active': false,
-                'searchUrl': 'partnerdocuments/api/_search/phonebook',
+                'searchUrl': 'api/_search/phonebook',
                 'actions': [
                     [
                         {'code': 'new', 'toggle': true, 'style': 'newBtn'},
@@ -153,7 +153,7 @@ export class PresentationResponse extends AbstractResponse {
                         'displayFormat': 'edit|delete|button',
                         'properties': {
                             'editUrl': '/data/presentation-one/form-projection/edit',
-                            'deleteUrl': '/partnerdocuments/api/phonebook/delete',
+                            'deleteUrl': '/api/phonebook/delete',
                             'projectionCode': 'main',
                             'translatedButtonName': 'presentation.projection.main.actionButton',
                             'eventName': 'actionsButtonClick'
@@ -169,7 +169,7 @@ export class PresentationResponse extends AbstractResponse {
             {
                 'code': 'other',
                 'active': false,
-                'searchUrl': 'partnerdocuments/api/_search/phonebook',
+                'searchUrl': 'api/_search/phonebook',
                 'actions': [
                     [
                         {'code': 'new', 'toggle': true, 'style': 'newBtn'},
