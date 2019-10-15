@@ -1,5 +1,5 @@
 import {
-    AfterContentInit,
+    AfterContentInit, ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -101,13 +101,15 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     constructor(
         private fcs: FormControlService,
         private formErrorsStringify: FormErrorsStringifyService,
-        private formHelper: FormHelperService
+        private formHelper: FormHelperService,
+        private cdr: ChangeDetectorRef
     ) {
     }
 
     ngOnInit() {
         this.formErrorsStringify.errors.subscribe(errors => {
             this.errors = errors;
+            this.cdr.detectChanges();
         });
         this.fcs.recalculateDependencies(this.formInputGroup, {}, this.form);
     }
@@ -116,6 +118,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
         if ('serverError' in changes && this.serverError) {
             this.formHelper.prepareServerError(this.serverError).then(message => {
                 this.errors = message;
+                this.cdr.detectChanges();
             });
             this.sending = false;
         }
@@ -152,6 +155,13 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
         if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
             this.formValueChangesSbt.unsubscribe();
         }
+    }
+
+    /**
+     * Form value updator for external use only
+     */
+    updateForm() {
+        this.fcs.updateFormGroup(this.form, this.formInputGroup);
     }
 
     addFormErrors() {

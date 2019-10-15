@@ -1,3 +1,16 @@
+# 1.0.9-alpha.106
+
+* FORM added updateForm method to dynamic-form.comnponent. So you can trigger form values update
+* FORM added updateFormGroup method to FormControlService. Now you can simply update form values without form rebuilding
+
+# 1.0.9-alpha.105
+
+* FORM added updateFormValues method to iad-projection-form.service
+
+# 1.0.9-alpha.104
+
+* FORM fixed flatten form data for third and deeper levels
+
 # 1.0.9-alpha.103
  
 * FORM added @Input() fileName to file-upload-component

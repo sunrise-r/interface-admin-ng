@@ -7,14 +7,34 @@ import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from './core/for
 
 @Injectable()
 export class FormControlService {
+
+    /**
+     * Ability to inherit group validationTypes.required when it was set into "true" state
+     * @param inputGroup
+     * @param child
+     */
+    static updateRequiredState(inputGroup: FormInputGroup, child: FormGroupChild): FormGroupChild {
+        if (inputGroup.validators && inputGroup.validators.required) {
+            if (!(<FormInputGroup>child).validators) {
+                (<FormInputGroup>child).validators = <any>{};
+            }
+            (<FormInputGroup>child).validators.required = inputGroup.validators.required;
+        }
+        return child;
+    }
+
     constructor() {}
 
+    /**
+     * input factory
+     * @param inputGroup
+     */
     toFormGroup(inputGroup: FormInputGroup): FormGroup {
         const group: { [param: string]: FormControl | FormGroup } = {};
         if (inputGroup.children) {
             inputGroup.children.forEach((childColumn: FormGroupChildColumn) =>
                 childColumn.forEach((child: FormGroupChild) => {
-                    child = this.updateRequiredState(inputGroup, child);
+                    child = FormControlService.updateRequiredState(inputGroup, child);
                     if (DynamicFormHelper.isFormInputGroup(child)) {
                         group[child.key] = this.toFormGroup(<FormInputGroup>child);
                     } else {
@@ -31,6 +51,26 @@ export class FormControlService {
             );
         }
         return new FormGroup(group);
+    }
+
+    /**
+     * Input values update method
+     * @param group
+     * @param inputGroup
+     */
+    updateFormGroup(group: FormGroup | FormControl, inputGroup: FormInputGroup): void {
+        if (inputGroup.children) {
+            inputGroup.children.forEach((childColumn: FormGroupChildColumn) =>
+                childColumn.forEach((child: FormGroupChild) => {
+                    child = FormControlService.updateRequiredState(inputGroup, child);
+                    if (DynamicFormHelper.isFormInputGroup(child)) {
+                        this.updateFormGroup(<FormGroup>(<FormGroup>group).controls[child.key], <FormInputGroup>child);
+                    } else {
+                        (<FormControl>(<FormGroup>group).controls[child.key]).setValue(DynamicFormHelper.formatInputValue(<FormInput<any>>child));
+                    }
+                })
+            );
+        }
     }
 
     /**
@@ -80,20 +120,5 @@ export class FormControlService {
                 }
             })
         );
-    }
-
-    /**
-     * Ability to inherit group validationTypes.required when it was set into "true" state
-     * @param inputGroup
-     * @param child
-     */
-    private updateRequiredState(inputGroup: FormInputGroup, child: FormGroupChild): FormGroupChild {
-        if (inputGroup.validators && inputGroup.validators.required) {
-            if (!(<FormInputGroup>child).validators) {
-                (<FormInputGroup>child).validators = <any>{};
-            }
-            (<FormInputGroup>child).validators.required = inputGroup.validators.required;
-        }
-        return child;
     }
 }
