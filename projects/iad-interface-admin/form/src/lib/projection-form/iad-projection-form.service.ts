@@ -66,6 +66,32 @@ export class IadProjectionFormService {
     }
 
     /**
+     * Update values
+     * @param group
+     * @param groupName
+     * @param flattenData
+     * @param rawFormData
+     */
+    updateFormValues(group: FormGroupChild, groupName?: string, flattenData?: boolean, rawFormData?: any) {
+        if (rawFormData) {
+            this.rawFormData = rawFormData;
+        }
+        if ('children' in group) {
+            (<FormInputGroup>group).children
+                .reduce((acu, child: FormGroupChildColumn) => acu.concat(child), [])
+                .forEach((child: FormGroupChild) => {
+                    if ('value' in child) {
+                        this.updateInputValue((<FormInput<any>>child), group.key, group.checkFlattenDataState());
+                    } else {
+                        this.updateFormValues(<FormInputGroup>child, groupName, flattenData);
+                    }
+                });
+        } else {
+            this.updateInputValue((<FormInput<any>>group), groupName, flattenData);
+        }
+    }
+
+    /**
      * Разбивает инпуты и группы по колонкам
      * @param fields
      * @param callback
@@ -157,7 +183,7 @@ export class IadProjectionFormService {
         }
         return new InputFactory()
             .initTypeFactory(this.inputModels)
-            .createInput(field.type, this.modifyOptions(options, groupName, flattenData));
+            .createInput(field.type, this.updateInputValue(options, groupName, flattenData));
     }
 
     /**
@@ -229,7 +255,7 @@ export class IadProjectionFormService {
      * @param groupName
      * @param flattenData
      */
-    private modifyOptions(options, groupName?: string, flattenData?: boolean): { [param: string]: any } {
+    private updateInputValue(options, groupName?: string, flattenData?: boolean): { [param: string]: any } {
         if (!options.value && this.rawFormData) {
             options.value = options.dataSourcePath
                 ? ProjectionFormHelper.resolveItemsPath(options.dataSourcePath, this.rawFormData)
