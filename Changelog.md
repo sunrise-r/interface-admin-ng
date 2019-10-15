@@ -1,3 +1,7 @@
+# 1.0.9-alpha.111
+
+* GRID added ToolbarClickEvent interface and element property within it 
+
 # 1.0.9-alpha.110
 
 * GRID fixed column multiple external css classes addition 
