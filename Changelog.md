@@ -1,3 +1,7 @@
+# 1.0.9-alpha.110
+
+* GRID fixed column multiple external css classes addition 
+
 # 1.0.9-alpha.106
 
 * FORM added updateForm method to dynamic-form.comnponent. So you can trigger form values update
@@ -19,7 +23,6 @@
 
 * GRID removed default tableStyleClass "partner-table" since it belongs to partner project
 * GLOBAL added scss files to keep default styles for iad
-* 
 
 # 1.0.9-alpha.100
 

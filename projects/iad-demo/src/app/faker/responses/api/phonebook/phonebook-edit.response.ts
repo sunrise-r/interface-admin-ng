@@ -1,11 +1,11 @@
 import {Observable, of} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';
 
-import {AbstractResponse} from './abstract.response';
+import {AbstractResponse} from '../../abstract.response';
 
 export const phonebookAddConditionCallback = (request) => request.url.match(/\/api\/phonebook\/edit$/) && request.method === 'POST';
 
-export class PhonebookAddResponse extends AbstractResponse {
+export class PhonebookEditResponse extends AbstractResponse {
     getResponse(): Observable<HttpResponse<string>> {
         console.log(this.request.body);
         alert('Look to the browser console to see request body!');

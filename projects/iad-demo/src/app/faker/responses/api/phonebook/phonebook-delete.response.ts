@@ -1,7 +1,7 @@
 import {Observable, of} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';
 
-import {AbstractResponse} from './abstract.response';
+import {AbstractResponse} from '../../abstract.response';
 
 export const phonebookDeleteConditionCallback = (request) => request.url.match(/\/api\/phonebook\/delete\/\d+$$/) && request.method === 'DELETE';
 
