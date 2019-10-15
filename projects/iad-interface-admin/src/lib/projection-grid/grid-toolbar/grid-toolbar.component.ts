@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, TemplateRef } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ToolbarAction } from '../../toolbar/toolbar-action.model';
+import { ToolbarAction, ToolbarClickEvent } from '../../toolbar/toolbar-action.model';
 
 @Component({
     selector: 'iad-grid-toolbar',
@@ -49,10 +49,7 @@ export class GridToolbarComponent implements OnInit {
      * Нажата кнопка в тулбаре
      */
     @Output()
-    actionClicked: EventEmitter<{ nativeEvent: Event; action: ToolbarAction }> = new EventEmitter<{
-        nativeEvent: Event;
-        action: ToolbarAction;
-    }>();
+    actionClicked: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
 
     /**
      * Default actions
@@ -76,7 +73,7 @@ export class GridToolbarComponent implements OnInit {
      * Кидаем наверх кликнутую кнопку
      * @param event
      */
-    onActionInvoke(event: { nativeEvent: Event; action: ToolbarAction }) {
+    onActionInvoke(event: ToolbarClickEvent) {
         const strategy = {
             columnFilter: () => {
                 this.filterActive = !this.filterActive;

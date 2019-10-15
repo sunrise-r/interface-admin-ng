@@ -11,7 +11,7 @@ import {
     SimpleChanges
 } from '@angular/core';
 
-import { ToolbarAction } from './toolbar-action.model';
+import { ToolbarAction, ToolbarClickEvent } from './toolbar-action.model';
 
 @Directive({
     selector: '[iadToolbarAction]'
@@ -30,7 +30,7 @@ export class ToolbarActionDirective implements OnInit, OnChanges {
     /**
      * Action invocation event
      */
-    @Output() invoke = new EventEmitter<{ nativeEvent: Event; action: ToolbarAction }>();
+    @Output() invoke = new EventEmitter<ToolbarClickEvent>();
 
     constructor(private renderer: Renderer2, private el: ElementRef) {}
 
@@ -58,7 +58,7 @@ export class ToolbarActionDirective implements OnInit, OnChanges {
             this.updateActiveState(!this.active);
         }
         this.toggleActivity(this.active);
-        this.invoke.emit({ nativeEvent: event, action: this.action });
+        this.invoke.emit({ nativeEvent: event, action: this.action, element: this.el.nativeElement });
     }
 
     toggleActivity(activate?: boolean) {
