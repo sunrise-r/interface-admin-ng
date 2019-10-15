@@ -8,19 +8,19 @@ import { userGetListConditionCallback, UserGetListResponse } from './responses/u
 import { userGetByIdConditionCallback, UserGetByIdResponse } from './responses/user/user-get-by-id.response';
 import { userRegisterConditionCallback, UserRegisterResponse } from './responses/user/user-register.response';
 import { userDeleteConditionCallback, UserDeleteResponse } from './responses/user/user-delete.response';
-import { projectionTreeConditionCallback, ProjectionTreeResponse } from './responses/projection-tree.response';
+import { projectionTreeConditionCallback, ProjectionTreeResponse } from './responses/iad/projection-tree.response';
 import { presentationConditionCallback, PresentationResponse } from './responses/iad/presentation.response';
-import { phonebookConditionCallback, PhonebookResponse } from './responses/api/_search/phonebook.response';
-import { phonebookShowConditionCallback, PhonebookShowResponse } from './responses/api/show/phonebook-show.response';
 import { projectionReferenceConditionCallback, ProjectionReferenceResponse } from './responses/iad/projection-reference.response';
-import { dropdownValuesConditionCallback, DropdownValuesResponse } from './responses/api/dropdown-values';
-import { phonebookAddConditionCallback, PhonebookAddResponse } from './responses/phonebook-add.response';
-import { phonebookDeleteConditionCallback, PhonebookDeleteResponse } from './responses/phonebook-delete.response';
-import { autoCompleteValuesConditionCallback, AutoCompleteValuesResponse } from './responses/api/auto-complete-values';
 import {
     projectionSubReferenceConditionCallback,
     ProjectionSubReferenceResponse
 } from './responses/iad/projection-sub-reference.response';
+import { dropdownValuesConditionCallback, DropdownValuesResponse } from './responses/api/dropdown-values';
+import { autoCompleteValuesConditionCallback, AutoCompleteValuesResponse } from './responses/api/auto-complete-values';
+import { phonebookConditionCallback, PhonebookSearchResponse } from './responses/api/phonebook/phonebook-search.response';
+import { phonebookShowConditionCallback, PhonebookShowResponse } from './responses/api/phonebook/phonebook-show.response';
+import { phonebookAddConditionCallback, PhonebookEditResponse } from './responses/api/phonebook/phonebook-edit.response';
+import { phonebookDeleteConditionCallback, PhonebookDeleteResponse } from './responses/api/phonebook/phonebook-delete.response';
 
 class FakerRegistry {
     fakerInstance: IFakeResponse;
@@ -46,11 +46,11 @@ const registry = [
     new FakerRegistry(UserDeleteResponse, userDeleteConditionCallback),
     new FakerRegistry(ProjectionTreeResponse, projectionTreeConditionCallback),
     new FakerRegistry(PresentationResponse, presentationConditionCallback),
-    new FakerRegistry(PhonebookResponse, phonebookConditionCallback),
+    new FakerRegistry(PhonebookSearchResponse, phonebookConditionCallback),
     new FakerRegistry(PhonebookShowResponse, phonebookShowConditionCallback),
     new FakerRegistry(ProjectionReferenceResponse, projectionReferenceConditionCallback),
     new FakerRegistry(DropdownValuesResponse, dropdownValuesConditionCallback),
-    new FakerRegistry(PhonebookAddResponse, phonebookAddConditionCallback),
+    new FakerRegistry(PhonebookEditResponse, phonebookAddConditionCallback),
     new FakerRegistry(PhonebookDeleteResponse, phonebookDeleteConditionCallback),
     new FakerRegistry(AutoCompleteValuesResponse, autoCompleteValuesConditionCallback),
     new FakerRegistry(ProjectionSubReferenceResponse, projectionSubReferenceConditionCallback)

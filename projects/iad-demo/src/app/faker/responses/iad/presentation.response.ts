@@ -149,6 +149,7 @@ export class PresentationResponse extends AbstractResponse {
                         'sorting': false,
                         'translate': true,
                         'visible': true,
+                        'style': 'actions-column custom-actions-column',
                         'formatter': 'actions',
                         'displayFormat': 'edit|delete|button',
                         'properties': {

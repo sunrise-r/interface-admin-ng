@@ -10,7 +10,7 @@ export const phonebookConditionCallback = (request) => {
 };
 
 // IadProjectionInterface
-export class PhonebookResponse extends AbstractResponse {
+export class PhonebookSearchResponse extends AbstractResponse {
     data: PhoneBook[];
 
     getResponse(): Observable<HttpResponse<PhoneBook[]>> {
