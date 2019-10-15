@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewC
 import { Subject } from 'rxjs';
 
 import { ToolbarActionDirective } from './toolbar-action.directive';
-import { ToolbarAction } from './toolbar-action.model';
+import { ToolbarAction, ToolbarClickEvent } from './toolbar-action.model';
 
 @Component({
     selector: 'iad-toolbar-actions',
@@ -47,10 +47,7 @@ export class ToolbarActionsComponent implements OnChanges {
      * Outgoing event
      */
     @Output()
-    actionInvoke: EventEmitter<{ nativeEvent: Event; action: ToolbarAction }> = new EventEmitter<{
-        nativeEvent: Event;
-        action: ToolbarAction;
-    }>();
+    actionInvoke: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
 
     @ViewChildren(ToolbarActionDirective) buttons: QueryList<ToolbarActionDirective>;
 

@@ -1,3 +1,9 @@
+export interface ToolbarClickEvent {
+    nativeEvent: Event;
+    action: ToolbarAction;
+    element: HTMLElement;
+}
+
 export class ToolbarAction {
     code: string;
     toggle: boolean;

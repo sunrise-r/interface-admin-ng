@@ -19,7 +19,7 @@ import { DocumentListProjection } from '../model/projection-grid.model';
 import { IadGridColumn, IadGridColumnInterface } from '../../iad-base-grid/model/iad-grid-column.model';
 import { IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
-import { ToolbarAction } from '../../toolbar/toolbar-action.model';
+import { ToolbarAction, ToolbarClickEvent } from '../../toolbar/toolbar-action.model';
 import { IadGridColumnFrozenField, IadGridColumnOrder } from '../../iad-base-grid/base-grid/base-grid-freeze-column.model';
 
 @Component({
@@ -234,10 +234,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Нажата какая-либо кнопка в тулбаре
      */
     @Output()
-    actionClicked: EventEmitter<{ nativeEvent: Event; action: ToolbarAction }> = new EventEmitter<{
-        nativeEvent: Event;
-        action: ToolbarAction;
-    }>();
+    actionClicked: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
 
     /**
      * В таблице была выбрна строка
@@ -466,7 +463,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     /**
      * Произведён клик в тулбаре
      */
-    onActionClicked(event: { nativeEvent: Event; action: ToolbarAction }): void {
+    onActionClicked(event: ToolbarClickEvent): void {
         const strategy = {
             columnFilter: () => {
                 this.showFilter = event.action.active;
