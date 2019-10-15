@@ -57,7 +57,7 @@
                     [iadTableColumnSize]="col.width"
                     [pResizableColumnDisabled]="!(isColumnResizable(col))"
                     [pReorderableColumnDisabled]="!(isColumnReorderable(col))"
-                    [ngClass]="[col.style || 'ui-grid-header']">
+                    [class]="col.style || 'ui-grid-header'">
                     <div class="ui-grid-header-label"
                          [pSortableColumn]="col.field"
                          [pSortableColumnDisabled]="!(isColumnSortable(col))"
@@ -81,7 +81,7 @@
         <!--Maybe we need to add here disable option-->
         <tr [hidden]="!showFilter" class="ui-column-filter-row">
             <ng-template ngFor let-col [ngForOf]="columns">
-                <th *ngIf="col.visible" [ngClass]="[col.style || '']">
+                <th *ngIf="col.visible" [class]="col.style || ''">
                     <iad-table-column-filter
                         *ngIf="col.searching"
                         [field]="col.field"
@@ -96,7 +96,8 @@
         <tr [pSelectableRow]="rowData">
             <ng-template ngFor let-col [ngForOf]="columns">
                 <td *ngIf="col.visible"
-                    [ngClass]="[isColumnResizable(col) ? 'ui-resizable-column' : '', (col.style || '')]">
+                    [class]="col.style || ''"
+                    [ngClass]="{'ui-resizable-column': isColumnResizable(col)}">
                     <ng-container
                         *ngIf="rowData"
                         iadGridTdHost
