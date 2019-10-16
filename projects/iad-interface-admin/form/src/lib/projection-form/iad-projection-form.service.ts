@@ -81,13 +81,13 @@ export class IadProjectionFormService {
                 .reduce((acu, child: FormGroupChildColumn) => acu.concat(child), [])
                 .forEach((child: FormGroupChild) => {
                     if ('value' in child) {
-                        this.updateInputValue((<FormInput<any>>child), group.key, group.checkFlattenDataState());
+                        this.updateInputValue((<FormInput<any>>child), child.value, group.key, group.checkFlattenDataState());
                     } else {
                         this.updateFormValues(<FormInputGroup>child, groupName, flattenData);
                     }
                 });
         } else {
-            this.updateInputValue((<FormInput<any>>group), groupName, flattenData);
+            this.updateInputValue((<FormInput<any>>group), group.value, groupName, flattenData);
         }
     }
 
@@ -168,7 +168,6 @@ export class IadProjectionFormService {
             validators: field.validationTypes,
             disabled: field.fieldInputType && field.fieldInputType === DISABLED,
             readonly: field.fieldInputType && field.fieldInputType === READONLY,
-            value: field.defaultValue || '',
             presentationCode: field.presentationCode || null,
             lookupSourceProjectionCode: field.lookupSourceProjectionCode || null,
             lookupViewProjectionCode: field.lookupViewProjectionCode || null,
@@ -183,7 +182,7 @@ export class IadProjectionFormService {
         }
         return new InputFactory()
             .initTypeFactory(this.inputModels)
-            .createInput(field.type, this.updateInputValue(options, groupName, flattenData));
+            .createInput(field.type, this.updateInputValue(options, field.defaultValue, groupName, flattenData));
     }
 
     /**
@@ -252,17 +251,39 @@ export class IadProjectionFormService {
     /**
      * Модифицирует опции перед передачей их в dynamic-form.component
      * @param options
+     * @param value
      * @param groupName
      * @param flattenData
      */
-    private updateInputValue(options, groupName?: string, flattenData?: boolean): { [param: string]: any } {
-        if (!options.value && this.rawFormData) {
-            options.value = options.dataSourcePath
-                ? ProjectionFormHelper.resolveItemsPath(options.dataSourcePath, this.rawFormData)
-                : (ProjectionFormHelper.resolveItemsPath((this.defaultSourcePath ? this.defaultSourcePath + '.' : '') +
-                    ((!flattenData && !this.flattenData) && groupName ? groupName + '.' : '') +
-                    options.key, this.rawFormData));
+    private updateInputValue(options, value: any, groupName?: string, flattenData?: boolean): { [param: string]: any } {
+        if (this.rawFormData) {
+            options.value = this.resolveValue(options, groupName, flattenData) || value;
         }
         return options;
+    }
+
+    /**
+     * Resolve value from raw form data by datasource path
+     * @param options
+     * @param groupName
+     * @param flattenData
+     */
+    private resolveValue(options, groupName?: string, flattenData?: boolean): any {
+        return ProjectionFormHelper.resolveItemsPath(
+            options.dataSourcePath ? options.dataSourcePath : this.calculateDatasourcePath(options, groupName, flattenData),
+            this.rawFormData
+        );
+    }
+
+    /**
+     * Calculates source path
+     * @param options
+     * @param groupName
+     * @param flattenData
+     */
+    private calculateDatasourcePath(options, groupName?: string, flattenData?: boolean): string {
+        return (this.defaultSourcePath ? this.defaultSourcePath + '.' : '')
+                + ((!flattenData && !this.flattenData) && groupName ? groupName + '.' : '')
+                + options.key;
     }
 }
