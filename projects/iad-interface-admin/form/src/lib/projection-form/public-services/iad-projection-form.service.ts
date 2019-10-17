@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { DISABLED, IFormProjectionField, READONLY } from './model/form-projection-field.model';
-import { IadFormProjection, IadFormProjectionInterface } from './model/iad-form-projection.model';
-import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
-import { FormGroupChildCallback } from './iad-projection-form.component';
-import { FormInput } from '../dynamic-form/core/form-input.model';
-import { InputFactory } from '../dynamic-form/core/input.factory';
-import { ProjectionFormHelper } from './iad-projection-form-helper';
-import { FieldsInitializationModel } from './model/fields-initialization.model';
-import { IadReferenceProjectionProviderService } from './public-services/iad-reference-projection-provider.service';
+import { DISABLED, IFormProjectionField, READONLY } from '../model/form-projection-field.model';
+import { IadFormProjection, IadFormProjectionInterface } from '../model/iad-form-projection.model';
+import { FieldsInitializationModel } from '../model/fields-initialization.model';
+import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../../dynamic-form/core/form-input-group';
+import { FormInput } from '../../dynamic-form/core/form-input.model';
+import { InputFactory } from '../../dynamic-form/core/input.factory';
+import { ProjectionFormHelper } from '../iad-projection-form-helper';
+import { FormGroupChildCallback } from '../iad-projection-form.component';
+import { IadReferenceProjectionProviderService } from './iad-reference-projection-provider.service';
 
 @Injectable()
 export class IadProjectionFormService {
@@ -256,9 +256,7 @@ export class IadProjectionFormService {
      * @param flattenData
      */
     private updateInputValue(options, value: any, groupName?: string, flattenData?: boolean): { [param: string]: any } {
-        if (this.rawFormData) {
-            options.value = this.resolveValue(options, groupName, flattenData) || value;
-        }
+        options.value = this.rawFormData ? this.resolveValue(options, groupName, flattenData) || value : value;
         return options;
     }
 
