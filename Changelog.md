@@ -1,3 +1,7 @@
+# 1.0.9-alpha.113
+
+* FORM Bug fixed with setiing form input's defaul tvalues from projections
+
 # 1.0.9-alpha.112
 
 * FORM IadProjectionFormService.updateInputValue method refactored to use input's default value; It will use previous value for updating fields when no value is present in raw form data

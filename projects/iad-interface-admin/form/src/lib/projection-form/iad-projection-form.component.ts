@@ -14,7 +14,7 @@ import { PrimeTemplate } from 'primeng/shared';
 
 import { FormGroupChild, FormGroupChildColumn, FormInputGroup } from '../dynamic-form/core/form-input-group';
 import { IadFormProjection } from './model/iad-form-projection.model';
-import { IadProjectionFormService } from './iad-projection-form.service';
+import { IadProjectionFormService } from './public-services/iad-projection-form.service';
 import { ProjectionFormHelper } from './iad-projection-form-helper';
 
 export type FormGroupChildCallback = (IFormProjectionField) => FormGroupChild;
