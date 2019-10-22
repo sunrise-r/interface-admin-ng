@@ -1,3 +1,7 @@
+# 1.0.9-alpha.115
+
+* GLOBAL fixed form validation error collection to show nested forms errors as well
+ 
 # 1.0.9-alpha.114
 
 * GRID Fixed bug with multiple resetToggleableStatus change subscriptions in ToolbarActionsComponent
