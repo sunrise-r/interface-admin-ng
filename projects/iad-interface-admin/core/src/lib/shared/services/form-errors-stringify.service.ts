@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -64,12 +64,15 @@ export class FormErrorsStringifyService {
     private collectInputErrors(form: FormGroup, translationPrefix: string) {
         const errors = {};
         Object.keys(form.controls).forEach(key => {
-            const controlErrors: ValidationErrors = form.get(key).errors;
-            if (controlErrors != null && (form.get(key).dirty || form.get(key).touched)) {
+            const control = form.get(key);
+            const controlErrors: ValidationErrors = control.errors;
+            if (controlErrors != null && (control.dirty || control.touched)) {
                 errors[key] = [];
                 Object.keys(controlErrors).forEach(keyError => {
                     errors[key].push(translationPrefix + keyError);
                 });
+            } else if (control['controls']) {
+                Object.assign(errors, this.collectInputErrors(<FormGroup>control, translationPrefix));
             }
         });
         return errors;
