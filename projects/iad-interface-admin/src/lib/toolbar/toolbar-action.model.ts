@@ -20,4 +20,16 @@ export class ToolbarAction {
         this.active = active || false;
         this.visible = true;
     }
+
+    activate() {
+        this.active = true;
+    }
+
+    deactivate() {
+        this.active = false;
+    }
+
+    doToggle() {
+        this.active = !this.active;
+    }
 }

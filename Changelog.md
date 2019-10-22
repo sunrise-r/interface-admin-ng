@@ -1,3 +1,7 @@
+# 1.0.9-alpha.114
+
+* GRID Fixed bug with multiple resetToggleableStatus change subscriptions in ToolbarActionsComponent
+
 # 1.0.9-alpha.113
 
 * FORM Bug fixed with setiing form input's defaul tvalues from projections

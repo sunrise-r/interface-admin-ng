@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChildren, QueryList } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { ToolbarActionDirective } from './toolbar-action.directive';
 import { ToolbarAction, ToolbarClickEvent } from './toolbar-action.model';
@@ -46,19 +46,27 @@ export class ToolbarActionsComponent implements OnChanges {
     /**
      * Outgoing event
      */
-    @Output()
-    actionInvoke: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
+    @Output() actionInvoke: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
 
     @ViewChildren(ToolbarActionDirective) buttons: QueryList<ToolbarActionDirective>;
 
+    private _toggleableStatusSbt: Subscription;
+
     ngOnChanges(changes: SimpleChanges): void {
         if ('resetToggleableStatus' in changes && this.resetToggleableStatus) {
-            this.resetToggleableStatus.subscribe(toggle => {
-                const button = this.buttons.find(item => item.action.code === toggle.code);
-                if (button) {
-                    button.deactivate();
-                }
-            });
+            this.subscribeToToggleableStatusChange();
         }
+    }
+
+    private subscribeToToggleableStatusChange() {
+        if (this._toggleableStatusSbt && !this._toggleableStatusSbt.closed) {
+            this._toggleableStatusSbt.unsubscribe();
+        }
+        this._toggleableStatusSbt = this.resetToggleableStatus.subscribe(toggle => {
+            const button = this.buttons.find(item => item.action.code === toggle.code);
+            if (button) {
+                button.deactivate();
+            }
+        });
     }
 }
