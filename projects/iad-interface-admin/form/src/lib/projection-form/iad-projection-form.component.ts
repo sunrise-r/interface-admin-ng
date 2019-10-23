@@ -154,17 +154,21 @@ export class IadProjectionFormComponent implements OnChanges {
     /**
      * Рекурсивный поиск ключей инпутов типа file..
      * @param group FormInputGroup
-     * @param parentInput string
+     * @param parentKey string
      */
-    private findFileInputsRecursive(group: FormGroupChild, parentInput = ''): string[] {
+    private findFileInputsRecursive(group: FormGroupChild, parentKey?: string): string[] {
         let fileInputs: string[] = [];
         (<FormInputGroup>group).children.forEach((childColumn: FormGroupChildColumn) => {
             childColumn.forEach((child: FormGroupChild) => {
-                const childKey = (parentInput ? parentInput + '.' : '') + child.key;
-                if ((<FormInputGroup>child).children) {
+                if ('children' in child) {
+                    // Ignore nesting data when current child group is flatten
+                    const childKey = ProjectionFormHelper.checkFlattenDataState(child, this.flattenData)
+                                    ? parentKey
+                                    : (parentKey ? parentKey + '.' : '') + child.key;
                     fileInputs = fileInputs.concat(this.findFileInputsRecursive(child, childKey));
+
                 } else if (child.controlType === 'file') {
-                    fileInputs.push(childKey);
+                    fileInputs.push((parentKey ? parentKey + '.' : '') + child.key);
                 }
             });
         });

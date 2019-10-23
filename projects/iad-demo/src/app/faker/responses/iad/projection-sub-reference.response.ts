@@ -36,6 +36,14 @@ export class ProjectionSubReferenceResponse extends AbstractResponse {
                 'translate': false,
                 'properties': {}
             },
+            {
+                'validationTypes': {'email': false, 'required': false},
+                'type': 'File',
+                'name': 'subFormFileField',
+                'label': 'presentation.projection.main.fileField',
+                'column': 0,
+                'translate': true
+            }
         ];
         projection.properties = [];
         const response = {'presentationOne.additionalSubFields': projection};
