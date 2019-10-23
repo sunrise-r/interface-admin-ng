@@ -19,7 +19,7 @@ import { DocumentListProjection } from '../model/projection-grid.model';
 import { IadGridColumn, IadGridColumnInterface } from '../../iad-base-grid/model/iad-grid-column.model';
 import { IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
-import { ToolbarAction, ToolbarClickEvent } from '../../toolbar/toolbar-action.model';
+import { ToolbarClickEvent } from '../../toolbar/toolbar-action.model';
 import { IadGridColumnFrozenField, IadGridColumnOrder } from '../../iad-base-grid/base-grid/base-grid-freeze-column.model';
 
 @Component({
@@ -354,7 +354,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * @param context
      */
     private static resolveUrl(searchUrl: string, context: any) {
-        if (context === null || searchUrl === null) {
+        if (context === undefined || context === null || searchUrl === null || searchUrl === undefined) {
             return searchUrl;
         }
         const compiled = _.template(searchUrl);

@@ -27,15 +27,21 @@ import { ContextAware } from '../core/context-aware';
             <ng-template #childGroupTemplate>
                 <ng-container [formGroupName]="config.key" *ngIf="childGroup">
                     <ng-template ngFor let-child [ngForOf]="config.children">
-                        <div [iadDynamicField]="child[0]" [inputComponents]="inputComponents" [context]="context" [group]="childGroup"
-                             styleClass="form-row mb-2"
-                             *ngIf="child.length === 1; else multiColumn"></div>
+                        <ng-template [ngIf]="child.length === 1" [ngIfThen]="singleColumn" [ngIfElse]="multiColumn"></ng-template>
+                        <ng-template #singleColumn>
+                            <div [iadDynamicField]="child[0]"
+                                 [inputComponents]="inputComponents"
+                                 [context]="context"
+                                 [group]="childGroup"
+                                 styleClass="form-row mb-2"></div>
+                        </ng-template>
                         <ng-template #multiColumn>
                             <div class="form-row mb-2">
-                                <div *ngFor="let grandChild of child; let i = index"
-                                     class="col-12 col-lg-{{calculateColumns(child)}}">
-                                    <ng-container [iadDynamicField]="grandChild" [inputComponents]="inputComponents" [group]="childGroup"
+                                <div *ngFor="let grandChild of child; let i = index" class="col-12 col-lg-{{calculateColumns(child)}}">
+                                    <ng-container [iadDynamicField]="grandChild"
+                                                  [inputComponents]="inputComponents"
                                                   [context]="context"
+                                                  [group]="childGroup"
                                                   styleClass="form-row mb-2"></ng-container>
                                 </div>
                                 <div class="clearfix"></div>

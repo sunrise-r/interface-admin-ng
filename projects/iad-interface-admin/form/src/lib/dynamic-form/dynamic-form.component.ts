@@ -123,19 +123,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
             this.sending = false;
         }
         if ('formInputGroup' in changes) {
-            if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
-                this.formValueChangesSbt.unsubscribe();
-            }
             this.form = this.fcs.toFormGroup(this.formInputGroup);
-            this.formValueChangesSbt = this.form.valueChanges.subscribe(() => {
-                if (!this.context) {
-                    this.context = {};
-                }
-                Object.keys(this.form.value).forEach(k => (this.context[k] = this.form.value[k]));
-                this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
-                this.valueChanges.emit(this.form.value);
-                this.addFormErrors();
-            });
+            this.subscribeFormChanges();
         }
     }
 
@@ -206,5 +195,30 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
             })
         );
         return inputLabels;
+    }
+
+    /**
+     * Updates context with current form values after form change
+     */
+    private updateContext(context: {[p: string]: any}): void {
+        if (!this.context) {
+            this.context = {};
+        }
+        Object.keys(this.form.value).forEach(k => (this.context[k] = this.form.value[k]));
+    }
+
+    /**
+     * Re-subscribes to form changes
+     */
+    private subscribeFormChanges(): void {
+        if (this.formValueChangesSbt && !this.formValueChangesSbt.closed) {
+            this.formValueChangesSbt.unsubscribe();
+        }
+        this.formValueChangesSbt = this.form.valueChanges.subscribe(() => {
+            this.updateContext(this.form.value);
+            this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
+            this.valueChanges.emit(this.form.value);
+            this.addFormErrors();
+        });
     }
 }
