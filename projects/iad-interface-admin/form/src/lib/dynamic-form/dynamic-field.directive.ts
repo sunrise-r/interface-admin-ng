@@ -34,6 +34,11 @@ export class DynamicFieldDirective implements OnInit, OnDestroy {
 
     private subscription: Subscription;
 
+    static isContextAware(object): object is ContextAware {
+        const contextAware = object as ContextAware;
+        return contextAware.context !== undefined;
+    }
+
     constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef) {}
 
     ngOnInit() {
@@ -41,7 +46,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy {
         const component = this.components[this.config.controlType];
         const factory = this.resolver.resolveComponentFactory<any>(component);
         this.component = this.container.createComponent(factory);
-        if (this.isContextAware(this.component.instance)) {
+        if (DynamicFieldDirective.isContextAware(this.component.instance)) {
             this.component.instance.context = this.context;
         }
         this.component.instance.config = this.config;
@@ -60,10 +65,5 @@ export class DynamicFieldDirective implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
-    }
-
-    isContextAware(object): object is ContextAware {
-        const contextAware = object as ContextAware;
-        return contextAware.context !== undefined;
     }
 }
