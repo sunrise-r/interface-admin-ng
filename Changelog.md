@@ -1,3 +1,7 @@
+# 1.0.9-alpha.116
+
+* FORM fixed recursive file fields search for flatten input groups. 
+
 # 1.0.9-alpha.115
 
 * GLOBAL fixed form validation error collection to show nested forms errors as well

@@ -47,6 +47,7 @@ export class FormComponent implements OnInit {
     }
 
     onFormSubmit(value: { formData: any, fileInputKeys }) {
+        console.log(value.fileInputKeys);
         this.iadDataOperationsService.saveData(this.postDataUrl, value.formData).subscribe(
             (response: any) => {
                 this.router.navigateByUrl(this.iadRouterHistoryService.previousUrl);
