@@ -36,9 +36,19 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     @Input() serverError: HttpErrorResponse;
 
     /**
-     * Контекст построения формы.
+     * Context data for current form input components.
+     * It's used in forms containing dependent inputs, or in other situations when you need
+     * some extra information for inputs in the form.
+     * Notice! It should never be null or undefined, otherwise input components,
+     * that will be created inside DynamicFieldDirective will never know about it's changes!
      */
-    @Input() context: any;
+    @Input()
+    get context(): any {
+        return this._context;
+    };
+    set context(context: any) {
+        this._context = context || {};
+    };
 
     /**
      * When form is nested than it has other parent form.
@@ -96,6 +106,11 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
      */
     errors: string;
 
+    /**
+     * Inner form input components context variable
+     */
+    private _context = {};
+
     private formValueChangesSbt: Subscription;
 
     constructor(
@@ -107,20 +122,13 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     }
 
     ngOnInit() {
-        this.formErrorsStringify.errors.subscribe(errors => {
-            this.errors = errors;
-            this.cdr.detectChanges();
-        });
-        this.fcs.recalculateDependencies(this.formInputGroup, {}, this.form);
+        this.formErrorsStringify.errors.subscribe(errors => this.setFormErrors(errors));
+        this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if ('serverError' in changes && this.serverError) {
-            this.formHelper.prepareServerError(this.serverError).then(message => {
-                this.errors = message;
-                this.cdr.detectChanges();
-            });
-            this.sending = false;
+            this.formHelper.prepareServerError(this.serverError).then(errors => this.setFormErrors(errors));
         }
         if ('formInputGroup' in changes) {
             this.form = this.fcs.toFormGroup(this.formInputGroup);
@@ -198,13 +206,20 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     }
 
     /**
-     * Updates context with current form values after form change
+     * Updates form context with current form values after current form change
      */
     private updateContext(context: {[p: string]: any}): void {
-        if (!this.context) {
-            this.context = {};
-        }
-        Object.keys(this.form.value).forEach(k => (this.context[k] = this.form.value[k]));
+        Object.keys(context).forEach(k => (this.context[k] = context[k]));
+    }
+
+    /**
+     * Sets form errors and detect changes
+     * @param errors
+     */
+    private setFormErrors(errors) {
+        this.errors = errors;
+        this.sending = false;
+        this.cdr.detectChanges();
     }
 
     /**
