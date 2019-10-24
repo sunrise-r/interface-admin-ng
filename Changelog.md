@@ -1,3 +1,7 @@
+# 1.0.9-alpha.130
+
+* FORM fixed setting of form context to nested form input components
+
 # 1.0.9-alpha.116
 
 * FORM fixed recursive file fields search for flatten input groups. 
