@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { FormGroup, ValidationErrors } from '@angular/forms';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs/operators';
+
+export class FormInputError {
+    constructor(
+        public inputName: string,
+        public errorName: string,
+        public interpolateParams: {[p: string]: string | number | Date}
+    ) {}
+}
 
 @Injectable()
 export class FormErrorsStringifyService {
@@ -13,10 +22,12 @@ export class FormErrorsStringifyService {
         const status = form.status;
         if (status === 'INVALID') {
             const errors = this.collectInputErrors(form, translationPrefix);
-            const translateLabels = this.formInputErrorsArray(errors);
-            if (translateLabels.length > 0) {
-                this.translateService
-                    .get(translateLabels)
+            const translateRequests = this.formInputErrorTranslationRequests(errors);
+            if (translateRequests.length > 0) {
+                forkJoin(translateRequests)
+                    .pipe(
+                        map(labels => labels.reduce((acu, labelObj) => Object.assign(acu, labelObj), {}))
+                    )
                     .toPromise()
                     .then(labels => {
                         this.errors.next(this.getFormErrorsText(errors, labels, inputLabels));
@@ -35,24 +46,17 @@ export class FormErrorsStringifyService {
      * @param translations
      * @param inputLabels
      */
-    private getFormErrorsText(errors: any, translations: any, inputLabels: any) {
-        let formErrorsText = '';
-        Object.keys(errors).forEach((inputKey: string) => {
-            let inputErrorsText = '';
-            errors[inputKey].forEach((label: string) => {
-                if (inputErrorsText.length > 0) {
-                    inputErrorsText += '; ';
+    private getFormErrorsText(errors: FormInputError[], translations: {[p: string]: string}, inputLabels: any) {
+        const errorsObj = errors.reduce((acu, error) => {
+                if (!acu[error.inputName]) {
+                    acu[error.inputName] = [];
                 }
-                inputErrorsText += translations[label];
-            });
-
-            if (formErrorsText.length > 0) {
-                formErrorsText += '\n';
-            }
-
-            formErrorsText += inputLabels[inputKey] + ': ' + inputErrorsText;
-        });
-        return formErrorsText;
+                acu[error.inputName].push(translations[error.errorName]);
+                return acu;
+            }, {});
+        return Object.keys(errorsObj)
+            .map(key => inputLabels[key]  + ': ' + errorsObj[key].join('; '))
+            .join('\n');
     }
 
     /**
@@ -61,18 +65,17 @@ export class FormErrorsStringifyService {
      * @param form
      * @param translationPrefix
      */
-    private collectInputErrors(form: FormGroup, translationPrefix: string) {
-        const errors = {};
+    private collectInputErrors(form: FormGroup, translationPrefix: string): FormInputError[] {
+        let errors: FormInputError[] = [];
         Object.keys(form.controls).forEach(key => {
             const control = form.get(key);
             const controlErrors: ValidationErrors = control.errors;
-            if (controlErrors != null && (control.dirty || control.touched)) {
-                errors[key] = [];
-                Object.keys(controlErrors).forEach(keyError => {
-                    errors[key].push(translationPrefix + keyError);
+            if (controlErrors != null && (control.dirty || control.touched || control.value)) {
+                Object.keys(controlErrors).forEach(errorKey => {
+                    errors.push(new FormInputError(key, translationPrefix + errorKey, controlErrors[errorKey]));
                 });
             } else if (control['controls']) {
-                Object.assign(errors, this.collectInputErrors(<FormGroup>control, translationPrefix));
+                errors = errors.concat(this.collectInputErrors(<FormGroup>control, translationPrefix));
             }
         });
         return errors;
@@ -82,11 +85,9 @@ export class FormErrorsStringifyService {
      * Собирает лейблы ошибок для переводов в Одномерном массиве
      * @param errors
      */
-    private formInputErrorsArray(errors: any) {
-        let translateLabels = [];
-        Object.keys(errors).forEach((inputKey: string) => {
-            translateLabels = translateLabels.concat(errors[inputKey]);
-        });
-        return translateLabels;
+    private formInputErrorTranslationRequests(errors: FormInputError[]): Observable<string | any>[] {
+        return errors.map((error: FormInputError) => (
+            this.translateService.get([error.errorName], error.interpolateParams)
+        ));
     }
 }

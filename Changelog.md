@@ -1,3 +1,7 @@
+# 1.0.9-alpha.133
+
+* FORM fixed setting interpolateParams for translatable errors
+
 # 1.0.9-alpha.130
 
 * FORM fixed setting of form context to nested form input components
