@@ -7,8 +7,7 @@ import {IadConfigService} from 'iad-interface-admin/core';
 import { ProjectionTreeComponent } from './projection-tree.component';
 import {PresentationTreeModel} from './projection-tree.model';
 import {IadProjectionTreeService} from '../public-services/iad-projection-tree.service';
-import {IadModuleConfigInterface} from '../config';
-import { MenuItem } from 'primeng/api';
+import { IadModuleConfigInterface } from 'iad-interface-admin/core';
 
 describe('ProjectionTreeComponent', () => {
   let component: ProjectionTreeComponent;

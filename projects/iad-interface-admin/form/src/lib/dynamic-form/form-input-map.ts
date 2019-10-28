@@ -61,5 +61,6 @@ export const inputModels = {
     File: FileInput,
     SplittedDateTime: DateTimeInput,
     Text: TextareaInput,
+    password: TextInput,
     AutoComplete: AutoCompleteInput
 };

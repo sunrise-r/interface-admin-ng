@@ -1,3 +1,7 @@
+# 1.0.9-alpha.134
+
+* FORM fixed input type consideration (i.e. for "password" input fields)
+
 # 1.0.9-alpha.133
 
 * FORM fixed setting interpolateParams for translatable errors

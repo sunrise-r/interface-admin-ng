@@ -162,6 +162,7 @@ export class IadProjectionFormService {
      */
     initFormInput(field: IFormProjectionField, groupName?: string, flattenData?: boolean): FormInput<any> {
         const options: any = {
+            type: field.type.toLowerCase(),
             column: field.column,
             key: field.name,
             label: field.label,
