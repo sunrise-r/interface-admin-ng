@@ -40,7 +40,8 @@
                 "chipsField": "Поле chips",
                 "fileField": "Файл",
                 "dropdownFieldDynamic": "Выпадающий список с загружаемыми значениями",
-                "autoCompleteField": "Поле с подсказками"
+                "autoCompleteField": "Поле с подсказками",
+                "passwordField": "Пароль"
             },
             "other": {
                 "label": "Другая проекция"

@@ -113,14 +113,19 @@ export class ProjectionReferenceResponse extends AbstractResponse {
             },
             {
                 'validationTypes': {'email': false, 'required': false},
-                'type': 'AutoComplete',
-                'name': 'autoCompleteField',
-                'label': 'presentation.projection.main.autoCompleteField',
+                'type': 'File',
+                'name': 'fileField',
+                'label': 'presentation.projection.main.fileField',
                 'column': 0,
-                'translate': true,
-                'properties': {
-                    'valuesUrl': 'api/auto-complete-values'
-                }
+                'translate': true
+            },
+            {
+                'validationTypes': {'email': false, 'required': false},
+                'type': 'password',
+                'name': 'passwordField',
+                'label': 'presentation.projection.main.passwordField',
+                'column': 0,
+                'translate': true
             },
             {
                 'validationTypes': {'email': false, 'required': false},
