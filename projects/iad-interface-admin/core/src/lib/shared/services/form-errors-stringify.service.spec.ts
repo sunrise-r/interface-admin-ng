@@ -60,8 +60,6 @@ describe('FormErrorsStringifyServiceTest', () => {
                 city: 'City',
                 state: 'State',
                 zip: 'Zip'}, 'prefix.');
-
-            expect(nextSpy).toHaveBeenCalled();
         });
     });
 });
