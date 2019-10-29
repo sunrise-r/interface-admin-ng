@@ -3,11 +3,20 @@ import { FormGroup } from '@angular/forms';
 
 import { FormInputGroup } from '../core/form-input-group';
 import { ContextAware } from '../core/context-aware';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'iad-form-group',
     styleUrls: ['./iad-form-group.component.scss'],
     template: `
+        <ng-template #inputDirective let-child>
+            <ng-container [iadDynamicField]="child"
+                          [inputComponents]="inputComponents"
+                          [context]="context"
+                          [group]="childGroup"
+                          (touched)="onTouched(child)"
+                          styleClass="form-row mb-2"></ng-container>
+        </ng-template>
         <ng-container [formGroup]="group">
             <ng-template [ngIf]="config.collapsable" [ngIfThen]="collapsableTemplate" [ngIfElse]="childGroupTemplate"></ng-template>
             <ng-template #collapsableTemplate>
@@ -29,20 +38,12 @@ import { ContextAware } from '../core/context-aware';
                     <ng-template ngFor let-child [ngForOf]="config.children">
                         <ng-template [ngIf]="child.length === 1" [ngIfThen]="singleColumn" [ngIfElse]="multiColumn"></ng-template>
                         <ng-template #singleColumn>
-                            <div [iadDynamicField]="child[0]"
-                                 [inputComponents]="inputComponents"
-                                 [context]="context"
-                                 [group]="childGroup"
-                                 styleClass="form-row mb-2"></div>
+                            <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: child[0]}"></ng-template>
                         </ng-template>
                         <ng-template #multiColumn>
                             <div class="form-row mb-2">
-                                <div *ngFor="let grandChild of child; let i = index" class="col-12 col-lg-{{calculateColumns(child)}}">
-                                    <ng-container [iadDynamicField]="grandChild"
-                                                  [inputComponents]="inputComponents"
-                                                  [context]="context"
-                                                  [group]="childGroup"
-                                                  styleClass="form-row mb-2"></ng-container>
+                                <div *ngFor="let grandChild of child" class="col-12 col-lg-{{calculateColumns(child)}}">
+                                    <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: grandChild}"></ng-template>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -84,6 +85,11 @@ export class IadFormGroupComponent implements OnInit, ContextAware {
      */
     inputComponents: { [param: string]: any } = {};
 
+    /**
+     * touched
+     */
+    touched: Subject<any> = new Subject<any>();
+
     ngOnInit(): void {
         this.childGroup = <FormGroup>this.group.controls[this.config.key];
     }
@@ -94,5 +100,13 @@ export class IadFormGroupComponent implements OnInit, ContextAware {
      */
     calculateColumns(child) {
         return Math.ceil(12 / child.length);
+    }
+
+    /**
+     * Forwarding of current form group touched event
+     * @param child
+     */
+    onTouched(child) {
+        this.touched.next(this.config.key);
     }
 }
