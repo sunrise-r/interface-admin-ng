@@ -10,7 +10,7 @@ import { ValidationInput } from '../core/validation-input';
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
 col-form-label">{{config.translate ? (config.label | translate) : config.label}} </label>
         <div class="col-12 col-lg-{{formControlColumnSize}}">
-          <div class="textarea-wrapper input-group">
+          <div iadElementFocus class="textarea-wrapper input-group">
               <textarea
                 class="form-control form-control-thin"
                 [formControlName]="config | formatInputName"

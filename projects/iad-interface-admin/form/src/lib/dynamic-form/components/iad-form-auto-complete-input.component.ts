@@ -12,7 +12,7 @@ import {IadFieldValuesService} from '../services/iad-field-values.service';
                 {{config.translate ? (config.label | translate) : config.label}}
             </label>
             <div class="col-12 col-lg-{{formControlColumnSize}}">
-                <div class="input-wrapper input-group">
+                <div iadElementFocus class="input-wrapper input-group">
                     <p-autoComplete class="custom-form-control"
                                     [id]="config.key"
                                     [forceSelection]="config.forceSelection"

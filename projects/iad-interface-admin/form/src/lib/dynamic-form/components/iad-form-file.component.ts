@@ -12,6 +12,7 @@ import { ValidationInput } from '../core/validation-input';
 col-form-label">{{config.translate ? (config.label | translate) : config.label}} </label>
         <div class="col-12 col-lg-{{formControlColumnSize}}">
             <iad-file-upload
+                iadElementFocus
                 class="custom-form-control"
                 [formControlName]="config | formatInputName"
                 [inputId]="config.key"

@@ -13,7 +13,7 @@ import { ValidationInput } from '../core/validation-input';
                        class="col-12 col-lg-{{labelColumnSize}}
 col-form-label">{{config.translate ? (config.label | translate) : config.label}} </label>
                 <div class="col-12 col-lg-{{formControlColumnSize}}">
-                    <div class="input-wrapper input-group">
+                    <div iadElementFocus class="input-wrapper input-group">
                         <ng-template [ngIf]="config.inputMask" [ngIfThen]="maskedInput" [ngIfElse]="inputTpl"></ng-template>
                         <ng-template #maskedInput>
                             <p-inputMask

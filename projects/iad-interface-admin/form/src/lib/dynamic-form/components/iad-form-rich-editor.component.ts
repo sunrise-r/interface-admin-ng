@@ -12,7 +12,7 @@ import { ValidationInput } from '../core/validation-input';
         {{config.translate ? (config.label | translate) : config.label}}
       </label>
       <div class="col-12 col-lg-{{formControlColumnSize}}">
-        <div class="input-wrapper input-group rich-editor-wrapper">
+        <div iadElementFocus class="input-wrapper input-group rich-editor-wrapper">
           <p-editor class="custom-form-control"
             [formControlName]="config.key"
             [id]="config.key"

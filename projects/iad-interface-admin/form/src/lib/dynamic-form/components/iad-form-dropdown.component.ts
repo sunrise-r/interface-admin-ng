@@ -18,7 +18,7 @@ export interface DropdownValuesInterface {
                 {{config.translate ? (config.label | translate) : config.label}}
             </label>
             <div class="col-12 col-lg-{{formControlColumnSize}}">
-                <div class="input-wrapper input-group">
+                <div iadElementFocus class="input-wrapper input-group">
                     <ng-template [ngIf]="config.multiple" [ngIfThen]="multipleSelect" [ngIfElse]="singleSelect"></ng-template>
                     <ng-template #multipleSelect>
                         <p-multiSelect
