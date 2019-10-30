@@ -1,3 +1,8 @@
+# 1.0.9-alpha.135
+
+* FORM optimized html code for groups and form itself
+* FORM added touched form input event forwarding for groups
+
 # 1.0.9-alpha.134
 
 * FORM fixed input type consideration (i.e. for "password" input fields)

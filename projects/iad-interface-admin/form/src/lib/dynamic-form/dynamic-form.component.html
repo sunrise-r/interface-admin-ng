@@ -1,3 +1,11 @@
+<ng-template #inputDirective let-child>
+    <ng-container [iadDynamicField]="child"
+                  [inputComponents]="inputComponents"
+                  [context]="context"
+                  [group]="form"
+                  (touched)="onTouched(child)"
+                  styleClass="form-row mb-2"></ng-container>
+</ng-template>
 <ng-template [ngIf]="!isNestedForm" [ngIfThen]="dynamicForm" [ngIfElse]="nestedForm"></ng-template>
 <ng-template #dynamicForm>
     <form (ngSubmit)="onSubmit()" [formGroup]="form" class="content-flex" autocomplete="off">
@@ -35,24 +43,12 @@
     <ng-template ngFor let-child [ngForOf]="formInputGroup.children">
         <ng-container *ngIf="child.length === 1; then singleColumn; else multiColumn"></ng-container>
         <ng-template #singleColumn>
-            <div
-                [iadDynamicField]="child[0]"
-                [context]="context"
-                [inputComponents]="inputComponents"
-                [group]="form"
-                (touched)="onTouched(child[0])"
-                styleClass="form-row mb-2"></div>
+            <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: child[0]}"></ng-template>
         </ng-template>
         <ng-template #multiColumn>
             <div class="form-row mb-2">
                 <div *ngFor="let grandChild of child; let i = index" class="col-12 col-lg-{{calculateColumns(child)}}">
-                    <ng-container
-                        [iadDynamicField]="grandChild"
-                        [context]="context"
-                        [inputComponents]="inputComponents"
-                        [group]="form"
-                        styleClass="form-row mb-2"
-                        (touched)="onTouched(child[i])"></ng-container>
+                    <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: grandChild}"></ng-template>
                 </div>
                 <div class="clearfix"></div>
             </div>
