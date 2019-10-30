@@ -11,7 +11,7 @@ import { ValidationInput } from '../core/validation-input';
         <label [attr.for]="config.key" class="col-12 col-lg-{{labelColumnSize}}
 col-form-label">{{config.translate ? (config.label | translate) : config.label}} </label>
         <div class="col-12 col-lg-{{formControlColumnSize}}">
-          <div class="input-wrapper input-group">
+          <div iadElementFocus class="input-wrapper input-group">
             <iad-calendar
               class="custom-form-control"
               [dataType]="config.dataType"

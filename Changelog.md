@@ -1,79 +1,80 @@
 # 1.0.9-alpha.135
 
-* FORM optimized html code for groups and form itself
-* FORM added touched form input event forwarding for groups
+* \[FORM] optimized html code for groups and form itself
+* \[FORM] added touched form input event forwarding for groups
+* \[FORM] Added iadElementFocus to every form input wrapper in form module
 
 # 1.0.9-alpha.134
 
-* FORM fixed input type consideration (i.e. for "password" input fields)
+* \[FORM] fixed input type consideration (i.e. for "password" input fields)
 
 # 1.0.9-alpha.133
 
-* FORM fixed setting interpolateParams for translatable errors
+* \[FORM] fixed setting interpolateParams for translatable errors
 
 # 1.0.9-alpha.130
 
-* FORM fixed setting of form context to nested form input components
+* \[FORM] fixed setting of form context to nested form input components
 
 # 1.0.9-alpha.116
 
-* FORM fixed recursive file fields search for flatten input groups. 
+* \[FORM] fixed recursive file fields search for flatten input groups. 
 
 # 1.0.9-alpha.115
 
-* GLOBAL fixed form validation error collection to show nested forms errors as well
+* \[GLOBAL] fixed form validation error collection to show nested forms errors as well
  
 # 1.0.9-alpha.114
 
-* GRID Fixed bug with multiple resetToggleableStatus change subscriptions in ToolbarActionsComponent
+* \[GRID] Fixed bug with multiple resetToggleableStatus change subscriptions in ToolbarActionsComponent
 
 # 1.0.9-alpha.113
 
-* FORM Bug fixed with setiing form input's defaul tvalues from projections
+* \[FORM] Bug fixed with setiing form input's defaul tvalues from projections
 
 # 1.0.9-alpha.112
 
-* FORM IadProjectionFormService.updateInputValue method refactored to use input's default value; It will use previous value for updating fields when no value is present in raw form data
-* FORM Added ability to update form inputs, that already contain values;
+* \[FORM] IadProjectionFormService.updateInputValue method refactored to use input's default value; It will use previous value for updating fields when no value is present in raw form data
+* \[FORM] Added ability to update form inputs, that already contain values;
 
 # 1.0.9-alpha.111
 
-* GRID added ToolbarClickEvent interface and element property within it 
+* \[GRID] added ToolbarClickEvent interface and element property within it 
 
 # 1.0.9-alpha.110
 
-* GRID fixed column multiple external css classes addition 
+* \[GRID] fixed column multiple external css classes addition 
 
 # 1.0.9-alpha.106
 
-* FORM added updateForm method to dynamic-form.comnponent. So you can trigger form values update
-* FORM added updateFormGroup method to FormControlService. Now you can simply update form values without form rebuilding
+* \[FORM] added updateForm method to dynamic-form.comnponent. So you can trigger form values update
+* \[FORM] added updateFormGroup method to FormControlService. Now you can simply update form values without form rebuilding
 
 # 1.0.9-alpha.105
 
-* FORM added updateFormValues method to iad-projection-form.service
+* \[FORM] added updateFormValues method to iad-projection-form.service
 
 # 1.0.9-alpha.104
 
-* FORM fixed flatten form data for third and deeper levels
+* \[FORM] fixed flatten form data for third and deeper levels
 
 # 1.0.9-alpha.103
  
-* FORM added @Input() fileName to file-upload-component
+* \[FORM] added @Input() fileName to file-upload-component
 
 # 1.0.9-alpha.101
 
-* GRID removed default tableStyleClass "partner-table" since it belongs to partner project
-* GLOBAL added scss files to keep default styles for iad
+* \[GRID] removed default tableStyleClass "partner-table" since it belongs to partner project
+* \[GLOBAL] added scss files to keep default styles for iad
 
 # 1.0.9-alpha.100
 
-* GLOBAL IadPresentationLoadService is removed from lib
-* GRID Added "infoUrl" property to listProjection model
+* \[GLOBAL] IadPresentationLoadService is removed from lib
+* \[GRID] Added "infoUrl" property to listProjection model
 
 # 1.0.9-alpha.99
 
-* GRID removed iadTableColumnSizeDisabled col property because this property does not allow to set hard size of columns
+* \[GRID] removed iadTableColumnSizeDisabled col property because this property does not allow to set hard size of columns
 
 # 1.0.9-alpha.97
 
@@ -81,11 +82,11 @@
 
 # 1.0.8-alpha.95
 
-* FORMS added iadElementFocus directive. This directive will produce (elementFocus) event<{focus: boolean, nativeEvent: ClickEvent}> when something is clicked inside its host element and also will add ui-focused css class to the host element;
+* \[FORM]S added iadElementFocus directive. This directive will produce (elementFocus) event<{focus: boolean, nativeEvent: ClickEvent}> when something is clicked inside its host element and also will add ui-focused css class to the host element;
 
 # 1.0.8-alpha.94
 
-* GLOBAL added @Input() configIcon: string to the class IadIconOutletComponent; It allows to set for any `<iad-icon-outlet>` customizable through NgModule.forRoot() module config icons:
+* \[GLOBAL] added @Input() configIcon: string to the class IadIconOutletComponent; It allows to set for any `<iad-icon-outlet>` customizable through NgModule.forRoot() module config icons:
 
 
 Example 1.
@@ -135,11 +136,11 @@ will add
    <i class="custom-chevron-up"></i>
    ```
 
-* FORM added customizable chevron-up icon to iad-form-group
+* \[FORM] added customizable chevron-up icon to iad-form-group
 
 # 1.0.8@alpha.90
 
-* GLOBAL; GRID added ability to customize icons for grid sorting. To configure icons you shold use NgModule.forRoot() module config as following:
+* \[GLOBAL]; GRID added ability to customize icons for grid sorting. To configure icons you shold use NgModule.forRoot() module config as following:
 
     ```typescript
     IadInterfaceAdminModule.forRoot({
@@ -169,12 +170,12 @@ will add
 
 # 1.0.8@alpha.89
 
-* FORM removed iad-tooltip-notifier default icons styling for projection-form
-* FORM refactored dropdown input component. Now it is combined with multiSelection component 
+* \[FORM] removed iad-tooltip-notifier default icons styling for projection-form
+* \[FORM] refactored dropdown input component. Now it is combined with multiSelection component 
 
 # 1.0.8@alpha.88
 
-* GRID: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid
+* \[GRID]: Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for grid
 
     ```html
     <iad-projection-grid
@@ -187,52 +188,52 @@ will add
 
 # 1.0.7-alpha.78
 
-* Form disableFooter changed to isNestedForm. It will not only disable form footer, but also disable the whole <form> tag, leaving clear <fieldset> inner content 
+* \[FORM] disableFooter changed to isNestedForm. It will not only disable form footer, but also disable the whole <form> tag, leaving clear <fieldset> inner content 
 
 # 1.0.7-alpha.77
 
-* Form Export of DynamicFormComponent
-* Form disableFooter option will disable form footr when set to true
-* Form added outgoing valueChanges event
+* \[FORM] Export of DynamicFormComponent
+* \[FORM] disableFooter option will disable form footr when set to true
+* \[FORM] added outgoing valueChanges event
 
 
 # 1.0.7-alpha.75
 
-* FORM added support for selection-restricted values for autocomplete
-* GRID changed minimum input length for delete action in action column
+* \[FORM] added support for selection-restricted values for autocomplete
+* \[GRID] changed minimum input length for delete action in action column
 
 # 1.0.7-alpha.74
 
-* FORM added export of all dynamic form models and components
-* FORM added dropdown options valueField: string; and  labelField: string;
-* FORM added date and datetime option dateFormat: string; to set displaying date
+* \[FORM] added export of all dynamic form models and components
+* \[FORM] added dropdown options valueField: string; and  labelField: string;
+* \[FORM] added date and datetime option dateFormat: string; to set displaying date
 
 # 1.0.7-alpha.73
 
-* FORM Now possible to set fieldTypes for fields in projection-form lowerCamelCase
+* \[FORM] Now possible to set fieldTypes for fields in projection-form lowerCamelCase
 
 # 1.0.7-alpha.72
 
-* GRID ReferenceProjection field name is used as group name instead of inner field names to create
-* GRID removed IadProjectionLoadService from iad	pavel.a	23.07.2019 09:51
-* FORM removed IadRouterHistoryService from iad
-* FORM exported IadFieldValuesService from iad
+* \[GRID] ReferenceProjection field name is used as group name instead of inner field names to create
+* \[GRID] removed IadProjectionLoadService from iad	pavel.a	23.07.2019 09:51
+* \[FORM] removed IadRouterHistoryService from iad
+* \[FORM] exported IadFieldValuesService from iad
 
 # 1.0.7-alpha.70
 
-* FORM findProjectionByName changed to findFormProjectionByName
+* \[FORM] findProjectionByName changed to findFormProjectionByName
 
 # 1.0.7-alpha.69
 
-* GRID TabbedViewComponent is no more exist in iad
+* \[GRID] TabbedViewComponent is no more exist in iad
 
 # 1.0.7-alpha.68
 
-* FORM: Enhancement for nested (reference) forms. Forms made hierarchically nested
+* \[FORM]: Enhancement for nested (reference) forms. Forms made hierarchically nested
 
 # 1.0.7-alpha.67
 
-* GRID: Refactoring of BaseGridComponent:
+* \[GRID]: Refactoring of BaseGridComponent:
 
     Removed:
     
@@ -275,13 +276,13 @@ will add
      */
     @Output() columnSort = new EventEmitter<{value: string, field: string, order: number}>();
     ```
-* GRID Refactoring of ProjectionGridComponent: added handlers to new BaseGridComponent's events
+* \[GRID] Refactoring of ProjectionGridComponent: added handlers to new BaseGridComponent's events
 
-* GRID Removed CmsSetting class
+* \[GRID] Removed CmsSetting class
 
 # 1.0.7@devel.62
 
-* GRID: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
+* \[GRID]: Added ability to pass columnComponents for Grid columns through @Input columnComponents as following:
 
      ```typescript
       const columnComponents = {
@@ -289,7 +290,7 @@ will add
       }   
      ```
 
-* FORM: IadFormComponent @Input() considerSourcePathGroups replaced with IadFormComponent @Input() flattenData
+* \[FORM]: IadFormComponent @Input() considerSourcePathGroups replaced with IadFormComponent @Input() flattenData
 
     `IadFormComponent @Input() flattenData;`
 
@@ -297,7 +298,7 @@ will add
     
 # 1.0.7@alpha.60
 
-* FORM: Changed "plain/flatten" behavior for fields with referenceProjections. 
+* \[FORM]: Changed "plain/flatten" behavior for fields with referenceProjections. 
 
     Before: properties.plainReference formProjection field option made "Data and Groups flatten" strategy for form;
     After: properties.plainReference keeps its functionality, but two more properties were added: properties.flattenData, properties.flattenFields. New strategy implies that if one of new options is used in formProjection field properties.plainReference will not work. Below is an explanation of how these two option work.
@@ -337,9 +338,9 @@ will add
             
     4) setting both options "false" will equal to not set any of properties.plainReference, properties.flattenData or properties.flattenFields;
     
-* FORM: Note that formSubmit EventEmitter enits event containing formData and fileInputKeys; If you need to flatten fileInputKeys into formData you should implement relevant methods by yourself
+* \[FORM]: Note that formSubmit EventEmitter enits event containing formData and fileInputKeys; If you need to flatten fileInputKeys into formData you should implement relevant methods by yourself
 
-* FORM: Note that if you will use flattenData mode for fields with referenceProjections **data from referenceProjection group will have higher priority than root form data**. In other words fields with the same name in root and nested form groups will be replaced with nested form group input value. i.e.:
+* \[FORM]: Note that if you will use flattenData mode for fields with referenceProjections **data from referenceProjection group will have higher priority than root form data**. In other words fields with the same name in root and nested form groups will be replaced with nested form group input value. i.e.:
 
     ```json
         {
@@ -360,16 +361,16 @@ will add
 
 # 1.0.6@alpha.59
 
-* FORM: fixed extra space used with hidden form inputs
+* \[FORM]: fixed extra space used with hidden form inputs
 
 # 1.0.6@alpha.56
 
-* GRID: Columns are allowed to set only from @Input() projection. Direct setting is deprecated and affects nothing
+* \[GRID]: Columns are allowed to set only from @Input() projection. Direct setting is deprecated and affects nothing
 
 # 1.0.6@alpha.53
 
-* GRID: Added GridSettingsStorageInterface inmplementation to keep table settings in user's localStorage
-* GRID: Added ability to set your own GridSettingsStorageInterface imlementation through `settingsKeeper: { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageServiceImpl }` iad-interface-admin module option
+* \[GRID]: Added GridSettingsStorageInterface inmplementation to keep table settings in user's localStorage
+* \[GRID]: Added ability to set your own GridSettingsStorageInterface imlementation through `settingsKeeper: { provide: SETTINGS_KEEPER, useClass: GridSettingsStorageServiceImpl }` iad-interface-admin module option
  
 # 1.0.6@alpha.51
 
@@ -377,40 +378,40 @@ will add
 
 * MAIN: ProjectionTableComponent, ProjectionTableModule, GridToolbarComponent(TableToolbarComponent) and GridSearchPanel(TableSearchPanel) are replaced to 'interface-iad-admin' main project from 'interface-iad-admin/partner' partner project
 * PARTNER: PARTNER PROJECT IS NO MORE EXISTS IN PROJECT
-* GRID: Toolbar will be shown only when hasToolbar is set true
+* \[GRID]: Toolbar will be shown only when hasToolbar is set true
 
 # 0.0.6@devel.50
 
-* GRID (partner): updateActualInformation method removed from project
-* GRID (partner): PresentationHelper class removed from project
-* GRID (partner): DataChainService class removed from project
-* GRID (partner): ActualSelectionChainService class removed from project
-* GRID: SELECT_ACTION enum removed from project
-* GRID: IadGridRowSelection class removed from project
-* GRID: onGridRowSelection const removed from project
-* GRID: IProjectionDefaultFilter interface and ProjectionDefaultFilter class are removed from project
-* GRID: IIADProjection interface and IIADPresentation interface are removed from project
-* GRID: IADPresentation class is removed from project
-* GRID: Reference class is removed from project
+* \[GRID] (partner): updateActualInformation method removed from project
+* \[GRID] (partner): PresentationHelper class removed from project
+* \[GRID] (partner): DataChainService class removed from project
+* \[GRID] (partner): ActualSelectionChainService class removed from project
+* \[GRID]: SELECT_ACTION enum removed from project
+* \[GRID]: IadGridRowSelection class removed from project
+* \[GRID]: onGridRowSelection const removed from project
+* \[GRID]: IProjectionDefaultFilter interface and ProjectionDefaultFilter class are removed from project
+* \[GRID]: IIADProjection interface and IIADPresentation interface are removed from project
+* \[GRID]: IADPresentation class is removed from project
+* \[GRID]: Reference class is removed from project
 * MAIN: DocumentDataProjection const replaced to 'interface-iad-admin' main project
 
 # 0.0.4@devel.38
 
-* GRID Use the IadEventManager to broadcast delete event in order to update table
+* \[GRID] Use the IadEventManager to broadcast delete event in order to update table
 
 # 0.0.4@devel.37
 
-* FORM: If reference field is flatten (plain) then group will be not considered for this field
+* \[FORM]: If reference field is flatten (plain) then group will be not considered for this field
 
 # 0.0.4@devel.36
 
-* GRID: Changed grid refresh scenario; Now grid update require grid settings every time; Another one change removes double grid refresh in projection-grid
+* \[GRID]: Changed grid refresh scenario; Now grid update require grid settings every time; Another one change removes double grid refresh in projection-grid
 
 #0.0.4@devel.35
 
 ## Features
 
-* FORM: Added ability to consider group names when using nested input groups
+* \[FORM]: Added ability to consider group names when using nested input groups
 
 `IadFormComponent @Input() considerSourcePathGroups;`
 
@@ -422,12 +423,12 @@ will add
 
 ## Features
 
-* FORM: Added ability to inherit input group (references) validationTypes.required when it was set into "true" state
-* FORM: Added form instance to form footer template (let-form="form")
-* FORM: Made FilterBuilderService @Injectable()
-* GRID: Added ProjectionGrid.refresh: Subject<boolean>() to have possibility to refresh data in gridTable
-* GRID: Disabled InfiniteScroll by default
-* GLOBAL: Added export of primeng shared module from IadPrimengModule; version changed
+* \[FORM]: Added ability to inherit input group (references) validationTypes.required when it was set into "true" state
+* \[FORM]: Added form instance to form footer template (let-form="form")
+* \[FORM]: Made FilterBuilderService @Injectable()
+* \[GRID]: Added ProjectionGrid.refresh: Subject<boolean>() to have possibility to refresh data in gridTable
+* \[GRID]: Disabled InfiniteScroll by default
+* \[GLOBAL]: Added export of primeng shared module from IadPrimengModule; version changed
 
 ## Compatibility with iad-admin (backend)
 
@@ -514,7 +515,7 @@ IadInterfaceAdminModule.forRoot({
 
 * QueryBuildCallback is removed
 * ElasticService made provided in root
-* GridComponent.onBuildQuery:QueryBuildCallback replaced with GridComponent.filter: CustomizeQuery
+* \[GRID]Component.onBuildQuery:QueryBuildCallback replaced with GridComponent.filter: CustomizeQuery
 
 ### For partner project
 
@@ -523,7 +524,7 @@ IadInterfaceAdminModule.forRoot({
 * DataTablecomponent.groupSettingsKey replaced with GridComponent.gridId
 * added GridComponent.enableInfiniteScroll default to false
 * DataTablecomponent.items replaced with GridComponent.value
-* GridComponent.pageSize must be set in module config! (Before it was 60)
+* \[GRID]Component.pageSize must be set in module config! (Before it was 60)
 * DataTablecomponent.lazyLoadingEnabled replaced with GridComponent.lazy
 * removed ActualSelectionModel. Implement it outsiside!
 	export class ActualSelectionModel {
@@ -720,7 +721,7 @@ IadInterfaceAdminModule.forRoot({
 
 ###For main project
 
-* FormViewComponent is replaced with IadProjectionFormComponent
+* \[FORM]ViewComponent is replaced with IadProjectionFormComponent
 * iad-form-view selector repalced with iad-projection-form
 * IadReferenceProjectionProviderService is replaced with IadReferenceProjectionProviderInterface
 * added compatibilityMode default to true
@@ -880,9 +881,9 @@ IadInterfaceAdminModule.forRoot({
 
 ####Breaking changes:
 
-* Form class style "input-group" replaced to "div.input-wrapper" inside "col-{size}"
+* \[FORM] class style "input-group" replaced to "div.input-wrapper" inside "col-{size}"
 * Added prefix iad- to selector of every form input component
-* FormBooleanComponent renamed to IAdFormCheckboxComponent
+* \[FORM]BooleanComponent renamed to IAdFormCheckboxComponent
 * Removed <div [hidden]="!child[0].visible"> .... </div> code. Use "hidden" property in form projection's input config
 * removed default dynamic form footer configured for "partner" project
 
