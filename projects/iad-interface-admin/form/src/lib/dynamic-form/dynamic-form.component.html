@@ -41,12 +41,12 @@
 </ng-template>
 <ng-template #fieldset>
     <ng-template ngFor let-child [ngForOf]="formInputGroup.children">
-        <ng-container *ngIf="child.length === 1; then singleColumn; else multiColumn"></ng-container>
+        <ng-template [ngIf]="child.length === 1" [ngIfThen]="singleColumn" [ngIfElse]="multiColumn"></ng-template>
         <ng-template #singleColumn>
             <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: child[0]}"></ng-template>
         </ng-template>
         <ng-template #multiColumn>
-            <div class="form-row mb-2">
+            <div class="form-row">
                 <div *ngFor="let grandChild of child; let i = index" class="col-12 col-lg-{{calculateColumns(child)}}">
                     <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: grandChild}"></ng-template>
                 </div>

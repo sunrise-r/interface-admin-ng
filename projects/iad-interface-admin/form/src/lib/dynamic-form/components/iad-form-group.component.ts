@@ -41,7 +41,7 @@ import { Subject } from 'rxjs';
                             <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: child[0]}"></ng-template>
                         </ng-template>
                         <ng-template #multiColumn>
-                            <div class="form-row mb-2">
+                            <div class="form-row">
                                 <div *ngFor="let grandChild of child" class="col-12 col-lg-{{calculateColumns(child)}}">
                                     <ng-template [ngTemplateOutlet]="inputDirective" [ngTemplateOutletContext]="{$implicit: grandChild}"></ng-template>
                                 </div>
