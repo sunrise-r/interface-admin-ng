@@ -1,3 +1,7 @@
+# 1.0.9-alpha.136
+
+* \[FORM] fixed extra mb-2 for form-groups
+
 # 1.0.9-alpha.135
 
 * \[FORM] optimized html code for groups and form itself
