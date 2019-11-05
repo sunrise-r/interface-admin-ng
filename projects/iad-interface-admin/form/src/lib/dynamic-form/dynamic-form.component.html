@@ -4,7 +4,7 @@
                   [context]="context"
                   [group]="form"
                   (touched)="onTouched(child)"
-                  styleClass="form-row mb-2"></ng-container>
+                  styleClass="form-row form-row-margin"></ng-container>
 </ng-template>
 <ng-template [ngIf]="!isNestedForm" [ngIfThen]="dynamicForm" [ngIfElse]="nestedForm"></ng-template>
 <ng-template #dynamicForm>

@@ -1,3 +1,7 @@
+# 1.0.9-alpha.138
+
+* \[FORM] removed mb-2 css class from all form inputs
+
 # 1.0.9-alpha.137
 
 * \[FORM] flatten form-groups will now add "iad-form-group-flatten" css class to themselves

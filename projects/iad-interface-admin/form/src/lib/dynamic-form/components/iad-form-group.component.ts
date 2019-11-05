@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
                           [context]="context"
                           [group]="childGroup"
                           (touched)="onTouched(child)"
-                          styleClass="form-row mb-2"></ng-container>
+                          styleClass="form-row form-row-margin"></ng-container>
         </ng-template>
         <ng-container [formGroup]="group">
             <ng-template [ngIf]="config.collapsable" [ngIfThen]="collapsableTemplate" [ngIfElse]="childGroupTemplate"></ng-template>
