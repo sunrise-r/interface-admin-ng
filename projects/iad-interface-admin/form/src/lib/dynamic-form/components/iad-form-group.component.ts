@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormInputGroup } from '../core/form-input-group';
@@ -90,8 +90,13 @@ export class IadFormGroupComponent implements OnInit, ContextAware {
      */
     touched: Subject<any> = new Subject<any>();
 
+    constructor(public $el: ElementRef, public renderer: Renderer2) {}
+
     ngOnInit(): void {
         this.childGroup = <FormGroup>this.group.controls[this.config.key];
+        if (!this.config.collapsable) {
+            this.renderer.addClass(this.$el.nativeElement, 'iad-form-group-flatten');
+        }
     }
 
     /**

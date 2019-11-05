@@ -1,3 +1,7 @@
+# 1.0.9-alpha.137
+
+* \[FORM] flatten form-groups will now add "iad-form-group-flatten" css class to themselves
+
 # 1.0.9-alpha.136
 
 * \[FORM] fixed extra mb-2 for form-groups
