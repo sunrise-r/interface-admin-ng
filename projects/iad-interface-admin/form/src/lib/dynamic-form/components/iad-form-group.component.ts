@@ -25,7 +25,7 @@ import { Subject } from 'rxjs';
                     <p-header>
                         <div class="block-title link" (click)="panel.toggle($event)">
                             <iad-icon-outlet [configIcon]="panel.collapsed ? 'chevron-down' : 'chevron-up'" cssClass="text-left"></iad-icon-outlet>
-                            {{config.translate ? (config.label | translate) : config.label}}
+                            <span>{{config.translate ? (config.label | translate) : config.label}}</span>
                         </div>
                     </p-header>
                     <div>
