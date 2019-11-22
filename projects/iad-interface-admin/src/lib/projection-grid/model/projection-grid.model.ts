@@ -10,29 +10,34 @@ export interface FilterInterface {
 
 export interface IadListProjectionInterface {
     actions: ToolbarAction[][];
-    label: string;
-    code: string;
     active?: boolean;
-    searchUrl?: string;
+    code: string;
     columns?: IadGridColumn[];
+    defaultSortField?: string;
+    defaultSortOrder?: string;
     filters?: FilterInterface[];
-    properties?: any;
+    infoUrl?: string;
+    label: string;
     loadActualInfo?: boolean;
-    settingsGroupName?: string; // Not used yet
+    properties?: any;
     resourceSearchUrl?: string; // Not used yet
+    searchUrl?: string;
+    settingsGroupName?: string; // Not used yet
 }
 
 export class DocumentListProjection implements IadListProjectionInterface {
     actions: ToolbarAction[][];
-    label: string;
-    code: string;
     active?: boolean;
-    searchUrl?: string;
-    infoUrl?: string;
+    code: string;
     columns?: IadGridColumn[];
+    defaultSortField?: string;
+    defaultSortOrder?: string;
     filters?: FilterInterface[];
-    properties?: any;
+    infoUrl?: string;
+    label: string;
     loadActualInfo?: boolean;
-    settingsGroupName?: string; // Not used yet
+    properties?: any;
     resourceSearchUrl?: string; // Not used yet. What the difference with searchUrl ?
+    searchUrl?: string;
+    settingsGroupName?: string; // Not used yet
 }
