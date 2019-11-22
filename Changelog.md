@@ -1,6 +1,11 @@
+# 1.0.9-alpha.140
+
+* \[GRID] removed default sizes from Tooltip Notifier
+* \[GRID] added defaultSortField and defaultSortOrder for list projections
+
 # 1.0.9-alpha.139
 
-* \[FORM] added 
+* \[FORM] added <span> HTML tag to the header of the group component
 
 # 1.0.9-alpha.138
 
