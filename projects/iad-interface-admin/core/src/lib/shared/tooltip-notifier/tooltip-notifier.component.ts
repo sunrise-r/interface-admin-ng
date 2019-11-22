@@ -5,21 +5,10 @@ import {
     Input,
     ElementRef,
     ViewChild,
-    AfterViewInit,
     OnChanges,
     SimpleChanges,
     ContentChild, TemplateRef
 } from '@angular/core';
-
-const Size16 = 16;
-const Size24 = 24;
-const Size32 = 32;
-
-enum Sizes {
-    Size16,
-    Size24,
-    Size32
-}
 
 @Component({
     selector: 'iad-tooltip-notifier',
@@ -42,7 +31,7 @@ export class TooltipNotifierComponent implements OnInit, OnChanges {
     /**
      * Notifier icon size type: 16, 24, 32
      */
-    @Input() size: Sizes;
+    @Input() size: string | number;
 
     /**
      * Tooltip content
