@@ -1,3 +1,7 @@
+# 1.0.9-alpha.141
+
+* \[FORM] removed russian labels from form buttons. Added cancelBtnLabel, cancelBtnStyleClass, submitBtnLabel, submitBtnStyleClass inputs. By default labels are "Submit" and "Cancel", and classes are "btn primary-btn" and "btn" responsively
+
 # 1.0.9-alpha.140
 
 * \[GRID] removed default sizes from Tooltip Notifier

@@ -12,22 +12,22 @@
         <fieldset class="content-flex">
             <ng-template [ngTemplateOutlet]="fieldset"></ng-template>
         </fieldset>
-        <ng-template #submitBtn let-styleClass="styleClass">
-            <button [class]="styleClass || 'btn'" [disabled]="form.invalid || sending" type="submit">
-                <span class="title save">Сохранить</span>
+        <ng-template #submitBtn let-styleClass="styleClass" let-label="label">
+            <button [class]="styleClass || 'btn btn-primary'" [disabled]="form.invalid || sending" type="submit">
+                <span class="title save">{{label || 'Submit'}}</span>
             </button>
         </ng-template>
-        <ng-template #cancelBtn let-styleClass="styleClass">
+        <ng-template #cancelBtn let-styleClass="styleClass" let-label="label">
             <button [class]="styleClass || 'btn'" type="button" (click)="cancel()" [disabled]="sending">
-                <span class="title clear">Отмена</span>
+                <span class="title clear">{{label || 'Cancel'}}</span>
             </button>
         </ng-template>
         <ng-template #defaultFormFooter let-cancelBtnTpl="cancelBtnTpl" let-submitBtnTpl="submitBtnTpl" let-form="form">
             <div class="form-submit-buttons">
                 <ng-template [ngTemplateOutlet]="cancelBtnTpl"
-                             [ngTemplateOutletContext]="{styleClass: 'btn'}"></ng-template>
+                             [ngTemplateOutletContext]="{styleClass: cancelBtnStyleClass, label: cancelBtnLabel}"></ng-template>
                 <ng-template [ngTemplateOutlet]="submitBtnTpl"
-                             [ngTemplateOutletContext]="{styleClass: 'btn btn-primary'}"></ng-template>
+                             [ngTemplateOutletContext]="{styleClass: submitBtnStyleClass, label: submitBtnLabel}"></ng-template>
             </div>
         </ng-template>
         <ng-template [ngTemplateOutlet]="formFooter || defaultFormFooter"

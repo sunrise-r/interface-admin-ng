@@ -71,6 +71,26 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
     @Input() inputComponents: { [param: string]: any } = {};
 
     /**
+     * Cancel button default label
+     */
+    @Input() cancelBtnLabel: string;
+
+    /**
+     * Cancel button default CSS class[es]
+     */
+    @Input() cancelBtnStyleClass: string;
+
+    /**
+     * Submit button default label
+     */
+    @Input() submitBtnLabel: string;
+
+    /**
+     * Submit button default CSS class[es]
+     */
+    @Input() submitBtnStyleClass: string;
+
+    /**
      * событие сабмита формы
      * Angular неявно создаёт событие submit, которое можно использовать тоже, но тогда мы теряем контроль над событиями
      */

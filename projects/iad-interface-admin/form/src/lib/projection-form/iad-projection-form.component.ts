@@ -76,6 +76,26 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() styleClass: string;
 
     /**
+     * Cancel button default label
+     */
+    @Input() cancelBtnLabel: string;
+
+    /**
+     * Cancel button default CSS class[es]
+     */
+    @Input() cancelBtnStyleClass: string;
+
+    /**
+     * Submit button default label
+     */
+    @Input() submitBtnLabel: string;
+
+    /**
+     * Submit button default CSS class[es]
+     */
+    @Input() submitBtnStyleClass: string;
+
+    /**
      * Customized form Footer template
      */
     @Input()
