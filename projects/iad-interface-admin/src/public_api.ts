@@ -26,7 +26,6 @@ export * from './lib/projection-tree/projection-tree.model';
 export * from './lib/projection-grid/model/projection-grid.model';
 export * from './lib/projection-grid/projection-grid.module';
 export * from './lib/projection-grid/projection-grid/projection-grid.component';
-export * from './lib/projection-grid/grid-toolbar/grid-toolbar.component';
 export * from './lib/projection-grid/settings-manager/grid-settings-storage.model';
 export * from './lib/projection-grid/settings-manager/grid-settings-storage.service';
 
@@ -34,9 +33,9 @@ export * from './lib/projection-grid/settings-manager/grid-settings-storage.serv
 export * from './lib/public-services/iad-projection-tree.service';
 
 // #table toolbar
-export * from './lib/toolbar/toolbar-action.directive';
-export * from './lib/toolbar/toolbar-actions.component';
-export * from './lib/toolbar/toolbar-action.model';
+export * from './lib/toolbar/iad-toolbar-action.directive';
+export * from './lib/toolbar/iad-toolbar-actions.component';
+export * from './lib/toolbar/iad-toolbar-action.model';
 export * from './lib/toolbar/iad-toolbar.module';
 
 // # main lib module:-
