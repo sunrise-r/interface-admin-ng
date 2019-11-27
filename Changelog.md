@@ -1,3 +1,10 @@
+# 1.0.9-alpha.142
+
+* \[GRID] removed IadGridToolbarComponent from library
+* \[GRID] removed toggle logic from IadToolbarActionDirective
+* \[GRID] removed rightAddonTemplate
+* \[GRID] added toolbarTemplate
+
 # 1.0.9-alpha.141
 
 * \[FORM] removed russian labels from form buttons. Added cancelBtnLabel, cancelBtnStyleClass, submitBtnLabel, submitBtnStyleClass inputs. By default labels are "Submit" and "Cancel", and classes are "btn primary-btn" and "btn" responsively

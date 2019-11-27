@@ -1,17 +1,7 @@
 <ng-template [ngIf]="projection" [ngIfThen]="projectionIsLoaded" [ngIfElse]="projectionIsNotLoaded"></ng-template>
 <ng-template #projectionIsLoaded>
-    <div *ngIf="hasToolbar">
-        <iad-grid-toolbar
-            [resetToggleableStatus]="resetToggleableStatus"
-            [leftActions]="projection.actions"
-            [filterActive]="showFilter"
-            [filterEnabled]="filterEnabled"
-            [ngClass]="{'disabled': disabled}"
-            [rightAddonTemplate]="rightAddonTemplate"
-            [searchActive]="showSearchPanel"
-            (actionClicked)="onActionClicked($event)"
-        ></iad-grid-toolbar>
-    </div>
+    <ng-template [ngTemplateOutlet]="toolbarTemplate"
+                 [ngTemplateOutletContext]="{gridId: gridId, showFilter: showFilter, showSearchPanel: showSearchPanel}"></ng-template>
     <ng-template ngFor let-tpl [ngForOf]="belowTheToolbarTemplates">
         <ng-template [ngTemplateOutlet]="tpl"
                      [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: gridId}"></ng-template>
