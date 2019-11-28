@@ -19,8 +19,8 @@ import { DocumentListProjection } from '../model/projection-grid.model';
 import { IadGridColumn, IadGridColumnInterface } from '../../iad-base-grid/model/iad-grid-column.model';
 import { IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
-import { ToolbarClickEvent } from '../../toolbar/iad-toolbar-action.model';
 import { IadGridColumnFrozenField, IadGridColumnOrder } from '../../iad-base-grid/base-grid/base-grid-freeze-column.model';
+import { IadBaseGridActionsService } from '../../iad-base-grid/services/iad-base-grid-actions-service';
 
 @Component({
     selector: 'iad-projection-grid',
@@ -105,6 +105,14 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * String filter builder type.
      */
     @Input() filterType: string;
+
+    /**
+     * Grid Id binds common service calls to particular grid
+     * Without this property you will not able to call IadBaseGrid.manageTable method from
+     * outside of the library, additionally you can't save grid's settings anywhere
+     * without this property
+     */
+    @Input() gridId: string;
 
     /**
      * Add paginator to the table
@@ -221,12 +229,6 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() value: any[] = [];
 
     /**
-     * Нажата какая-либо кнопка в тулбаре
-     */
-    @Output()
-    actionClicked: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
-
-    /**
      * В таблице была выбрна строка
      */
     @Output() selectedItem: EventEmitter<any> = new EventEmitter<any>();
@@ -245,17 +247,6 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Template to add content between toolbar and settings-table
      */
     belowTheToolbarTemplates: TemplateRef<any>[] = [];
-
-    /**
-     * Subject to invoke any action for nested BaseGridComponent
-     */
-    doTableAction: Subject<{ code: string; value: any }> = new Subject<{ code: string; value: any }>();
-
-    /**
-     * @Todo May be deprecated usage: [gridId]="gridId". Check.
-     * код группы настроек таблицы for nested BaseGridComponent
-     */
-    gridId: string;
 
     /**
      * Table config subject for nested BaseGridComponent
@@ -351,7 +342,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
         return compiled(context);
     }
 
-    constructor(private gridSettingsManager: GridSettingsManagerService) {}
+    constructor(private gridSettingsManager: GridSettingsManagerService, private baseGridAction: IadBaseGridActionsService) {}
 
     ngOnInit() {
         this.refreshSbt = this.refresh.subscribe(() => {
@@ -376,10 +367,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             this.gridSettingsManager.reset();
             this.unSelectRow.next(true);
             if (this.presentationCode) {
-                this.gridId = [this.presentationCode, this.projection.code].join('.');
                 this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
             } else {
                 console.error('Warning! presentationCode is not set!');
+            }
+            if (!this.gridId) {
                 this.gridId = '_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             }
             this.gridSettingsManager.setExternalGridConfig(this.populateGridConfig(), true);
@@ -447,7 +439,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * @param query
      */
     onSearch(query: string) {
-        this.doTableAction.next({ code: 'globalSearch', value: query });
+        this.baseGridAction.doGlobalSearch(this.gridId, query);
     }
 
     /**

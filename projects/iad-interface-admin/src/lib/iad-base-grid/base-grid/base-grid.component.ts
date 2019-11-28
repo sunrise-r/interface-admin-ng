@@ -27,6 +27,7 @@ import {
     IadGridFrozenEvent,
     IadGridFrozenStructure
 } from './base-grid-freeze-column.model';
+import { IadBaseGridActionsService } from '../services/iad-base-grid-actions-service';
 
 @Component({
     selector: 'iad-base-grid',
@@ -74,11 +75,6 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
      * Sending table config to BaseGridComponent
      */
     @Input() refreshGridConfig: Subject<IadGridConfigModel> = new Subject<IadGridConfigModel>();
-
-    /**
-     * External table action
-     */
-    @Input() doTableAction: Subject<{ code: string; value: any }>;
 
     /**
      * Unique ID to identify current table on the page
@@ -292,6 +288,7 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
                 private configService: IadConfigService,
                 @Inject(FILTER_BUILDER) private searchEngine: FilterBuilderInterface,
                 private columnsService: BaseGridColumnsService,
+                private actionsService: IadBaseGridActionsService,
                 private el: ElementRef
     ) {
         this.size = this.configService.getConfig().pageSize;
@@ -299,12 +296,12 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-        // Taken from partner project >>
-        // Подписка на клик по экшну в тулбаре
-        if (this.doTableAction) {
-            this.doTableAction.subscribe(action => this.manageTable(action.code, action.value));
-        }
-        // << Taken from partner project
+        // External grid management
+        this.actionsService.action.subscribe(action => {
+            if (action.gridId === this.gridId) {
+                this.manageTable(action.action, action.value);
+            }
+        });
         if (this.refreshOnInit) {
             this.refresh();
         }
@@ -519,12 +516,16 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.refresh();
             },
             clear: () => {
+                this.dt.filteredValue = null;
                 this.dt.filters = {};
                 this.changeTableHeight.next(true);
                 this.refresh();
             },
             unselect: () => {
                 this.unSelectRow.next(value);
+            },
+            resetFilter: () => {
+                this.resetFilter.next(value);
             }
         };
         if (action in strategy) {

@@ -1,7 +1,7 @@
 <ng-template [ngIf]="projection" [ngIfThen]="projectionIsLoaded" [ngIfElse]="projectionIsNotLoaded"></ng-template>
 <ng-template #projectionIsLoaded>
     <ng-template [ngTemplateOutlet]="toolbarTemplate"
-                 [ngTemplateOutletContext]="{gridId: gridId, showFilter: showFilter, showSearchPanel: showSearchPanel}"></ng-template>
+                 [ngTemplateOutletContext]="{gridId: gridId}"></ng-template>
     <ng-template ngFor let-tpl [ngForOf]="belowTheToolbarTemplates">
         <ng-template [ngTemplateOutlet]="tpl"
                      [ngTemplateOutletContext]="{$implicit: columns, groupSettingsKey: gridId}"></ng-template>
@@ -27,11 +27,11 @@
         [columnComponents]="columnComponents"
         [defaultSortField]="defaultSortField"
         [defaultSortOrder]="defaultSortOrder"
-        [doTableAction]="doTableAction"
         [enableInfiniteScroll]="enableInfiniteScroll"
         [enablePerfectScroll]="enablePerfectScroll"
         [filter]="filter"
         [filterType]="filterType"
+        [gridId]="gridId"
         [lazy]="lazy"
         [ngClass]="{'disabled': disabled, 'grid-with-toolbar': true}"
         [paginator]="paginator"

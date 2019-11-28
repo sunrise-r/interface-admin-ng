@@ -57,15 +57,37 @@ export class IadToolbarActionsComponent implements OnChanges {
         }
     }
 
+    /**
+     * Updates buttons'.active' css class by their action active state
+     */
+    updateButtonsState() {
+        this.buttons.forEach(button => {
+            if (button.action.active) {
+                button.activate();
+            } else {
+                button.deactivate();
+            }
+        });
+    }
+
+    /**
+     * Deactivates particular button on resetToggleableStatus event
+     */
     private subscribeToToggleableStatusChange() {
         if (this._toggleableStatusSbt && !this._toggleableStatusSbt.closed) {
             this._toggleableStatusSbt.unsubscribe();
         }
-        this._toggleableStatusSbt = this.resetToggleableStatus.subscribe(toggle => {
-            const button = this.buttons.find(item => item.action.code === toggle.code);
-            if (button) {
-                button.deactivate();
-            }
-        });
+        this._toggleableStatusSbt = this.resetToggleableStatus.subscribe(toggle => this.deactivate(toggle));
+    }
+
+    /**
+     * Deactivates button by related toggle: {code: string} object
+     * @param toggle
+     */
+    private deactivate(toggle: any) {
+        const button = this.buttons.find(item => item.action.code === toggle.code);
+        if (button) {
+            button.deactivate();
+        }
     }
 }

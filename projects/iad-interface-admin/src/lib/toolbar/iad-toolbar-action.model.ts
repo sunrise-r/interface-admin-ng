@@ -1,6 +1,7 @@
 export interface IadToolbarActionButton {
     activate();
     deactivate();
+    toggle();
 }
 
 export interface ToolbarClickEvent {

@@ -12,6 +12,8 @@ import { DropdownModule, MultiSelectModule, PanelMenuModule } from 'primeng/prim
 import { ProjectionGridModule } from './projection-grid/projection-grid.module';
 import { GridSettingsStorageService, SETTINGS_KEEPER } from './projection-grid/settings-manager/grid-settings-storage.service';
 
+
+
 @NgModule({
     declarations: [ProjectionTreeComponent],
     imports: [

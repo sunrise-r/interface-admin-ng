@@ -49,13 +49,41 @@ export class IadToolbarActionDirective implements OnInit, IadToolbarActionButton
         });
     }
 
+    /**
+     * Switches action active state
+     */
+    toggle() {
+        if (!this.action.active) {
+            this.activate();
+        } else {
+            this.deactivate();
+        }
+    }
+
+    /**
+     * Activate action and set active css class to button
+     */
     activate() {
+        this.showToggleableWarn();
         this.action.active = true;
         this.renderer.addClass(this.el.nativeElement, 'active');
     }
 
+    /**
+     * Deactivate action and remove active css class from button
+     */
     deactivate() {
+        this.showToggleableWarn();
         this.action.active = false;
         this.renderer.removeClass(this.el.nativeElement, 'active');
+    }
+
+    /**
+     * displays warning if button isn't marked as toggleable
+     */
+    private showToggleableWarn() {
+        if (!this.action.toggle) {
+            console.warn(`Action ${this.action.code} is not marked as toggleable`);
+        }
     }
 }
