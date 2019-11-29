@@ -143,6 +143,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit
 
     ngOnInit() {
         this.formErrorsStringify.errors.subscribe(errors => this.setFormErrors(errors));
+        this.updateContext(this.form.value); // #142
         this.fcs.recalculateDependencies(this.formInputGroup, this.context, this.form);
     }
 
