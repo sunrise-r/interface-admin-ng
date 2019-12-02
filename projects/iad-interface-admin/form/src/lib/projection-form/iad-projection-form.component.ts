@@ -96,6 +96,11 @@ export class IadProjectionFormComponent implements OnChanges {
     @Input() submitBtnStyleClass: string;
 
     /**
+     * Flag to set custom perfect scroll instead of regular browser scroll
+     */
+    @Input() enablePerfectScroll: boolean;
+
+    /**
      * Customized form Footer template
      */
     @Input()
