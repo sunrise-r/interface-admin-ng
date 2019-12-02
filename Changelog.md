@@ -1,3 +1,7 @@
+# 1.0.9-alpha.143
+
+* \[FORM] Added perfect-scrollbar to form component
+
 # 1.0.9-alpha.142
 
 * \[FORM] Added form context update on form initialization

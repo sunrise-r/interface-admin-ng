@@ -26,6 +26,11 @@ import { Subscription } from 'rxjs';
 })
 export class DynamicFormComponent implements OnInit, OnChanges, AfterContentInit, OnDestroy {
     /**
+     * Flag to set custom perfect scroll instead of regular browser scroll
+     */
+    @Input() enablePerfectScroll: boolean;
+
+    /**
      * Инпуты формы (заполняются извне компонента)
      */
     @Input() formInputGroup: FormInputGroup;
