@@ -89,7 +89,8 @@ export const IAD_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AutoCompleteModule,
         IadTableComponent,
         CalendarComponent,
-        TooltipDirective
+        TooltipDirective,
+        PerfectScrollbarModule
     ],
     providers: [
         ConfirmationService,
