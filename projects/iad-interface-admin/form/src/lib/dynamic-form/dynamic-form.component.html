@@ -9,7 +9,7 @@
 <ng-template [ngIf]="!isNestedForm" [ngIfThen]="dynamicForm" [ngIfElse]="nestedForm"></ng-template>
 <ng-template #dynamicForm>
     <form (ngSubmit)="onSubmit()" [formGroup]="form" class="content-flex" autocomplete="off">
-        <fieldset class="content-flex">
+        <fieldset class="content-flex" [ngClass]="{'perfect-scrollbar-enabled': enablePerfectScroll}">
             <ng-template [ngIf]="enablePerfectScroll" [ngIfThen]="perfectScrollbarFieldset" [ngIfElse]="fieldset"></ng-template>
         </fieldset>
         <ng-template #submitBtn let-styleClass="styleClass" let-label="label">
@@ -41,8 +41,7 @@
 </ng-template>
 <ng-template #perfectScrollbarFieldset>
     <perfect-scrollbar
-        [scrollWindow]="false"
-        [config]="{suppressScrollX: false, suppressScrollY: false}"
+        [config]="{suppressScrollX: true, suppressScrollY: false}"
         [ngStyle]="{'width.%': 100, 'height.%': 100}">
         <ng-template [ngTemplateOutlet]="fieldset"></ng-template>
     </perfect-scrollbar>

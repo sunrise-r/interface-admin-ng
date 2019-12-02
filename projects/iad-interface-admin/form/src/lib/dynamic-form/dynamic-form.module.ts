@@ -1,9 +1,11 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IadPrimengModule, IadSharedModule, IadModuleConfig, IadModuleConfigInterface, IadConfigService, IadIconsModule } from 'iad-interface-admin/core';
+import { IadPrimengModule, IadSharedModule, IadModuleConfig, IadModuleConfigInterface, IadConfigService, IadIconsModule, IAD_PERFECT_SCROLLBAR_CONFIG } from 'iad-interface-admin/core';
 
 import { InputMaskModule } from 'primeng/inputmask';
 import { CalendarModule, PanelModule } from 'primeng/primeng';
+
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 
 import { DynamicFormComponent } from './dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-field.directive';
@@ -74,7 +76,8 @@ export class DynamicFormModule {
                     provide: IadConfigService,
                     useClass: IadConfigService,
                     deps: [IadModuleConfig]
-                }
+                },
+                {provide: PERFECT_SCROLLBAR_CONFIG, useValue: IAD_PERFECT_SCROLLBAR_CONFIG}
             ]
         };
     }
@@ -88,7 +91,8 @@ export class DynamicFormModule {
                     provide: IadConfigService,
                     useClass: IadConfigService,
                     deps: [IadModuleConfig]
-                }
+                },
+                {provide: PERFECT_SCROLLBAR_CONFIG, useValue: IAD_PERFECT_SCROLLBAR_CONFIG}
             ]
         };
     }

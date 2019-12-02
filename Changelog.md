@@ -1,6 +1,14 @@
 # 1.0.9-alpha.143
 
-* \[FORM] Added perfect-scrollbar to form component
+* \[FORM] Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for form
+
+    ```html
+    <iad-projection-form
+        [enablePerfectScroll]="true"
+    ></iad-projection-form>
+    ```
+    
+    NOTE: It will make any sense only if enableInfiniteScroll is true and form has width and height;
 
 # 1.0.9-alpha.142
 
