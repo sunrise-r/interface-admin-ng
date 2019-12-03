@@ -1,4 +1,4 @@
-import { ToolbarAction } from '../../toolbar/toolbar-action.model';
+import { ToolbarAction } from '../../toolbar/iad-toolbar-action.model';
 import { IadGridColumn } from '../../iad-base-grid/model/iad-grid-column.model';
 
 export interface FilterInterface {
