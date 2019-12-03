@@ -1,7 +1,14 @@
+export interface IadToolbarActionButton {
+    activate();
+    deactivate();
+    toggle();
+}
+
 export interface ToolbarClickEvent {
     nativeEvent: Event;
     action: ToolbarAction;
     element: HTMLElement;
+    button: IadToolbarActionButton;
 }
 
 export class ToolbarAction {

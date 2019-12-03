@@ -17,6 +17,7 @@ import { DefaultColumnComponent } from './column-components/default-column.compo
 
 import { ActionsColumnComponent } from './column-components/actions-column.component';
 import { ChipsColumnComponent } from './column-components/chips-column.component';
+import { IadBaseGridActionsService } from './services/iad-base-grid-actions-service';
 
 @NgModule({
     imports: [IadSharedModule, SharedModule, IadPrimengModule, FilterBuilderModule],
@@ -35,6 +36,9 @@ import { ChipsColumnComponent } from './column-components/chips-column.component
         DefaultColumnComponent,
         ActionsColumnComponent,
         ChipsColumnComponent
+    ],
+    providers: [
+        IadBaseGridActionsService
     ],
     exports: [TableColumnFilterComponent, BaseGridComponent, TableColumnSizeDirective, TableSortIconDirective]
 })

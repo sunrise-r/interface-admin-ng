@@ -19,8 +19,8 @@ import { DocumentListProjection } from '../model/projection-grid.model';
 import { IadGridColumn, IadGridColumnInterface } from '../../iad-base-grid/model/iad-grid-column.model';
 import { IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
-import { ToolbarClickEvent } from '../../toolbar/toolbar-action.model';
 import { IadGridColumnFrozenField, IadGridColumnOrder } from '../../iad-base-grid/base-grid/base-grid-freeze-column.model';
+import { IadBaseGridActionsService } from '../../iad-base-grid/services/iad-base-grid-actions-service';
 
 @Component({
     selector: 'iad-projection-grid',
@@ -99,7 +99,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     /**
      * Включен ли фильтр по столбцам (По умолчанию true)
      */
-    @Input() filterEnabled = true;
+    @Input() filterEnabled: boolean;
 
     /**
      * String filter builder type.
@@ -107,12 +107,15 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() filterType: string;
 
     /**
-     * Table has toolbar right above the header
+     * Grid Id binds common service calls to particular grid
+     * Without this property you will not able to call IadBaseGrid.manageTable method from
+     * outside of the library, additionally you can't save grid's settings anywhere
+     * without this property
      */
-    @Input() hasToolbar: boolean;
+    @Input() gridId: string;
 
     /**
-     * #4 Add paginator to the table
+     * Add paginator to the table
      */
     @Input() paginator: boolean;
 
@@ -145,11 +148,6 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Flag to set if nested GridComponent should refresh data on initialization
      */
     @Input() refreshOnInit: boolean;
-
-    /**
-     * сабжект для переключения кнопок тулбара
-     */
-    @Input() resetToggleableStatus: Subject<{ code: string }> = new Subject<{ code: string }>();
 
     /**
      * Flag to add 'responsive' css class
@@ -231,12 +229,6 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() value: any[] = [];
 
     /**
-     * Нажата какая-либо кнопка в тулбаре
-     */
-    @Output()
-    actionClicked: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
-
-    /**
      * В таблице была выбрна строка
      */
     @Output() selectedItem: EventEmitter<any> = new EventEmitter<any>();
@@ -257,17 +249,6 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     belowTheToolbarTemplates: TemplateRef<any>[] = [];
 
     /**
-     * Subject to invoke any action for nested BaseGridComponent
-     */
-    doTableAction: Subject<{ code: string; value: any }> = new Subject<{ code: string; value: any }>();
-
-    /**
-     * @Todo May be deprecated usage: [gridId]="gridId". Check.
-     * код группы настроек таблицы for nested BaseGridComponent
-     */
-    gridId: string;
-
-    /**
      * Table config subject for nested BaseGridComponent
      */
     refreshGridConfig: Subject<IadGridConfigInterface> = new Subject<IadGridConfigInterface>();
@@ -278,15 +259,15 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     resetFilter: Subject<FILTER_TYPE> = new Subject<FILTER_TYPE>();
 
     /**
-     * Шаблон для добавления контента в правую часть кнопок тулбара
-     */
-    rightAddonTemplate: TemplateRef<any>;
-
-    /**
      * @Todo May be deprecated usage: [searchUrl]="searchUrl". Check.
      * Search url for nested components
      */
     searchUrl: string;
+
+    /**
+     * Toolbar template to add before table
+     */
+    toolbarTemplate: TemplateRef<any>;
 
     /**
      * Columns visibility change subject for nested components
@@ -361,7 +342,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
         return compiled(context);
     }
 
-    constructor(private gridSettingsManager: GridSettingsManagerService) {}
+    constructor(private gridSettingsManager: GridSettingsManagerService, private baseGridAction: IadBaseGridActionsService) {}
 
     ngOnInit() {
         this.refreshSbt = this.refresh.subscribe(() => {
@@ -386,10 +367,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             this.gridSettingsManager.reset();
             this.unSelectRow.next(true);
             if (this.presentationCode) {
-                this.gridId = [this.presentationCode, this.projection.code].join('.');
                 this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
             } else {
                 console.error('Warning! presentationCode is not set!');
+            }
+            if (!this.gridId) {
                 this.gridId = '_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             }
             this.gridSettingsManager.setExternalGridConfig(this.populateGridConfig(), true);
@@ -457,36 +439,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * @param query
      */
     onSearch(query: string) {
-        this.doTableAction.next({ code: 'globalSearch', value: query });
-    }
-
-    /**
-     * Произведён клик в тулбаре
-     */
-    onActionClicked(event: ToolbarClickEvent): void {
-        const strategy = {
-            columnFilter: () => {
-                this.showFilter = event.action.active;
-                this.showSearchPanel = false;
-                this.changeTableHeight.next(true);
-            },
-            search: () => {
-                this.showFilter = false;
-                this.resetFilter.next(FILTER_TYPE.PARTICULAR);
-                this.showSearchPanel = event.action.active;
-                this.changeTableHeight.next(true);
-            },
-            clear: () => {
-                this.resetFilter.next(FILTER_TYPE.BOTH);
-                this.doTableAction.next({ code: event.action.code, value: event.action.active });
-                this.showSearchPanel = false;
-                this.showFilter = false;
-            }
-        };
-        if (event.action.code in strategy) {
-            strategy[event.action.code]();
-        }
-        this.actionClicked.emit(event);
+        this.baseGridAction.doGlobalSearch(this.gridId, query);
     }
 
     /**
@@ -538,8 +491,8 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
         }
         templates.forEach(item => {
             switch (item.getType()) {
-                case 'toolbarRightAddon':
-                    this.rightAddonTemplate = item.template;
+                case 'toolbar':
+                    this.toolbarTemplate = item.template;
                     break;
                 default:
                     this.belowTheToolbarTemplates.push(item.template);

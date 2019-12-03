@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChildren, QueryList } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 
-import { ToolbarActionDirective } from './toolbar-action.directive';
-import { ToolbarAction, ToolbarClickEvent } from './toolbar-action.model';
+import { IadToolbarActionDirective } from './iad-toolbar-action.directive';
+import { ToolbarAction, ToolbarClickEvent } from './iad-toolbar-action.model';
 
 @Component({
     selector: 'iad-toolbar-actions',
@@ -15,14 +15,13 @@ import { ToolbarAction, ToolbarClickEvent } from './toolbar-action.model';
                     [class]="styleClass"
                     type="button"
                     [iadToolbarAction]="action"
-                    [active]="!!action.active"
                     [disabled]="action.disabled"
                     (invoke)="actionInvoke.emit($event)"
                 ></button>
             </ng-template>
         </div>`
 })
-export class ToolbarActionsComponent implements OnChanges {
+export class IadToolbarActionsComponent implements OnChanges {
     /**
      * Доступные действия
      */
@@ -48,7 +47,7 @@ export class ToolbarActionsComponent implements OnChanges {
      */
     @Output() actionInvoke: EventEmitter<ToolbarClickEvent> = new EventEmitter<ToolbarClickEvent>();
 
-    @ViewChildren(ToolbarActionDirective) buttons: QueryList<ToolbarActionDirective>;
+    @ViewChildren(IadToolbarActionDirective) buttons: QueryList<IadToolbarActionDirective>;
 
     private _toggleableStatusSbt: Subscription;
 
@@ -58,15 +57,37 @@ export class ToolbarActionsComponent implements OnChanges {
         }
     }
 
+    /**
+     * Updates buttons'.active' css class by their action active state
+     */
+    updateButtonsState() {
+        this.buttons.forEach(button => {
+            if (button.action.active) {
+                button.activate();
+            } else {
+                button.deactivate();
+            }
+        });
+    }
+
+    /**
+     * Deactivates particular button on resetToggleableStatus event
+     */
     private subscribeToToggleableStatusChange() {
         if (this._toggleableStatusSbt && !this._toggleableStatusSbt.closed) {
             this._toggleableStatusSbt.unsubscribe();
         }
-        this._toggleableStatusSbt = this.resetToggleableStatus.subscribe(toggle => {
-            const button = this.buttons.find(item => item.action.code === toggle.code);
-            if (button) {
-                button.deactivate();
-            }
-        });
+        this._toggleableStatusSbt = this.resetToggleableStatus.subscribe(toggle => this.deactivate(toggle));
+    }
+
+    /**
+     * Deactivates button by related toggle: {code: string} object
+     * @param toggle
+     */
+    private deactivate(toggle: any) {
+        const button = this.buttons.find(item => item.action.code === toggle.code);
+        if (button) {
+            button.deactivate();
+        }
     }
 }

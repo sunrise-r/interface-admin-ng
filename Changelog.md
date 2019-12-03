@@ -1,3 +1,15 @@
+# 1.0.9-alpha.144
+
+* \[GRID] gridId made as @Input() param for ProjectionGridComponent
+* \[GRID] removed IadGridToolbarComponent from library
+* \[GRID] removed toggle logic from IadToolbarActionDirective
+* \[GRID] removed rightAddonTemplate
+* \[GRID] added toolbarTemplate
+* \[GRID] added IadBaseGridActionsService to replace doTableAction property
+* \[GRID] added necessary setting gridId
+* \[GRID] added updateButtonsState method to IadToolbarActionsComponent. It will update css class '.active' for buttons, that action is in active state
+* \[GRID] added toggle method to IadToolbarActionDirective without any logic
+
 # 1.0.9-alpha.143
 
 * \[FORM] Added ability to set [Angular Perfect Scrollbar](https://github.com/zefoy/ngx-perfect-scrollbar) for form
