@@ -1,4 +1,4 @@
-[InterfaceAdminNg](../../../../../README.md) / [Usage](../../../../../docs/2-usage-guide.md) / Filter
+[InterfaceAdminNg](../../README.md) / [Usage](../2-usage-guide.md) / Filter
 
 # Filter
 

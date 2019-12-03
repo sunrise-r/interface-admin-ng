@@ -1,4 +1,4 @@
-[InterfaceAdminNg](../../README.md) / [Usage](../2-usage-guide.md) / Projection form
+[InterfaceAdminNg](../../../README.md) / [Использование](../2-usage-guide.md) / Обёртка вокруг DynamicForm для установки представления и проекции
 
 # Projection form
 

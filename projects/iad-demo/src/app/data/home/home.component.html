@@ -1,15 +1,2257 @@
-<h1>Welcome to IAD Framework lib demo application home!</h1>
-
-<h2>
-  What is IAD?
-</h2>
-
-<h2>How to start with ng-library</h2>
-
-<h2>What is Projection</h2>
-
-<h3>What kinds of projections provides IAD framework by default</h3>
-
-<h2>What is Presentation</h2>
-
-<h3>What kinds of presentations provides IAD framework by default</h3>
+<h1>Документация по Interface Administrator (Iad)</h1>
+<p>Iad - это инструмент, который позволяет быстро создавать таблицы и формы на основе мета описаний в формате JSON.</p>
+<p>Для работы с этим замечательным инструментом, вам нужно знать Java (backend разработка библиотеки разрабатывается в отдельном репозитории), JSON и Angular7 (TypeScript).</p>
+<h2><a name="_wumfz5jq01sw"></a>Что вы можете сделать, используя Iad?</h2>
+<p>Во-первых, это, конечно же, списки данных и CRUD операции. В списках поддерживается описание набора кнопок, специфичного для конкретного списка/таблицы.</p>
+<p>Во-вторых, формы. Поддерживается возможность создания сложных вложенных форм с настройкой вложенности.</p>
+<p>В-третьих, отображение view отдельной сущности.</p>
+<p>Описание мета информации построено на основе понятий &ldquo;представление&rdquo; (presentation) и &ldquo;проекция&rdquo; (projection).</p>
+<h2><a name="_rtovy0dfl1dj"></a>Философия</h2>
+<p>Философия состоит в том, что каждый документ имеет некое представление. Это представление может проецироваться в разных проекциях. Например: допустим, есть документ, который называется &ldquo;User&rdquo; (пользователь). Эти пользователи могут быть в представлении таблицы для выполнения CRUD операций с полным списком данных, но также у нас может возникнуть необходимость отображать этих пользователей в формах в LookupInput (ввод данных путём выбора из списка или таблицы). Также, эти данные могут быть использованы вообще в других вариантах: это могут быть таблицы, списке данных, укороченные списки, списки с разным набором кнопок (Actions). Это справедливо и для форм - один и тот же набор данных может быть представлен в разных формах.</p>
+<p>Представление - это структура, формирующая текущее визуальное представление сущностей. Представление может содержать список проекций, описывающих списки элементов (ListProjection), список проекций для описания форм создания/редактирования элементов (FormProjection) и список проекций, описывающих отображение отдельной сущности (DataProjection)</p>
+<h2><a name="_s9ma5viacof"></a>Наследование</h2>
+<p>Как проекции форм, так и проекции списков могут наследоваться друг от друга. Наследование подразумевает объединение некоторых полей проекций с родительской проекцией. Остальные поля дочерней проекции не наследуются и должны вводиться индивидуально для каждой проекции.</p>
+<ul>
+    <li>
+        <p>ListProjection:</p>
+        <ul>
+            <li>
+                <p>infoUrl (адрес для запроса данных),</p>
+            </li>
+            <li>
+                <p>columns (колонки)</p>
+            </li>
+            <li>
+                <p>actions (списки кнопок)</p>
+            </li>
+            <li>
+                <p>defaultSortOrder (порядок сортировки для таблицы/списка)</p>
+            </li>
+            <li>
+                <p>defaultSortField (поле сортировки для таблицы/списка)</p>
+            </li>
+        </ul>
+    </li>
+</ul>
+<p>&nbsp;</p>
+<ul>
+    <li>
+        <p>FormProjection:</p>
+        <ul>
+            <li>
+                <p>fields (поля проекций форм)</p>
+            </li>
+        </ul>
+    </li>
+</ul>
+<p>&nbsp;</p>
+<ul>
+    <li>
+        <p>DataProjection:</p>
+        <ul>
+            <li>
+                <p>наследование не реализовано.</p>
+            </li>
+        </ul>
+    </li>
+</ul>
+<p>&nbsp;</p>
+<h2><a name="_58iyavu4vx1m"></a>Из чего состоят представления и проекции?</h2>
+<ol>
+    <li>
+        <p>Представления</p>
+    </li>
+</ol>
+<p>Для того чтобы создать представление (presentation) необходимо создать файл вида {CamelCaseName}Presentation.json и ввести его поля. Поля, отмеченные *, являются обязательными для заполнения:</p>
+<ul>
+    <li>
+        <p>label: Название представления. Может быть использован, например, для заголовков страниц. На данный момент не используется frontend частью библиотеки.</p>
+    </li>
+    <li>
+        <p>code: Код представления, который используется в качестве parentCode проекций этого представления и позволяет однозначно связать проекции и представление.</p>
+    </li>
+    <li>
+        <p>parentCode Код родительской записи. Для всех представлений в этом поле указывается корень проекта. Эта информация будет использована при итоговом построении дерева интерфейсов.</p>
+    </li>
+</ul>
+<p>&nbsp;</p>
+<ol start="2">
+    <li>
+        <p>Проекции списка (ListProjection)</p>
+    </li>
+</ol>
+<p>Для того чтобы создать проекцию списка необходимо создать файл вида {CamelCaseName}ListProjection.json и ввести его поля. Поля, отмеченные *, являются обязательными для заполнения:</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="137" /> <col width="138" /> <col width="166" /> <col width="103" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="137">
+            <p align="left">Поле</p>
+        </td>
+        <td width="138">
+            <p align="left">Тип</p>
+        </td>
+        <td width="166">
+            <p align="left">Описание</p>
+        </td>
+        <td width="103">
+            <p align="left">Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>label*</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Название проекции. Например, разделенный точками путь к строке перевода</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>code*</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Код проекции в формате {CamelCaseName}ListProjection</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137" height="31">
+            <p>parentCode*</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Код родительской записи. Эта информация будет использована при итоговом построении дерева интерфейсов.</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>description</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Описание проекции. Для чего предназначена, зачем создана</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>displayType</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Тип проекции. В зависимости от типа проекции, она может быть отрисована разными способами(например список или таблица)</p>
+        </td>
+        <td width="103">
+            <p>На момент написания документации никак не используется на frontend, отсутствует в DTO</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>searchUrl</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Путь до ресурса</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>infoUrl</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Url для получения подробной информации для конкретной записи.К нему в конце всегда добавляется id выбранной в талице/списке записи</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>order</p>
+        </td>
+        <td width="138">
+            <p>Integer</p>
+        </td>
+        <td width="166">
+            <p>Порядок для сортировки проекций</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>extends</p>
+        </td>
+        <td width="138">
+            <p>ParentReference</p>
+        </td>
+        <td width="166">
+            <p>Возможность указать проекцию и представление для наследования текущей проекции</p>
+        </td>
+        <td width="103">
+            <p align="left">Ниже, в этой документации описана структура ParentReference</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>defaultSortOrder</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Порядок сортировки по умолчанию для таблицы/списка</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>defaultSortField</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Поле для сортировки по умолчанию для таблицы/списка</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>settingsGroupName</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Название группы пользовательских настроек. В эти настройки могут быть сохранены данные о сортировке, порядке вывода столбцов, их видимости и тд</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>resourceSearchUrl</p>
+        </td>
+        <td width="138">
+            <p>String</p>
+        </td>
+        <td width="166">
+            <p>Адрес для запроса данных в elastic</p>
+        </td>
+        <td width="103">
+            <p>DEPRECATED</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>actions</p>
+        </td>
+        <td width="138">
+            <p>List&lt;Action&gt;</p>
+        </td>
+        <td width="166">
+            <p>Доступные для представления действия (используются как кнопки связанного с таблицей тулбара)</p>
+        </td>
+        <td width="103">
+            <p>Ниже, в этой документации описана структура Action</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>fields</p>
+        </td>
+        <td width="138">
+            <p>List&lt;ListField&gt;</p>
+        </td>
+        <td width="166">
+            <p>Описание полей проекции</p>
+        </td>
+        <td width="103">
+            <p>Ниже, в этой документации описана структура ListField</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>filters</p>
+        </td>
+        <td width="138">
+            <p>List&lt;ProjectionFilter&gt;</p>
+        </td>
+        <td width="166">
+            <p>Список фильтров, по умолчанию применяемых к выводу записей этой проекции</p>
+        </td>
+        <td width="103">
+            <p>Ниже, в этой документации описана структура ProjectionFilter</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>loadActualInfo</p>
+        </td>
+        <td width="138">
+            <p>Boolean</p>
+        </td>
+        <td width="166">
+            <p>Загружать ли информацию из infoUrl при клике на запись в таблице</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>properties</p>
+        </td>
+        <td width="138">
+            <p>HashMap&lt;String, Object&gt;</p>
+        </td>
+        <td width="166">
+            <p>карта свойств текущей проекции со строковыми ключами.</p>
+        </td>
+        <td width="103">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>Рассмотрим отдельно специальные типы полей проекции</p>
+<p>&nbsp;</p>
+<p>Action:</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>label</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Название действия. Например, разделенный точками путь к строке перевода</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>code*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код действия</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>displayType</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Способ отображения Действия. Например: кнопка, ссылка</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>group</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Группа действий. может быть использована для группировки</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>style</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Стиль визуального элемента</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>toggle</p>
+        </td>
+        <td width="136">
+            <p>boolean</p>
+        </td>
+        <td width="136">
+            <p>Флаг, может ли быть кнопка Включена/выключена кликом мышки</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>ListField:</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>label*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Название столбца. Например, разделенный точками путь к строке перевода</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>code*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код столбца для получения данных списка/таблицы</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>formatter</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Формат отображения поля в компоненте</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>displayFormat</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Компонент отображения данных</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>sorting</p>
+        </td>
+        <td width="136">
+            <p>boolean</p>
+        </td>
+        <td width="136">
+            <p>Доступна сортировка или нет</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>searching</p>
+        </td>
+        <td width="136">
+            <p>boolean</p>
+        </td>
+        <td width="136">
+            <p>Доступен ли поиск по полю</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>translationCode</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код перевода</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>style</p>
+        </td>
+        <td width="136">
+            <p>boolean</p>
+        </td>
+        <td width="136">
+            <p>Поле используется для задания стиля колонки, который будет применен на фронтенде</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>position</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Определяет позицию колонки в таблице</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>properties</p>
+        </td>
+        <td width="136">
+            <p>HashMap&lt;String, Object&gt;</p>
+        </td>
+        <td width="136">
+            <p>карта свойств текущего поля со строковыми ключами.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>ParentReference</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>presentationCode</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p align="left">Код представления</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>projectionCode</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p align="left">Код проекции</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>ProjectionFilter</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>field</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Название фильтра</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>values</p>
+        </td>
+        <td width="136">
+            <p>List&lt;String&gt;</p>
+        </td>
+        <td width="136">
+            <p>Значения фильтров</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>operator</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Оператор для значений фильтра</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<ol start="3">
+    <li>
+        <p>Проекции формы (FormProjection)</p>
+    </li>
+</ol>
+<p>&nbsp;</p>
+<p>Для того чтобы создать проекцию списка необходимо создать файл вида {CamelCaseName}FormProjection.json и ввести его поля. Поля, отмеченные *, являются обязательными для заполнения:</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>label</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Название проекции. Например, разделенный точками путь к строке перевода</p>
+        </td>
+        <td width="136">
+            <p>На момент написания документации никак не используется на frontend, отсутствует в DTO</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>title*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Название проекции. Например, разделенный точками путь к строке перевода</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>code*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код проекции в формате {CamelCaseName}FormProjection</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>parentCode*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код родительской записи. Эта информация будет использована при итоговом построении дерева интерфейсов.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>description</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Описание проекции. Для чего предназначена, зачем создана</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>displayType</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Тип проекции. В зависимости от типа проекции, она может быть отрисована разными способами</p>
+        </td>
+        <td width="136">
+            <p>На момент написания документации никак не используется на frontend, отсутствует в DTO</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>extends</p>
+        </td>
+        <td width="136">
+            <p>ParentReference</p>
+        </td>
+        <td width="136">
+            <p>Возможность указать проекцию и представление для наследования текущей проекции</p>
+        </td>
+        <td width="136">
+            <p>Выше, в этой документации описана структура ParentReference</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>fields</p>
+        </td>
+        <td width="136">
+            <p>List&lt;FormField&gt;</p>
+        </td>
+        <td width="136">
+            <p align="left">Список полей формы</p>
+        </td>
+        <td width="136">
+            <p>Ниже, в этой документации описана структура FormField</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>className</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p align="left">Название класса в JAVA для обработки формы. Может быть использовано для корректного определения сущности, которая создаётся при помощи формы</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>properties</p>
+        </td>
+        <td width="136">
+            <p>HashMap&lt;String, Object&gt;</p>
+        </td>
+        <td width="136">
+            <p>карта свойств текущей проекции со строковыми ключами.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>Рассмотрим отдельно специальные типы полей проекции</p>
+<p>&nbsp;</p>
+<p>FormField</p>
+<p>&nbsp;</p>
+<p>Описание инпутов формы. Исторически так сложилось, что Frontend принимает поля формы под другими названиями. Для того, чтобы сопоставить поля, вводимые в JSON и поля, принимаемые на стороне frontend, название поля, ожидаемое Frontend будет указано в отдельном столбце (Поле на Frontend). Само сопоставление полей на стороне frontend происходит в файле /iad-interface-admin/form/src/lib/projection-form/public-services/iad-projection-form.service.ts</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="105" /> <col width="106" /> <col width="106" /> <col width="106" /> <col width="105" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="105">
+            <p>Поле</p>
+        </td>
+        <td width="106">
+            <p>Поле на Frontend</p>
+        </td>
+        <td width="106">
+            <p>Тип</p>
+        </td>
+        <td width="106">
+            <p>Описание</p>
+        </td>
+        <td width="105">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>label</p>
+        </td>
+        <td width="106">
+            <p>-</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Название поля.</p>
+        </td>
+        <td width="105">
+            <p>На момент написания документации поле не используется</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>code</p>
+        </td>
+        <td width="106">
+            <p>-</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Код поля</p>
+        </td>
+        <td width="105">
+            <p>На момент написания документации поле не используется</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>formatter</p>
+        </td>
+        <td width="106">
+            <p>-</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Компонент отображения данных. не используется</p>
+        </td>
+        <td width="105">
+            <p>На момент написания документации поле не используется</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>displayFormat</p>
+        </td>
+        <td width="106">
+            <p>-</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Формат отображения поля в компоненте. не используется</p>
+        </td>
+        <td width="105">
+            <p>На момент написания документации поле не используется</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>datasourcePath</p>
+        </td>
+        <td width="106">
+            <p>datasourcePath или dataSourcePath</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Источник данных для поля. Используется для заполнения поля данными при отрисовке компонента. Бывает так что название поля в компоненте не совпадают по названию с источником данных. Это поле используется, чтобы решить эту проблему. Если оно указано, то движок на фронтенде должен попытаться получить данные по указанному пути.</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>defaultValue</p>
+        </td>
+        <td width="106">
+            <p>&nbsp;</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Значение поля по умолчанию.</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>fieldType</p>
+        </td>
+        <td width="106">
+            <p>type</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Тип поля, например, string; Это поле используется вместо formatter</p>
+        </td>
+        <td width="105">
+            <p align="left">Ниже, в этой документации описаны типы полей, доступные &ldquo;Из коробки&rdquo;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>fieldName</p>
+        </td>
+        <td width="106">
+            <p>name</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Код поля. Подставляется в name инпута</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>fieldLabel</p>
+        </td>
+        <td width="106">
+            <p>label</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Название поля, отображается в label инпута</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>required</p>
+        </td>
+        <td width="106">
+            <p>-</p>
+        </td>
+        <td width="106">
+            <p>boolean</p>
+        </td>
+        <td width="106">
+            <p>Флаг "обязателен"</p>
+        </td>
+        <td width="105">
+            <p align="left">Не используется, в пользу validationTypes</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>fieldLength</p>
+        </td>
+        <td width="106">
+            <p>&nbsp;</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Длина поля при ручном вводе. Вводится в кавычках.</p>
+        </td>
+        <td width="105">
+            <p>Не используется, в пользу validationTypes</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>fieldInputType</p>
+        </td>
+        <td width="106">
+            <p>fieldInputType</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Тип инпута на форме. Используется в контексте DISABLED, READONLY и тд.</p>
+        </td>
+        <td width="105">
+            <p align="left">Изначально предполагалось использование по типу displayFormat</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>column</p>
+        </td>
+        <td width="106">
+            <p>column</p>
+        </td>
+        <td width="106">
+            <p>Integer</p>
+        </td>
+        <td width="106">
+            <p>Номер колонки для отображения поля. Позволяет форматировать форму так, чтобы инпуты располагались в колонках</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>hidden</p>
+        </td>
+        <td width="106">
+            <p>-</p>
+        </td>
+        <td width="106">
+            <p>boolean</p>
+        </td>
+        <td width="106">
+            <p>Флаг &ldquo;Скрыто&rdquo;</p>
+        </td>
+        <td width="105">
+            <p>Поле предполагалось на случай, если оно должно быть скрытое, но fieldType его вполне заменяет,</p>
+            <p>Deprecated</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>valueField</p>
+        </td>
+        <td width="106">
+            <p>valueField</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Поле, необходимое для Инпутов типа Lookup (Entity и List). Указывает на поле из sourceListProjectio, которое должно быть подставлено в форму</p>
+        </td>
+        <td width="105">
+            <p align="left">Во фронтендной версии библиотеки отсутствуют Lookup поля. Их реализация остаётся на усмотрение разработчика</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>lookupViewProjectionCode</p>
+        </td>
+        <td width="106">
+            <p>lookupViewProjectionCode</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Поле, необходимое для инпутов типа Lookup (Entity и List). Указывает на код проекции списка для отображения уже выбранных в Lookup записей</p>
+        </td>
+        <td width="105">
+            <p>Во фронтендной версии библиотеки отсутствуют Lookup поля. Их реализация остаётся на усмотрение разработчика</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>lookupSourceProjectionCode</p>
+        </td>
+        <td width="106">
+            <p>lookupSourceProjectionCode</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Поле, необходимое для инпутов типа Lookup (Entity и List). Указывает на код проекции списка для отображения списка записей для выбора в Lookup</p>
+        </td>
+        <td width="105">
+            <p>Во фронтендной версии библиотеки отсутствуют Lookup поля. Их реализация остаётся на усмотрение разработчика</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>referenceProjectionCode</p>
+        </td>
+        <td width="106">
+            <p>referenceProjectionCode</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Поле, необходимое для инпутов типа Reference (ссылочных инпутов). Указывает на код проекции формы для запроса вложенной формы</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>presentationCode</p>
+        </td>
+        <td width="106">
+            <p>presentationCode</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Поле, необходимое для инпутов типа Lookup (Entity и List) и Reference (ссылочных инпутов). Указывает на код представления для получения проекций, указанных в полях lookupViewProjectionCode, lookupSourceProjectionCode, referenceProjectionCode</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>inputMask</p>
+        </td>
+        <td width="106">
+            <p>inputMask</p>
+        </td>
+        <td width="106">
+            <p>String</p>
+        </td>
+        <td width="106">
+            <p>Маска ввода для полей, поддерживающих ручной ввод.</p>
+        </td>
+        <td width="105">
+            <p align="left">В случае установки значения этого поля, будет применён компонент PrimeNG Mask</p>
+            <p align="left"><a href="https://www.primefaces.org/primeng-7.1.3/#/inputmask"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/inputmask</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>validationTypes</p>
+        </td>
+        <td width="106">
+            <p>validationTypes</p>
+        </td>
+        <td width="106">
+            <p>ValidationDto</p>
+        </td>
+        <td width="106">
+            <p>Правила фронтендной валидации для поля.</p>
+        </td>
+        <td width="105">
+            <p align="left">Ниже, в этой документации есть описание доступных правил валидации ValidationDto</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>translate</p>
+        </td>
+        <td width="106">
+            <p>translate</p>
+        </td>
+        <td width="106">
+            <p>boolean</p>
+        </td>
+        <td width="106">
+            <p>Флаг, указывающий на необходимость перевода fieldLabel на стороне фронтенда</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>visible</p>
+        </td>
+        <td width="106">
+            <p>-</p>
+        </td>
+        <td width="106">
+            <p>boolean</p>
+        </td>
+        <td width="106">
+            <p>Поле предполагалось на случай, если оно должно быть скрытое или видимое, но fieldType его вполне заменяет, Deprecated</p>
+        </td>
+        <td width="105">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="105">
+            <p>properties</p>
+        </td>
+        <td width="106">
+            <p>properties</p>
+        </td>
+        <td width="106">
+            <p>HashMap&lt;String, Object&gt;</p>
+        </td>
+        <td width="106">
+            <p>карта свойств поля со строковыми ключами.</p>
+        </td>
+        <td width="105">
+            <p align="left">Ниже, в этой документации есть описание того, как эта структура применяется для настройки некоторых типов полей ввода</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>ValidationDto</p>
+<p>&nbsp;</p>
+<p>Правила валидации ручного ввода значения поля</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>max</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p align="left">Максимальное значение для числового поля</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>min</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Минимальное значение для числового поля</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>maxLength</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Максимальная длина</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>minLength</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Минимальная длина</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>mask</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+        <td width="136">
+            <p align="left">Не используется</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>email</p>
+        </td>
+        <td width="136">
+            <p>boolean</p>
+        </td>
+        <td width="136">
+            <p align="left">Флаг, устанавливающий, является ли данное поле emmail</p>
+        </td>
+        <td width="136">
+            <p align="left">&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>required</p>
+        </td>
+        <td width="136">
+            <p>boolean</p>
+        </td>
+        <td width="136">
+            <p>Флаг, устанавливающий, является ли данное поле обязательным</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ol start="4">
+    <li>
+        <p>Проекции превью данных (DataProjection)</p>
+    </li>
+</ol>
+<p>&nbsp;</p>
+<p>Проекции превью данных предназначены для показа read-only информации о конкретной записи.</p>
+<p>Для проекта &ldquo;Партнёр&rdquo; было определено, что DataProjection необходимо создавать относящимися не к обычному Presentation, а к DataPresentation.</p>
+<p>Для того чтобы создать проекцию превью данных необходимо создать файл вида {CamelCaseName}DataProjection.json и ввести его поля. Поля, отмеченные *, являются обязательными для заполнения:</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>label*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Название проекции. Например, разделенный точками путь к строке перевода</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>code*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код проекции в формате {CamelCaseName}DataProjection</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>parentCode*</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код родительской записи. Эта информация будет использована при итоговом построении дерева интерфейсов.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>description</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Описание проекции. Для чего предназначена, зачем создана</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>displayType</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Тип проекции. В зависимости от типа проекции, она может быть отрисована разными способами</p>
+        </td>
+        <td width="136">
+            <p>На момент написания документации никак не используется на frontend, отсутствует в DTO</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>extends</p>
+        </td>
+        <td width="136">
+            <p>ParentReference</p>
+        </td>
+        <td width="136">
+            <p>Возможность указать проекцию и представление для наследования текущей проекции</p>
+        </td>
+        <td width="136">
+            <p>Выше, в этой документации описана структура ParentReference</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>fields</p>
+        </td>
+        <td width="136">
+            <p>List&lt;DataField&gt;</p>
+        </td>
+        <td width="136">
+            <p>Список полей превью</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>documentPhoto</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Путь, разделённый точками до поля во входящих данных для превью, содержащего путь для загрузки изображения превью. Например, &ldquo;documentIndex.photo&rdquo;, если входящие данные имеют в структуре:</p>
+            <p>{</p>
+            <p>&ldquo;documentIndex&rdquo;: {</p>
+            <p>&ldquo;photo&rdquo;: &ldquo;path/to/photo.png&rdquo;</p>
+            <p>}</p>
+            <p>}</p>
+        </td>
+        <td width="136">
+            <p>Для проекта &ldquo;Партнёр&rdquo; документация доступна в Wiki</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>properties</p>
+        </td>
+        <td width="136">
+            <p>HashMap&lt;String, Object&gt;</p>
+        </td>
+        <td width="136">
+            <p>карта свойств текущей проекции со строковыми ключами.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>Рассмотрим отдельно специальные типы полей проекции</p>
+<p>&nbsp;</p>
+<p>DataField</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p>Поле</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="136">
+            <p>Описание</p>
+        </td>
+        <td width="136">
+            <p>Комментарий</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>label</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Название поля.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>code</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Код поля</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>formatter</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Компонент отображения данных.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>displayFormat</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Формат отображения поля в компоненте.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>datasourcePath</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Источник данных для поля. Используется для заполнения поля данными при отрисовке компонента. Бывает так что название поля в компоненте не совпадают по названию с источником данных. Это поле используется, чтобы решить эту проблему. Если оно указано, то движок на фронтенде должен попытаться получить данные по указанному пути.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>defaultValue</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>Значение поля по умолчанию.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>properties</p>
+        </td>
+        <td width="136">
+            <p>HashMap&lt;String, Object&gt;</p>
+        </td>
+        <td width="136">
+            <p>карта свойств поля со строковыми ключами.</p>
+        </td>
+        <td width="136">
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<h2><a name="_2dn01vz6sarm"></a> Комментарии в JSON</h2>
+<p>&nbsp;</p>
+<p>В проекции описание можно создавать не только в поле description. Часто используется способ комментирования через JSON поле &ldquo;__comment&rdquo;, этот параметр игнорируется парсером и не участвует в построении дерева представлений.</p>
+<h2><a name="_kctl1uh809we"></a>Скрипт для проверки JSON</h2>
+<p>&nbsp;</p>
+<p>При создании дерева представлений и проекций, все собранные JSON файлы загружаются в память сервера, таким образом доступ к этим данным производится максимально быстро.</p>
+<p>Это, однако, порождает проблему сломанного JSON. Если файлы JSON были созданы вручную, то высока вероятность ошибки ввода. Легко можно забыть двойные кавычки или поставить лишнюю запятую даже при использовании продвинутых средств разработки. Для исключения ситуаций, когда один плохой JSON рушит всю структуру, перед отправкой на сборку проекта можно запустить простой JS скрипт</p>
+<p>&nbsp;</p>
+<p>const readdir = require('recursive-readdir');</p>
+<p>const path = require('path');</p>
+<p>const fs = require('fs');</p>
+<p>readdir(path.join(__dirname, '../../../../main/resources/iad/user')).then(</p>
+<p>function(files) {</p>
+<p>let hasError = false;</p>
+<p>const count = files.length;</p>
+<p>files.forEach((f, i) =&gt; {</p>
+<p>fs.readFile(f, 'utf-8', (err, data) =&gt; {</p>
+<p>if (err) {</p>
+<p>hasError = true;</p>
+<p>console.error(`Cannot read file ${f}!`, err);</p>
+<p>}</p>
+<p>try {</p>
+<p>JSON.parse(data);</p>
+<p>if (i === count - 1 &amp;&amp; hasError === false) {</p>
+<p>console.info(`Cheers! Everithing is ok in your JSONs!`);</p>
+<p>}</p>
+<p>} catch (error) {</p>
+<p>hasError = true;</p>
+<p>console.error(`${f} is not correct JSON file!`, error);</p>
+<p>}</p>
+<p>})</p>
+<p>})</p>
+<p>},</p>
+<p>function(error) {</p>
+<p>console.error("incorrect path!", error);</p>
+<p>}</p>
+<p>);</p>
+<h2><a name="_7g5teonv0tw"></a>Типы полей форм, доступные из коробки:</h2>
+<p>Формы в IAD имеют предустановленный набор типов полей ввода. Тип поля ввода указывается в FormField в свойстве fieldType. Ввод регистронезависимый. Поля, отмеченные символом &ldquo;(*)&rdquo;, имеют дополнительные настройки через properties, которые описаны в таблице ниже.</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="135" /> <col width="136" /> <col width="136" /> <col width="136" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="135">
+            <p align="left">Тип поля ввода (fieldType)</p>
+        </td>
+        <td width="136">
+            <p align="left">Соответствующая модель</p>
+            <p align="left">на frontend</p>
+        </td>
+        <td width="136">
+            <p>Соответствующий компонент</p>
+            <p>на frontend</p>
+        </td>
+        <td width="136">
+            <p align="left">Описание</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>BigDecimal, Integer (*)</p>
+        </td>
+        <td width="136">
+            <p>NumberInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormNumberComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">&lt;input type=&rdquo;number&rdquo; /&gt;. Эти два типа поля ссылаются на один и тот же компонент</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>Boolean</p>
+        </td>
+        <td width="136">
+            <p>BooleanInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormCheckboxComponent</p>
+        </td>
+        <td width="136">
+            <p>&lt;input type=&rdquo;checkbox&rdquo; /&gt;.</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>MultiSelect (*)</p>
+        </td>
+        <td width="136">
+            <p>DropdownMultiInputModel</p>
+        </td>
+        <td width="136">
+            <p>IadFormDropdownComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">PrimeNG компонент MultiSelect <a href="https://www.primefaces.org/primeng-7.1.3/#/multiselect"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/multiselect</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>Dropdown (*)</p>
+        </td>
+        <td width="136">
+            <p>DropdownInputModel</p>
+        </td>
+        <td width="136">
+            <p>IadFormDropdownComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">PrimeNG компонент Dropdown <a href="https://www.primefaces.org/primeng-7.1.3/#/dropdown"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/dropdown</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>Rich</p>
+        </td>
+        <td width="136">
+            <p>RichEditorInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormRichEditorComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">PrimeNG компонент Editor <a href="https://www.primefaces.org/primeng-7.1.3/#/editor"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/editor</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>ZonedDateTime (*)</p>
+        </td>
+        <td width="136">
+            <p>DateInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormDateComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">PrimeNG компонент Calendar</p>
+            <p align="left"><a href="https://www.primefaces.org/primeng-7.1.3/#/calendar"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/calendar</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>Chips</p>
+        </td>
+        <td width="136">
+            <p>ChipsInputModel</p>
+        </td>
+        <td width="136">
+            <p>IadFormChipsComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">PrimeNG компонент Chips</p>
+            <p align="left"><a href="https://www.primefaces.org/primeng-7.1.3/#/chips"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/chips</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>String</p>
+        </td>
+        <td width="136">
+            <p>TextInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormInputComponent</p>
+        </td>
+        <td width="136">
+            <p>&lt;input type=&rdquo;text&rdquo; /&gt; или, если указано свойство InputMask, то PrineNG компонент Mask</p>
+            <p><a href="https://www.primefaces.org/primeng-7.1.3/#/inputmask"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/inputmask</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>StringTranslated</p>
+        </td>
+        <td width="136">
+            <p>TextInputTranslated</p>
+        </td>
+        <td width="136">
+            <p>IadFormTranslateInputComponent</p>
+        </td>
+        <td width="136">
+            <p>&lt;input type=&rdquo;text&rdquo; readonly=&rdquo;true&rdquo; /&gt;, значение будет автоматически переведено библиотекой ngx-translate (<a href="https://github.com/ngx-translate/core"><span style="text-decoration: underline;">https://github.com/ngx-translate/core</span></a>)</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>Hidden</p>
+        </td>
+        <td width="136">
+            <p>HiddenInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormInputComponent</p>
+        </td>
+        <td width="136">
+            <p>&lt;input type=&rdquo;hidden&rdquo; /&gt;.</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>File</p>
+        </td>
+        <td width="136">
+            <p>FileInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormFileComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">&lt;input type=&rdquo;file&rdquo; /&gt;. Этот компонент не осуществляет саму загрузку файлов. Только формирует input. Загрузка файлов остаётся на усмотрение разработчиков, т.к. она может быть реализована по-разному в зависимости от требований проекта</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>SplittedDateTime (*)</p>
+        </td>
+        <td width="136">
+            <p>DateTimeInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormDateTimeComponent</p>
+        </td>
+        <td width="136">
+            <p>PrimeNG компонент Calendar</p>
+            <p><a href="https://www.primefaces.org/primeng-7.1.3/#/calendar"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/calendar</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>Text</p>
+        </td>
+        <td width="136">
+            <p>TextareaInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormTextareaComponent</p>
+        </td>
+        <td width="136">
+            <p align="left">&lt;textarea&gt;&lt;/textarea&gt;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>password</p>
+        </td>
+        <td width="136">
+            <p>TextInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormInputComponent</p>
+        </td>
+        <td width="136">
+            <p>&lt;input type=&rdquo;password&rdquo; /&gt;.</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>AutoComplete (*)</p>
+        </td>
+        <td width="136">
+            <p>AutoCompleteInput</p>
+        </td>
+        <td width="136">
+            <p>IadFormAutoCompleteInputComponent</p>
+        </td>
+        <td width="136">
+            <p>PrimeNG компонент Autocomplete</p>
+            <p><a href="https://www.primefaces.org/primeng-7.1.3/#/autocomplete"><span style="text-decoration: underline;">https://www.primefaces.org/primeng-7.1.3/#/autocomplete</span></a></p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="135">
+            <p>ProjectionReference(*)</p>
+        </td>
+        <td width="136">
+            <p>FormInputGroup</p>
+        </td>
+        <td width="136">
+            <p>IadFormGroupComponent</p>
+        </td>
+        <td width="136">
+            <p>Ссылка на другую проекцию формы в любом указанном представлении. Обычно используется специальное представление для набора форм, на которые может ссылаться форма ввода. Компонент формирует вложенную форму с полями, которые frontend загружает по указанным представлению и проекции. Поля вложенной форма могут быть отправлены как вложенная структура данных или в одном уровне с основной формой.</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>Properties любой сущности могут быть использованы по своему усмотрению и обработаны извне библиотеки IAD при загрузке представлений и проекций. Но некоторые Properties, в частности, используются для тонкой настройки полей форм, описанных выше.</p>
+<p>&nbsp;</p>
+<table width="602" cellspacing="0" cellpadding="7"><colgroup><col width="137" /> <col width="134" /> <col width="136" /> <col width="137" /> </colgroup>
+    <tbody>
+    <tr valign="top">
+        <td width="137">
+            <p>Поле</p>
+        </td>
+        <td width="134">
+            <p>Property</p>
+        </td>
+        <td width="136">
+            <p>Тип</p>
+        </td>
+        <td width="137">
+            <p>Описание</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td rowspan="2" width="137" height="14">
+            <p>AutoComplete</p>
+        </td>
+        <td width="134">
+            <p>valuesUrl</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="137">
+            <p>URL для получения подгружаемых значений autocomplete</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>forceSelection</p>
+        </td>
+        <td width="136">
+            <p>boolean (false)</p>
+        </td>
+        <td width="137">
+            <p>Флаг, сообщающий компоненту, что значение можно вводить только из подгружаемых данных</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td rowspan="2" width="137" height="14">
+            <p>ZonedDateTime, SplittedDateTime</p>
+        </td>
+        <td width="134">
+            <p>dataType</p>
+        </td>
+        <td width="136">
+            <p>String (&lsquo;date&rsquo;|&rsquo;string&rsquo;)</p>
+        </td>
+        <td width="137">
+            <p>Тип данных - date или string</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>dateFormat</p>
+        </td>
+        <td width="136">
+            <p>String (dd.mm.yyyy)</p>
+        </td>
+        <td width="137">
+            <p>Формат даты</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td rowspan="8" width="137" height="14">
+            <p>Dropdown, MultiSelect</p>
+        </td>
+        <td width="134">
+            <p>valuesUrl</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="137">
+            <p>URL для получения подгружаемых значений dropdown</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>labelField</p>
+        </td>
+        <td width="136">
+            <p>String (&lsquo;label&rsquo;)</p>
+        </td>
+        <td width="137">
+            <p>Поле из подгружаемых данных для показа пользователю</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>valueField</p>
+        </td>
+        <td width="136">
+            <p>String (&lsquo;value&rsquo;)</p>
+        </td>
+        <td width="137">
+            <p>Поле из подгружаемых данных для отправки на backend</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>multiple</p>
+        </td>
+        <td width="136">
+            <p>boolean (&lsquo;false&rsquo;)</p>
+        </td>
+        <td width="137">
+            <p>Флаг для активации множественного выбора в select</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>showHeader</p>
+        </td>
+        <td width="136">
+            <p>boolean (&lsquo;true&rsquo;)</p>
+        </td>
+        <td width="137">
+            <p>Флаг для активации строки поиска по значениям multiselect. Работает только при установке multiple: true</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>maxSelectedLabels</p>
+        </td>
+        <td width="136">
+            <p>Number (3)</p>
+        </td>
+        <td width="137">
+            <p>Ограничение на число одновременно выбираемых опций multiselect. Работает только при установке multiple: true</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>translatePrefix</p>
+        </td>
+        <td width="136">
+            <p>String</p>
+        </td>
+        <td width="137">
+            <p>Префикс, используемый для перевода значений dropdown</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>showClear</p>
+        </td>
+        <td width="136">
+            <p>boolean (false)</p>
+        </td>
+        <td width="137">
+            <p>Флаг для активации кнопки очистки поля. Работает только для multiple: false</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="137">
+            <p>Integer, BigDecimal</p>
+        </td>
+        <td width="134">
+            <p>step</p>
+        </td>
+        <td width="136">
+            <p>Number (1)</p>
+        </td>
+        <td width="137">
+            <p>Шаг изменения числа в input типа number</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td rowspan="4" width="137" height="13">
+            <p>ProjectionReference</p>
+        </td>
+        <td width="134">
+            <p>flattenData</p>
+        </td>
+        <td width="136">
+            <p>boolean (false)</p>
+        </td>
+        <td width="137">
+            <p>Флаг, устанавливающий для ссылочного поля настройку, что загруженные поля будут отправлены на backend в виде вложенной структуры (false), Либо на одном уровне с полями ссылающейся формы. (true)</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>flattenFields</p>
+        </td>
+        <td width="136">
+            <p>boolean (false)</p>
+        </td>
+        <td width="137">
+            <p>Флаг, устанавливающий для ссылочного поля настройку, что загруженные поля будут показаны в форме в виде вложенной группы (false), Либо на одном уровне с полями ссылающейся формы. (true)</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>plainReference</p>
+        </td>
+        <td width="136">
+            <p>boolean (false)</p>
+        </td>
+        <td width="137">
+            <p>Флаг, устанавливающий flattenData и flattenFields в true. Рекомендуется не использовать его, а пользоваться flattenData и flattenFields</p>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td width="134">
+            <p>collapsed</p>
+        </td>
+        <td width="136">
+            <p>boolean (true)</p>
+        </td>
+        <td width="137">
+            <p>Флаг, устанавливающий в случае flattenFields: false настройку, что вложенная группа должна быть свёрнута (true) или развёрнута (false) при начальном отображении формы</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>Продолжение документации касается Frontend части библиотеки AID</p>

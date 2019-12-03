@@ -1,4 +1,4 @@
-[InterfaceAdminNg](../../README.md) / [Usage](../2-usage-guide.md) / PrimeNG Table based full-featured DataGrid
+[InterfaceAdminNg](../../../README.md) / [Использование](../2-usage-guide.md) / PrimeNG Table based full-featured DataGrid
 
 # PrimeNG Table based full-featured DataGrid
 
@@ -11,7 +11,6 @@
     [columns]="columns"
     [defaultSortField]="defaultSortField"
     [defaultSortOrder]="defaultSortOrder"
-    [doTableAction]="doTableAction"
     [enableInfiniteScroll]="true"
     [filter]="filter"
     [filterType]="filterType"
@@ -45,7 +44,6 @@ changeTableHeight|Subject()|Subject to recalculate table height
 columns|IadGridColumn[]|@deprecated. Grid columns. May be installed via IadGridConfigModel 
 defaultSortField||
 defaultSortOrder||
-doTableAction||
 enableInfiniteScroll|boolean|
 filter||
 filterType||
