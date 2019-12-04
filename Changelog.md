@@ -1,3 +1,7 @@
+# 1.0.9-alpha.145
+
+* \[GRID] added @Input() reset: Subject<any> to have ability to call table's reset 
+
 # 1.0.9-alpha.144
 
 * \[GRID] gridId made as @Input() param for ProjectionGridComponent

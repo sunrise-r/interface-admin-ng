@@ -150,6 +150,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     @Input() refreshOnInit: boolean;
 
     /**
+     * Reset all grid settings
+     */
+    @Input() resetGrid: Subject<any> = new Subject<any>();
+
+    /**
      * Flag to add 'responsive' css class
      */
     @Input() responsive: boolean;
@@ -280,6 +285,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     private refreshSbt: Subscription;
 
     /**
+     * Subscription for reset subject
+     */
+    private resetGridSbt: Subscription;
+
+    /**
      * Subscription for updateGridSettings subject
      */
     private settingUpdateSbt: Subscription;
@@ -345,6 +355,9 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     constructor(private gridSettingsManager: GridSettingsManagerService, private baseGridAction: IadBaseGridActionsService) {}
 
     ngOnInit() {
+        this.resetGridSbt =  this.resetGrid.subscribe(() => {
+            this.gridSettingsManager.reset();
+        });
         this.refreshSbt = this.refresh.subscribe(() => {
             this.gridSettingsManager.refresh();
         });
