@@ -118,7 +118,7 @@ Rich | RichEditorInput | [Компонент редактора PrimeNg rich (qu
 Dropdown | DropdownInputModel | [Компонент выбора select PrimeNg dropdown](#11-iadformselectiondropdowncomponent)
 Chips | ChipsInputModel | [Компонент PrimeNg chips](#12-iadformchipscomponent)
 
-## Компоненты для ввода данных в форме, доступные из "Коробки"
+## Компоненты для ввода данных в форме, доступные "из коробки"
 
 ### 1. IadFormGroupComponent
   
