@@ -29,6 +29,9 @@ export class IadToolbarActionDirective implements OnInit, IadToolbarActionButton
 
     ngOnInit() {
         this.renderer.addClass(this.el.nativeElement, 'action-' + this.action.style);
+        if (this.action.toggle) {
+            this.renderer.addClass(this.el.nativeElement, 'action-toggleable');
+        }
         this.addIcon();
     }
 
