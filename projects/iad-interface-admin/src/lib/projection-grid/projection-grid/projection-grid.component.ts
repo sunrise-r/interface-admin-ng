@@ -356,7 +356,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     ngOnInit() {
         this.resetGridSbt =  this.resetGrid.subscribe(() => {
-            this.gridSettingsManager.reset();
+            this.resetGridConfig();
         });
         this.refreshSbt = this.refresh.subscribe(() => {
             this.gridSettingsManager.refresh();
@@ -377,17 +377,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.projection && ('projection' in changes || 'presentationCode' in changes || 'filter' in changes)) {
-            this.gridSettingsManager.reset();
-            this.unSelectRow.next(true);
-            if (this.presentationCode) {
-                this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
-            } else {
-                console.error('Warning! presentationCode is not set!');
-            }
-            if (!this.gridId) {
-                this.gridId = '_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            }
-            this.gridSettingsManager.setExternalGridConfig(this.populateGridConfig(), true);
+            this.resetGridConfig();
         }
     }
 
@@ -492,6 +482,28 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
             });
         }
         return this._columns;
+    }
+
+    /**
+     * Initializes grid with followng steps:
+     * 1. reset all grid settings;
+     * 2. unselects selected row
+     * 3. set current searchUrl
+     * 4. set current gridId
+     * 5. updates iad-grid config
+     */
+    resetGridConfig() {
+        this.gridSettingsManager.reset();
+        this.unSelectRow.next(true);
+        if (this.presentationCode) {
+            this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
+        } else {
+            console.error('Warning! presentationCode is not set!');
+        }
+        if (!this.gridId) {
+            this.gridId = '_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+        this.gridSettingsManager.setExternalGridConfig(this.populateGridConfig(), true);
     }
 
     /**
