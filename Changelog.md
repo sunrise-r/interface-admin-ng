@@ -1,3 +1,7 @@
+# 1.0.9-alpha.146
+
+* \[GRID] added action-toggleable css class to toggleable actions
+
 # 1.0.9-alpha.145
 
 * \[GRID] added @Input() reset: Subject<any> to have ability to call table's reset 
