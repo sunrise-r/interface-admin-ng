@@ -300,6 +300,11 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     private _columns: IadGridColumnInterface[];
 
     /**
+     * Grid columns
+     */
+    private _columnDefaults: IadGridColumnInterface[];
+
+    /**
      * Список "статически замороженных колонок"
      */
     private _externalStaticFrozenColumns: IadGridColumnInterface[];
@@ -356,7 +361,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     ngOnInit() {
         this.resetGridSbt =  this.resetGrid.subscribe(() => {
-            this.resetGridConfig();
+            this.resetGridConfig(this.projection, true);
         });
         this.refreshSbt = this.refresh.subscribe(() => {
             this.gridSettingsManager.refresh();
@@ -377,7 +382,7 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.projection && ('projection' in changes || 'presentationCode' in changes || 'filter' in changes)) {
-            this.resetGridConfig();
+            this.resetGridConfig(this.projection, false);
         }
     }
 
@@ -488,18 +493,24 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Initializes grid with followng steps:
      * 1. reset all grid settings;
      * 2. unselects selected row
-     * 3. set current searchUrl
-     * 4. set current gridId
-     * 5. updates iad-grid config
+     * 3. resets default columns or adds projection default columns to _columnDefaults
+     * 4. set current searchUrl
+     * 5. set current gridId
+     * 6. updates iad-grid config
      */
-    resetGridConfig() {
+    resetGridConfig(projection: DocumentListProjection, resetColumnDefaults: boolean) {
+        if (!this.projection) {
+            console.error('Warning! projection is not set!');
+            return;
+        }
         this.gridSettingsManager.reset();
         this.unSelectRow.next(true);
-        if (this.presentationCode) {
-            this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
+        if (resetColumnDefaults && this._columnDefaults) {
+            this.projection.columns = this._columnDefaults.map(col => (<IadGridColumnInterface>{...col}));
         } else {
-            console.error('Warning! presentationCode is not set!');
+            this._columnDefaults = this.projection.columns.map(col => (<IadGridColumnInterface>{...col}));
         }
+        this.searchUrl = ProjectionGridComponent.resolveUrl(this.projection.searchUrl, this.context);
         if (!this.gridId) {
             this.gridId = '_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         }
