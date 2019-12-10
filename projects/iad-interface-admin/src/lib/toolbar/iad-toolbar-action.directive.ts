@@ -1,12 +1,12 @@
 import {
     Directive,
-    OnInit,
     Input,
     ElementRef,
     Renderer2,
     HostListener,
     Output,
-    EventEmitter
+    EventEmitter,
+    AfterViewInit
 } from '@angular/core';
 
 import { IadToolbarActionButton, ToolbarAction, ToolbarClickEvent } from './iad-toolbar-action.model';
@@ -14,7 +14,7 @@ import { IadToolbarActionButton, ToolbarAction, ToolbarClickEvent } from './iad-
 @Directive({
     selector: '[iadToolbarAction]'
 })
-export class IadToolbarActionDirective implements OnInit, IadToolbarActionButton {
+export class IadToolbarActionDirective implements AfterViewInit, IadToolbarActionButton {
     /**
      * Текущий экшн кнопки
      */
@@ -28,11 +28,14 @@ export class IadToolbarActionDirective implements OnInit, IadToolbarActionButton
     constructor(private renderer: Renderer2, private el: ElementRef) {}
 
     ngOnInit() {
+        this.addIcon();
+    }
+
+    ngAfterViewInit(): void {
         this.renderer.addClass(this.el.nativeElement, 'action-' + this.action.style);
         if (this.action.toggle) {
             this.renderer.addClass(this.el.nativeElement, 'action-toggleable');
         }
-        this.addIcon();
     }
 
     addIcon() {

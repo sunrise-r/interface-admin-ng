@@ -1,3 +1,7 @@
+# 1.0.9-alpha.147
+
+* \[FORM] Added actionUrl?: string; and formType?: string; properties to IadFormProjection
+
 # 1.0.9-alpha.146
 
 * \[GRID] added action-toggleable css class to toggleable actions
