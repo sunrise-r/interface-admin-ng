@@ -1,3 +1,7 @@
+# 1.0.9-alpha.148
+
+* \[FORM] Added method?: string; property to IadFormProjection
+
 # 1.0.9-alpha.147
 
 * \[FORM] Added actionUrl?: string; and formType?: string; properties to IadFormProjection
