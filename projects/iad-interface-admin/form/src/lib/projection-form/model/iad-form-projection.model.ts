@@ -34,6 +34,11 @@ export interface IadFormProjectionInterface {
     label?: string;
 
     /**
+     * Form submit method. May be POST|PUT|DELETE|PATCH|GET
+     */
+    method?: string;
+
+    /**
      * Current entity className
      * Helper property to identify entity, edited or created using current form
      */
@@ -52,6 +57,7 @@ export class IadFormProjection implements IadFormProjectionInterface {
     actionUrl?: string;
     formType?: string;
     label?: string; // @deprecated in favor of title
+    method?: string;
     className?: string;
     properties?: any;
 }
