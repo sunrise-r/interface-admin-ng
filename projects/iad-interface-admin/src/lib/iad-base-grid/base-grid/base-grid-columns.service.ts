@@ -64,9 +64,12 @@ export class BaseGridColumnsService {
      * @param frozenStructure
      */
     freeze(event: IadGridFrozenEvent, frozenStructure: IadGridFrozenStructure): IadGridFrozenStructure {
-        const methodName = event.action + 'Column';
-        if (!this[methodName]) {
-            throw Error('Unknown method name DataTableColumnsService.' + methodName);
+        const methodMap = {
+            freeze: () => this.freezeColumn,
+            unFreeze: () => this.unFreezeColumn
+        };
+        if (!(event.action in methodMap)) {
+            throw Error(`Only freeze/unFreeze methods are supported. You are trying to perform unknown "${event.action}"`);
         }
 
         this.calculateColumnsSizes(event.column, frozenStructure);
@@ -75,7 +78,7 @@ export class BaseGridColumnsService {
 
         const elementWidth = parseInt(IadDomHandler.getOuterWidth(event.column), 10);
 
-        return this[methodName](event.field, elementWidth, event.position);
+        return methodMap[event.action]()(event.field, elementWidth, event.position);
     }
 
     /**

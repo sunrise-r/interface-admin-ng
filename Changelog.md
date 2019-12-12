@@ -1,3 +1,8 @@
+# 1.0.9-alpha.149
+
+* \[CORE] fixed table expand mode. Since this version in expand mode when table wrapper width will be less than calculated by columns table width it will expand as it is defined by primeng algorytms, but when table wrapper width will be more than calculated by columns table width it will automatically disable table width, so in this case table will behave alike to fit mode;
+* \[CORE] added special method IadTableComponent.resetScrollTablesWidth() that will find not frozen columns wrapper (scrollView) and, depending on current table width add to or remove from its children tables "width" style property
+
 # 1.0.9-alpha.148
 
 * \[FORM] Added method?: string; property to IadFormProjection

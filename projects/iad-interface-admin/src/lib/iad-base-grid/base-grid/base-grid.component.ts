@@ -526,6 +526,9 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             resetFilter: () => {
                 this.resetFilter.next(value);
+            },
+            resetScrollableTableWidth: () => {
+                this.dt.resetScrollTablesWidth();
             }
         };
         if (action in strategy) {
