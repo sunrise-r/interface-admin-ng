@@ -30,7 +30,7 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
     @Input() allowUnSelectRow: boolean;
 
     /**
-     * #1226, 1271 Subject to notify table about height change
+     * Subject to notify table about height change
      */
     @Input() changeTableHeight: Subject<boolean> = new Subject<boolean>();
 
@@ -95,9 +95,19 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
     @Input() unSelectRow: Subject<boolean> = new Subject<boolean>();
 
     /**
-     *
+     * Emit lazy load meta when page is changed using infiniteScroll
      */
     @Output() page = new EventEmitter<any>();
+
+    /**
+     * Real sizes for tables. These values are calculated by width of columns inside area
+     * areas are header/body/footer
+     */
+    scrollableTableRealSizes = {
+        body : null,
+        header : null,
+        footer : null
+    };
 
     constructor(public el: ElementRef, public zone: NgZone, public tableService: TableService, public paginatorService: PaginatorService) {
         super(el, zone, tableService);
@@ -393,26 +403,23 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
             } else if (this.columnResizeMode === 'expand') {
                 if (this.scrollable) {
                     const scrollableView = this.findParentScrollableView(column);
-                    const scrollableBodyTable = IadDomHandler.findSingle(scrollableView, 'table.ui-table-scrollable-body-table');
-                    const scrollableHeaderTable = IadDomHandler.findSingle(scrollableView, 'table.ui-table-scrollable-header-table');
-                    const scrollableFooterTable = IadDomHandler.findSingle(scrollableView, 'table.ui-table-scrollable-footer-table');
-
-                    // #1226 We don't need to set fixed width if it was not set in settings. Otherwise we'll meet troubles changing page width
-                    if (scrollableBodyTable.style.width && scrollableBodyTable.style.width.toString().lenght > 0) {
-                        scrollableBodyTable.style.width = scrollableBodyTable.offsetWidth + delta + 'px';
-                        scrollableHeaderTable.style.width = scrollableHeaderTable.offsetWidth + delta + 'px';
-                        if (scrollableFooterTable) {
-                            scrollableFooterTable.style.width = scrollableHeaderTable.offsetWidth + delta + 'px';
-                        }
-                    }
-
                     const resizeColumnIndex = IadDomHandler.index(column);
-
-                    this.resizeColGroup(scrollableHeaderTable, resizeColumnIndex, newColumnWidth, null);
-                    this.resizeColGroup(scrollableBodyTable, resizeColumnIndex, newColumnWidth, null);
-                    this.resizeColGroup(scrollableFooterTable, resizeColumnIndex, newColumnWidth, null);
+                    Object.keys(this.scrollableTableRealSizes).forEach(area => {
+                        const scrollableTable = IadDomHandler.findSingle(scrollableView, `table.ui-table-scrollable-${area}-table`);
+                        if (scrollableTable) {
+                            const offsetWidth = scrollableTable.offsetWidth + delta;
+                            if (!scrollableView.classList.contains('ui-table-frozen-view')) {
+                                this.scrollableTableRealSizes[area] = offsetWidth;
+                                scrollableTable.style.width = offsetWidth > scrollableView.offsetWidth ? offsetWidth + 'px' : '';
+                            } else {
+                                scrollableTable.style.width = offsetWidth + 'px';
+                            }
+                            this.resizeColGroup(scrollableTable, resizeColumnIndex, newColumnWidth, null);
+                        }
+                    });
                 } else {
-                    this.tableViewChild.nativeElement.style.width = this.tableViewChild.nativeElement.offsetWidth + delta + 'px';
+                    const offsetWidth = this.tableViewChild.nativeElement.offsetWidth + delta;
+                    this.tableViewChild.nativeElement.style.width = offsetWidth + 'px';
                     column.style.width = newColumnWidth + 'px';
                     const containerWidth = this.tableViewChild.nativeElement.style.width;
                     this.containerViewChild.nativeElement.style.width = containerWidth + 'px';
@@ -430,7 +437,23 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
     }
 
     /**
-     * Снимает выделение с таблицы
+     * Will reset width of scroll table
+     * Method is called outside of this component using viewChild of parent components
+     */
+    resetScrollTablesWidth() {
+        if (!this.scrollable) { return; }
+        const scrollableView = IadDomHandler.findSingle(this.containerViewChild.nativeElement, '.ui-table-scrollable-view:not(.ui-table-frozen-view)');
+        if (!scrollableView) { return; }
+        Object.keys(this.scrollableTableRealSizes).forEach(area => {
+            const scrollableTable = IadDomHandler.findSingle(scrollableView, `table.ui-table-scrollable-${area}-table`);
+            if (!scrollableTable) { return; }
+            const offsetWidth = this.scrollableTableRealSizes[area];
+            scrollableTable.style.width = offsetWidth > scrollableView.offsetWidth ? offsetWidth + 'px' : '';
+        });
+    }
+
+    /**
+     * Remove table row selection
      */
     private onUnSelectItem() {
         this._selection = null;

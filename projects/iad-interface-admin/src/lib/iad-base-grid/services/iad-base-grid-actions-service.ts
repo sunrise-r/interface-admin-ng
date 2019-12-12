@@ -5,7 +5,8 @@ export enum IAD_GRID_ACTIONS {
     GLOBAL_SEARCH = 'globalSearch',
     CLEAR = 'clear',
     UNSELECT = 'unselect',
-    RESET_FILTER = 'resetFilter'
+    RESET_FILTER = 'resetFilter',
+    RESET_SCROLLABLE_TABLE_WIDTH = 'resetScrollableTableWidth'
 }
 
 export interface IadBaseGridAction {
@@ -33,5 +34,9 @@ export class IadBaseGridActionsService {
 
     doResetFilter(gridId, value) {
         this.action.next({gridId, value, action: IAD_GRID_ACTIONS.RESET_FILTER});
+    }
+
+    doResetScrollableTableWidth(gridId) {
+        this.action.next({gridId, action: IAD_GRID_ACTIONS.RESET_SCROLLABLE_TABLE_WIDTH});
     }
 }
