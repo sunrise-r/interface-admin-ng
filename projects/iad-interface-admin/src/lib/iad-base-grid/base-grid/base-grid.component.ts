@@ -27,7 +27,7 @@ import {
     IadGridFrozenEvent,
     IadGridFrozenStructure
 } from './base-grid-freeze-column.model';
-import { IadBaseGridActionsService } from '../services/iad-base-grid-actions-service';
+import { IAD_GRID_ACTIONS, IadBaseGridActionsService } from '../services/iad-base-grid-actions-service';
 
 @Component({
     selector: 'iad-base-grid',
@@ -509,26 +509,29 @@ export class BaseGridComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     manageTable(action, value) {
         const strategy = {
-            globalSearch: () => {
+            [IAD_GRID_ACTIONS.GLOBAL_SEARCH]: () => {
                 this.dt.filters = {};
                 this.resetFilter.next(FILTER_TYPE.PARTICULAR);
                 this.dt.filterGlobal(value, 'contains');
                 this.refresh();
             },
-            clear: () => {
+            [IAD_GRID_ACTIONS.CLEAR]: () => {
                 this.dt.filteredValue = null;
                 this.dt.filters = {};
                 this.changeTableHeight.next(true);
                 this.refresh();
             },
-            unselect: () => {
+            [IAD_GRID_ACTIONS.UNSELECT]: () => {
                 this.unSelectRow.next(value);
             },
-            resetFilter: () => {
+            [IAD_GRID_ACTIONS.RESET_FILTER]: () => {
                 this.resetFilter.next(value);
             },
-            resetScrollableTableWidth: () => {
+            [IAD_GRID_ACTIONS.RESET_SCROLLABLE_TABLE_WIDTH]: () => {
                 this.dt.resetScrollTablesWidth();
+            },
+            [IAD_GRID_ACTIONS.RESET_GRID]: () => {
+                this.dt.resetScrollTablesWidth(true);
             }
         };
         if (action in strategy) {

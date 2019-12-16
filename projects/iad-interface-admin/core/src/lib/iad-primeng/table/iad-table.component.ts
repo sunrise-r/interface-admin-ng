@@ -109,6 +109,11 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
         footer : null
     };
 
+    /**
+     * Inner subject, that emits perfect scrollbar update for ScrollableView
+     */
+    updatePerfectScrollbar: Subject<any> = new Subject<any>();
+
     constructor(public el: ElementRef, public zone: NgZone, public tableService: TableService, public paginatorService: PaginatorService) {
         super(el, zone, tableService);
     }
@@ -417,6 +422,7 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
                             this.resizeColGroup(scrollableTable, resizeColumnIndex, newColumnWidth, null);
                         }
                     });
+                    this.updatePerfectScrollbar.next();
                 } else {
                     const offsetWidth = this.tableViewChild.nativeElement.offsetWidth + delta;
                     this.tableViewChild.nativeElement.style.width = offsetWidth + 'px';
@@ -439,17 +445,22 @@ export class IadTableComponent extends Table implements OnInit, OnDestroy, After
     /**
      * Will reset width of scroll table
      * Method is called outside of this component using viewChild of parent components
+     * @param clearDefaults
      */
-    resetScrollTablesWidth() {
+    resetScrollTablesWidth(clearDefaults?: boolean) {
         if (!this.scrollable) { return; }
         const scrollableView = IadDomHandler.findSingle(this.containerViewChild.nativeElement, '.ui-table-scrollable-view:not(.ui-table-frozen-view)');
         if (!scrollableView) { return; }
         Object.keys(this.scrollableTableRealSizes).forEach(area => {
             const scrollableTable = IadDomHandler.findSingle(scrollableView, `table.ui-table-scrollable-${area}-table`);
             if (!scrollableTable) { return; }
+            if (clearDefaults) {
+                this.scrollableTableRealSizes[area] = 0;
+            }
             const offsetWidth = this.scrollableTableRealSizes[area];
             scrollableTable.style.width = offsetWidth > scrollableView.offsetWidth ? offsetWidth + 'px' : '';
         });
+        this.updatePerfectScrollbar.next();
     }
 
     /**
