@@ -1,3 +1,9 @@
+# 1.0.9-alpha.150
+
+* \[CORE] Grid scrollbar immediate activation after table column resize
+* \[GRID] Removed @Input() resetGrid from projection-table
+* \[GRID] Added resetGrid to IadBaseGridActionsService
+
 # 1.0.9-alpha.149
 
 * \[CORE] fixed table expand mode. Since this version in expand mode when table wrapper width will be less than calculated by columns table width it will expand as it is defined by primeng algorytms, but when table wrapper width will be more than calculated by columns table width it will automatically disable table width, so in this case table will behave alike to fit mode;

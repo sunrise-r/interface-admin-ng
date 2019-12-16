@@ -4,7 +4,7 @@ import {
     Component,
     ContentChildren, EventEmitter,
     Input,
-    OnChanges,
+    OnChanges, OnDestroy,
     OnInit, Output,
     QueryList,
     SimpleChanges,
@@ -20,14 +20,14 @@ import { IadGridColumn, IadGridColumnInterface } from '../../iad-base-grid/model
 import { IadGridConfigInterface, FILTER_TYPE } from '../../iad-base-grid/model/iad-grid-model';
 import { GridSettingsManagerService } from '../settings-manager/grid-settings-manager.service';
 import { IadGridColumnFrozenField, IadGridColumnOrder } from '../../iad-base-grid/base-grid/base-grid-freeze-column.model';
-import { IadBaseGridActionsService } from '../../iad-base-grid/services/iad-base-grid-actions-service';
+import { IAD_GRID_ACTIONS, IadBaseGridActionsService } from '../../iad-base-grid/services/iad-base-grid-actions-service';
 
 @Component({
     selector: 'iad-projection-grid',
     templateUrl: './projection-grid.component.html',
     providers: [GridSettingsManagerService]
 })
-export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges {
+export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChanges, OnDestroy {
     /**
      * Флаг "Разрешить снятие выделения"
      */
@@ -148,11 +148,6 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
      * Flag to set if nested GridComponent should refresh data on initialization
      */
     @Input() refreshOnInit: boolean;
-
-    /**
-     * Reset all grid settings
-     */
-    @Input() resetGrid: Subject<any> = new Subject<any>();
 
     /**
      * Flag to add 'responsive' css class
@@ -360,8 +355,10 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     constructor(private gridSettingsManager: GridSettingsManagerService, private baseGridAction: IadBaseGridActionsService) {}
 
     ngOnInit() {
-        this.resetGridSbt =  this.resetGrid.subscribe(() => {
-            this.resetGridConfig(this.projection, true);
+        this.resetGridSbt = this.baseGridAction.action.subscribe(action => {
+            if (action.gridId === this.gridId && action.action === IAD_GRID_ACTIONS.RESET_GRID) {
+                this.resetGridConfig(this.projection, true);
+            }
         });
         this.refreshSbt = this.refresh.subscribe(() => {
             this.gridSettingsManager.refresh();
@@ -383,6 +380,18 @@ export class ProjectionGridComponent implements OnInit, AfterContentInit, OnChan
     ngOnChanges(changes: SimpleChanges): void {
         if (this.projection && ('projection' in changes || 'presentationCode' in changes || 'filter' in changes)) {
             this.resetGridConfig(this.projection, false);
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.resetGridSbt && !this.resetGridSbt.closed) {
+            this.resetGridSbt.unsubscribe();
+        }
+        if (this.refreshSbt && !this.refreshSbt.closed) {
+            this.refreshSbt.unsubscribe();
+        }
+        if (this.settingUpdateSbt && !this.settingUpdateSbt.closed) {
+            this.settingUpdateSbt.unsubscribe();
         }
     }
 

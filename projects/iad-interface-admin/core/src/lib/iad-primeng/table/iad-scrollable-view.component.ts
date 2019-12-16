@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, NgZone, AfterViewInit, OnDestroy, OnInit, ViewChild, forwardRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 import { IadTableComponent } from './iad-table.component';
 import { onInfiniteScroll, ResizeEvent } from './iad-table-models';
@@ -23,9 +24,14 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     @Input() isStatic: boolean;
 
     /**
-     * Входящее событие изменения размеров колонок
+     * Входящее событие, вызываемое после изменения размеров колонок
      */
     @Input() resize: Subject<ResizeEvent> = new Subject<ResizeEvent>();
+
+    /**
+     * Incoming subject that runs perfect scrollbar update
+     */
+    @Input() updatePerfectScrollbar: Subject<any>;
 
     /**
      * #1226, 1271 Subject to notify table about height change
@@ -45,33 +51,14 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     /**
      * Perfect scroll container when it is used
      */
-    @ViewChild(InfiniteScrollDirective, { read: InfiniteScrollDirective }) infiniteScrollContainer: InfiniteScrollDirective;
-    @ViewChild(InfiniteScrollDirective, { read: ElementRef }) infiniteScrollContainerRef: ElementRef;
-
-    @ViewChild('scrollBody')
-    set scrollBodyViewChild(scrollBodyViewChild: ElementRef) {
-        // to avoid undefined set from parent
-        if (scrollBodyViewChild) {
-            this._scrollBodyViewChild = scrollBodyViewChild;
-        }
-    }
-    get scrollBodyViewChild(): ElementRef {
-        if (!this._scrollBodyViewChild && !this.frozen && this.infiniteScrollContainer && this.enablePerfectScroll) {
-            const nativeScrollBody = IadDomHandler.findSingle(this.el.nativeElement, this.infiniteScrollContainer.infiniteScrollContainer);
-            if (nativeScrollBody) {
-                IadDomHandler.addClass(nativeScrollBody, 'ui-table-scrollable-body');
-            }
-            this._scrollBodyViewChild = new ElementRef(nativeScrollBody);
-        }
-        return this._scrollBodyViewChild;
-    }
+    @ViewChild(PerfectScrollbarDirective, { read: PerfectScrollbarDirective }) perfectScrollbarContainer: PerfectScrollbarDirective;
 
     /**
      * Контейнеры закреплённых колонок
      */
     frozenSiblingsScrollableBodies: Element[];
 
-    private _scrollBodyViewChild: ElementRef;
+    private _updatePerfectScrollbarSbt: Subscription;
 
     constructor(
         public dt: IadTableComponent,
@@ -94,6 +81,13 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
     }
 
     ngAfterViewInit() {
+        if (this.updatePerfectScrollbar) {
+            this._updatePerfectScrollbarSbt = this.updatePerfectScrollbar.subscribe(() => {
+                if (this.perfectScrollbarContainer) {
+                    this.perfectScrollbarContainer.update();
+                }
+            });
+        }
         const scrollableWrapper = <HTMLElement>this.el.nativeElement.parentNode;
         this.dt.doRefresh.subscribe(() => {
             this.scrollTop();
@@ -204,6 +198,9 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
 
     ngOnDestroy() {
         this.frozenSiblingsScrollableBodies = null;
+        if (this._updatePerfectScrollbarSbt && !this._updatePerfectScrollbarSbt.closed) {
+            this._updatePerfectScrollbarSbt.unsubscribe()
+        }
         super.ngOnDestroy();
     }
 
@@ -224,15 +221,8 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
                 headerHeight = IadDomHandler.getOuterHeight(this.scrollHeaderViewChild.nativeElement);
             }
             const height = 'calc(100% - ' + (headerHeight + scrollHeight) + 'px)';
-            if (this.enablePerfectScroll && !this.frozen) {
-                this.infiniteScrollContainerRef.nativeElement.style.maxHeight = height;
-                this.infiniteScrollContainerRef.nativeElement.style.height = height;
-                this.scrollBodyViewChild.nativeElement.style.maxHeight = '100%';
-                this.scrollBodyViewChild.nativeElement.style.height = '100%';
-            } else {
-                this.scrollBodyViewChild.nativeElement.style.maxHeight = height;
-                this.scrollBodyViewChild.nativeElement.style.height = height;
-            }
+            this.scrollBodyViewChild.nativeElement.style.maxHeight = height;
+            this.scrollBodyViewChild.nativeElement.style.height = height;
         }
     }
 
@@ -241,7 +231,7 @@ export class IadScrollableViewComponent extends ScrollableView implements AfterV
             const scrollBarWidth = this.hasVerticalOverflow() && !this.enablePerfectScroll ? IadDomHandler.calculateScrollbarWidth() : 0;
             this.scrollHeaderBoxViewChild.nativeElement.style.marginRight = scrollBarWidth + 'px';
 
-            if(this.scrollFooterBoxViewChild && this.scrollFooterBoxViewChild.nativeElement) {
+            if (this.scrollFooterBoxViewChild && this.scrollFooterBoxViewChild.nativeElement) {
                 this.scrollFooterBoxViewChild.nativeElement.style.marginRight = scrollBarWidth + 'px';
             }
         }

@@ -17,18 +17,17 @@
 <ng-template #bodyWithInfiniteScroll>
     <ng-template [ngIf]="enablePerfectScroll" [ngIfThen]="bodyWithPerfectScrollTemplate" [ngIfElse]="bodyWithNativeScrollTemplate"></ng-template>
     <ng-template #bodyWithPerfectScrollTemplate>
-        <perfect-scrollbar
-            #infiniteScrollContainer
+        <div
+            #scrollBody class="ui-table-scrollable-body ps-directive ps"
             infiniteScroll
-            [infiniteScrollContainer]="'.ps'"
             [infiniteScrollDistance]="2"
             [infiniteScrollThrottle]="500"
             [scrollWindow]="false"
             (scrolled)="onScroll()"
-            [config]="{suppressScrollX: false, suppressScrollY: false}"
-            [ngStyle]="{'width.%': 100, 'height.%': 100}">
+            [perfectScrollbar]="{suppressScrollX: false, suppressScrollY: false}"
+            [ngStyle]="{'width.%': 100}">
             <ng-template [ngTemplateOutlet]="scrollTableTemplate"></ng-template>
-        </perfect-scrollbar>
+        </div>
     </ng-template>
     <ng-template #bodyWithNativeScrollTemplate>
         <div #scrollBody class="ui-table-scrollable-body"
