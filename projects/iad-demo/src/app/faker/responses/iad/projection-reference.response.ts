@@ -58,7 +58,8 @@ export class ProjectionReferenceResponse extends AbstractResponse {
                 'name': 'booleanField',
                 'label': 'presentation.projection.main.booleanField',
                 'column': 0,
-                'translate': true
+                'translate': true,
+                'defaultValue': 'true'
             },
             {
                 'validationTypes': {'email': false, 'required': true},

@@ -36,7 +36,7 @@ export class FormInput<T> {
             translate?: boolean;
         } = {}
     ) {
-        this.value = options.value;
+        this.value = this.preprocessValue(options.value);
         this.key = options.key || '';
         this.label = options.label || '';
         this.validators = options.validators || {};
@@ -48,5 +48,9 @@ export class FormInput<T> {
         this.dependencies = options.dependencies || [];
         this.visible = options.visible;
         this.translate = options.translate || false;
+    }
+
+    protected preprocessValue(value: any): T {
+        return value;
     }
 }

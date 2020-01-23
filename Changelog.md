@@ -1,3 +1,9 @@
+# 1.0.9-alpha.151
+
+* \[FORM] Added method to preprocess value coming from options to form input.
+Since the value might be any type despite the fact generic type is used we might want to make adjustments to it e.g type conversion or date formatting.
+* \[FORM] Fixed setting of default boolean input field. Either boolean or string ('true', 'false') may be used to set the default value.
+
 # 1.0.9-alpha.150
 
 * \[CORE] Grid scrollbar immediate activation after table column resize
